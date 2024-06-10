@@ -23,7 +23,7 @@ CMS data can be easily imported into `ScriptableObject`.
 
 - [Cockpit](https://getcockpit.com/)
 
-※ 色々なCMSに対応したいです。協力者募集中です。詳しくは[今後について](#今後について)をご覧ください。
+※ 色々なCMSに対応したいです。協力者募集中です。詳しくは[コチラ](https://github.com/IShix-g/CMSuniVortex/issues/1)をご覧ください。
 
 ## Unity Version
 Unity 2021.3.x higher
@@ -53,13 +53,13 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 必要情報を入力しコードを生成します
 
+![create classes](ReadMeImages/create_classes.png)
+
 |                 | explanation                   | e.g.                |
 |-----------------|-------------------------------|---------------------|
 | Full Class Name | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
 | Build Path      | コードを生成するディレクトリのパスを指定          | Assets/Models/      |
 
-
-![create classes](ReadMeImages/create_classes.png)
 
 ### CuvImporterに必要情報の入力
 
@@ -82,13 +82,12 @@ Clientが生成される命名ルール: 「生成時に指定したFull class n
 ![start import](ReadMeImages/start_import.png)
 
 ### Cockpit CMSテスト
-実際にCockpit CMSを使ったテストができます。Clientを必ずCockpitCuvClientを指定してください。
+実際にCockpit CMSを使ったテストができます。Clientを必ず*CockpitCuvClientを指定してください。
 
 |            | value                                        |
 |------------|----------------------------------------------|
 | Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/)|
 | Api Key    | API-a92fac21986ac045e143f07c27c60e09f19ae856 |
-| Model Name | Model                                        |
 | Model Name | Model                                        |
 
 #### ログイン情報
@@ -121,7 +120,7 @@ Clientが生成される命名ルール: 「生成時に指定したFull class n
 
 Unityで書き出す必要があるのでプログラマーが必要。またはそれなりの変換システムを構築する必要がある
 
-<details><summary>コード</summary>
+<details><summary>テストコード</summary>
 
 ```csharp
 
@@ -207,7 +206,7 @@ public sealed class AddressableData : ScriptableObject
 
 ### 2. WebView
 
-[Cross Platform Essential Kit](https://prf.hn/click/camref:1101l8Qra/destination:https://assetstore.unity.com/packages/tools/integration/cross-platform-native-plugins-essential-kit-mobile-ios-android-140111)のWebViewを使用
+[Cross Platform Essential Kit](https://assetstore.unity.com/packages/tools/integration/cross-platform-native-plugins-essential-kit-mobile-ios-android-140111)のWebViewを使用
 
 #### メリット
 
@@ -218,7 +217,7 @@ public sealed class AddressableData : ScriptableObject
 
 - メモリ使用量が心配
 
-<details><summary>コード</summary>
+<details><summary>テストコード</summary>
 
 ```csharp
 
@@ -360,7 +359,7 @@ echo json_encode( $model );
 - jsonのデシリアライズやSpriteの生成が必要なので初期化コストが心配
 - データをキャッシュしないのでキャッシュする機構を自身で用意する必要がある
 
-<details><summary>コード</summary>
+<details><summary>テストコード</summary>
 
 ※データを取得するAPIはWebViewで使ったものを利用しているので省略
 
@@ -488,9 +487,9 @@ public sealed class JsonTest : MonoBehaviour
 - WebViewはAndroidで無視できないメモリを使う。※すべてのメモリを解放できない可能性あり
 - Jsonは画像が多いと無視できない初期化コストが発生する。(テストでは画像1枚のみ)
 
-この結果からパフォーマンスの良いAddressableを使いつつ、気軽に更新できるようにCMSから入力できるようにしたいと思いこのプラグインを開発しました。
+この結果からパフォーマンスの良いAddressableを使いつつ、デメリットを解消する為に気軽に更新できるCMSから入力できるようにしたいと思いこのプラグインを開発しました。
 
-#### iOS
+#### iOS : iPhone SE2 17.5.1
 
 |  | GC Alloc | Time | Size |
 |---|:--|:--|---|
@@ -498,7 +497,7 @@ public sealed class JsonTest : MonoBehaviour
 | WebView | 22.9KB | 0.52ms | 2MB |
 | Json | 15KB | 3.75ms | 2.3MB |
 
-#### Android
+#### Android : Galaxy S10 Android11
 
 |  | GC Alloc | Time | Size |
 |---|:--|:--|---|
