@@ -1,7 +1,7 @@
 
 ![Logo](ReadMeImages/logo.png)
 
-CMS data can be easily imported into `ScriptableObject`.
+CMSのデータを `ScriptableObject` に簡単にインポートできるプラグイン
 
 ![Import](ReadMeImages/import.png)
 
@@ -15,9 +15,9 @@ CMS data can be easily imported into `ScriptableObject`.
 
 ### パフォーマンスの良いデータ
 
-`ScriptableObject`はUnityで扱うように最適化されたデータ形式です。より良いパフォーマンスを期待できるものはありません。
+`ScriptableObject`はUnityで扱うように最適化されたデータ形式です。これ以上良いパフォーマンスは得られません。
 
-しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`をシームレスに繋ぎ合わせてくれるのがCMSuniVortexです。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。CMSuniVortexがあなたのプロジェクトに強力な推進力を与えることを願ってます。
+しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`をシームレスに繋ぎ合わせてくれるのがCMSuniVortexです。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
 
 ## 対応するCMS
 
@@ -77,7 +77,7 @@ Clientが生成される命名ルール: 「生成時に指定したFull class n
 
 ### インポートの開始
 
-入力後インポートをクリックし完了です。出力されたデータを見てみてください。
+入力後インポートをクリックし完了です。
 
 ![start import](ReadMeImages/start_import.png)
 
@@ -509,5 +509,5 @@ public sealed class JsonTest : MonoBehaviour
 ## 今後について
 
 今は、まだ`ScriptableObject`の生成までしか対応していませんが、Addressableをビルドしてサーバーに送信できるようにしたいと思っています。
-また、CMSの対応も増やしていきたいです。興味ある方は是非よろしくお願いいたします。
+また、CMSの対応も増やしていきたいです。興味ある方はご協力お願いいたします。
 
