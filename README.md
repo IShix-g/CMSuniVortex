@@ -50,7 +50,7 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 生成した`CuvImporter`の「Script Generator」ボタンをクリック
 
-<img alt="open generator" src="docs/assets/open_generator.png" width="600"/>
+![open generator](docs/assets/open_generator.png)
 
 必要情報を入力しコードを生成します
 
