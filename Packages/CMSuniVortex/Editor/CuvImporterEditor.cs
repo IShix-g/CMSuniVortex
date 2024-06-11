@@ -89,7 +89,7 @@ namespace CMSuniVortex.Editor
                             }
                             else
                             {
-                                EditorUtility.DisplayDialog("Check for Update", "There is a newer version (" + version + "), please update from Package Manager.", "Close");
+                                EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + "), please update from Package Manager.", "Close");
                             }
                             _isCheckVersion = false;
                         },
@@ -98,6 +98,8 @@ namespace CMSuniVortex.Editor
             EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
 
+            GUILayout.Space(10);
+            
             GUILayout.BeginVertical(GUI.skin.box);
             {
                 var style = new GUIStyle(GUI.skin.label)
@@ -115,6 +117,8 @@ namespace CMSuniVortex.Editor
                 EditorGUILayout.LabelField(_currentVersion, style);
             }
             GUILayout.EndVertical();
+            
+            GUILayout.Space(10);
             
             GUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_buildPathProp);
