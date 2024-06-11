@@ -16,19 +16,17 @@ Collectionを設定します。NameはCuvImporterのClient > Model Nameに入力
 
 ![](assets/cockpit/collection.png)
 
-### フィールドの追加
+### Fieldの追加
 
-### Text
-
-フィールドを追加します。
+「ADD FIELD」をクリックします。
 
 ![](assets/cockpit/addField.png)
 
-下記はTextを追加する例です。
+### Text
 
 ![](assets/cockpit/create_text.png)
 
-追加したものは下記のようにNameを使って取得できます。
+追加したものは下記のようにNameをIDとしてUnity上で取得できます。
 
 ```csharp
 [Serializable]
@@ -66,9 +64,9 @@ public sealed class TestCockpitModel : CockpitModel
 }
 ```
 
-### Samples
+### 一覧
 
-一覧を下記に示します。また`GetStrings`などの複数系もあります。
+下記以外にも、`GetStrings`などの複数取得系のメソッドもあります。
 
 ```csharp
 using System;
@@ -110,7 +108,7 @@ namespace CMSuniVortex.Tests
 
 ### Itemの入力
 
-取得テストをするので適当に複数アイテム入力します。
+Fieldを保存後、取得テストをするので適当に複数アイテム入力します。
 
 ![](assets/cockpit/edit_item.png)
 
@@ -138,7 +136,7 @@ Api keyはCuvImporterのClient > Api Keyに入力します。
 
 ![](assets/cockpit/api_setted.png)
 
-GET /content/items/{model}テストをします。取得できれば問題無いです。
+GET /content/items/{model}テストをします。ここで問題なく取得できるかを確認します。動作がおかしい場合も、まずこちらのテストを実行しJsonデータに問題無いか確認してください。
 
 ![](assets/cockpit/api_test.png)
 
@@ -148,3 +146,21 @@ Unity上に移動しCuvImporterの必要情報を入力しImportボタンをク�
 取得できれば完了です。
 
 ![](assets/cockpit/cuv_importer.png)
+
+## 言語の設定
+
+左下の設定マークから「LOCALES」を選択します。
+
+![](assets/cockpit/select_locales.png)
+
+言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。
+
+![](assets/cockpit/create_locale.png)
+
+Localize fieldをオンにしてください。
+
+![](assets/cockpit/select_localize_field.png)
+
+そうするとItemの編集画面に「TRANSLATION」が表示されるようになります。
+
+![](assets/cockpit/edit_item2 .png)
