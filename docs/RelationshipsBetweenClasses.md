@@ -18,7 +18,7 @@ Determines which CMS to use and which model to utilize. If implemented, it will 
 
 <img src="assets/select_client.png" width="600"/>
 
-If you specify the [IgnoreImporter] attribute, it will be excluded from the `CuvImporter` dropdown menu and will not be displayed.
+If you specify the `[IgnoreImporter]` attribute, it will be excluded from the `CuvImporter` dropdown menu and will not be displayed.
 
 ```csharp
 [IgnoreImporter]
