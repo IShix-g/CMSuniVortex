@@ -16,7 +16,7 @@ Manages import from CMS. Saves the necessary state.
 
 Determines which CMS to use and which model to utilize. If implemented, it will automatically appear in the dropdown menu in `CuvImporter`.
 
-<img src="docs/assets/select_client.png" width="600"/>
+<img src="assets/select_client.png" width="600"/>
 
 If you specify the [IgnoreImporter] attribute, it will be excluded from the `CuvImporter` dropdown menu and will not be displayed.
 

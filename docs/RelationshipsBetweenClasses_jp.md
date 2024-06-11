@@ -15,7 +15,7 @@ CMSからのインポートの管理。必要な状態を保存する
 
 どのCMSを使い、どのモデルを利用するかを決定する。実装すれば自動的に`CuvImporter`のプルダウンに表示される。
 
-<img src="docs/assets/select_client.png" width="600"/>
+<img src="assets/select_client.png" width="600"/>
 
 [IgnoreImporter] アトリビュートを指定すると`CuvImporter`のプルダウンから除外され表示されません。
 
