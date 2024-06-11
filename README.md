@@ -1,10 +1,10 @@
+[日本語のRead me](docs/README_jp.md)
+
 ![Logo](docs/assets/logo.png)
 
 A plugin for easily importing CMS data to `ScriptableObject`
 
 ![Import](docs/assets/import.png)
-
-[日本語のRead me](docs/README_jp.md)
 
 ## Why use this plugin?
 
