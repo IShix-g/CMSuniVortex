@@ -1,9 +1,10 @@
 
-![Logo](ReadMeImages/logo.png)
+
+![Logo](docs/assets/logo.png)
 
 CMSのデータを `ScriptableObject` に簡単にインポートできるプラグイン
 
-![Import](ReadMeImages/import.png)
+![Import](docs/assets/import.png)
 
 ## 何故、このプラグインを使う必要があるのか？
 
@@ -35,7 +36,7 @@ Add the Url to Package Manager
 
 URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
-![Package Manager](ReadMeImages/package_manager.png)
+![Package Manager](docs/assets/package_manager.png)
 
 ## Quick Start
 
@@ -43,17 +44,17 @@ URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
 Project上を右クリックし「CMSuniVortex > create CuvImporter」から`CuvImporter`を生成します。
 
-![create](ReadMeImages/create.png)
+![create](docs/assets/create.png)
 
 ### コードの生成
 
 生成した`CuvImporter`の「Script Generator」ボタンをクリック
 
-![open generator](ReadMeImages/open_generator.png)
+<img alt="open generator" src="docs/assets/open_generator.png" width="600"/>
 
 必要情報を入力しコードを生成します
 
-![create classes](ReadMeImages/create_classes.png)
+<img alt="create classes" src="docs/assets/create_classes.png" width="600"/>
 
 |                 | explanation                   | e.g.                |
 |-----------------|-------------------------------|---------------------|
@@ -73,13 +74,13 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 Clientが生成される命名ルール: 「生成時に指定したFull class name」 + 「CMS name」 + 「CuvClient」
 
-![select client](ReadMeImages/select_client.png)
+<img alt="select client" src="docs/assets/select_client.png" width="600"/>
 
 ### インポートの開始
 
 入力後インポートをクリックし完了です。
 
-![start import](ReadMeImages/start_import.png)
+<img alt="start import" src="docs/assets/start_import.png" width="600"/>
 
 ### Cockpit CMSテスト
 実際にCockpit CMSを使ったテストができます。Clientを必ず*CockpitCuvClientを指定してください。
@@ -285,39 +286,39 @@ Webページ
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<title>Test</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="format-detection" content="telephone=no,email=no,address=no">
-<style type="text/css">
-	img{
-		max-width: 100%;
-	}
-</style>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no,email=no,address=no">
+    <style type="text/css">
+        img{
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
 
 <div id="myData">
-  <h2 id="title"></h2>
-  <p id="contents"></p>
-  <img id="image" src="" alt="Image">
+    <h2 id="title"></h2>
+    <p id="contents"></p>
+    <img id="image" src="" alt="Image">
 </div>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <script>
-$.ajax({
-  url: 'getModel.php',
-  dataType: 'json',
-  success: function(data) {
-    $('#title').text(data.Title);
-    $('#contents').text(data.Contents);
-    $('#image').attr('src', data.Image);
-  },
-  error: function (request, status, error) {
-    console.log("Error: Could not fetch data");
-  }
-});
+    $.ajax({
+        url: 'getModel.php',
+        dataType: 'json',
+        success: function(data) {
+            $('#title').text(data.Title);
+            $('#contents').text(data.Contents);
+            $('#image').attr('src', data.Image);
+        },
+        error: function (request, status, error) {
+            console.log("Error: Could not fetch data");
+        }
+    });
 </script>
 </body>
 </html>
@@ -510,4 +511,3 @@ public sealed class JsonTest : MonoBehaviour
 
 今は、まだ`ScriptableObject`の生成までしか対応していませんが、Addressableをビルドしてサーバーに送信できるようにしたいと思っています。
 また、CMSの対応も増やしていきたいです。興味ある方はご協力お願いいたします。
-

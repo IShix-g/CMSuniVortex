@@ -1,0 +1,37 @@
+{
+    "name": "com.ishix.cmsunivortex",
+    "version": "0.5.0",
+    "displayName": "CMSuniVortex",
+    "description": "Data can be retrieved from CMS and imported into ScriptableObject.",
+    "unity": "2021.3",
+    "author": {
+        "name": "IShix",
+        "url": "https://github.com/IShix-g"
+    },
+    "keywords": [
+        "Unity",
+        "CMS",
+        "Importer",
+        "Tool"
+    ],
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1",
+        "com.unity.editorcoroutines": "1.0.0"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/IShix-g/CMSuniVortex.git"
+    },
+    "url": "https://github.com/IShix-g/CMSuniVortex",
+    "documentationUrl": "https://github.com/IShix-g/CMSuniVortex",
+    "changelogUrl": "https://github.com/IShix-g/CMSuniVortex/releases",
+    "licensesUrl": "https://github.com/IShix-g/CMSuniVortex/blob/master/LICENSE",
+    "samples": [
+        {
+            "displayName": "Import Samples",
+            "description": "You can try samples that are actually retrieved from the server.",
+            "path": "Samples~/Import"
+        }
+    ]
+}
