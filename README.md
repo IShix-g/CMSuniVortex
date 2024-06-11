@@ -22,7 +22,7 @@ However, these two may seem unrelated at first glance. But CMSuniVortex seamless
 
 ## Supported CMS
 
-- [Cockpit](https://getcockpit.com/) - [docs](docs/IntegrationWithCockpit.md)
+- [Cockpit](docs/IntegrationWithCockpit.md)
 
 ※ We want to support various CMS. We are looking for collaborators. For more details, please check [here](https://github.com/IShix-g/CMSuniVortex/issues/1).
 
