@@ -2,7 +2,8 @@
     "name": "CMSUniVortex.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:e0cd18d0d2ea2496285648dc22d7f1b9"
+        "GUID:e0cd18d0d2ea2496285648dc22d7f1b9",
+        "GUID:478a2357cc57436488a56e564b08d223"
     ],
     "includePlatforms": [
         "Editor"

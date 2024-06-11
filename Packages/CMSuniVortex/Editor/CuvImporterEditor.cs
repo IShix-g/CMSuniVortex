@@ -1,16 +1,18 @@
 
 using System;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using JetBrains.Annotations;
+using Unity.EditorCoroutines.Editor;
 
 namespace CMSuniVortex.Editor
 {
     [CustomEditor(typeof(CuvImporter), true), CanEditMultipleObjects]
     public sealed class CuvImporterEditor : UnityEditor.Editor
     {
-        const string _version = "v0.5.1";
+        const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
+        const string _packagePath = "Packages/com.ishix.cmsunivortex/";
         
         SerializedProperty _scriptProp;
         SerializedProperty _buildPathProp;
@@ -22,6 +24,8 @@ namespace CMSuniVortex.Editor
         Texture2D _logo;
         Texture2D _importIcon;
         CuvImporter _myTarget;
+        string _currentVersion;
+        bool _isCheckVersion;
 
         void OnEnable()
         {
@@ -47,6 +51,8 @@ namespace CMSuniVortex.Editor
             _myTarget = target as CuvImporter;
             _logo = GetLogo();
             _importIcon = GetImportIcon();
+            _currentVersion = "v" + CheckVersion.GetCurrent(_packagePath);
+            _isCheckVersion = false;
         }
 
         public override void OnInspectorGUI()
@@ -68,13 +74,28 @@ namespace CMSuniVortex.Editor
             {
                 Application.OpenURL("https://github.com/IShix-g/CMSuniVortex");
             }
+            EditorGUI.BeginDisabledGroup(_isCheckVersion);
+            if (GUILayout.Button("Check for Update"))
             {
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    alignment = TextAnchor.MiddleCenter,
-                };
-                EditorGUILayout.LabelField(_version, style, GUILayout.Width(80));
+                _isCheckVersion = true;
+                EditorCoroutineUtility.StartCoroutine(
+                    CheckVersion.GetVersionOnServer(
+                        _packageUrl,
+                        version =>
+                        {
+                            if (_currentVersion.Contains(version))
+                            {
+                                EditorUtility.DisplayDialog("Check for Update", "The current version is the latest release.", "Close");
+                            }
+                            else
+                            {
+                                EditorUtility.DisplayDialog("Check for Update", "There is a newer version (" + version + "), please update from Package Manager.", "Close");
+                            }
+                            _isCheckVersion = false;
+                        },
+                        () => _isCheckVersion = false), this);
             }
+            EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
 
             GUILayout.BeginVertical(GUI.skin.box);
@@ -85,6 +106,13 @@ namespace CMSuniVortex.Editor
                     alignment = TextAnchor.MiddleCenter,
                 };
                 GUILayout.Label(_logo, style, GUILayout.MinWidth(50), GUILayout.MaxHeight(80));
+            }
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                EditorGUILayout.LabelField(_currentVersion, style);
             }
             GUILayout.EndVertical();
             
