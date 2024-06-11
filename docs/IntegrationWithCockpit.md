@@ -1,24 +1,28 @@
-## Cockpitの必須環境
 
-- PHPが使えるサーバー
+[日本語](IntegrationWithCockpit_jp.md)
+
+## Required Environment for Cockpit
+
+- A server that can use PHP
 - SQLite or MongoDB
-- ローカルなら[Xampp](https://www.apachefriends.org/)でもできます。
 
-詳しくは[Requirements](https://getcockpit.com/documentation/core/quickstart/requirements)を確認ください。
+Please check [Requirements](https://getcockpit.com/documentation/core/quickstart/requirements) for more details.
 
-## Cockpitのインストール
+If you want to use it locally, you can install it on [Xampp](https://www.apachefriends.org/).
 
-[Cockpit](https://getcockpit.com/start-journey)からfreeの方をダウンロードしインストールします。インストールの詳細はここでは説明しません。
+## Cockpit Installation
 
-## コンテンツの設定
+Download the free version from [Cockpit](https://getcockpit.com/start-journey) and install it. Detailed installation will not be explained here.
 
-Collectionを設定します。NameはCuvImporterのClient > Model Nameに入力します。
+## Configuring Contents
+
+Set up the Collection. The Name is input into `CuvImporter's` `Client > Model Name`.
 
 ![](assets/cockpit/collection.png)
 
-### Fieldの追加
+### Adding a Field
 
-「ADD FIELD」をクリックします。
+Click "ADD FIELD".
 
 ![](assets/cockpit/addField.png)
 
@@ -26,7 +30,7 @@ Collectionを設定します。NameはCuvImporterのClient > Model Nameに入力
 
 ![](assets/cockpit/create_text.png)
 
-追加したものは下記のようにNameをIDとしてUnity上で取得できます。
+After addition, you can retrieve the Name as ID in Unity as follows:
 
 ```csharp
 [Serializable]
@@ -43,11 +47,11 @@ public sealed class TestCockpitModel : CockpitModel
 
 ### Select
 
-SelectやTagはOptionsから定数を追加できます。
+You can add constants from Options to Select or Tag.
 
 ![](assets/cockpit/select.png)
 
-`enum`に変換する事も可能です。
+It's also possible to convert to `enum`.
 
 ```csharp
 [Serializable]
@@ -64,9 +68,9 @@ public sealed class TestCockpitModel : CockpitModel
 }
 ```
 
-### 一覧
+### Listing
 
-下記以外にも、`GetStrings`などの複数取得系のメソッドもあります。
+In addition to the following, there are multiple retrieval methods like GetStrings(key).
 
 ```csharp
 using System;
@@ -106,61 +110,58 @@ namespace CMSuniVortex.Tests
 }
 ```
 
-### Itemの入力
+### Entering Items
 
-Fieldを保存後、取得テストをするので適当に複数アイテム入力します。
+After saving the Field, we will test the retrieval, so enter random multiple Items.
 
 ![](assets/cockpit/edit_item.png)
 
 ### Roles
 
-アイテムを入力したあとは、外部から取得できるようにRolesの設定をします。
-左下の設定マークをクリック
+After entering the Item, configure the Roles so they can be retrieved from the outside. Click the setting mark on the bottom left.
 
 ![](assets/cockpit/items.png)
 
-ROLES & PERMISSIONSをクリック
+Click on ROLES & PERMISSIONS
 
 ![](assets/cockpit/roles.png)
 
-右下の「ADD ROLE」から先ほど作成したItemsのReadのみを選択して「CREATE ROLE」で作成します。
+From "ADD ROLE" at the bottom right, select only Read of the CONTENT's Items created earlier and create with "CREATE ROLE".
 
 ![](assets/cockpit/add_role.png)
 
-左メニューのApiをクリックして先ほど作成したRoleを指定します。選択する場所が分かりづらいです。画像のドロップダウンの位置をクリックすると表示されます。
+Click on Api in the left menu and specify the Role just created. The selection place is hard to see, please click on the position of the dropdown in the image.
 
 ![](assets/cockpit/api.png)
 
-設定後、下記のようになります。「REST」をクリックして正常に動作するか確認します。
-Api keyはCuvImporterのClient > Api Keyに入力します。
+After setting, it will look like below. Click on "REST" to confirm if it works properly. Enter the Api key in CuvImporter's Client > Api Key.
 
 ![](assets/cockpit/api_setted.png)
 
-GET /content/items/{model}テストをします。ここで問題なく取得できるかを確認します。動作がおかしい場合も、まずこちらのテストを実行しJsonデータに問題無いか確認してください。
+Perform GET /content/items/{model} test. Here, check if it can be retrieved properly. If something strange happens, please remember to first run this test. It will certainly be useful.
 
 ![](assets/cockpit/api_test.png)
 
-### インポート
+### Import
 
-Unity上に移動しCuvImporterの必要情報を入力しImportボタンをクリックしてください。
-取得できれば完了です。
+Go up to Unity, enter the necessary information of CuvImporter and click on the Import button. If it can be retrieved, it is done.
 
-![](assets/cockpit/cuv_importer.png)
+<img src="assets/cockpit/cuv_importer.png" width="600"/>
 
-## 言語の設定
+## Language Setting
 
-左下の設定マークから「LOCALES」を選択します。
+Select "LOCALES" from the setting mark on the bottom left.
 
 ![](assets/cockpit/select_locales.png)
 
-言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。
+As language, configure the value of [SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html).
 
 ![](assets/cockpit/create_locale.png)
 
-Localize fieldをオンにしてください。
+Please turn on the Localize field of the Item you want to localize.
 
 ![](assets/cockpit/select_localize_field.png)
 
-そうするとItemの編集画面に「TRANSLATION」が表示されるようになります。
+Then, "TRANSLATION" will be displayed on the Item editing screen.
 
-![](assets/cockpit/edit_item2 .png)
+![](assets/cockpit/edit_item2.png)
