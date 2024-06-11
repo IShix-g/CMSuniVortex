@@ -20,7 +20,7 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 
 ## 対応するCMS
 
-- [Cockpit](https://getcockpit.com/)
+- [Cockpit](https://getcockpit.com/) [[docs](~~~~IntegrationWithCockpit.md)]
 
 ※ 色々なCMSに対応したいです。協力者募集中です。詳しくは[コチラ](https://github.com/IShix-g/CMSuniVortex/issues/1)をご覧ください。
 
