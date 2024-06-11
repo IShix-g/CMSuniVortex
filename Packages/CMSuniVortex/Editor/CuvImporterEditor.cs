@@ -10,6 +10,8 @@ namespace CMSuniVortex.Editor
     [CustomEditor(typeof(CuvImporter), true), CanEditMultipleObjects]
     public sealed class CuvImporterEditor : UnityEditor.Editor
     {
+        const string _version = "v0.5.1";
+        
         SerializedProperty _scriptProp;
         SerializedProperty _buildPathProp;
         SerializedProperty _languagesProp;
@@ -71,7 +73,7 @@ namespace CMSuniVortex.Editor
                 {
                     alignment = TextAnchor.MiddleCenter,
                 };
-                EditorGUILayout.LabelField("v0.5.0", style, GUILayout.Width(80));
+                EditorGUILayout.LabelField(_version, style, GUILayout.Width(80));
             }
             GUILayout.EndHorizontal();
 
