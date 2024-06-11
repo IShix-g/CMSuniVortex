@@ -13,17 +13,17 @@ using Object = UnityEngine.Object;
 namespace CMSuniVortex.Cockpit
 {
     [Serializable]
-    public abstract class CockpitModel : ICuvModel
+    public abstract class CockpitModel : ICuvModel, IJsonDeserializer
     {
         public string ID;
         public string ModifiedDate;
         
         public string BaseUrl { get; private set; }
         public const string ApiEndPoint = "storage/uploads";
-        public HashSet<IEnumerator> Coroutines { get; private set; }
+        public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
         public string AssetSavePath { get; private set; }
         protected JObject JObject { get; private set; }
-        
+
         protected abstract void OnDeserialize();
 
         #region Editor
@@ -36,13 +36,13 @@ namespace CMSuniVortex.Cockpit
 
         public void AddCoroutine(IEnumerator enumerator)
         {
-            Coroutines ??= new HashSet<IEnumerator>();
-            Coroutines.Add(enumerator);
+            ResourcesLoadCoroutines ??= new HashSet<IEnumerator>();
+            ResourcesLoadCoroutines.Add(enumerator);
         }
 
         public string GetID() => ID;
 
-        void ICuvModel.Deserialize(JObject obj)
+        void IJsonDeserializer.Deserialize(JObject obj)
         {
             JObject = obj;
             ID = GetString("_id");
@@ -50,10 +50,10 @@ namespace CMSuniVortex.Cockpit
             OnDeserialize();
         }
 
-        void ICuvModel.Deserialized()
+        void IJsonDeserializer.Deserialized()
         {
             BaseUrl = default;
-            Coroutines = default;
+            ResourcesLoadCoroutines = default;
             AssetSavePath = default;
             JObject = default;
         }

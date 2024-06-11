@@ -40,11 +40,6 @@ namespace CMSuniVortex
                 var language = languages[i];
                 yield return LoadModels(buildPath, language, models =>
                 {
-                    foreach (var model in models)
-                    {
-                        model.Deserialized();
-                    }
-
                     var objFileName = fileName + "_" + language;
                     var path = Path.Combine(buildPath, objFileName + ".asset");
                     var obj = default(TS);

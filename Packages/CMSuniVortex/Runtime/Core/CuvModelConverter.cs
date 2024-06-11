@@ -8,7 +8,7 @@ namespace CMSuniVortex
     /// <summary>
     /// A generic JSON converter for CuvModel objects.
     /// </summary>
-    public sealed class CuvModelConverter<T> : JsonConverter<T> where T : ICuvModel, new()
+    public sealed class CuvModelConverter<T> : JsonConverter<T> where T : ICuvModel, IJsonDeserializer, new()
     {
         public override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
             => throw new NotImplementedException();

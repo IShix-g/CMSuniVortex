@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
   m_Name: CuvImporter
   m_EditorClassIdentifier: 
-  _buildPath: Assets/Tests/Imported/
+  _buildPath: Assets/Imported/
   _languages: 0a00000016000000
   _client:
     rid: 5308238950055542793

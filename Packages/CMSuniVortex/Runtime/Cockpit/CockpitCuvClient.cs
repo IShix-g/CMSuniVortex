@@ -53,18 +53,20 @@ namespace CMSuniVortex.Cockpit
                 var models = JsonConvert.DeserializeObject<T[]>(request.downloadHandler.text, settings);
                 foreach (var model in models)
                 {
-                    if (model.Coroutines.Count <= 0)
+                    if (model.ResourcesLoadCoroutines.Count <= 0)
                     {
                         continue;
                     }
 
                     model.SetData(_baseUrl, buildPath);
-                    foreach (var enumerator in model.Coroutines)
+                    foreach (var enumerator in model.ResourcesLoadCoroutines)
                     {
                         yield return enumerator;
                     }
+                    
+                    ((IJsonDeserializer)model).Deserialized();
                 }
-
+                
                 onSuccess?.Invoke(models);
             }
             else
