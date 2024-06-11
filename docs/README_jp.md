@@ -4,7 +4,7 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 
 ![Import](assets/import.png)
 
-## 何故、このプラグインを使う必要があるのか？
+## このプラグインを使う理由？
 
 このプラグインは **「簡単に入力でき、最高なパフォーマンスを発揮する」** というコンセプトを持っています。
 
@@ -16,7 +16,7 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 
 `ScriptableObject`はUnityで扱うように最適化されたデータ形式です。これ以上良いパフォーマンスは得られません。
 
-しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`をシームレスに繋ぎ合わせてくれるのがCMSuniVortexです。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
+しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`を繋ぎ合わせてくれるのがCMSuniVortexです。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
 
 ## 対応するCMS
 
@@ -30,7 +30,7 @@ Unity 2021.3.x higher
 ## Getting started
 
 ### Install via git URL
-Add the Url to Package Manager
+Package ManagerでUrlを追加してください。
 
 URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
