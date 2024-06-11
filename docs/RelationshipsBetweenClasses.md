@@ -1,9 +1,9 @@
 
-# クラスの役割
+# 各クラスの役割
 
 ## CuvImporter
 
-CMSからのデータインポートの管理。必要な状態を保存する
+CMSからのインポートの管理。必要な状態を保存する
 
 ### 保存している内容
 
@@ -17,17 +17,29 @@ CMSからのデータインポートの管理。必要な状態を保存する
 
 <img src="/Users/umac/Harapeco/Apps/IShix/CMSuniVortex/CMSuniVortex/docs/assets/select_client.png" width="600"/>
 
+[IgnoreImporter] アトリビュートを指定すると`CuvImporter`のプルダウンから除外できます。
+
+```csharp
+[IgnoreImporter]
+public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, TestCockpitCuvModelList>
+{
+    protected override JsonConverter<TestCockpitModel> CreateConverter()
+        => new CuvModelConverter<TestCockpitModel>();
+}
+
+```
+
 ## CuvModelList<T>
 
-CMSのデータの保存先、対象言語と指定したモデルが配列で保存される。
+データを対象言語別に保存するデータ。モデルが配列で保存される。
 
 ## ICuvModel
 
-モデル。CMSの1記事に相当するデータを表す。
+モデル。CMSの1ポストに相当するデータを表す。
 
 # 実装の説明
 
-既に実装済みのCockpitがどのように実装されているかを知る事で更に理解が深まると思います。
+実装済みのCockpitがどのように実装されているかを知る事で更に理解が深まると思います。
 
 [Cockpitの実装ファイル一覧はコチラ](https://github.com/IShix-g/CMSuniVortex/tree/main/Packages/CMSuniVortex/Runtime/Cockpit)
 
@@ -63,7 +75,7 @@ CMSによってどういうメソッドが実装できるか分からないの�
 
 ## CuvModelList<T>
 
-[CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvModelList.cs)は、ジェネリック型でモデルが`CockpitModel`を保証させる為のクラスです。また、`ScriptableObject`を継承している為、ジェネリック型が使えず`abstract class`になっています。下記のようにシンプルにモデルの型を渡すシンプルな実装です。
+[CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvModelList.cs)は、ジェネリック型で`CockpitModel`を保証させる為のクラスです。また、`ScriptableObject`を継承している為、ジェネリック型が使えず`abstract class`になっています。下記のようにシンプルにモデルの型を渡すシンプルな実装です。
 
 ```csharp
 public sealed class TestCockpitCuvModelList : CockpitCuvModelList<TestCockpitModel> {}
@@ -80,3 +92,12 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
         => new CuvModelConverter<TestCockpitModel>();
 }
 ```
+
+## 実装した子クラス一覧
+
+`TestCockpitModel`を利用する為に下記3つのスクリプトを作成する必要があります。
+面倒なのでScript Generatorで生成できるようにしています。
+
+- [TestCockpitCuvClient - CockpitCuvClient<TestCockpitModel, TestCockpitCuvModelList>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Samples~/Import/Scripts/TestCockpitCuvClient.cs)
+- [TestCockpitCuvModelList - CockpitCuvModelList<TestCockpitModel>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Samples~/Import/Scripts/TestCockpitCuvModelList.cs)
+- [TestCockpitModel - CockpitModel](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Samples~/Import/Scripts/TestCockpitModel.cs)
