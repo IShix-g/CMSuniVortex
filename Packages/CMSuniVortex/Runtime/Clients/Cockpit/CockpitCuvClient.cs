@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace CMSuniVortex.Cockpit
 {
-    public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CockpitModel where TS : CuvModelList<T>
+    public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CockpitModel where TS : CockpitCuvModelList<T>
     {
         [SerializeField] string _baseUrl;
         [SerializeField] string _apiKey;
@@ -36,7 +36,7 @@ namespace CMSuniVortex.Cockpit
             return true;
         }
 
-        protected override IEnumerator LoadModels(string buildPath, SystemLanguage language, Action<T[]> onSuccess = default, Action<string> onError = default)
+        protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
             var url = Path.Combine(_baseUrl, "api/content/items/", _modelName.Trim('/') + "?locale=" + language);
@@ -67,7 +67,7 @@ namespace CMSuniVortex.Cockpit
                     ((IJsonDeserializer)model).Deserialized();
                 }
                 
-                onSuccess?.Invoke(models);
+                onSuccess?.Invoke(models, typeof(TS).Name + "_" + language);
             }
             else
             {

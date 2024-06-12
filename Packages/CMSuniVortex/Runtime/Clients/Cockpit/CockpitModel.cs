@@ -26,6 +26,8 @@ namespace CMSuniVortex.Cockpit
 
         protected abstract void OnDeserialize();
 
+        public string GetID() => ID;
+        
         #region Editor
 #if UNITY_EDITOR
         public void SetData(string basePath, string assetSavePath)
@@ -39,8 +41,6 @@ namespace CMSuniVortex.Cockpit
             ResourcesLoadCoroutines ??= new HashSet<IEnumerator>();
             ResourcesLoadCoroutines.Add(enumerator);
         }
-
-        public string GetID() => ID;
 
         void IJsonDeserializer.Deserialize(JObject obj)
         {

@@ -16,11 +16,20 @@ namespace CMSuniVortex
     /// </summary>
     public abstract class CuvClient<T, TS> : ICuvClient where T : ICuvModel where TS : CuvModelList<T>
     {
-        public abstract bool CanILoad();
-        protected abstract IEnumerator LoadModels(string buildPath, SystemLanguage language, Action<T[]> onSuccess = default, Action<string> onError = default);
-
+        public virtual bool CanILoad()
+        {
+            if (GetRoundCount() < 1)
+            {
+                Debug.LogError("Set RoundCount to 1 or more.");
+                return false;
+            }
+            return true;
+        }
+        protected abstract IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default);
+        
+        public virtual int GetRoundCount() => 1;
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
-        protected virtual void OnLoad(string guid, TS obj) {}
+        protected virtual void OnLoad(int currentRound, string guid, TS obj) {}
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
 
         public IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded)
@@ -28,38 +37,41 @@ namespace CMSuniVortex
 #if UNITY_EDITOR
             OnStartLoad(buildPath, languages);
 
-            var guids = new string[languages.Count];
-            var objs = new TS[languages.Count];
-            var fileName = typeof(TS).Name;
+            var objs = new TS[languages.Count * GetRoundCount()];
+            var guids = new string[languages.Count * GetRoundCount()];
 
-            for (var i = 0; i < languages.Count; i++)
+            for (var s = 0; s < GetRoundCount(); s++)
             {
-                var index = i;
-                var language = languages[i];
-                yield return LoadModels(buildPath, language, models =>
+                var currentRound = s + 1;
+                for (var i = 0; i < languages.Count; i++)
                 {
-                    var objFileName = fileName + "_" + language;
-                    var path = Path.Combine(buildPath, objFileName + ".asset");
-                    var obj = default(TS);
-                    if (File.Exists(path))
+                    var index = i;
+                    var language = languages[i];
+                    yield return LoadModels(currentRound, buildPath, language, (models, objFileName) =>
                     {
-                        obj = AssetDatabase.LoadAssetAtPath<TS>(path);
-                    }
-                    else
-                    {
-                        obj = ScriptableObject.CreateInstance<TS>();
-                        obj.hideFlags = HideFlags.NotEditable;
-                        AssetDatabase.CreateAsset(obj, path);
-                    }
+                        var path = Path.Combine(buildPath, objFileName + ".asset");
+                        var obj = default(TS);
+                        if (File.Exists(path))
+                        {
+                            obj = AssetDatabase.LoadAssetAtPath<TS>(path);
+                        }
+                        else
+                        {
+                            obj = ScriptableObject.CreateInstance<TS>();
+                            obj.hideFlags = HideFlags.NotEditable;
+                            AssetDatabase.CreateAsset(obj, path);
+                        }
 
-                    obj.name = objFileName;
-                    obj.SetData(language, models);
-                    AssetDatabase.SaveAssetIfDirty(obj);
-                    objs[index] = obj;
-                    var guid = AssetDatabase.AssetPathToGUID(path);
-                    guids[index] = guid;
-                    OnLoad(guid, obj);
-                });
+                        var objIndex = (currentRound - 1) * 2 + index;
+                        obj.name = objFileName;
+                        obj.SetData(language, models);
+                        AssetDatabase.SaveAssetIfDirty(obj);
+                        objs[objIndex] = obj;
+                        var guid = AssetDatabase.AssetPathToGUID(path);
+                        guids[objIndex] = guid;
+                        OnLoad(currentRound, guid, obj);
+                    });
+                }
             }
 
             OnLoaded(guids, objs);
