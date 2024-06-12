@@ -13,6 +13,6 @@ namespace CMSuniVortex
     {
         bool CanILoad();
         IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded);
-        int GetRoundCount();
+        int GetRepeatCount();
     }
 }

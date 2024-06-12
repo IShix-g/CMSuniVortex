@@ -21,6 +21,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-Cockpit Core - Copyright (c) 2022 Agentejo, http://agentejo.com
+Cockpit Core
 MIT License
+Copyright (c) 2022 Agentejo, http://agentejo.com
 https://getcockpit.com/license
+
+
+Google.Apis.Core
+Apache License
+Version 2.0, January 2004 http://www.apache.org/licenses/
+https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE
+
+Google.Apis
+Apache License
+Version 2.0, January 2004 http://www.apache.org/licenses/
+https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE
+
+Google.Apis.Auth
+Apache License
+Version 2.0, January 2004 http://www.apache.org/licenses/
+https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE
+
+Google.Apis.Sheets.v4
+Apache License
+Version 2.0, January 2004 http://www.apache.org/licenses/
+https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE

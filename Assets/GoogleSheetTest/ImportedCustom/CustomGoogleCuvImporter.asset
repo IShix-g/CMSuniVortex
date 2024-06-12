@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CustomGoogleCuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/GoogleSheetTest/ImportedCustom/
+  _languages: 0a00000016000000
+  _client:
+    rid: 5308239005742530568
+  _modelListGuilds:
+  - 7d5d5da414c834605895e5ba5216cf83
+  - 
+  references:
+    version: 2
+    RefIds:
+    - rid: 5308239005742530568
+      type: {class: TestCustomGoogleSheetCuvClient, ns: GoogleSheetTest.Scripts, asm: Assembly-CSharp}
+      data:
+        _sheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww
+        _jsonKeyPath: Assets/GoogleSheetTest/ul-project-388509-142601d4b840.json

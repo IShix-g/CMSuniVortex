@@ -59,9 +59,12 @@ namespace CMSuniVortex.Cockpit
                     }
 
                     model.SetData(_baseUrl, buildPath);
-                    foreach (var enumerator in model.ResourcesLoadCoroutines)
+                    if (model.ResourcesLoadCoroutines != default)
                     {
-                        yield return enumerator;
+                        foreach (var enumerator in model.ResourcesLoadCoroutines)
+                        {
+                            yield return enumerator;
+                        }
                     }
                     
                     ((IJsonDeserializer)model).Deserialized();

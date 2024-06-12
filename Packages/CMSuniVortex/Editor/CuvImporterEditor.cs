@@ -86,7 +86,17 @@ namespace CMSuniVortex.Editor
                         _packageUrl,
                         version =>
                         {
-                            if (_currentVersion.Contains(version))
+                            var comparisonResult = 0;
+                            if (!string.IsNullOrEmpty(version))
+                            {
+                                Debug.Log("Local: " + _currentVersion + " | GitHub: v" + version);
+                                var current = new Version(_currentVersion.TrimStart('v').Trim());
+                                var server = new Version(version.Trim());
+                                comparisonResult = current.CompareTo(server);
+                                version = "v" + version;
+                            }
+                            
+                            if (comparisonResult >= 0)
                             {
                                 EditorUtility.DisplayDialog("Check for Update", "The current version is the latest release.", "Close");
                             }
