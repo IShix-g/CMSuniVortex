@@ -8,14 +8,14 @@ using UnityEngine.Networking;
 
 namespace CMSuniVortex.Cockpit
 {
-    public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS> where T : CockpitModel where TS : CuvModelList<T>
+    public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CockpitModel where TS : CuvModelList<T>
     {
         [SerializeField] string _baseUrl;
         [SerializeField] string _apiKey;
         [SerializeField] string _modelName;
-
+        
         protected abstract JsonConverter<T> CreateConverter();
-
+        
         public override bool CanILoad()
         {
             if (string.IsNullOrEmpty(_baseUrl))
@@ -78,5 +78,9 @@ namespace CMSuniVortex.Cockpit
         return default;
 #endif
         }
+        
+        string ICuvDoc.GetCmsName() => "Cockpit";
+        
+        string ICuvDoc.GetDocUrl() => "https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithCockpit.md";
     }
 }

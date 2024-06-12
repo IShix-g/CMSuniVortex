@@ -17,11 +17,9 @@ namespace CMSuniVortex
     public abstract class CuvClient<T, TS> : ICuvClient where T : ICuvModel where TS : CuvModelList<T>
     {
         public abstract bool CanILoad();
-
         protected abstract IEnumerator LoadModels(string buildPath, SystemLanguage language, Action<T[]> onSuccess = default, Action<string> onError = default);
 
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
-
         protected virtual void OnLoad(string guid, TS obj) {}
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
 

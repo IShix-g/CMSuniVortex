@@ -26,6 +26,7 @@ namespace CMSuniVortex.Editor
         CuvImporter _myTarget;
         string _currentVersion;
         bool _isCheckVersion;
+        ICuvDoc _cuvDoc;
 
         void OnEnable()
         {
@@ -53,6 +54,8 @@ namespace CMSuniVortex.Editor
             _importIcon = GetImportIcon();
             _currentVersion = "v" + CheckVersion.GetCurrent(_packagePath);
             _isCheckVersion = false;
+            _clientProp.isExpanded = true;
+            _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
         }
 
         public override void OnInspectorGUI()
@@ -158,7 +161,7 @@ namespace CMSuniVortex.Editor
             GUILayout.Space(5);
             
             EditorGUILayout.PropertyField(_languagesProp);
-
+            
             GUILayout.Space(5);
             
             {
@@ -180,17 +183,40 @@ namespace CMSuniVortex.Editor
                     if (fullTypeName != selectedType.Assembly.GetName().Name + " " + selectedType.FullName)
                     {
                         _clientProp.managedReferenceValue = Activator.CreateInstance(selectedType);
+                        _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
                     }
                     if (_clientProp.managedReferenceValue != default)
                     {
-                        _clientProp.isExpanded = true;
                         EditorGUILayout.PropertyField(_clientProp, true);
                     }
                 }
             }
             
             GUILayout.Space(10);
+            
+            if (_cuvDoc != default)
+            {
 
+                var boxStyle = new GUIStyle(GUI.skin.box)
+                {
+                    padding = new RectOffset(5, 5, 5, 5)
+                };
+                GUILayout.BeginHorizontal(boxStyle);
+                var labelStyle = new GUIStyle(GUI.skin.label)
+                {
+                    padding = new RectOffset(5, 5, 5, 5),
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                GUILayout.Label(_cuvDoc.GetCmsName(), labelStyle);
+                if (!string.IsNullOrEmpty(_cuvDoc.GetDocUrl())
+                    && GUILayout.Button("doc", GUILayout.Width(50)))
+                {
+                    Application.OpenURL(_cuvDoc.GetDocUrl());
+                }
+                GUILayout.EndHorizontal();
+                GUILayout.Space(10);
+            }
+            
             EditorGUI.BeginDisabledGroup(_myTarget.IsLoading);
 
             var buttonContent = new GUIContent(_myTarget.IsLoading ? "  Now importing" : " Import", _importIcon);
