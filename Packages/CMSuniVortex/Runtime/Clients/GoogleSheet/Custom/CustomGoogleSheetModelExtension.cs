@@ -1,11 +1,32 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CMSuniVortex.GoogleSheet
 {
     public static class CustomGoogleSheetModelExtension
     {
+        public static void FillContentsWithFilteredSheetData(this IList<IList<object>> sheet, Dictionary<string, string> contents, string keyId, int index)
+        {
+            contents.Clear();
+            for (var s = 0; s < sheet[index].Count; s++)
+            {
+                var id = sheet[0][s].ToString();
+                if (string.IsNullOrEmpty(id))
+                {
+                    continue;
+                }
+                var value = sheet[index][s].ToString();
+                if (id == keyId
+                    && string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+                contents.Add(id, value);
+            }
+        }
+        
         public static string GetString(this Dictionary<string, string> models, string key)
             => models.TryGetValue(key, out var obj) ? obj : string.Empty;
         
@@ -45,5 +66,19 @@ namespace CMSuniVortex.GoogleSheet
                     ? double.Parse(obj)
                     : default
                 : default;
+
+        public static string GetDate(this Dictionary<string, string> models, string key)
+            => models.TryGetValue(key, out var obj)
+                ? !string.IsNullOrEmpty(obj)
+                  && DateTimeOffset.TryParse(obj, out var date)
+                        ? date.ToString("o")
+                        : default
+                : default;
+        
+        public static void LoadSprite(this Dictionary<string, string> models, CustomGoogleSheetModel obj, string key, Action<Sprite> onSuccess = default)
+            => obj.LoadSprite(models, key, onSuccess);
+        
+        public static void LoadTexture(this Dictionary<string, string> models, CustomGoogleSheetModel obj, string key, Action<Texture2D> onSuccess = default)
+            => obj.LoadTexture(models, key, onSuccess);
     }
 }

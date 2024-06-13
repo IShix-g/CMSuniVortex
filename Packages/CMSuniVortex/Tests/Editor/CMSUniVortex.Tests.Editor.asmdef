@@ -14,7 +14,12 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Google.Apis.Auth.dll",
+        "Google.Apis.dll",
+        "Google.Apis.Sheets.v4.dll",
+        "Google.Apis.Core.dll",
+        "Google.Apis.Drive.v3.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

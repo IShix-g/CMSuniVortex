@@ -9,50 +9,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c35bd98e591445779dd5dff5f704e20d, type: 3}
-  m_Name: TestCustomGoogleSheetCuvModelList_English
+  m_Script: {fileID: 11500000, guid: 5801875e6ea0b41e3a530f6cb089fbe0, type: 3}
+  m_Name: GoogleGeneratedCustomGoogleSheetCuvModelList_English
   m_EditorClassIdentifier: 
   _language: 10
   _models:
   - Key: Story1_0
     Element: 0
     Text: Story1_Title
-    Facial: 0
     Boolean: 1
     Number: 111
     Image: {fileID: 21300000, guid: 83c1f1d0b48e049a096768fc8a885689, type: 3}
+    Date: 2024-06-01T00:00:00.0000000+09:00
   - Key: Story1_1
     Element: 1
     Text: Story1_Narration
-    Facial: 0
     Boolean: 0
     Number: 222
     Image: {fileID: 21300000, guid: a571e71cebc2e44208ad04393e9eb231, type: 3}
+    Date: 2024-06-02T00:00:00.0000000+09:00
   - Key: Story1_2
     Element: 2
     Text: Story1_Character1_dialogue1
-    Facial: 1
     Boolean: 1
     Number: 333
     Image: {fileID: 21300000, guid: bdb75d3a49ce147debf24829802b3808, type: 3}
+    Date: 2024-06-03T00:00:00.0000000+09:00
   - Key: Story1_3
     Element: 3
     Text: Story1_Character2_dialogue1
-    Facial: 0
     Boolean: 1
     Number: 444
     Image: {fileID: 21300000, guid: 88618eea36f7d4c9a8fcaf2ec5984ffe, type: 3}
+    Date: 2024-06-04T00:00:00.0000000+09:00
   - Key: Story1_4
     Element: 2
     Text: Story1_Character1_dialogue2
-    Facial: 1
     Boolean: 0
     Number: 555
     Image: {fileID: 21300000, guid: 821cc5d37409949d9a8357a36e46cee8, type: 3}
+    Date: 2024-06-05T00:00:00.0000000+09:00
   - Key: Story1_5
     Element: 5
     Text: Story1_TextOnly
-    Facial: 0
     Boolean: 0
     Number: 666
-    Image: {fileID: 21300000, guid: d5c6b021491034fb98713a2bc6dbeed4, type: 3}
+    Image: {fileID: 0}
+    Date: 2024-06-06T00:00:00.0000000+09:00
+  ModifiedTime: 

@@ -15,15 +15,15 @@ MonoBehaviour:
   _buildPath: Assets/GoogleSheetTest/ImportedCustom/
   _languages: 0a00000016000000
   _client:
-    rid: 5308239005742530568
+    rid: 5308239005742530570
   _modelListGuilds:
-  - 7d5d5da414c834605895e5ba5216cf83
-  - 
+  - f8b8c4c3d831543c785f5e8672b148b7
+  - ad12de241bc8b47ec88b87b7e8cbe516
   references:
     version: 2
     RefIds:
-    - rid: 5308239005742530568
-      type: {class: TestCustomGoogleSheetCuvClient, ns: GoogleSheetTest.Scripts, asm: Assembly-CSharp}
+    - rid: 5308239005742530570
+      type: {class: GoogleGeneratedCustomGoogleSheetCuvClient, ns: Test, asm: Assembly-CSharp}
       data:
         _sheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww
-        _jsonKeyPath: Assets/GoogleSheetTest/ul-project-388509-142601d4b840.json
+        _jsonKeyPath: Assets/googleSheetTest/light-operator-426308-a9-a87f12062c59.json

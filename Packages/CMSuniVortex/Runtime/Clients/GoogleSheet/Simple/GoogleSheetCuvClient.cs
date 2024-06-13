@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
+#endif
 
 namespace CMSuniVortex.GoogleSheet
 {
@@ -16,8 +18,10 @@ namespace CMSuniVortex.GoogleSheet
         [SerializeField] string[] _sheetNames;
         [SerializeField] string _jsonKeyPath;
 
+#if UNITY_EDITOR
         ICredential _credential;
         GoogleCredential _googleCredential;
+#endif
 
         public override int GetRepeatCount() => _sheetNames.Length;
 

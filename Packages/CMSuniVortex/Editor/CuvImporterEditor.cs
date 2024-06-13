@@ -27,7 +27,7 @@ namespace CMSuniVortex.Editor
         string _currentVersion;
         bool _isCheckVersion;
         ICuvDoc _cuvDoc;
-
+        
         void OnEnable()
         {
             _scriptProp = serializedObject.FindProperty("m_Script");
@@ -229,7 +229,7 @@ namespace CMSuniVortex.Editor
             
             EditorGUI.BeginDisabledGroup(_myTarget.IsLoading);
 
-            var buttonContent = new GUIContent(_myTarget.IsLoading ? "  Now importing" : " Import", _importIcon);
+            var buttonContent = new GUIContent(_myTarget.IsLoading ? " Now importing..." : " Import", _importIcon);
             if (GUILayout.Button(buttonContent, GUILayout.Height(38)))
             {
                 if (_myTarget.CanImport())

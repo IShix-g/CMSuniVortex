@@ -40,7 +40,8 @@ namespace CMSuniVortex.GoogleSheet
         public void LoadSprite(Dictionary<string, string> models, string key, Action<Sprite> onSuccess = default)
         {
 #if UNITY_EDITOR
-            if (models.TryGetValue(key, out var obj))
+            if (models.TryGetValue(key, out var obj)
+                && !string.IsNullOrEmpty(obj))
             {
                 AddCoroutine(LoadTextureCo(obj, path =>
                 {
@@ -48,19 +49,28 @@ namespace CMSuniVortex.GoogleSheet
                     onSuccess?.Invoke(asset);
                 }));
             }
+            else
+            {
+                onSuccess?.Invoke(default);
+            }
 #endif
         }
 
         public void LoadTexture(Dictionary<string, string> models, string key, Action<Texture2D> onSuccess = default)
         {
 #if UNITY_EDITOR
-            if (models.TryGetValue(key, out var obj))
+            if (models.TryGetValue(key, out var obj)
+                && !string.IsNullOrEmpty(obj))
             {
                 AddCoroutine(LoadTextureCo(obj, path =>
                 {
                     var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
                     onSuccess?.Invoke(asset);
                 }));
+            }
+            else
+            {
+                onSuccess?.Invoke(default);
             }
 #endif
         }

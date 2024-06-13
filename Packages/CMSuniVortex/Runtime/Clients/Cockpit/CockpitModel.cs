@@ -140,7 +140,7 @@ namespace CMSuniVortex.Cockpit
         public string GetDate(string key)
             => JObject[key] != default
                && JObject[key].Type != JTokenType.Null
-               && DateTime.TryParse(JObject[key].Value<string>(), out var date)
+               && DateTimeOffset.TryParse(JObject[key].Value<string>(), out var date)
                 ? date.ToString("o")
                 : default;
 
@@ -149,7 +149,7 @@ namespace CMSuniVortex.Cockpit
             var tokens = JObject.SelectToken(key);
             return tokens is JArray array
                 ? array.Where(item => item.Type != JTokenType.Null)
-                    .Select(item => DateTime.TryParse(item.Value<string>(), out var date)
+                    .Select(item => DateTimeOffset.TryParse(item.Value<string>(), out var date)
                         ? date.ToString("o")
                         : null)
                     .Where(item => !string.IsNullOrEmpty(item))
@@ -166,8 +166,7 @@ namespace CMSuniVortex.Cockpit
             {
                 return valueToken["path"].Value<string>();
             }
-
-            return default;
+            return string.Empty;
         }
 
         public string[] GetImagePaths(string key)
@@ -177,6 +176,7 @@ namespace CMSuniVortex.Cockpit
                 ? array.Where(item => item.Type != JTokenType.Null)
                     .Where(item => item["path"] != default)
                     .Select(item => item["path"].Value<string>())
+                    .Where(path => !string.IsNullOrEmpty(path))
                     .ToArray()
                 : Array.Empty<string>();
         }
@@ -184,30 +184,45 @@ namespace CMSuniVortex.Cockpit
         public void LoadSprite(string key, Action<Sprite> onSuccess = default)
         {
 #if UNITY_EDITOR
-            AddCoroutine(LoadTextureCo(key, path =>
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-                onSuccess?.Invoke(asset);
-            }));
+                AddCoroutine(LoadTextureCo(imagePath, path =>
+                {
+                    var asset = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                    onSuccess?.Invoke(asset);
+                }));
+            }
+            else
+            {
+                onSuccess?.Invoke(default);
+            }
 #endif
         }
 
         public void LoadTexture(string key, Action<Texture2D> onSuccess = default)
         {
 #if UNITY_EDITOR
-            AddCoroutine(LoadTextureCo(key, path =>
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                onSuccess?.Invoke(asset);
-            }));
+                AddCoroutine(LoadTextureCo(imagePath, path =>
+                {
+                    var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                    onSuccess?.Invoke(asset);
+                }));
+            }
+            else
+            {
+                onSuccess?.Invoke(default);
+            }
 #endif
         }
 
 #if UNITY_EDITOR
-        public IEnumerator LoadTextureCo(string key, Action<string> onSuccess = default)
+        public IEnumerator LoadTextureCo(string imagePath, Action<string> onSuccess = default)
         {
-            var imagePath = GetImagePath(key).TrimStart('/');
-            var url = Path.Combine(BaseUrl, ApiEndPoint, imagePath);
+            var url = Path.Combine(BaseUrl, ApiEndPoint, imagePath.TrimStart('/'));
             using var request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
 
@@ -224,7 +239,7 @@ namespace CMSuniVortex.Cockpit
             }
             else
             {
-                Debug.LogError("LoadSprite error Key: " + key + " / message: " + request.error);
+                Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
             }
         }
 #endif

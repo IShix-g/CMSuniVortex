@@ -1,7 +1,7 @@
 
 using CMSuniVortex.GoogleSheet;
 
-namespace GoogleSheetTest.Scripts
+namespace GoogleSheetTest
 {
     public sealed class TestCustomGoogleSheetCuvClient : CustomGoogleSheetCuvClient<TestCustomGoogleSheetModel, TestCustomGoogleSheetCuvModelList> {}
 }

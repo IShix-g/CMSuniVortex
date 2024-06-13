@@ -97,9 +97,7 @@ namespace CMSuniVortex
             => Directory.Exists(path) || File.Exists(path);
 #else
         public bool CanImport() => false;
-
         public void StartImport(Action onLoaded = default) => onLoaded?.Invoke();
-        
         public bool CanILoad() => false;
         public void StartLoad(Action onLoaded = default){}
 #endif

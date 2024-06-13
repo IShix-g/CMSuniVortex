@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine;
 #if UNITY_EDITOR
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
 #endif
 
@@ -19,7 +20,19 @@ namespace CMSuniVortex.GoogleSheet
 #if UNITY_EDITOR
         ICredential _credential;
         GoogleCredential _googleCredential;
+        string _modifiedTime;
 #endif
+
+        public void SetSheetID(string sheetID) => _sheetID = sheetID;
+        
+        public void SetJsonKeyPath(string jsonKeyPath) => _jsonKeyPath = jsonKeyPath;
+
+        protected override void OnLoad(int currentRound, string guid, TS obj)
+        {
+#if UNITY_EDITOR
+            obj.ModifiedTime = _modifiedTime;
+#endif
+        }
         
         public override bool CanILoad()
         {
@@ -44,11 +57,11 @@ namespace CMSuniVortex.GoogleSheet
             }
             return true;
         }
-
+        
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-            _credential ??= GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly});
+            _credential ??= GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] { SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly });
             if (_credential == default)
             {
                 var error = "Google auth authentication failed.";
@@ -57,22 +70,25 @@ namespace CMSuniVortex.GoogleSheet
                 yield break;
             }
             
-            var task = GoogleSheetUtil.GetSheet(_credential, _sheetID, language.ToString());
+            var op = GoogleSheetUtil.GetSheet(_credential, _sheetID, language.ToString());
+            var op2 = GoogleSheetUtil.GetModifiedTime(_credential, _sheetID);
 
-            while (!task.IsCompleted)
+            while (!op.IsCompleted || !op2.IsCompleted)
             {
                 yield return default;
             }
 
-            if (task.IsFaulted)
+            if (op.IsFaulted)
             {
-                var error = "Failed to get sheet: " + task.Exception;
+                var error = "Failed to get sheet: " + op.Exception;
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
             }
             
-            var sheet = task.Result;
+            _modifiedTime = !op2.IsFaulted ? op2.Result?.ToString() : string.Empty;
+            
+            var sheet = op.Result;
             var keyIndex = sheet[0].IndexOf("Key");
 
             if (keyIndex < 0)
@@ -92,22 +108,9 @@ namespace CMSuniVortex.GoogleSheet
                 {
                     continue;
                 }
-                contents.Clear();
-                for (var s = 0; s < sheet[i].Count; s++)
-                {
-                    var id = sheet[0][s].ToString();
-                    if (string.IsNullOrEmpty(id))
-                    {
-                        continue;
-                    }
-                    var value = sheet[i][s].ToString();
-                    if (id == "Key"
-                        && string.IsNullOrEmpty(value))
-                    {
-                        continue;
-                    }
-                    contents.Add(id, value);
-                }
+                
+                sheet.FillContentsWithFilteredSheetData(contents, "Key", i);
+                
                 var model = new T { Key = key };
                 model.Deserialize(contents);
                 model.SetData(buildPath);

@@ -28,7 +28,7 @@ namespace CMSuniVortex.Editor.Cockpit
                     $@"
 using System;
 using UnityEngine;
-{usings}using CMSuniVortex.Cockpit;
+using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
 {{
