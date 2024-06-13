@@ -27,7 +27,7 @@ namespace CMSuniVortex.Editor
         string _currentVersion;
         bool _isCheckVersion;
         ICuvDoc _cuvDoc;
-
+        
         void OnEnable()
         {
             _scriptProp = serializedObject.FindProperty("m_Script");
@@ -86,7 +86,17 @@ namespace CMSuniVortex.Editor
                         _packageUrl,
                         version =>
                         {
-                            if (_currentVersion.Contains(version))
+                            var comparisonResult = 0;
+                            if (!string.IsNullOrEmpty(version))
+                            {
+                                Debug.Log("Local: " + _currentVersion + " | GitHub: v" + version);
+                                var current = new Version(_currentVersion.TrimStart('v').Trim());
+                                var server = new Version(version.Trim());
+                                comparisonResult = current.CompareTo(server);
+                                version = "v" + version;
+                            }
+                            
+                            if (comparisonResult >= 0)
                             {
                                 EditorUtility.DisplayDialog("Check for Update", "The current version is the latest release.", "Close");
                             }
@@ -219,7 +229,7 @@ namespace CMSuniVortex.Editor
             
             EditorGUI.BeginDisabledGroup(_myTarget.IsLoading);
 
-            var buttonContent = new GUIContent(_myTarget.IsLoading ? "  Now importing" : " Import", _importIcon);
+            var buttonContent = new GUIContent(_myTarget.IsLoading ? " Now importing..." : " Import", _importIcon);
             if (GUILayout.Button(buttonContent, GUILayout.Height(38)))
             {
                 if (_myTarget.CanImport())

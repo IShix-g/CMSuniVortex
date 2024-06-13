@@ -18,7 +18,7 @@ namespace CMSuniVortex
     {
         public virtual bool CanILoad()
         {
-            if (GetRoundCount() < 1)
+            if (GetRepeatCount() < 1)
             {
                 Debug.LogError("Set RoundCount to 1 or more.");
                 return false;
@@ -27,7 +27,7 @@ namespace CMSuniVortex
         }
         protected abstract IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default);
         
-        public virtual int GetRoundCount() => 1;
+        public virtual int GetRepeatCount() => 1;
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
         protected virtual void OnLoad(int currentRound, string guid, TS obj) {}
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
@@ -37,10 +37,10 @@ namespace CMSuniVortex
 #if UNITY_EDITOR
             OnStartLoad(buildPath, languages);
 
-            var objs = new TS[languages.Count * GetRoundCount()];
-            var guids = new string[languages.Count * GetRoundCount()];
+            var objs = new TS[languages.Count * GetRepeatCount()];
+            var guids = new string[languages.Count * GetRepeatCount()];
 
-            for (var s = 0; s < GetRoundCount(); s++)
+            for (var s = 0; s < GetRepeatCount(); s++)
             {
                 var currentRound = s + 1;
                 for (var i = 0; i < languages.Count; i++)
