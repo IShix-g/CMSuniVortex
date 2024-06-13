@@ -46,3 +46,9 @@ Google.Apis.Sheets.v4
 Apache License
 Version 2.0, January 2004 http://www.apache.org/licenses/
 https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE
+
+Google.Apis.Drive.v3
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+https://github.com/googleapis/google-api-dotnet-client/blob/main/LICENSE
