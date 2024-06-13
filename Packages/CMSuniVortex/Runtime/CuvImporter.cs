@@ -25,7 +25,7 @@ namespace CMSuniVortex
         public SystemLanguage[] Languages => _languages;
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
-        
+
         #region Editor
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
         
@@ -96,6 +96,10 @@ namespace CMSuniVortex
         bool IsFileOrDirectoryExists(string path)
             => Directory.Exists(path) || File.Exists(path);
 #else
+        public bool CanImport() => false;
+
+        public void StartImport(Action onLoaded = default) => onLoaded?.Invoke();
+        
         public bool CanILoad() => false;
         public void StartLoad(Action onLoaded = default){}
 #endif

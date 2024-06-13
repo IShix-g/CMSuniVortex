@@ -4,8 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
+#endif
 
 namespace CMSuniVortex.GoogleSheet
 {
@@ -14,8 +16,10 @@ namespace CMSuniVortex.GoogleSheet
         [SerializeField] string _sheetID;
         [SerializeField] string _jsonKeyPath;
         
+#if UNITY_EDITOR
         ICredential _credential;
         GoogleCredential _googleCredential;
+#endif
         
         public override bool CanILoad()
         {
@@ -47,7 +51,7 @@ namespace CMSuniVortex.GoogleSheet
             _credential ??= GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly});
             if (_credential == default)
             {
-                var error = "Goole auth authentication failed.";
+                var error = "Google auth authentication failed.";
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;

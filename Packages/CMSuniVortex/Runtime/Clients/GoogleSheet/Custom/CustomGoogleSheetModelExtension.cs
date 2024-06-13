@@ -16,7 +16,7 @@ namespace CMSuniVortex.GoogleSheet
         
         public static bool GetBool(this Dictionary<string, string> models, string key)
             => models.TryGetValue(key, out var obj)
-               && obj == "TRUE";
+               && string.Equals(obj, "TRUE", StringComparison.OrdinalIgnoreCase);
 
         public static int GetInt(this Dictionary<string, string> models, string key)
             => models.TryGetValue(key, out var obj)

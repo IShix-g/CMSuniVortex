@@ -58,9 +58,9 @@ namespace CMSuniVortex.Cockpit
             JObject = default;
         }
 #else
-    void ICuvModelDeserializer.Deserialize(JObject obj){}
+    void IJsonDeserializer.Deserialize(JObject obj){}
 
-    void ICuvModelDeserializer.Deserialized(){}
+    void IJsonDeserializer.Deserialized(){}
 #endif
         #endregion
 
