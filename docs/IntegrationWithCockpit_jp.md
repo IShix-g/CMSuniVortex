@@ -146,6 +146,14 @@ GET /content/items/{model}テストをします。ここで問題なく取得で
 Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンをクリックしてください。
 取得できれば完了です。
 
+|            | explanation                                 | e.g.                          |
+|------------|---------------------------------------------|-------------------------------|
+| Build Path | アセットを生成するパス                                 | Assets/Generated/ |
+| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。             | English |
+| Base Url   | CockpitのURL                                 | https://devx.myonick.biz/cockpit/ |
+| Api Key   | [Roles](#Roles)に設定したApi Key                 | API-a92fac21986ac045e143f07c27c60e09f19ae‹ |
+| Model Name   | [cockpitのインストール](#cockpitのインストール) で設定したName | Model  |
+
 <img src="assets/cockpit/cuv_importer.png" width="600"/>
 
 ## 言語の設定

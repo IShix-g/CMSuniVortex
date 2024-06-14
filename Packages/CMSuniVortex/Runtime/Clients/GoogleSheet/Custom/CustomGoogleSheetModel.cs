@@ -11,36 +11,96 @@ using Object = UnityEngine.Object;
 namespace CMSuniVortex.GoogleSheet
 {
     [Serializable]
-    public abstract class CustomGoogleSheetModel : ICuvModel
+    public abstract class CustomGoogleSheetModel : ICuvModel, IObjectDeserializer
     {
         public string Key;
+        
+        Dictionary<string, string> _contents;
         
         public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
         public string AssetSavePath { get; private set; }
         
-        public abstract void Deserialize(Dictionary<string, string> models);
+        protected abstract void OnDeserialize();
         
         public string GetID() => Key;
-
-        #region Editor
+        
 #if UNITY_EDITOR
-        public void SetData(string assetSavePath)
+        public void SetData(string assetSavePath) => AssetSavePath = assetSavePath;
+
+        void IObjectDeserializer.Deserialize(Dictionary<string, string> contents)
         {
-            AssetSavePath = assetSavePath;
+            _contents = contents;
+            OnDeserialize();
         }
 
+        void IObjectDeserializer.Deserialized()
+        {
+            ResourcesLoadCoroutines = default;
+            AssetSavePath = default;
+            _contents = default;
+        }
+        
         public void AddCoroutine(IEnumerator enumerator)
         {
             ResourcesLoadCoroutines ??= new HashSet<IEnumerator>();
             ResourcesLoadCoroutines.Add(enumerator);
         }
 #endif
-        #endregion
         
-        public void LoadSprite(Dictionary<string, string> models, string key, Action<Sprite> onSuccess = default)
+        public string GetString(string key)
+            => _contents.TryGetValue(key, out var obj) ? obj : string.Empty;
+        
+        public T GetEnum<T>(string key) where T : struct, Enum
+            => TryGetValue(key, out var value)
+                ? Enum.TryParse<T>(value, out var val) ? val : default
+                : default;
+        
+        public bool GetBool(string key)
+            => TryGetValue(key, out var value)
+               && string.Equals(value, "TRUE", StringComparison.OrdinalIgnoreCase);
+
+        public int GetInt(string key)
+            => TryGetValue(key, out var value)
+                ? int.Parse(value)
+                : default;
+
+        public long GetLong(string key)
+            => TryGetValue(key, out var value)
+                ? long.Parse(value)
+                : default;
+
+        public float GetFloat(string key)
+            => TryGetValue(key, out var value)
+                ? float.Parse(value)
+                : default;
+
+        public double GetDouble(string key)
+            => TryGetValue(key, out var value)
+                ? double.Parse(value)
+                : default;
+
+        public string GetDate(string key)
+            => TryGetValue(key, out var value)
+               && DateTimeOffset.TryParse(value, out var date)
+                ? date.ToString("o")
+                : default;
+
+        public bool TryGetValue(string key, out string value)
+        {
+            if (_contents.TryGetValue(key, out var obj)
+                && !string.IsNullOrEmpty(obj))
+            {
+                value = obj;
+                return true;
+            }
+            value = string.Empty;
+            return false;
+        }
+        
+        public void LoadSprite(string key, Action<Sprite> onSuccess = default)
         {
 #if UNITY_EDITOR
-            if (models.TryGetValue(key, out var obj)
+            if (_contents.TryGetValue(key, out var obj)
                 && !string.IsNullOrEmpty(obj))
             {
                 AddCoroutine(LoadTextureCo(obj, path =>
@@ -56,10 +116,10 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
 
-        public void LoadTexture(Dictionary<string, string> models, string key, Action<Texture2D> onSuccess = default)
+        public void LoadTexture(string key, Action<Texture2D> onSuccess = default)
         {
 #if UNITY_EDITOR
-            if (models.TryGetValue(key, out var obj)
+            if (_contents.TryGetValue(key, out var obj)
                 && !string.IsNullOrEmpty(obj))
             {
                 AddCoroutine(LoadTextureCo(obj, path =>

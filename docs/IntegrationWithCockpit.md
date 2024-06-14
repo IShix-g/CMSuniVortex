@@ -146,6 +146,14 @@ Perform GET /content/items/{model} test. Here, check if it can be retrieved prop
 
 Go up to Unity, enter the necessary information of CuvImporter and click on the Import button. If it can be retrieved, it is done.
 
+|            | Explanation                                   | e.g.                               |
+|------------|-----------------------------------------------|------------------------------------|
+| Build Path | The path to generate assets                   | Assets/Generated/                  |
+| Languages  | Specify languages, at least one is required even if not used | English                            |
+| Base Url   | URL of the Cockpit                            | https://devx.myonick.biz/cockpit/  |
+| Api Key    | Api Key set in [Roles](#Roles)                | API-a92fac21986ac045e143f07c27c60e09f19ae |
+| Model Name | Name set in [Cockpit installation](#cockpit-installation) | Model  |
+
 <img src="assets/cockpit/cuv_importer.png" width="600"/>
 
 ## Language Setting

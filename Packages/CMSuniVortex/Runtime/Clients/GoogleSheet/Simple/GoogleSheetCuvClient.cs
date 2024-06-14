@@ -60,7 +60,8 @@ namespace CMSuniVortex.GoogleSheet
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<GoogleSheetModel[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-            _credential ??= GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly});
+           _credential ??= GoogleSheetService.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly});
+
             if (_credential == default)
             {
                 var error = "Goole auth authentication failed.";
@@ -68,24 +69,30 @@ namespace CMSuniVortex.GoogleSheet
                 onError?.Invoke(error);
                 yield break;
             }
-
+            
             var sheetName = _sheetNames[currentRound - 1];
-            var task = GoogleSheetUtil.GetSheet(_credential, _sheetID, sheetName);
+            var opSheet = GoogleSheetService.GetSheet(_credential, _sheetID, sheetName);
 
-            while (!task.IsCompleted)
+            while (!opSheet.IsCompleted)
             {
                 yield return default;
             }
-
-            if (task.IsFaulted)
+            if (opSheet.IsCanceled)
             {
-                var error = "Failed to get sheet: " + task.Exception;
+                var error = "The operation was canceled.";
+                Debug.LogError(error);
+                onError?.Invoke(error);
+                yield break;
+            }
+            if (opSheet.IsFaulted)
+            {
+                var error = "Failed to get sheet: " + opSheet.Exception;
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
             }
             
-            var sheet = task.Result;
+            var sheet = opSheet.Result;
             var keyIndex = sheet[0].IndexOf("Key");
             var langIndex = sheet[0].IndexOf(language.ToString());
             var commentIndex = sheet[0].IndexOf("Comment");

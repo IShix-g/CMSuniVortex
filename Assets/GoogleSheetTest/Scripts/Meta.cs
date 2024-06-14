@@ -1,12 +1,12 @@
 
 using System;
-using CMSuniVortex.GoogleSheet;
 using UnityEngine;
+using CMSuniVortex.GoogleSheet;
 
-namespace GoogleSheetTest
+namespace Test
 {
     [Serializable]
-    public sealed class TestCustomGoogleSheetModel : CustomGoogleSheetModel
+    public sealed class Meta : CustomGoogleSheetModel
     {
         public ElementType Element;
         public string Text;

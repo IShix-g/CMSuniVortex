@@ -2,7 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CMSuniVortex.GoogleSheet;
 using Google.Apis.Auth.OAuth2;
@@ -13,6 +15,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Debug = UnityEngine.Debug;
 
 namespace CMSuniVortex.Tests
 {
@@ -27,7 +30,7 @@ namespace CMSuniVortex.Tests
         [SetUp]
         public void SetUp()
         {
-            _credential = GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly});
+            _credential = GoogleSheetService.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly});
         }
 
         [UnityTest]
@@ -38,7 +41,7 @@ namespace CMSuniVortex.Tests
                 throw new ApplicationException("Google auth authentication failed.");
             }
             
-            var op = GoogleSheetUtil.GetSheet(_credential, _sheetID, _language.ToString());
+            var op = GoogleSheetService.GetSheet(_credential, _sheetID, _language.ToString());
             while (!op.IsCompleted)
             {
                 yield return default;

@@ -30,7 +30,8 @@ namespace CMSuniVortex.GoogleSheet
         protected override void OnLoad(int currentRound, string guid, TS obj)
         {
 #if UNITY_EDITOR
-            obj.ModifiedTime = _modifiedTime;
+            obj.SheetID = _sheetID;
+            obj.ModifiedDate = _modifiedTime;
 #endif
         }
         
@@ -61,7 +62,7 @@ namespace CMSuniVortex.GoogleSheet
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-            _credential ??= GoogleSheetUtil.GetCredential(_jsonKeyPath, new[] { SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly });
+            _credential ??= GoogleSheetService.GetCredential(_jsonKeyPath, new[] { SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly });
             if (_credential == default)
             {
                 var error = "Google auth authentication failed.";
@@ -70,25 +71,34 @@ namespace CMSuniVortex.GoogleSheet
                 yield break;
             }
             
-            var op = GoogleSheetUtil.GetSheet(_credential, _sheetID, language.ToString());
-            var op2 = GoogleSheetUtil.GetModifiedTime(_credential, _sheetID);
+            var opSheet = GoogleSheetService.GetSheet(_credential, _sheetID, language.ToString());
+            var opModified = GoogleSheetService.GetModifiedTime(_credential, _sheetID);
 
-            while (!op.IsCompleted || !op2.IsCompleted)
+            while (!opSheet.IsCompleted
+                   || !opModified.IsCompleted)
             {
                 yield return default;
             }
-
-            if (op.IsFaulted)
+            if (opSheet.IsCanceled)
             {
-                var error = "Failed to get sheet: " + op.Exception;
+                var error = "The operation was canceled.";
+                Debug.LogError(error);
+                onError?.Invoke(error);
+                yield break;
+            }
+            if (opSheet.IsFaulted)
+            {
+                var error = "Failed to get sheet: " + opSheet.Exception;
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
             }
             
-            _modifiedTime = !op2.IsFaulted ? op2.Result?.ToString() : string.Empty;
+            _modifiedTime = !opModified.IsFaulted
+                ? opModified.Result?.ToString()
+                : string.Empty;
             
-            var sheet = op.Result;
+            var sheet = opSheet.Result;
             var keyIndex = sheet[0].IndexOf("Key");
 
             if (keyIndex < 0)
@@ -112,7 +122,8 @@ namespace CMSuniVortex.GoogleSheet
                 sheet.FillContentsWithFilteredSheetData(contents, "Key", i);
                 
                 var model = new T { Key = key };
-                model.Deserialize(contents);
+                var od = (IObjectDeserializer) model;
+                od.Deserialize(contents);
                 model.SetData(buildPath);
                 if (model.ResourcesLoadCoroutines != default)
                 {
@@ -121,6 +132,7 @@ namespace CMSuniVortex.GoogleSheet
                         yield return enumerator;
                     }
                 }
+                od.Deserialized();
                 models.Add(model);
             }
 
