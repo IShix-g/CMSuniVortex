@@ -112,7 +112,7 @@ You can test using Cockpit CMS. Be sure to specify the Client as *CockpitCuvClie
 
 ## Role of Each Class
 
-Please view from [Here](RelationshipsBetweenClasses_en.md).
+Please view from [Here](docs/RelationshipsBetweenClasses_en.md).
 
 ## Performance Test
 
