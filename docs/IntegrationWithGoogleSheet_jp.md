@@ -4,7 +4,7 @@
 - [Google アカウント](https://www.google.com/intl/ja/account/about/)
 - [Google Cloud アカウント](https://console.cloud.google.com/)
 
-### 設定がまだの方は[初期設定](InitialSetupOfGoogleSheet.md)から完了させてください。
+### 設定がまだの方は[初期設定](InitialSetupOfGoogleSheet_jp.md)から完了させてください。
 
 ## ２つのタイプを用意
 
@@ -19,7 +19,7 @@
 
 - [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/)を開く
 - 「ファイル > コピーを作成」でコピーしてください
-- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet.md#スプレッドシートの共有設定)をしてください
+- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet_jp.md#スプレッドシートの共有設定)をしてください
 
 ### CuvImporterを生成
 
@@ -53,7 +53,7 @@ Clientに`CMSuniVortex.GoogleSheet.GoogleSheetCuvClient`を選択
 
 - [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww)を開く
 - 「ファイル > コピーを作成」でコピーしてください
-- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet.md#スプレッドシートの共有設定)をしてください
+- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet_jp.md#スプレッドシートの共有設定)をしてください
 
 ### CuvImporterを生成
 

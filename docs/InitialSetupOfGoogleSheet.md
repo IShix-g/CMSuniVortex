@@ -1,84 +1,86 @@
 
-# Google Sheetの初期設定
+[日本語](InitialSetupOfGoogleSheet_jp.md)
 
-## 設定の流れ
+# Initial Setup of Google Sheet
 
-- [Google Cloud](https://console.cloud.google.com/)でプロジェクトを作成
-- Google Sheets API	/ Google Drive APIの有効化
-- サービスアカウントの作成
-- サービスアカウント キーの作成
-- スプレッドシートの共有設定
+## Setup Flow
 
-## Google Cloudでプロジェクトを作成
+- Create a Project in [Google Cloud](https://console.cloud.google.com/)
+- Enable Google Sheets API and Google Drive API
+- Create a Service Account
+- Create a Service Account Key
+- Set the Sharing Settings for the Spreadsheet
 
-[Google Cloud](https://console.cloud.google.com/)を開いて赤枠をクリック
+## Create a Project in Google Cloud
+
+Open [Google Cloud](https://console.cloud.google.com/) and click on the highlighted box
 
 ![](assets/googleSheet/top.png)
 
-プロジェクトを作成します。
+Create a project.
 
 ![](assets/googleSheet/create_project.png)
 
-「APIとサービス」をクリック
+Click on "APIs and Services".
 
 ![](assets/googleSheet/api_click.png)
 
-## APIの有効化
+## Enable API
 
-2つのAPIを有効化します。
+Enable two APIs:
 
 - Google Sheets API
 - Google Drive API
 
 ![](assets/googleSheet/enable_api.png)
 
-## サービスアカウントの作成
+## Creating a Service Account
 
-設定 > IAMと管理 > サービスアカウントをクリック
+Go to Settings > IAM and Admin > Service Accounts
 
 ![](assets/googleSheet/service_account.png)
 
-サービスアカウントを作成します。
+Create a Service Account.
 
 ![](assets/googleSheet/service_account_create.png)
 
-名前とIDを入力します。
+Enter the name and ID.
 
 ![](assets/googleSheet/service_account_create2.png)
 
-ロールは「閲覧者」を選択してください。
+Please select “Viewer” for Role.
 
 ![](assets/googleSheet/service_account_create3.png)
 
-## サービスアカウントキーの作成
+## Creating a Service Account Key
 
-生成したサービスアカウントをクリック。 生成されるメールアドレスは後ほどDriveの設定で使います。
+Click on the created Service Account. The generated email address will be used for Drive Settings later.
 
 ![](assets/googleSheet/service_account_key.png)
 
-新しい鍵を作成してください。
+Please create a new key.
 
 ![](assets/googleSheet/service_account_key2.png)
 
-タイプをJSONにして保存します。 Unityの適当な場所に配置してください。
-また、このファイルはバージョン管理に含めないように注意してください。
+Set the type to JSON and save it. Place it in an appropriate place in Unity.
+Also, make sure this file is not included in version control.
 
 ![](assets/googleSheet/service_account_key3.png)
 
-## スプレッドシートの共有設定
+## Spreadsheet Sharing Settings
 
-[Google Drive](https://drive.google.com/drive/home)に移動し、インポート用に使うスプレドシートが無ければ作成してください。ファイルの共有設定を開きます。
+Go to [Google Drive](https://drive.google.com/drive/home), and create a spreadsheet if you haven't done so for importing. Open the file sharing settings.
 
 ![](assets/googleSheet/drive_share.png)
 
-ユーザーを追加から上記で取得したサービスアカウントのメールアドレスを設定します。 ロールを閲覧者を選択してください。また、今回はスプレッドシートにロールを設定しましたが、フォルダに設定してフォルダ配下すべてに許可を追加する事も可能です。
+From Add User, set the email address of the Service Account you acquired. Select Viewer for Role. Also, while we have set the role for the spreadsheet this time, it is possible to set permissions for an entire folder by adding roles to it.
 
 ![](assets/googleSheet/drive_share2.png)
 
-以上で設定は完了です。
+This completes the settings.
 
-## サービスアカウントキーの管理
+## Managing the Service Account Key
 
-**jsonファイルは絶対に外部に公開しないでください。** もちろんGitHubにアップしてもいけません。
-複数人で開発する場合は、インポート担当を決めるか安全な方法で相手に送信してください。
-できれば、それぞれがGoogle Cloudにログインしてサービスアカウントキーを生成するのがベストだと思います。
+**Never disclose the json file externally.** Of course, you should not upload it to GitHub.
+If you are developing with multiple people, decide who will handle the import or send it to the other person in a secure way.
+Ideally, each person should log into Google Cloud and generate a Service Account Key.
