@@ -29,7 +29,7 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
 
 ```
 
-## [CuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvModelList.cs)~~~~
+## [CuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvModelList.cs)
 
 データを対象言語別に保存するデータ。モデルが配列で保存される。
 
@@ -41,7 +41,7 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
 
 実装済みのCockpitがどのように実装されているかを知る事で更に理解が深まると思います。
 
-[Cockpitの実装ファイル一覧はコチラ](https://github.com/IShix-g/CMSuniVortex/tree/main/Packages/CMSuniVortex/Runtime/Cockpit)
+[Cockpitの実装ファイル一覧はコチラ](https://github.com/IShix-g/CMSuniVortex/tree/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit)
 
 ## ICuvModel
 
