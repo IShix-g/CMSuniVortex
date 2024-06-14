@@ -1,7 +1,7 @@
 
 # 各クラスの役割
 
-## CuvImporter
+## [CuvImporter](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvImporter.cs)
 
 CMSからのインポートの管理。必要な状態を保存する
 
@@ -11,7 +11,7 @@ CMSからのインポートの管理。必要な状態を保存する
 - 対象言語 (配列)
 - 現在使用中の`CuvClient`
 
-## CuvClient
+## [CuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvClient.cs)
 
 どのCMSを使い、どのモデルを利用するかを決定する。実装すれば自動的に`CuvImporter`のプルダウンに表示される。
 
@@ -29,7 +29,7 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
 
 ```
 
-## CuvModelList<T>
+## [CuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvModelList.cs)~~~~
 
 データを対象言語別に保存するデータ。モデルが配列で保存される。
 
@@ -45,7 +45,7 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
 
 ## ICuvModel
 
-[CockpitModel](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitModel.cs)は、`ICuvModel` を実装した `abstract class`です。`Newtonsoft.Json.Linq.JObject`を受けて整形したデータを子クラスに返します。例えば下記のようなメソッドです。
+[CockpitModel](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitModel.cs)は、`ICuvModel` を実装した `abstract class`です。`Newtonsoft.Json.Linq.JObject`を受けて整形したデータを子クラスに返します。例えば下記のようなメソッドです。
 
 ```csharp
 public string GetString(string key) => Get<string>(key);
@@ -75,7 +75,7 @@ CMSによってどういうメソッドが実装できるか分からないの�
 
 ## CuvModelList<T>
 
-[CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvModelList.cs)は、ジェネリック型で`CockpitModel`を保証させる為のクラスです。また、`ScriptableObject`を継承している為、ジェネリック型が使えず`abstract class`になっています。下記のようにシンプルにモデルの型を渡すシンプルな実装です。
+[CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitCuvModelList.cs)は、ジェネリック型で`CockpitModel`を保証させる為のクラスです。また、`ScriptableObject`を継承している為、ジェネリック型が使えず`abstract class`になっています。下記のようにシンプルにモデルの型を渡すシンプルな実装です。
 
 ```csharp
 public sealed class TestCockpitCuvModelList : CockpitCuvModelList<TestCockpitModel> {}
@@ -83,7 +83,7 @@ public sealed class TestCockpitCuvModelList : CockpitCuvModelList<TestCockpitMod
 
 ## CuvClient
 
-[CockpitCuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvClient.cs)では、CMSからデータをロードしモデルを生成し`CuvImporter`に渡す処理を記述します。こちらも`sealed class`になっています。下記のように実装します。
+[CockpitCuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitCuvClient.cs)では、CMSからデータをロードしモデルを生成し`CuvImporter`に渡す処理を記述します。こちらも`sealed class`になっています。下記のように実装します。
 
 ```csharp
 public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, TestCockpitCuvModelList>
