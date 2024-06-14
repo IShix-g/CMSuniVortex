@@ -110,6 +110,10 @@ You can test using Cockpit CMS. Be sure to specify the Client as *CockpitCuvClie
 - Advertisements are displayed because it uses a free rental server, for which I have no involvement.
 - Please note that inappropriate access will be stopped without notice.
 
+## Role of Each Class
+
+Please view from [Here](RelationshipsBetweenClasses_en.md).
+
 ## Performance Test
 
 The performance test was the trigger for me to develop this plugin. There are roughly three ways to download and display data.
