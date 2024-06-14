@@ -42,7 +42,7 @@ The model. Represents the data equivalent to one article in CMS.
 
 I believe understanding how the implemented Cockpit is implemented will deepen your understanding further.
 
-[Click here for a list of implemented Cockpit files](https://github.com/IShix-g/CMSuniVortex/tree/main/Packages/CMSuniVortex/Runtime/Cockpit)
+[Click here for a list of implemented Cockpit files](https://github.com/IShix-g/CMSuniVortex/tree/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit)
 
 ## ICuvModel
 
