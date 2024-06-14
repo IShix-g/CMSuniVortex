@@ -173,3 +173,7 @@ Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンを�
 そうするとItemの編集画面に「TRANSLATION」が表示されるようになります。
 
 ![](assets/cockpit/edit_item2.png)
+
+## Unityの設定
+
+[Readme](README_jp.md)をごらんください。
