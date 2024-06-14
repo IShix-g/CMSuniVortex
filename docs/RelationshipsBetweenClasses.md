@@ -2,7 +2,7 @@
 
 # Roles of Each Class
 
-## CuvImporter
+## [CuvImporter](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvImporter.cs)
 
 Manages import from CMS. Saves the necessary state.
 
@@ -12,7 +12,7 @@ Manages import from CMS. Saves the necessary state.
 - Target languages (array)
 - Currently utilized `CuvClient`
 
-## CuvClient
+## [CuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvClient.cs)
 
 Determines which CMS to use and which model to utilize. If implemented, it will automatically appear in the dropdown menu in `CuvImporter`.
 
@@ -30,7 +30,7 @@ public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, Te
 
 ```
 
-## CuvModelList<T>
+## [CuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/CuvModelList.cs)
 
 A data that saves data by target language. The model is saved as an array.
 
@@ -46,7 +46,7 @@ I believe understanding how the implemented Cockpit is implemented will deepen y
 
 ## ICuvModel
 
-The [CockpitModel](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitModel.cs) is an `abstract class` that implements `ICuvModel`. It receives `Newtonsoft.Json.Linq.JObject` and returns data formatted to the subclasses. Here are some examples of such methods:
+The [CockpitModel](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitModel.cs) is an `abstract class` that implements `ICuvModel`. It receives `Newtonsoft.Json.Linq.JObject` and returns data formatted to the subclasses. Here are some examples of such methods:
 
 ```csharp
 public string GetString(string key) => Get<string>(key);
@@ -76,7 +76,7 @@ Since I don't know what kind of method can be implemented by CMS, I decided to c
 
 ## CuvModelList<T>
 
-The [CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvModelList.cs) is a class for ensuring the `CockpitModel` with generic type. Also, because it inherits `ScriptableObject`, generic types cannot be used and it is an `abstract class`. Here's how it is implemented in a simple manner:
+The [CockpitCuvModelList<T>](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitCuvModelList.cs) is a class for ensuring the `CockpitModel` with generic type. Also, because it inherits `ScriptableObject`, generic types cannot be used and it is an `abstract class`. Here's how it is implemented in a simple manner:
 
 ```csharp
 public sealed class TestCockpitCuvModelList : CockpitCuvModelList<TestCockpitModel> {}
@@ -84,7 +84,7 @@ public sealed class TestCockpitCuvModelList : CockpitCuvModelList<TestCockpitMod
 
 ## CuvClient
 
-In [CockpitCuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Cockpit/CockpitCuvClient.cs), you describe a process to load data from CMS, create a model, and pass it to `CuvImporter`. This is also a `sealed class`. Here's how you implement it:
+In [CockpitCuvClient](https://github.com/IShix-g/CMSuniVortex/blob/main/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitCuvClient.cs), you describe a process to load data from CMS, create a model, and pass it to `CuvImporter`. This is also a `sealed class`. Here's how you implement it:
 
 ```csharp
 public sealed class TestCockpitCuvClient : CockpitCuvClient<TestCockpitModel, TestCockpitCuvModelList>
