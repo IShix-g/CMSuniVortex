@@ -23,7 +23,7 @@ However, these two may seem unrelated at first glance. But CMSuniVortex seamless
 ## Supported CMS
 
 - [Cockpit](docs/IntegrationWithCockpit.md)
-- [Google Sheets](IntegrationWithGoogleSheet.md)
+- [Google Sheets](docs/IntegrationWithGoogleSheet.md)
 
 ※ We want to support various CMS. We are looking for collaborators. For more details, please check [here](https://github.com/IShix-g/CMSuniVortex/issues/1).
 

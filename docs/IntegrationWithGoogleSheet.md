@@ -1,111 +1,58 @@
 
-## Google Sheetに必要なもの
+[日本語](IntegrationWithGoogleSheet_jp.md)
 
-- [Google アカウント](https://www.google.com/intl/ja/account/about/)
-- [Google Cloud アカウント](https://console.cloud.google.com/)
+### Generate CuvImporter
 
-### 設定がまだの方は[初期設定](InitialSetupOfGoogleSheet.md)から完了させてください。
-
-## ２つのタイプを用意
-
-用途に合わせて使ってください。
-
-- [Simple](#simple) - Key + 言語別のテキストのみのシンプルなもの
-- [Custom](#custom) - カスタムできる汎用性の高いもの
-
-## Simple
-
-### スプレッドシートの生成
-
-- [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/)を開く
-- 「ファイル > コピーを作成」でコピーしてください
-- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet.md#スプレッドシートの共有設定)をしてください
-
-### CuvImporterを生成
-
-Project上を右クリックし「CMSuniVortex > create CuvImporter」からCuvImporterを生成します。
+Right-click on the Project and select "CMSuniVortex > create CuvImporter" to generate `CuvImporter`.
 
 ![](assets/create.png)
 
-Clientに`CMSuniVortex.GoogleSheet.GoogleSheetCuvClient`を選択
-
-<img src="assets/googleSheet/simple.png" width="600"/>
-
-### CuvImporterに必要情報の入力
-
-|            | explanation                     | e.g.                                             |
-|------------|---------------------------------|--------------------------------------------------|
-| Build Path | アセットを生成するパス                     | Assets/Generated/                                |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English                                          |
-| Sheet ID   | スプレッドシートのURLに含まれるID  | 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw     |
-| Sheet Names   | スプレッドシートの下段タブ名 | Animals, SeaCreatures                            |
-| Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
-
-<img src="assets/googleSheet/simple2.png" width="600"/>
-
-![](assets/googleSheet/simple_sheet.png)
-
-
-## Custom
-
-### スプレッドシートの生成
-
-- [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=1990877315#gid=1990877315)を開く
-- 「ファイル > コピーを作成」でコピーしてください
-- コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet.md#スプレッドシートの共有設定)をしてください
-
-### CuvImporterを生成
-
-Project上を右クリックし「CMSuniVortex > create CuvImporter」からCuvImporterを生成します。
-
-![](assets/create.png)
-
-生成したCuvImporterの「Script Generator」ボタンをクリック
+Click the "Script Generator" button of the generated CuvImporter
 
 ![](assets/open_generator.png)
 
-### スクリプト生成
+### Generate the script
 
-必要情報を入力して生成してください。
+Fill in the required information to generate it.
 
-|                 | explanation                   | e.g.                |
+|                 | Explanation                   | e.g.                |
 |-----------------|-------------------------------|---------------------|
-| Full Class Name | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
-| Build Path      | コードを生成するディレクトリのパスを指定          | Assets/Models/      |
+| Full Class Name | Specify the class name. You can also specify a namespace. | namespace.ClassName |
+| Build Path      | Specify the directory path where the code will be generated.          | Assets/Models/      |
 
 <img src="assets/googleSheet/generate.png" width="600"/>
 
-### CuvImporterに必要情報の入力
+### Enter the necessary information for CuvImporter
 
-Clientに生成したClientを選択
+Select the generated Client for Client
 
 <img src="assets/googleSheet/select_client.png" width="600"/>
 
-情報を設定します。
+Fill in the information.
 
 |            | explanation                     | e.g.                                             |
 |------------|---------------------------------|--------------------------------------------------|
-| Build Path | アセットを生成するパス                     | Assets/Generated/                                |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English                                          |
-| Sheet ID   | スプレッドシートのURLに含まれるID  | 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw     |
-| Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+| Build Path | Path to generate assets                     | Assets/Generated/                                |
+| Languages  | Specify a language. Even if not used, you must always select one. | English                                          |
+| Sheet ID   | ID contained in the URL of the spreadsheet  | 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw     |
+| Json Key Path   | The path where you saved the service account  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
 
 ![](assets/googleSheet/custom_sheet.png)
 
-### インポート
+### Import
 
-インポートボタンをクリックしてインポートします。
-インポート後、エラーなく`Build Path`に出力されていれば成功です。
+Click the import button to import.
+After import, if there are no errors and it has been output to `Build Path`, it is successful.
 
 <img src="assets/googleSheet/import_custom.png" width="600"/>
 
-### カスタム方法
+## Custom Method
 
-シートの'Text'は
+The 'Text' of the sheet
 
 ![](assets/googleSheet/custom_sheet_get_text.png)
 
-生成したモデルの`public string Text;`と一致します。理由は`Text = GetString("Text");`の`"Text"`というIDとスプレッドシートの1番目のセルの名前が一致するからです。
+matches the `public string Text;` of the generated model. This is because `"Text"` of `Text = GetString("Text");` matches the name of the first cell of the spreadsheet.
 
 ```csharp
 public sealed class Meta : CustomGoogleSheetModel
@@ -132,12 +79,12 @@ public sealed class Meta : CustomGoogleSheetModel
 }
 ```
 
-### 追加
-では、追加方法を説明します。まずEnglishのシートにFloatを追加してみたいと思います。
+### Adding
+Let's explain how to add. First, I want to add Float to the English sheet.
 
 ![](assets/googleSheet/custom_sheet_add_flort.png)
 
-Japaneseは、翻訳が必要なところ以外はEnglishのシートをインポートすると楽です。
+Japanese is easy to import English sheets except where translation is needed. Cells E~J of English are displayed using the IMPORTRANGE function.
 
 ```javascript
 // Sheet url, Sheet name + cells
@@ -146,7 +93,7 @@ Japaneseは、翻訳が必要なところ以外はEnglishのシートをイン�
 
 ![](assets/googleSheet/custom_sheet_add_flort2.png)
 
-Floatを生成したモデルに追加し、デシリアライズ処理を追加します。
+Add Float to the generated model and add deserialization processing.
 
 ```csharp
 public sealed class Meta : CustomGoogleSheetModel
@@ -175,11 +122,10 @@ public sealed class Meta : CustomGoogleSheetModel
 }
 ```
 
-追加後、インポートします。
+After adding, import.
 
 <img src="assets/googleSheet/import_custom.png" width="600"/>
 
-下記のように追加されていれば完了です。
-この容量で削除したり、追加したりして自分のオリジナルのシートを作ってください。
+If there are no errors, and it has been added as shown below, you have completed. Please try to make your original sheet by adding or deleting in this way.
 
 ![](assets/googleSheet/custom_sheet_add_flort3.png)
