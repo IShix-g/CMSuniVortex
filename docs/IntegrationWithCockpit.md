@@ -173,3 +173,7 @@ Please turn on the Localize field of the Item you want to localize.
 Then, "TRANSLATION" will be displayed on the Item editing screen.
 
 ![](assets/cockpit/edit_item2.png)
+
+## Unity Setup
+
+Please view the [Readme](../README.md).
