@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa63795d6c14cf5b8e7961c376e1853, type: 3}
+  m_Name: GoogleSheetCuvModelList_SeaCreatures_English
+  m_EditorClassIdentifier: 
+  _language: 10
+  _models:
+  - Key: Key1
+    Text: Salmon
+    Comment: comment
+  - Key: Key2
+    Text: Tuna
+    Comment: 
+  - Key: Key3
+    Text: Shrimp
+    Comment: 
+  - Key: Key4
+    Text: Yellowtail
+    Comment: 
+  - Key: Key5
+    Text: Squid
+    Comment: 
+  - Key: Key6
+    Text: Octopus
+    Comment: 
+  - Key: Key7
+    Text: Sea bream
+    Comment: 
+  - Key: Key8
+    Text: Horse mackerel
+    Comment: 
+  - Key: Key9
+    Text: Shark
+    Comment: 
+  - Key: Key10
+    Text: Crab
+    Comment: 
+  - Key: Key11
+    Text: Mackerel
+    Comment: 
+  - Key: Key12
+    Text: Sea urchin
+    Comment: 
+  SheetName: 

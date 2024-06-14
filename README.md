@@ -23,6 +23,7 @@ However, these two may seem unrelated at first glance. But CMSuniVortex seamless
 ## Supported CMS
 
 - [Cockpit](docs/IntegrationWithCockpit.md)
+- [Google Sheets](IntegrationWithGoogleSheet.md)
 
 ※ We want to support various CMS. We are looking for collaborators. For more details, please check [here](https://github.com/IShix-g/CMSuniVortex/issues/1).
 
@@ -514,4 +515,4 @@ From these results, I wanted to use Addressable, which has the best performance,
 
 ## Plans for the Future
 
-Currently, I only support generating `ScriptableObject`, but I want to build Addressable and send it to the server. I also want to increase support for CMS. If you're interested, I'd appreciate your help.
+Currently, the system only supports up to the generation of `ScriptableObject`. However, we are planning to enhance it to handle the locally generated objects and to build Addressable to send to a server. We would also like to increase support for CMS. If you are interested, we appreciate your cooperation.

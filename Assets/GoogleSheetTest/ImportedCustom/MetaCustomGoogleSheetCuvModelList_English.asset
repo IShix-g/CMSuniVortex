@@ -9,51 +9,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5801875e6ea0b41e3a530f6cb089fbe0, type: 3}
-  m_Name: GoogleGeneratedCustomGoogleSheetCuvModelList_Japanese
+  m_Script: {fileID: 11500000, guid: 1db4c83f3fc054880ad893cb2adbe76e, type: 3}
+  m_Name: MetaCustomGoogleSheetCuvModelList_English
   m_EditorClassIdentifier: 
-  _language: 22
+  _language: 10
   _models:
   - Key: Story1_0
     Element: 0
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30BF\u30A4\u30C8\u30EB"
+    Text: Story1_Title
     Boolean: 1
     Number: 111
     Image: {fileID: 21300000, guid: 83c1f1d0b48e049a096768fc8a885689, type: 3}
     Date: 2024-06-01T00:00:00.0000000+09:00
   - Key: Story1_1
     Element: 1
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30CA\u30EC\u30FC\u30B7\u30E7\u30F3"
+    Text: Story1_Narration
     Boolean: 0
     Number: 222
     Image: {fileID: 21300000, guid: a571e71cebc2e44208ad04393e9eb231, type: 3}
     Date: 2024-06-02T00:00:00.0000000+09:00
   - Key: Story1_2
     Element: 2
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E91_\u30BB\u30EA\u30D51"
+    Text: Story1_Character1_dialogue1
     Boolean: 1
     Number: 333
     Image: {fileID: 21300000, guid: bdb75d3a49ce147debf24829802b3808, type: 3}
     Date: 2024-06-03T00:00:00.0000000+09:00
   - Key: Story1_3
     Element: 3
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E92_\u30BB\u30EA\u30D51"
+    Text: Story1_Character2_dialogue1
     Boolean: 1
     Number: 444
     Image: {fileID: 21300000, guid: 88618eea36f7d4c9a8fcaf2ec5984ffe, type: 3}
     Date: 2024-06-04T00:00:00.0000000+09:00
   - Key: Story1_4
     Element: 2
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E91_\u30BB\u30EA\u30D52"
+    Text: Story1_Character1_dialogue2
     Boolean: 0
     Number: 555
     Image: {fileID: 21300000, guid: 821cc5d37409949d9a8357a36e46cee8, type: 3}
     Date: 2024-06-05T00:00:00.0000000+09:00
   - Key: Story1_5
     Element: 5
-    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30C6\u30AD\u30B9\u30C8\u306E\u307F"
+    Text: Story1_TextOnly
     Boolean: 0
     Number: 666
     Image: {fileID: 0}
     Date: 2024-06-06T00:00:00.0000000+09:00
-  ModifiedTime: 
+  SheetID: 
+  ModifiedDate: 

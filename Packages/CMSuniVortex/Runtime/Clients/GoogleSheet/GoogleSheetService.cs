@@ -10,7 +10,7 @@ using Google.Apis.Sheets.v4;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public static class GoogleSheetUtil
+    public static class GoogleSheetService
     {
         public static ICredential GetCredential(string keyPath, string[] scopes)
         {

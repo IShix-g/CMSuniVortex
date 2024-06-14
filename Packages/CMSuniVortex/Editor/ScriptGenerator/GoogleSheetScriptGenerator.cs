@@ -22,7 +22,6 @@ namespace CMSuniVortex.Editor.GoogleSheet
                 yield return (classPath,
                     $@"
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using CMSuniVortex.GoogleSheet;
 
@@ -40,15 +39,15 @@ namespace {namespaceName}
         
         public enum ElementType {{ Title, Narration, Character1, Character2, Character3, TextOnly }}
 
-        public override void Deserialize(Dictionary<string, string> models)
+        protected override void OnDeserialize()
         {{
-            Element = models.GetEnum<ElementType>(""Element"");
-            Text = models.GetString(""Text"");
-            Boolean = models.GetBool(""Boolean"");
-            Number = models.GetInt(""Number"");
-            Date = models.GetDate(""Date"");
+            Element = GetEnum<ElementType>(""Element"");
+            Text = GetString(""Text"");
+            Boolean = GetBool(""Boolean"");
+            Number = GetInt(""Number"");
+            Date = GetDate(""Date"");
             
-            models.LoadSprite(this, ""Image"", sprite => Image = sprite);
+            LoadSprite(""Image"", sprite => Image = sprite);
         }}
     }}
 }}");
