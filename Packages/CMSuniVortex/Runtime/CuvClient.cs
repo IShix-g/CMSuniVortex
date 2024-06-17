@@ -16,6 +16,14 @@ namespace CMSuniVortex
     /// </summary>
     public abstract class CuvClient<T, TS> : ICuvClient where T : ICuvModel where TS : CuvModelList<T>
     {
+        protected abstract IEnumerator LoadModels(
+            int currentRound,
+            string buildPath,
+            SystemLanguage language,
+            Action<T[], string> onSuccess = default,
+            Action<string> onError = default
+        );
+
         public virtual bool CanILoad()
         {
             if (GetRepeatCount() < 1)
@@ -25,11 +33,13 @@ namespace CMSuniVortex
             }
             return true;
         }
-        protected abstract IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default);
-        
+
         public virtual int GetRepeatCount() => 1;
+
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
+
         protected virtual void OnLoad(int currentRound, string guid, TS obj) {}
+
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
 
         public IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded)

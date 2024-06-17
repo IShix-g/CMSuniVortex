@@ -79,11 +79,33 @@ using Newtonsoft.Json;
 
 namespace {namespaceName}
 {{
+    // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
+    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvClient : CockpitCuvClient<{className}, {className}CockpitCuvModelList>
     {{
         protected override JsonConverter<{className}> CreateConverter()
             => new CuvModelConverter<{className}>();
     }}
+}}");
+
+            yield return (Path.Combine(rootPath, className + "CockpitCuvReference.cs"),
+                $@"
+using CMSuniVortex.Cockpit;
+
+namespace {namespaceName}
+{{
+    public sealed class {className}CockpitCuvReference : CockpitCuvReference<{className}, {className}CockpitCuvModelList> {{}}
+}}");
+            
+            yield return (Path.Combine(rootPath, className + "CockpitCuvOutput.cs"),
+                $@"
+using CMSuniVortex.Cockpit;
+
+namespace {namespaceName}
+{{
+    // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
+    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    public sealed class {className}CockpitCuvOutput : CockpitCuvOutput<{className}, {className}CockpitCuvModelList, {className}CockpitCuvReference> {{}}
 }}");
         }
     }

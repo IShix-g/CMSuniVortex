@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
-  m_Name: GoogleCuvImporter
+  m_Name: CuvImporter
   m_EditorClassIdentifier: 
   _buildPath: Assets/GoogleSheetTest/Imported/
   _languages: 0a00000016000000
   _client:
     rid: 5308239005742530564
+  _output:
+    rid: 5308239106803236985
   _modelListGuilds:
-  - a126ba29b0d8242348c9beb016ce0c7a
-  - 111f7b8ee7875469ba5ecd2ed28d8fa3
-  - 99a1f2e9e04784307bf7b3ec12dfaed9
-  - 13bb26e634d4b4c438d195bd89ad6efe
+  - 4d65182daf30e4fa4b24ee4a8e601861
+  - 24f4cb45a4b4049f7af1318547273a75
+  - ac645b0e3c1114ea4b7fbdea48254710
+  - 44b0c2d164d76429a9b9972e940eaf2a
   references:
     version: 2
     RefIds:
@@ -32,3 +34,9 @@ MonoBehaviour:
         - Animals
         - SeaCreatures
         _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+    - rid: 5308239106803236985
+      type: {class: GoogleSheetCuvOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+      data:
+        _references:
+        - {fileID: 11400000, guid: b180cf192c7aa4c4998c84f7ca731bae, type: 2}
+        - {fileID: 11400000, guid: 450b7bf8d27e34753b0e35543fad1593, type: 2}

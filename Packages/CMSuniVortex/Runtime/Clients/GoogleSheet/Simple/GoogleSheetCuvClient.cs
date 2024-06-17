@@ -16,7 +16,7 @@ namespace CMSuniVortex.GoogleSheet
     {
         [SerializeField] string _sheetID;
         [SerializeField] string[] _sheetNames;
-        [SerializeField] string _jsonKeyPath;
+        [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
 
 #if UNITY_EDITOR
         ICredential _credential;

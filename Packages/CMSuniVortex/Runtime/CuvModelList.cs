@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace CMSuniVortex
 {
     /// <summary>
     /// Represents a generic abstract class that manages a list of models.
     /// </summary>
-    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList where T : ICuvModel
+    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList<T> where T : ICuvModel
     {
         [SerializeField] SystemLanguage _language;
         [SerializeField] T[] _models;
-
+        
         public SystemLanguage Language => _language;
         public int Length => _models.Length;
-        
+
         protected virtual void OnSetData(SystemLanguage language, IReadOnlyList<T> models){}
-        
+
         [Conditional("UNITY_EDITOR")]
         public void SetData(SystemLanguage language, T[] models)
         {
@@ -26,8 +27,12 @@ namespace CMSuniVortex
             _models = models;
             OnSetData(_language, _models);
         }
-        
-        public T GetByIndex(int index) => _models[index];
+
+        public T GetByIndex(int index)
+        {
+            Assert.IsTrue(index > 0 && index < _models.Length, "Nonexistent index:" + index);
+            return _models[index];
+        }
 
         [CanBeNull]
         public T GetById(string id)
