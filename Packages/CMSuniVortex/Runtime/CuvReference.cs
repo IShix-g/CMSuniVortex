@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace CMSuniVortex
 {
+    /// <summary>
+    /// Managing a reference to a list of models.
+    /// </summary>
     public abstract class CuvReference<T, TS> : ScriptableObject, ICuvReference<T, TS> where T : ICuvModel where TS : ICuvModelList<T>
     {
         public event Action<SystemLanguage> OnChangeLanguage = delegate {};

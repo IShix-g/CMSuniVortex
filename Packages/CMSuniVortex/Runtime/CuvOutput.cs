@@ -1,6 +1,9 @@
 
 namespace CMSuniVortex
 {
+    /// <summary>
+    /// Represents an output object used in the CMSuniVortex framework.
+    /// </summary>
     public abstract class CuvOutput<TModel, TModelList, TReference> : ICuvOutput
         where TModel : ICuvModel
         where TModelList : CuvModelList<TModel>

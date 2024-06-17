@@ -50,6 +50,7 @@ namespace CMSuniVortex.GoogleSheet
             }
 #endif
         }
+        
         public override void Deselect() {}
         
         public override void Release()
