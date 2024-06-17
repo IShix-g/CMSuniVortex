@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class CuvPopup
+    public sealed class CuvTypePopup
     {
         public SerializedProperty Property { get; private set; }
         public Type[] Types { get; private set; }
@@ -13,7 +13,7 @@ namespace CMSuniVortex.Editor
 
         string[] _options;
         
-        public CuvPopup(SerializedProperty property, Type[] types)
+        public CuvTypePopup(SerializedProperty property, Type[] types)
         {
             Property = property;
             Types = Array.Empty<Type>();

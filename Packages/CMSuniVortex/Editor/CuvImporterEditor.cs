@@ -19,8 +19,8 @@ namespace CMSuniVortex.Editor
         SerializedProperty _languagesProp;
         SerializedProperty _clientProp;
         SerializedProperty _outputProp;
-        CuvPopup _clientPopup;
-        CuvPopup _outputPopup;
+        CuvTypePopup _clientTypePopup;
+        CuvTypePopup _outputTypePopup;
         ICuvImporter _importer;
         ICuvDoc _cuvDoc;
         Texture2D _logo;
@@ -44,9 +44,9 @@ namespace CMSuniVortex.Editor
                                 && !type.IsAbstract
                                 && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any())
                     .ToArray();
-                _clientPopup = new CuvPopup(_clientProp, types);
+                _clientTypePopup = new CuvTypePopup(_clientProp, types);
             }
-            _outputPopup = new CuvPopup(_outputProp, GetFilteredOutputTypes());
+            _outputTypePopup = new CuvTypePopup(_outputProp, GetFilteredOutputTypes());
             
             _importer = target as CuvImporter;
             _logo = GetLogo();
@@ -199,10 +199,10 @@ namespace CMSuniVortex.Editor
                 GUILayout.Space(10);
             }
             
-            if (_clientPopup.Draw())
+            if (_clientTypePopup.Draw())
             {
-                _outputPopup.ResetTypes(GetFilteredOutputTypes());
-                _outputPopup.ResetReference();
+                _outputTypePopup.ResetTypes(GetFilteredOutputTypes());
+                _outputTypePopup.ResetReference();
             }
 
             GUILayout.Space(20);
@@ -222,9 +222,9 @@ namespace CMSuniVortex.Editor
             
             GUILayout.Space(10);
 
-            if (_outputPopup.Draw())
+            if (_outputTypePopup.Draw())
             {
-                if (_outputPopup.Property.managedReferenceValue != default)
+                if (_outputTypePopup.Property.managedReferenceValue != default)
                 {
                     _importer.SelectOutput();
                 }

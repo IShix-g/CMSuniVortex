@@ -12,19 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
   m_Name: CuvImporter
   m_EditorClassIdentifier: 
-  _buildPath: Assets/
+  _buildPath: Assets/Samples/Import/ImportResources/
   _languages: 0a00000016000000
   _client:
-    rid: 5308238950055542792
+    rid: 5308239131489337344
+  _output:
+    rid: 5308239131489337345
   _modelListGuilds:
-  - 512ab0c1dc02c4023a8638c247b79b40
-  - 8e2b67c0bf87546939d5b197528e0880
+  - 142360a1a5a714c93a823c0fbc1d9b06
+  - b50a2892dea9c4ecea1b5c37b832976e
   references:
     version: 2
     RefIds:
-    - rid: 5308238950055542792
-      type: {class: TestCockpitCuvClient, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
+    - rid: 5308239131489337344
+      type: {class: TestCockpitModelCockpitCuvClient, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
       data:
         _baseUrl: https://devx.myonick.biz/cockpit/
         _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
         _modelName: Model
+    - rid: 5308239131489337345
+      type: {class: TestCockpitModelCockpitCuvOutput, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
+      data:
+        _reference: {fileID: 0}
