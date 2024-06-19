@@ -11,7 +11,7 @@ namespace CMSuniVortex
         SystemLanguage Language { get; }
         int Length { get; }
         T GetByIndex(int index);
-        T GetById(string id);
-        bool TryGetById(string id, out T model);
+        T GetByKey(string id);
+        bool TryGetByKey(string id, out T model);
     }
 }

@@ -6,32 +6,32 @@ using UnityEditor;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvFolderPathAttribute), true)]
-    public sealed class CuvFolderPathDrawer : PropertyDrawer
+    sealed class CuvFolderPathDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (prop.propertyType != SerializedPropertyType.String)
+            if (property.propertyType != SerializedPropertyType.String)
             {
-                EditorGUI.PropertyField(position, prop, label, true);
+                EditorGUI.PropertyField(position, property, label, true);
                 return;
             }
             
-            EditorGUI.BeginProperty(position, label, prop);
+            EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var buttonRect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
             var fieldRect = new Rect(position.x, position.y, position.width - 65, position.height);
 
-            EditorGUI.PropertyField(fieldRect, prop, GUIContent.none);
+            EditorGUI.PropertyField(fieldRect, property, GUIContent.none);
             if (GUI.Button(buttonRect, "Select"))
             {
                 EditorApplication.delayCall += () => 
                 {
                     var selectedPath = EditorUtility.OpenFolderPanel(
                         "Select Folder Path", 
-                        string.IsNullOrEmpty(prop.stringValue)
+                        string.IsNullOrEmpty(property.stringValue)
                             ? "Assets/"
-                            : prop.stringValue,
+                            : property.stringValue,
                         "\"Select Folder Path"); 
             
                     if (!string.IsNullOrEmpty(selectedPath))
@@ -39,15 +39,15 @@ namespace CMSuniVortex.Editor
                         var assetsIndex = selectedPath.IndexOf("Assets", StringComparison.Ordinal);
                         if (assetsIndex >= 0)
                         {
-                            prop.stringValue = selectedPath.Substring(assetsIndex);
+                            property.stringValue = selectedPath.Substring(assetsIndex);
                         }
                         else
                         {
-                            prop.stringValue = string.Empty;
+                            property.stringValue = string.Empty;
                             Debug.LogError("Please select the path under Assets.");
                         }
                     }
-                    prop.serializedObject.ApplyModifiedProperties();
+                    property.serializedObject.ApplyModifiedProperties();
                 };
             }
 

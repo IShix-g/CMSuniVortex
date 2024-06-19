@@ -93,7 +93,15 @@ namespace CMSuniVortex.GoogleSheet
             }
             
             var sheet = opSheet.Result;
-            var keyIndex = sheet[0].IndexOf("Key");
+            var keyValue = "Key";
+            var keyIndex = sheet[0].IndexOf(keyValue);
+            
+            if (keyIndex < 0)
+            {
+                keyValue = "key";
+                keyIndex = sheet[0].IndexOf(keyValue);
+            }
+            
             var langIndex = sheet[0].IndexOf(language.ToString());
             var commentIndex = sheet[0].IndexOf("Comment");
 

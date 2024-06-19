@@ -15,22 +15,22 @@ MonoBehaviour:
   _buildPath: Assets/CockpitTest/Imported/
   _languages: 0a00000016000000
   _client:
-    rid: 5308239106803236966
+    rid: 5308239131489337346
   _output:
-    rid: 5308239106803236986
+    rid: 5308239131489337347
   _modelListGuilds:
   - c14ce121346a949128cb173ac749715f
   - 107add0dfec32489aa1d3904ff990be6
   references:
     version: 2
     RefIds:
-    - rid: 5308239106803236966
-      type: {class: CatDetailsCockpitCuvClient, ns: Test, asm: Assembly-CSharp}
+    - rid: 5308239131489337346
+      type: {class: CatDetailsCockpitCuvClient, ns: Tests, asm: Assembly-CSharp}
       data:
         _baseUrl: https://devx.myonick.biz/cockpit/
         _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
         _modelName: Model
-    - rid: 5308239106803236986
-      type: {class: CatDetailsCockpitCuvOutput, ns: Test, asm: Assembly-CSharp}
+    - rid: 5308239131489337347
+      type: {class: CatDetailsCockpitCuvOutput, ns: Tests, asm: Assembly-CSharp}
       data:
         _reference: {fileID: 11400000, guid: 1e13a793840a441619f5f92814fc160a, type: 2}

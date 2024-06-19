@@ -8,7 +8,7 @@ namespace CMSuniVortex.Editor
     public sealed class CuvImporterCreator
     {
         [MenuItem("Window/CMSuniVortex/create CuvImporter")]
-        public static void CreateMyAsset()
+        static void CreateMyAsset()
         {
             var path = EditorUtility.SaveFilePanelInProject("Save Location", "New " + nameof(CuvImporter), "asset", "Please enter a file name to save the asset to");
 

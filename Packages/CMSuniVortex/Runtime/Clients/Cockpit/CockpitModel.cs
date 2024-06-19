@@ -7,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
@@ -15,7 +16,8 @@ namespace CMSuniVortex.Cockpit
     [Serializable]
     public abstract class CockpitModel : ICuvModel, IJsonDeserializer
     {
-        public string ID;
+        public string Key;
+        public string CockpitID;
         public string ModifiedDate;
         
         public string BaseUrl { get; private set; }
@@ -26,7 +28,7 @@ namespace CMSuniVortex.Cockpit
 
         protected abstract void OnDeserialize();
 
-        public string GetID() => ID;
+        public string GetKey() => Key;
         
         #region Editor
 #if UNITY_EDITOR
@@ -45,7 +47,16 @@ namespace CMSuniVortex.Cockpit
         void IJsonDeserializer.Deserialize(JObject obj)
         {
             JObject = obj;
-            ID = GetString("_id");
+            Key = GetString("key");
+
+            if (string.IsNullOrEmpty(Key))
+            {
+                Key = GetString("Key"); 
+            }
+            
+            Assert.IsTrue(!string.IsNullOrEmpty(Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md");
+            
+            CockpitID = GetString("_id");
             ModifiedDate = GetDateUtc("_modified");
             OnDeserialize();
         }

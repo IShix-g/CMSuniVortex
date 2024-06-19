@@ -10,6 +10,6 @@ namespace CMSuniVortex.GoogleSheet
         public string Text;
         public string Comment;
         
-        public string GetID() => Key;
+        public string GetKey() => Key;
     }
 }

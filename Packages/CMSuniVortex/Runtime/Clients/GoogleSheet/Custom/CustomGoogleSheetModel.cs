@@ -22,7 +22,7 @@ namespace CMSuniVortex.GoogleSheet
         
         protected abstract void OnDeserialize();
         
-        public string GetID() => Key;
+        public string GetKey() => Key;
         
 #if UNITY_EDITOR
         public void SetData(string assetSavePath) => AssetSavePath = assetSavePath;
@@ -45,6 +45,10 @@ namespace CMSuniVortex.GoogleSheet
             ResourcesLoadCoroutines ??= new HashSet<IEnumerator>();
             ResourcesLoadCoroutines.Add(enumerator);
         }
+#else
+        void IObjectDeserializer.Deserialize(Dictionary<string, string> contents) {}
+
+        void IObjectDeserializer.Deserialized() {}
 #endif
         
         public string GetString(string key)

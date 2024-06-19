@@ -99,8 +99,15 @@ namespace CMSuniVortex.GoogleSheet
                 : string.Empty;
             
             var sheet = opSheet.Result;
-            var keyIndex = sheet[0].IndexOf("Key");
+            var keyValue = "Key";
+            var keyIndex = sheet[0].IndexOf(keyValue);
 
+            if (keyIndex < 0)
+            {
+                keyValue = "key";
+                keyIndex = sheet[0].IndexOf(keyValue);
+            }
+            
             if (keyIndex < 0)
             {
                 var error = "Key does not exist.";
@@ -119,7 +126,7 @@ namespace CMSuniVortex.GoogleSheet
                     continue;
                 }
                 
-                sheet.FillContentsWithFilteredSheetData(contents, "Key", i);
+                sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
                 
                 var model = new T { Key = key };
                 var od = (IObjectDeserializer) model;

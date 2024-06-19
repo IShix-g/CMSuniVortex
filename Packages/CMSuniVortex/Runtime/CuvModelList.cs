@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace CMSuniVortex
 {
@@ -28,18 +27,14 @@ namespace CMSuniVortex
             OnSetData(_language, _models);
         }
 
-        public T GetByIndex(int index)
-        {
-            Assert.IsTrue(index > 0 && index < _models.Length, "Nonexistent index:" + index);
-            return _models[index];
-        }
+        public T GetByIndex(int index) => _models[index];
 
         [CanBeNull]
-        public T GetById(string id)
+        public T GetByKey(string id)
         {
             foreach (var model in _models)
             {
-                if (model.GetID() == id)
+                if (model.GetKey() == id)
                 {
                     return model;
                 }
@@ -47,11 +42,11 @@ namespace CMSuniVortex
             return default;
         }
         
-        public bool TryGetById(string id, out T model)
+        public bool TryGetByKey(string id, out T model)
         {
             foreach (var m in _models)
             {
-                if (m.GetID() == id)
+                if (m.GetKey() == id)
                 {
                     model = m;
                     return true;

@@ -5,12 +5,12 @@ using UnityEditor;
 using UnityEngine;
 using NUnit.Framework;
 
-namespace CMSuniVortex.Editor
+namespace CMSuniVortex.Tests
 {
     public sealed class AssetDataTest
     {
-        const string _guid1 = "ed16dc5404f214e5c99b054fc26b60e9";
-        const string _guid2 = "ebe382b971b954f80a7b986633ef2b33";
+        const string _guid1 = "c14ce121346a949128cb173ac749715f";
+        const string _guid2 = "107add0dfec32489aa1d3904ff990be6";
         
         [TestCase(_guid1)]
         public void LoadTest(string listGuid)

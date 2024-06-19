@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class ScriptGeneratorWindow : EditorWindow
+    sealed class ScriptGeneratorWindow : EditorWindow
     {
         [MenuItem("Window/CMSuniVortex/Script Generator", false, 2)]
         public static ScriptGeneratorWindow ShowDialog()

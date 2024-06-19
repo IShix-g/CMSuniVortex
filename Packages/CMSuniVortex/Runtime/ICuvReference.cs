@@ -12,5 +12,7 @@ namespace CMSuniVortex
         event Action<SystemLanguage> OnChangeLanguage;
         SystemLanguage Language { get; }
         void ChangeLanguage(SystemLanguage language);
+        bool HasContents();
+        string[] GetKeys();
     }
 }

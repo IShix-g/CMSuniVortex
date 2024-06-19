@@ -5,7 +5,7 @@ using UnityEditor;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvReadOnlyAttribute), true)]
-    public class CuvReadOnlyDrawer : PropertyDrawer
+    class CuvReadOnlyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
         {

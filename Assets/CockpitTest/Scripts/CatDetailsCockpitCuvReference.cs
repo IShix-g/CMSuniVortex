@@ -1,7 +1,7 @@
 
 using CMSuniVortex.Cockpit;
 
-namespace Test
+namespace Tests
 {
     public sealed class CatDetailsCockpitCuvReference : CockpitCuvReference<CatDetails, CatDetailsCockpitCuvModelList> {}
 }

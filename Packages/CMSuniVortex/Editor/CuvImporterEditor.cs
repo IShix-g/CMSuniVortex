@@ -9,7 +9,7 @@ using Unity.EditorCoroutines.Editor;
 namespace CMSuniVortex.Editor
 {
     [CustomEditor(typeof(CuvImporter), true), CanEditMultipleObjects]
-    public sealed class CuvImporterEditor : UnityEditor.Editor
+    sealed class CuvImporterEditor : UnityEditor.Editor
     {
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
@@ -29,13 +29,15 @@ namespace CMSuniVortex.Editor
         string _currentVersion;
         bool _isStartCheckVersion;
         
+        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
+        
         void OnEnable()
         {
-            _scriptProp = serializedObject.FindProperty("m_Script");
-            _buildPathProp = serializedObject.FindProperty("_buildPath");
-            _languagesProp = serializedObject.FindProperty("_languages");
-            _clientProp = serializedObject.FindProperty("_client");
-            _outputProp = serializedObject.FindProperty("_output");
+            _scriptProp = serializedObject.FindProperty(_propertiesToExclude[0]);
+            _buildPathProp = serializedObject.FindProperty(_propertiesToExclude[1]);
+            _languagesProp = serializedObject.FindProperty(_propertiesToExclude[2]);
+            _clientProp = serializedObject.FindProperty(_propertiesToExclude[3]);
+            _outputProp = serializedObject.FindProperty(_propertiesToExclude[4]);
 
             {
                 var types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
@@ -172,6 +174,21 @@ namespace CMSuniVortex.Editor
             GUILayout.Space(5);
             
             EditorGUILayout.PropertyField(_languagesProp);
+            
+            GUILayout.Space(10);
+            
+            var prop = serializedObject.GetIterator();
+            if (prop.NextVisible(true))
+            {
+                do
+                {
+                    if (!_propertiesToExclude.Contains(prop.name)) 
+                    {
+                        EditorGUILayout.PropertyField(prop, true);
+                    }
+                }
+                while (prop.NextVisible(false));
+            }
             
             GUILayout.Space(10);
 

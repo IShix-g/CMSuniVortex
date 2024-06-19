@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778f836b0053b44e8a5fa020ac43bbe9, type: 3}
   m_Name: CatDetailsCockpitCuvReference
   m_EditorClassIdentifier: 
-  _modelLists: []
+  _modelLists:
+  - {fileID: 11400000, guid: c14ce121346a949128cb173ac749715f, type: 2}
+  - {fileID: 11400000, guid: 107add0dfec32489aa1d3904ff990be6, type: 2}

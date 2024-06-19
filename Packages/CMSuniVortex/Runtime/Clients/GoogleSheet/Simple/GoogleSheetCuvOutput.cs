@@ -1,10 +1,10 @@
 
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using System.IO;
 using UnityEditor;
 #endif
 
@@ -47,6 +47,7 @@ namespace CMSuniVortex.GoogleSheet
 
                 var assetPath = GetReferencePath(buildPath, sheetName);
                 AssetDatabase.CreateAsset(reference, assetPath);
+                EditorUtility.SetDirty(reference);
                 AssetDatabase.SaveAssetIfDirty(reference);
                 references.Add(reference);
                 Debug.Log($"Generated Reference Asset for sheet {sheetName}. path: {assetPath}");

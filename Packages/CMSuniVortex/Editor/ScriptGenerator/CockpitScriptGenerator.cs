@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CMSuniVortex.Editor.Cockpit
 {
-    public sealed class CockpitScriptGenerator : ScriptGenerator
+    sealed class CockpitScriptGenerator : ScriptGenerator
     {
         public override string GetName() => "Cockpit";
         public override string GetLogoName() => "CockpitLogo";
@@ -43,6 +43,7 @@ namespace {namespaceName}
         public string Date;
         public ItemType Select;
         public TagType[] Tags;
+        public string Param;
 
         public enum TagType {{ Tag1, Tag2, Tag3 }}
 
@@ -57,6 +58,7 @@ namespace {namespaceName}
             Date = GetDate(""date"");
             Select = GetSelect<ItemType>(""select"");
             Tags = GetTag<TagType>(""tags"");
+            Param = GetString(""param"");
             LoadSprite(""image"", asset => Image = asset);
         }}
     }}

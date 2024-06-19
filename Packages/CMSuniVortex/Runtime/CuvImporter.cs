@@ -76,26 +76,35 @@ namespace CMSuniVortex
             Debug.Log("Start importing.");
             EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, guids =>
             {
+                IsLoading = false;
                 _modelListGuilds = guids;
                 AssetDatabase.SaveAssetIfDirty(this);
+                if (CanIOutput())
+                {
+                    StartOutput();
+                }
                 onLoaded?.Invoke();
                 Debug.Log("Completion of importing.");
-                IsLoading = false;
+                
             }), this);
         }
 
-        bool ICuvImporter.CanIOutput() => _client != default
-                                          && _modelListGuilds is {Length: > 0}
-                                          && _output != default;
-        
-        void ICuvImporter.StartOutput()
+        bool ICuvImporter.CanIOutput() => CanIOutput();
+
+        void ICuvImporter.StartOutput() => StartOutput();
+
+        bool CanIOutput() => _client != default
+                             && _modelListGuilds is {Length: > 0}
+                             && _output != default;
+
+        void StartOutput()
         {
             if (!IsLoading)
             {
                 _output.Generate(_buildPath, _client, _modelListGuilds);
             }
         }
-
+        
         void ICuvImporter.SelectOutput()
         {
             IsLoading = true;

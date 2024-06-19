@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CMSuniVortex.Editor.GoogleSheet
 {
-    public sealed class GoogleSheetScriptGenerator : ScriptGenerator
+    sealed class GoogleSheetScriptGenerator : ScriptGenerator
     {
         public override string GetName() => "Custom Google Sheet";
         public override string GetLogoName() => "GoogleSheetLogo";

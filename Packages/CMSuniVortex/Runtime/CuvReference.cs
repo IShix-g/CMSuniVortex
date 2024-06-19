@@ -32,7 +32,7 @@ namespace CMSuniVortex
 
         public T GetById(string id)
         {
-            if (GetList().TryGetById(id, out var model))
+            if (GetList().TryGetByKey(id, out var model))
             {
                 return model;
             }
@@ -41,7 +41,7 @@ namespace CMSuniVortex
         
         public bool TryGetById(string id, out T model)
         {
-            model = GetList().GetById(id);
+            model = GetList().GetByKey(id);
             return model != null;
         }
 
@@ -63,6 +63,26 @@ namespace CMSuniVortex
             var defaultLang = _modelLists[0].Language;
             _currentLanguageIndex = 0;
             SetLanguage(defaultLang);
+        }
+
+        public bool HasContents()
+            => _modelLists is {Length: > 0}
+               && _modelLists[0].Length > 0;
+
+        public string[] GetKeys()
+        {
+            if (_modelLists == default
+                || _modelLists.Length == 0)
+            {
+                return Array.Empty<string>();
+            }
+            var list = _modelLists[0];
+            var keys = new string[list.Length];
+            for (var i = 0; i < list.Length; i++)
+            {
+                keys[i] = list.GetByIndex(i).GetKey();
+            }
+            return keys;
         }
 
         void SetLanguage(SystemLanguage newLanguage)

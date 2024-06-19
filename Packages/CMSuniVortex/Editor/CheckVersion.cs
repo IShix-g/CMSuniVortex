@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class CheckVersion
+    sealed class CheckVersion
     {
         internal static IEnumerator GetVersionOnServer(string gitUrl, Action<string> onSuccess, Action onFailed)
         {

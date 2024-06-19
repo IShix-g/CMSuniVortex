@@ -1,8 +1,8 @@
 
+using System.IO;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using System.IO;
 using UnityEditor;
 #endif
 
@@ -35,6 +35,7 @@ namespace CMSuniVortex.Cockpit
             }
             
             _reference.SetModelLists(objs);
+            EditorUtility.SetDirty(_reference);
             AssetDatabase.SaveAssetIfDirty(_reference);
             Debug.Log("Loading Reference Assets. path:" + assetPath);
 #endif
