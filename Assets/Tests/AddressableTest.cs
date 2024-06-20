@@ -1,5 +1,7 @@
 #if ENABLE_ADDRESSABLES
+using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using CMSuniVortex.Addressable;
 using NUnit.Framework;
 using UnityEditor;
@@ -17,8 +19,13 @@ namespace CMSuniVortex.Tests
         [Test]
         public static void Test()
         {
-            var asset = AssetDatabase.FindAssets("t:GoogleSheetCuvModelList", new []{ "Assets/GoogleSheetTest/ImportedAddressable/" });
-            Debug.Log(asset.Length);
+            var url = "https://docs.google.com/spreddsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0";
+            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
+            var match = regex.Match(url);
+            if (match.Success)
+            {
+                Debug.Log(match.Groups[1].Value);
+            }
         }
         
         [Test]
