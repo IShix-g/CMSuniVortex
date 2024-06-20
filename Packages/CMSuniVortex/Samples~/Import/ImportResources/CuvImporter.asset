@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
   m_Name: CuvImporter
   m_EditorClassIdentifier: 
-  _buildPath: Assets/Samples/Import/ImportResources/
+  _buildPath: Assets/
   _languages: 0a00000016000000
   _client:
     rid: 5308239131489337344
   _output:
     rid: 5308239131489337345
   _modelListGuilds:
-  - 142360a1a5a714c93a823c0fbc1d9b06
-  - b50a2892dea9c4ecea1b5c37b832976e
+  - 8203ba0fa1712438ea6705ed6e14ac5e
+  - 0dda29ca89f6a4f17a0eb309292813ae
   references:
     version: 2
     RefIds:
@@ -33,4 +33,4 @@ MonoBehaviour:
     - rid: 5308239131489337345
       type: {class: TestCockpitModelCockpitCuvOutput, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
       data:
-        _reference: {fileID: 0}
+        _reference: {fileID: 11400000, guid: 0ea2152fae14e4525a6ba8bc64638229, type: 2}

@@ -17,15 +17,11 @@ namespace CMSuniVortex.Addressable
         public abstract void Generate(string buildPath, ICuvClient client, string[] listGuids);
         public abstract void Release();
 
-        public string GetGroupName(SystemLanguage language)
-            => _addressableSettings.GetGroupName(language);
+        public string GetGroupName(SystemLanguage language) => _addressableSettings.GetGroupName(language, typeof(TModel).Name);
 
         AddressableCuvSettings IAddressableSettingsProvider.GetSetting() => _addressableSettings;
 
-        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings)
-        {
-            _addressableSettings = settings;
-        }
+        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings) => _addressableSettings = settings;
     }
 }
 #endif

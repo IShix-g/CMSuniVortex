@@ -17,7 +17,7 @@ MonoBehaviour:
   _client:
     rid: 5308239005742530564
   _output:
-    rid: 5308239106803236985
+    rid: 5308239191345725441
   _modelListGuilds:
   - 4d65182daf30e4fa4b24ee4a8e601861
   - 24f4cb45a4b4049f7af1318547273a75
@@ -34,7 +34,7 @@ MonoBehaviour:
         - Animals
         - SeaCreatures
         _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
-    - rid: 5308239106803236985
+    - rid: 5308239191345725441
       type: {class: GoogleSheetCuvOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:
         _references:

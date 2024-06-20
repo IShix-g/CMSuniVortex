@@ -15,7 +15,7 @@ namespace CMSuniVortex.GoogleSheet
     public abstract class CustomGoogleSheetCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
         [SerializeField] string _sheetID;
-        [SerializeField] string _jsonKeyPath;
+        [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
         
 #if UNITY_EDITOR
         ICredential _credential;

@@ -15,7 +15,7 @@ namespace CMSuniVortex.Cockpit
             
             foreach (var language in languages)
             {
-                AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language), _addressableSettings.AddressableType, true);
+                AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language, typeof(T).Name), _addressableSettings.AddressableType, true);
             }
         }
 
@@ -27,7 +27,7 @@ namespace CMSuniVortex.Cockpit
             {
                 foreach (var t in obj.AddressableActions)
                 {
-                    AddressableHelper.AddTo(_addressableSettings.GetGroupName(language), t.Guid);
+                    AddressableHelper.AddTo(_addressableSettings.GetGroupName(language, typeof(T).Name), t.Guid);
                     t.Completed(t.Guid);
                 }
             }

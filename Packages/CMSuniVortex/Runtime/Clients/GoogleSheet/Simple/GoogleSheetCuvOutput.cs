@@ -33,24 +33,36 @@ namespace CMSuniVortex.GoogleSheet
                 sheetNameToObjects[obj.SheetName].Add(obj);
             }
 
+            var current = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvReference), new[] {buildPath})
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .ToArray();
             var references = new List<GoogleSheetCuvReference>();
             foreach (var entry in sheetNameToObjects)
             {
                 var sheetName = entry.Key;
                 var sheetObjects = entry.Value.ToArray();
 
-                var reference = _references is {Length: > 0}
-                    ? _references.FirstOrDefault(x => x.SheetName == sheetName)
-                    : ScriptableObject.CreateInstance<GoogleSheetCuvReference>();
-                reference.hideFlags = HideFlags.NotEditable;
-                reference.SetModelLists(sheetObjects);
-
+                var reference = default(GoogleSheetCuvReference);
                 var assetPath = GetReferencePath(buildPath, sheetName);
-                AssetDatabase.CreateAsset(reference, assetPath);
+                if (current is {Length: > 0}
+                    && current.Any(x => x == assetPath))
+                {
+                    reference = AssetDatabase.LoadAssetAtPath<GoogleSheetCuvReference>(assetPath);
+                }
+                if (reference == default)
+                {
+                    reference = ScriptableObject.CreateInstance<GoogleSheetCuvReference>();
+                    reference.hideFlags = HideFlags.NotEditable;
+                    AssetDatabase.CreateAsset(reference, assetPath);
+                    Debug.Log($"Generated Reference Asset for sheet {sheetName}. path: {assetPath}");
+                }
+                
+                reference.SetModelLists(sheetObjects);
+                
                 EditorUtility.SetDirty(reference);
                 AssetDatabase.SaveAssetIfDirty(reference);
                 references.Add(reference);
-                Debug.Log($"Generated Reference Asset for sheet {sheetName}. path: {assetPath}");
+                Debug.Log($"Loaded Reference Asset for sheet {sheetName}. path: {assetPath}");
             }
             _references = references.ToArray();
 #endif

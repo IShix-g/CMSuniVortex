@@ -277,12 +277,12 @@ namespace CMSuniVortex.Cockpit
         public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completed)
         {
 #if UNITY_EDITOR
-            AddressableActions ??= new HashSet<AddressableAction>();
             var imagePath = GetImagePath(key);
             if (!string.IsNullOrEmpty(imagePath))
             {
                 AddCoroutine(LoadTextureCo(imagePath, path =>
                 {
+                    AddressableActions ??= new HashSet<AddressableAction>();
                     AddressableActions.Add(new AddressableAction(
                         AssetDatabase.AssetPathToGUID(path),
                         guid =>
@@ -297,12 +297,12 @@ namespace CMSuniVortex.Cockpit
         public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed)
         {
 #if UNITY_EDITOR
-            AddressableActions ??= new HashSet<AddressableAction>();
             var imagePath = GetImagePath(key);
             if (!string.IsNullOrEmpty(imagePath))
             {
                 AddCoroutine(LoadTextureCo(imagePath, path =>
                 {
+                    AddressableActions ??= new HashSet<AddressableAction>();
                     AddressableActions.Add(new AddressableAction(
                         AssetDatabase.AssetPathToGUID(path),
                         guid =>

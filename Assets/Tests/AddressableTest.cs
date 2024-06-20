@@ -15,6 +15,13 @@ namespace CMSuniVortex.Tests
     public class AddressableTest
     {
         [Test]
+        public static void Test()
+        {
+            var asset = AssetDatabase.FindAssets("t:GoogleSheetCuvModelList", new []{ "Assets/GoogleSheetTest/ImportedAddressable/" });
+            Debug.Log(asset.Length);
+        }
+        
+        [Test]
         public static void CreateGroupLocal()
         {
             AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Local, true);

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/GoogleSheetTest/ImportedCustom/
+  _languages: 0a00000016000000
+  _client:
+    rid: 5308239053261897729
+  _output:
+    rid: 5308239106803236987
+  _modelListGuilds:
+  - eb3fc0657c0514a37b202131d23bcac6
+  - a4b04092e8de343bbab76bed3f5c411d
+  references:
+    version: 2
+    RefIds:
+    - rid: 5308239053261897729
+      type: {class: MetaCustomGoogleSheetCuvClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _sheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww
+        _jsonKeyPath: Assets/googleSheetTest/light-operator-426308-a9-a87f12062c59.json
+    - rid: 5308239106803236987
+      type: {class: MetaCustomGoogleSheetCuvOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _reference: {fileID: 11400000, guid: 56a863edf80aa4d11b2adeef0d290f73, type: 2}

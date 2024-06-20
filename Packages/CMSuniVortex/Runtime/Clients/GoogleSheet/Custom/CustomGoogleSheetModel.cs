@@ -8,16 +8,27 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
+#if ENABLE_ADDRESSABLES
+using CMSuniVortex.Addressable;
+using UnityEngine.AddressableAssets;
+#endif
+
 namespace CMSuniVortex.GoogleSheet
 {
     [Serializable]
     public abstract class CustomGoogleSheetModel : ICuvModel, IObjectDeserializer
+#if ENABLE_ADDRESSABLES
+        ,IAddressableModel
+#endif
     {
         public string Key;
         
         Dictionary<string, string> _contents;
         
         public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
+#if ENABLE_ADDRESSABLES
+        public HashSet<AddressableAction> AddressableActions { get; private set; }
+#endif
         public string AssetSavePath { get; private set; }
         
         protected abstract void OnDeserialize();
@@ -139,6 +150,48 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
 
+#if ENABLE_ADDRESSABLES
+        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completed)
+        {
+#if UNITY_EDITOR
+            if (_contents.TryGetValue(key, out var obj)
+                && !string.IsNullOrEmpty(obj))
+            {
+                AddCoroutine(LoadTextureCo(obj, path =>
+                {
+                    AddressableActions ??= new HashSet<AddressableAction>();
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                        {
+                            completed?.Invoke(new AssetReferenceSprite(guid));
+                        }));
+                }));
+            }
+#endif
+        }
+        
+        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed)
+        {
+#if UNITY_EDITOR
+            if (_contents.TryGetValue(key, out var obj)
+                && !string.IsNullOrEmpty(obj))
+            {
+                AddCoroutine(LoadTextureCo(obj, path =>
+                {
+                    AddressableActions ??= new HashSet<AddressableAction>();
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                        {
+                            completed?.Invoke(new AssetReferenceTexture2D(guid));
+                        }));
+                }));
+            }
+#endif
+        }
+#endif
+        
 #if UNITY_EDITOR
         public IEnumerator LoadTextureCo(string url, Action<string> onSuccess = default)
         {

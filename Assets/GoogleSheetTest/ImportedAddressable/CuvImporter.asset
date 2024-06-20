@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/GoogleSheetTest/ImportedAddressable/
+  _languages: 0a00000016000000
+  _client:
+    rid: 5308239005742530564
+  _output:
+    rid: 5308239191345725440
+  _modelListGuilds:
+  - df44704d0286344ab844f1374e24a6c5
+  - 149a9aa07d7154314a0f623e01654e99
+  - b47eb541f09ab4a1d9e3b2572981f2e2
+  - 790e9d92b8fe34a9eb7e14fc2cf2bfc3
+  references:
+    version: 2
+    RefIds:
+    - rid: 5308239005742530564
+      type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+      data:
+        _sheetID: 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw
+        _sheetNames:
+        - Animals
+        - SeaCreatures
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+    - rid: 5308239191345725440
+      type: {class: GoogleSheetAddressableOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+      data:
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+        _references:
+        - {fileID: 11400000, guid: e858915ec5c1546808a32bb994ed16b1, type: 2}
+        - {fileID: 11400000, guid: 259e917f920b54463afe7cc593a89e3e, type: 2}
