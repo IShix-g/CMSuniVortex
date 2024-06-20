@@ -13,7 +13,11 @@ namespace CMSuniVortex
         public SystemLanguage[] Languages { get; }
         public string[] ModelListGuilds { get; }
         public bool IsLoading { get; }
-        bool CanImport();
+        bool CanIImport();
         void StartImport(Action onLoaded = default);
+        bool CanIOutput();
+        void StartOutput();
+        void SelectOutput();
+        void DeselectOutput();
     }
 }

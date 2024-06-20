@@ -19,6 +19,7 @@ namespace CMSuniVortex
         [SerializeField] string _buildPath;
         [SerializeField] SystemLanguage[] _languages;
         [SerializeReference] ICuvClient _client;
+        [SerializeReference] ICuvOutput _output;
         [SerializeField] string[] _modelListGuilds;
         
         public bool IsBuildCompleted => _modelListGuilds.Length > 0;
@@ -31,8 +32,10 @@ namespace CMSuniVortex
         
         protected void SetClient(ICuvClient client) => _client = client;
         
+        protected void SetOutput(ICuvOutput output) => _output = output;
+        
 #if UNITY_EDITOR
-        public bool CanImport()
+        bool ICuvImporter.CanIImport()
         {
             if (string.IsNullOrEmpty(_buildPath))
             {
@@ -62,7 +65,7 @@ namespace CMSuniVortex
             return true;
         }
         
-        public void StartImport(Action onLoaded = default)
+        void ICuvImporter.StartImport(Action onLoaded)
         {
             if (IsLoading)
             {
@@ -73,14 +76,51 @@ namespace CMSuniVortex
             Debug.Log("Start importing.");
             EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, guids =>
             {
-                _modelListGuilds = guids;
+                EditorUtility.SetDirty(this);
                 AssetDatabase.SaveAssetIfDirty(this);
+                
+                IsLoading = false;
+                _modelListGuilds = guids;
+                if (CanIOutput())
+                {
+                    StartOutput();
+                }
                 onLoaded?.Invoke();
                 Debug.Log("Completion of importing.");
-                IsLoading = false;
+                
             }), this);
         }
+
+        bool ICuvImporter.CanIOutput() => CanIOutput();
+
+        void ICuvImporter.StartOutput() => StartOutput();
+
+        bool CanIOutput() => _client != default
+                             && _modelListGuilds is {Length: > 0}
+                             && _output != default;
+
+        void StartOutput()
+        {
+            if (!IsLoading)
+            {
+                _output.Generate(_buildPath, _client, _modelListGuilds);
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssetIfDirty(this);
+            }
+        }
         
+        void ICuvImporter.SelectOutput()
+        {
+            IsLoading = true;
+            EditorApplication.delayCall += () =>
+            {
+                _output.Select(_buildPath);
+                IsLoading = false;
+            };
+        }
+
+        void ICuvImporter.DeselectOutput() => _output?.Deselect();
+
         protected virtual void Reset()
         {
             _languages = new[] { SystemLanguage.English };
@@ -96,11 +136,14 @@ namespace CMSuniVortex
         bool IsFileOrDirectoryExists(string path)
             => Directory.Exists(path) || File.Exists(path);
 #else
-        public bool CanImport() => false;
-        public void StartImport(Action onLoaded = default) => onLoaded?.Invoke();
-        public bool CanILoad() => false;
-        public void StartLoad(Action onLoaded = default){}
+        bool ICuvImporter.CanIImport() => false;
+        void ICuvImporter.StartImport(Action onLoaded) => throw new NotImplementedException();
+        bool ICuvImporter.CanIOutput() => false;
+        void ICuvImporter.StartOutput() => throw new NotImplementedException();
+        void ICuvImporter.SelectOutput() => throw new NotImplementedException();
+        void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
 #endif
+
         #endregion
     }
 }

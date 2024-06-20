@@ -5,11 +5,16 @@ using UnityEditor;
 using UnityEngine;
 using JetBrains.Annotations;
 using Unity.EditorCoroutines.Editor;
+using Debug = UnityEngine.Debug;
+
+#if ENABLE_ADDRESSABLES
+using CMSuniVortex.Addressable;
+#endif
 
 namespace CMSuniVortex.Editor
 {
     [CustomEditor(typeof(CuvImporter), true), CanEditMultipleObjects]
-    public sealed class CuvImporterEditor : UnityEditor.Editor
+    sealed class CuvImporterEditor : UnityEditor.Editor
     {
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
@@ -18,44 +23,56 @@ namespace CMSuniVortex.Editor
         SerializedProperty _buildPathProp;
         SerializedProperty _languagesProp;
         SerializedProperty _clientProp;
-        Type[] _types;
-        string[] _options;
-        int _selectedIndex;
+        SerializedProperty _outputProp;
+        CuvTypePopup _clientTypePopup;
+        CuvTypePopup _outputTypePopup;
+        ICuvImporter _importer;
+        ICuvDoc _cuvDoc;
         Texture2D _logo;
         Texture2D _importIcon;
-        CuvImporter _myTarget;
+        Texture2D _outputIcon;
         string _currentVersion;
-        bool _isCheckVersion;
-        ICuvDoc _cuvDoc;
+        bool _isStartCheckVersion;
+
+#if ENABLE_ADDRESSABLES
+        IAddressableSettingsProvider _clientAddressableSettingsProvider;
+        IAddressableSettingsProvider _outputAddressableSettingsProvider;
+#endif
+
+        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output"};
         
         void OnEnable()
         {
-            _scriptProp = serializedObject.FindProperty("m_Script");
-            _buildPathProp = serializedObject.FindProperty("_buildPath");
-            _languagesProp = serializedObject.FindProperty("_languages");
-            _clientProp = serializedObject.FindProperty("_client");
-            
-            _types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
-                .Where(p => typeof(ICuvClient).IsAssignableFrom(p)
-                            && !p.IsInterface
-                            && !p.IsAbstract
-                            && !p.GetCustomAttributes(typeof(IgnoreImporterAttribute), false).Any())
-                .ToArray();
+            _scriptProp = serializedObject.FindProperty(_propertiesToExclude[0]);
+            _buildPathProp = serializedObject.FindProperty(_propertiesToExclude[1]);
+            _languagesProp = serializedObject.FindProperty(_propertiesToExclude[2]);
+            _clientProp = serializedObject.FindProperty(_propertiesToExclude[3]);
+            _outputProp = serializedObject.FindProperty(_propertiesToExclude[4]);
 
-            _options = new string[_types.Length + 1];
-            _options[0] = "Select..";
-            for (var i = 0; i < _types.Length; i++)
-            { 
-                _options[i + 1] = _types[i].FullName;
+            {
+                var types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
+                    .Where(type => typeof(ICuvClient).IsAssignableFrom(type)
+                                && !type.IsInterface
+                                && !type.IsAbstract
+                                && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any())
+                    .ToArray();
+                _clientTypePopup = new CuvTypePopup(_clientProp, types);
             }
+            _outputTypePopup = new CuvTypePopup(_outputProp, GetFilteredOutputTypes());
             
-            _myTarget = target as CuvImporter;
+            _importer = target as CuvImporter;
             _logo = GetLogo();
             _importIcon = GetImportIcon();
+            _outputIcon = GetOutputIcon();
             _currentVersion = "v" + CheckVersion.GetCurrent(_packagePath);
-            _isCheckVersion = false;
+            _isStartCheckVersion = false;
             _clientProp.isExpanded = true;
             _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
+            _outputProp.isExpanded = true;
+
+
+            SetClientAddressableSettingsProvider();
+            SetOutputAddressableSettingsProvider();
         }
 
         public override void OnInspectorGUI()
@@ -77,10 +94,10 @@ namespace CMSuniVortex.Editor
             {
                 Application.OpenURL("https://github.com/IShix-g/CMSuniVortex");
             }
-            EditorGUI.BeginDisabledGroup(_isCheckVersion);
+            EditorGUI.BeginDisabledGroup(_isStartCheckVersion);
             if (GUILayout.Button("Check for Update"))
             {
-                _isCheckVersion = true;
+                _isStartCheckVersion = true;
                 EditorCoroutineUtility.StartCoroutine(
                     CheckVersion.GetVersionOnServer(
                         _packageUrl,
@@ -104,9 +121,9 @@ namespace CMSuniVortex.Editor
                             {
                                 EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + "), please update from Package Manager.", "Close");
                             }
-                            _isCheckVersion = false;
+                            _isStartCheckVersion = false;
                         },
-                        () => _isCheckVersion = false), this);
+                        () => _isStartCheckVersion = false), this);
             }
             EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
@@ -139,7 +156,7 @@ namespace CMSuniVortex.Editor
             {
                 if (!AssetDatabase.IsValidFolder(_buildPathProp.stringValue))
                 {
-                    _buildPathProp.stringValue = AssetDatabase.GetAssetPath(_myTarget);
+                    _buildPathProp.stringValue = AssetDatabase.GetAssetPath(target);
                 }
                 
                 _buildPathProp.stringValue = EditorUtility.OpenFolderPanel(
@@ -172,41 +189,27 @@ namespace CMSuniVortex.Editor
             
             EditorGUILayout.PropertyField(_languagesProp);
             
-            GUILayout.Space(5);
+            GUILayout.Space(10);
             
+            var prop = serializedObject.GetIterator();
+            if (prop.NextVisible(true))
             {
-                var fullTypeName = _clientProp.managedReferenceFullTypename;
-                _selectedIndex = string.IsNullOrEmpty(fullTypeName) || fullTypeName == "  "
-                    ? 0
-                    : Array.FindIndex(_types, t => t.FullName == fullTypeName.Substring(fullTypeName.IndexOf(' ') + 1)) + 1;
-                _selectedIndex = EditorGUILayout.Popup(_selectedIndex == 0 ? _clientProp.displayName : string.Empty, _selectedIndex, _options);
-
-                if (_selectedIndex == 0)
+                do
                 {
-                    _clientProp.managedReferenceValue = default;
-                }
-                else
-                {
-                    GUILayout.Space(5);
-                    
-                    var selectedType = _types[_selectedIndex - 1];
-                    if (fullTypeName != selectedType.Assembly.GetName().Name + " " + selectedType.FullName)
+                    if (!_propertiesToExclude.Contains(prop.name)) 
                     {
-                        _clientProp.managedReferenceValue = Activator.CreateInstance(selectedType);
-                        _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
-                    }
-                    if (_clientProp.managedReferenceValue != default)
-                    {
-                        EditorGUILayout.PropertyField(_clientProp, true);
+                        EditorGUILayout.PropertyField(prop, true);
                     }
                 }
+                while (prop.NextVisible(false));
             }
             
             GUILayout.Space(10);
+
+            _cuvDoc ??= _clientProp.managedReferenceValue as ICuvDoc;
             
             if (_cuvDoc != default)
             {
-
                 var boxStyle = new GUIStyle(GUI.skin.box)
                 {
                     padding = new RectOffset(5, 5, 5, 5)
@@ -227,14 +230,64 @@ namespace CMSuniVortex.Editor
                 GUILayout.Space(10);
             }
             
-            EditorGUI.BeginDisabledGroup(_myTarget.IsLoading);
-
-            var buttonContent = new GUIContent(_myTarget.IsLoading ? " Now importing..." : " Import", _importIcon);
-            if (GUILayout.Button(buttonContent, GUILayout.Height(38)))
+            if (_clientTypePopup.Draw())
             {
-                if (_myTarget.CanImport())
+                SetClientAddressableSettingsProvider();
+                _outputTypePopup.ResetTypes(GetFilteredOutputTypes());
+                _outputTypePopup.ResetReference();
+            }
+
+            GUILayout.Space(20);
+            
+            EditorGUI.BeginDisabledGroup(_importer.IsLoading);
+            {
+                var content = new GUIContent(_importer.IsLoading ? " Now importing..." : " Import", _importIcon);
+                if (GUILayout.Button(content, GUILayout.Height(38)))
                 {
-                    _myTarget.StartImport();
+                    if (_importer.CanIImport())
+                    {
+                        _importer.StartImport();
+                    }
+                }
+            }
+            EditorGUI.EndDisabledGroup();
+            
+            GUILayout.Space(10);
+
+            if (_outputTypePopup.Draw())
+            {
+                SetOutputAddressableSettingsProvider();
+                
+                if (_outputTypePopup.Property.managedReferenceValue != default)
+                {
+                    _importer.SelectOutput();
+                }
+                else
+                {
+                    _importer.DeselectOutput();
+                }
+            }
+            
+#if ENABLE_ADDRESSABLES
+            if (_clientAddressableSettingsProvider != default
+                && _outputAddressableSettingsProvider != default)
+            {
+                var setting = _clientAddressableSettingsProvider.GetSetting();
+                _outputAddressableSettingsProvider.SetSetting(setting);
+            }
+#endif
+            
+            GUILayout.Space(10);
+            
+            EditorGUI.BeginDisabledGroup(!_importer.CanIOutput() || _importer.IsLoading);
+            {
+                var content = new GUIContent("Output", _outputIcon);
+                if (GUILayout.Button(content, GUILayout.Height(38)))
+                {
+                    if (_importer.CanIOutput())
+                    {
+                        _importer.StartOutput();
+                    }
                 }
             }
 
@@ -249,6 +302,8 @@ namespace CMSuniVortex.Editor
         [CanBeNull]
         internal static Texture2D GetImportIcon() => GetTexture("CuvImportIcon");
         
+        internal static Texture2D GetOutputIcon() => GetTexture("CuvOutputIcon");
+        
         [CanBeNull]
         static Texture2D GetTexture(string textureName)
         {
@@ -259,6 +314,98 @@ namespace CMSuniVortex.Editor
                 return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             }
             return default;
+        }
+        
+        Type[] GetFilteredOutputTypes()
+        {
+            if (_clientProp.managedReferenceValue == default)
+            {
+                return Array.Empty<Type>();
+            }
+            var clientTypes = ExtractModelAndListTypes(_clientProp.managedReferenceValue.GetType());
+            if (clientTypes.ModelType == default
+                || clientTypes.ListType == default)
+            {
+                return Array.Empty<Type>();
+            }
+            return _clientProp.managedReferenceValue != default ?
+                TypeCache.GetTypesDerivedFrom<ICuvOutput>()
+                    .Where(type => typeof(ICuvOutput).IsAssignableFrom(type)
+                                   && !type.IsInterface
+                                   && !type.IsAbstract
+                                   && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any()
+                                   && IsTypeMatch(type, clientTypes.ModelType, clientTypes.ListType))
+                    .ToArray()
+                : Array.Empty<Type>();
+        }
+        
+        bool IsTypeMatch(Type targetType, Type modelType, Type listType)
+        {
+            if (modelType == default
+                || listType == default)
+            {
+                return false;
+            }
+            var types = ExtractModelAndListTypes(targetType);
+            return modelType == types.ModelType
+                   && listType == types.ListType;
+        }
+        
+        (Type ModelType, Type ListType) ExtractModelAndListTypes(Type objType)
+        {
+            if (objType == default)
+            {
+                return (default, default);
+            }
+            if (objType.IsConstructedGenericType)
+            {
+                return ExtractTypeArguments(objType);
+            }
+            if (objType.BaseType is {IsConstructedGenericType: true})
+            {
+                return ExtractModelAndListTypes(objType.BaseType);
+            }
+
+            var genericInterface = objType.GetInterfaces()
+                    .FirstOrDefault(type => type.IsConstructedGenericType
+                                            && type.GetInterfaces().Contains(typeof(ICuvOutput)));
+            return genericInterface != default
+                ? ExtractTypeArguments(genericInterface)
+                : (default, default);
+        }
+
+        (Type ModelType, Type ListType) ExtractTypeArguments(Type type)
+        {
+            var typeArguments = type.GetGenericArguments();
+            var modelType = typeArguments.Length > 0 ? typeArguments[0] : default;
+            var modelListType = typeArguments.Length > 1 ? typeArguments[1] : default;
+            return (modelType, modelListType);
+        }
+        
+        void SetClientAddressableSettingsProvider()
+        {
+#if ENABLE_ADDRESSABLES
+            var providerType = _clientProp.managedReferenceValue?.GetType().GetInterfaces()
+                .FirstOrDefault(type => type == typeof(IAddressableSettingsProvider));
+            if (providerType != default
+                && providerType.IsInstanceOfType(_clientProp.managedReferenceValue))
+            {
+                _clientAddressableSettingsProvider = (IAddressableSettingsProvider) _clientProp.managedReferenceValue;
+            }
+#endif
+        }
+        
+        void SetOutputAddressableSettingsProvider()
+        {
+#if ENABLE_ADDRESSABLES
+            var providerType = _outputProp.managedReferenceValue?.GetType().GetInterfaces()
+                .FirstOrDefault(type => type == typeof(IAddressableSettingsProvider));
+            if (providerType != default
+                && providerType.IsInstanceOfType(_outputProp.managedReferenceValue))
+            {
+                _outputAddressableSettingsProvider = (IAddressableSettingsProvider) _outputProp.managedReferenceValue;
+            }
+#endif
         }
     }
 }

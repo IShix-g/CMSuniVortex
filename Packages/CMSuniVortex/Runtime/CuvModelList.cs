@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -9,32 +8,31 @@ namespace CMSuniVortex
     /// <summary>
     /// Represents a generic abstract class that manages a list of models.
     /// </summary>
-    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList where T : ICuvModel
+    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList<T>, ICuvModelListSetter<T> where T : ICuvModel
     {
         [SerializeField] SystemLanguage _language;
         [SerializeField] T[] _models;
-
+        
         public SystemLanguage Language => _language;
         public int Length => _models.Length;
-        
+
         protected virtual void OnSetData(SystemLanguage language, IReadOnlyList<T> models){}
         
-        [Conditional("UNITY_EDITOR")]
-        public void SetData(SystemLanguage language, T[] models)
+        void ICuvModelListSetter<T>.SetData(SystemLanguage language, T[] models)
         {
             _language = language;
             _models = models;
             OnSetData(_language, _models);
         }
-        
+
         public T GetByIndex(int index) => _models[index];
 
         [CanBeNull]
-        public T GetById(string id)
+        public T GetByKey(string id)
         {
             foreach (var model in _models)
             {
-                if (model.GetID() == id)
+                if (model.GetKey() == id)
                 {
                     return model;
                 }
@@ -42,11 +40,11 @@ namespace CMSuniVortex
             return default;
         }
         
-        public bool TryGetById(string id, out T model)
+        public bool TryGetByKey(string id, out T model)
         {
             foreach (var m in _models)
             {
-                if (m.GetID() == id)
+                if (m.GetKey() == id)
                 {
                     model = m;
                     return true;

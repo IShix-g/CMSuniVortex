@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using NUnit.Framework;
 
-namespace CMSuniVortex.Editor
+namespace CMSuniVortex.Tests
 {
     public sealed class AssetDataTest
     {

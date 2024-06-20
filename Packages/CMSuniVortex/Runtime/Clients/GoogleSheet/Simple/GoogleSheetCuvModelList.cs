@@ -9,7 +9,7 @@ namespace CMSuniVortex.GoogleSheet
 
         public string GetTextByKey(string key)
         {
-            if (TryGetById(key, out var obj))
+            if (TryGetByKey(key, out var obj))
             {
                 return obj.Text;
             }

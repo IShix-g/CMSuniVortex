@@ -15,7 +15,7 @@ namespace CMSuniVortex.GoogleSheet
     public abstract class CustomGoogleSheetCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
         [SerializeField] string _sheetID;
-        [SerializeField] string _jsonKeyPath;
+        [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
         
 #if UNITY_EDITOR
         ICredential _credential;
@@ -99,11 +99,18 @@ namespace CMSuniVortex.GoogleSheet
                 : string.Empty;
             
             var sheet = opSheet.Result;
-            var keyIndex = sheet[0].IndexOf("Key");
+            var keyValue = "Key";
+            var keyIndex = sheet[0].IndexOf(keyValue);
 
             if (keyIndex < 0)
             {
-                var error = "Key does not exist.";
+                keyValue = "key";
+                keyIndex = sheet[0].IndexOf(keyValue);
+            }
+            
+            if (keyIndex < 0)
+            {
+                var error = "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md";
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
@@ -119,11 +126,10 @@ namespace CMSuniVortex.GoogleSheet
                     continue;
                 }
                 
-                sheet.FillContentsWithFilteredSheetData(contents, "Key", i);
+                sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
                 
                 var model = new T { Key = key };
-                var od = (IObjectDeserializer) model;
-                od.Deserialize(contents);
+                ((IObjectDeserializer) model).Deserialize(contents);
                 model.SetData(buildPath);
                 if (model.ResourcesLoadCoroutines != default)
                 {
@@ -132,7 +138,6 @@ namespace CMSuniVortex.GoogleSheet
                         yield return enumerator;
                     }
                 }
-                od.Deserialized();
                 models.Add(model);
             }
 

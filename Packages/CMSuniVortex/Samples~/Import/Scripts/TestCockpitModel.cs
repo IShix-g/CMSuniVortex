@@ -1,7 +1,7 @@
 
 using System;
-using CMSuniVortex.Cockpit;
 using UnityEngine;
+using CMSuniVortex.Cockpit;
 
 namespace CMSuniVortex.Tests
 {
@@ -16,6 +16,7 @@ namespace CMSuniVortex.Tests
         public string Date;
         public ItemType Select;
         public TagType[] Tags;
+        public string Param;
 
         public enum TagType { Tag1, Tag2, Tag3 }
 
@@ -30,6 +31,7 @@ namespace CMSuniVortex.Tests
             Date = GetDate("date");
             Select = GetSelect<ItemType>("select");
             Tags = GetTag<TagType>("tags");
+            Param = GetString("param");
             LoadSprite("image", asset => Image = asset);
         }
     }

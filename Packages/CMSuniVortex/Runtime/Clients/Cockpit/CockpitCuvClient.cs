@@ -53,11 +53,6 @@ namespace CMSuniVortex.Cockpit
                 var models = JsonConvert.DeserializeObject<T[]>(request.downloadHandler.text, settings);
                 foreach (var model in models)
                 {
-                    if (model.ResourcesLoadCoroutines.Count <= 0)
-                    {
-                        continue;
-                    }
-
                     model.SetData(_baseUrl, buildPath);
                     if (model.ResourcesLoadCoroutines != default)
                     {
@@ -66,8 +61,6 @@ namespace CMSuniVortex.Cockpit
                             yield return enumerator;
                         }
                     }
-                    
-                    ((IJsonDeserializer)model).Deserialized();
                 }
                 
                 onSuccess?.Invoke(models, typeof(TS).Name + "_" + language);

@@ -1,10 +1,9 @@
 
 using System;
 using UnityEngine;
-using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
-namespace Test
+namespace Tests
 {
     [Serializable]
     public sealed class CatDetails : CockpitModel
@@ -12,11 +11,13 @@ namespace Test
         public string Text;
         public long Number;
         public Sprite Image;
+
         public bool Boolean;
         public Color Color;
         public string Date;
         public ItemType Select;
         public TagType[] Tags;
+        public string Param;
 
         public enum TagType { Tag1, Tag2, Tag3 }
 
@@ -31,6 +32,7 @@ namespace Test
             Date = GetDate("date");
             Select = GetSelect<ItemType>("select");
             Tags = GetTag<TagType>("tags");
+            Param = GetString("param");
             LoadSprite("image", asset => Image = asset);
         }
     }

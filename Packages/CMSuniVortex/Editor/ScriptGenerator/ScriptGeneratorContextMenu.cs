@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class ScriptGeneratorContextMenu
+    sealed class ScriptGeneratorContextMenu
     {
         [MenuItem("Assets/Create/CMSuniVortex/Generation of required classes.", true)]
         static bool CanIShowDialog()
