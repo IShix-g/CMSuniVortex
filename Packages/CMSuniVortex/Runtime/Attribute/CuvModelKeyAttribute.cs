@@ -8,11 +8,11 @@ namespace CMSuniVortex
     /// Display a drop-down list of keys in CuvModel.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class CuvModeKeyAttribute : PropertyAttribute
+    public sealed class CuvModelKeyAttribute : PropertyAttribute
     {
         public readonly string ReferenceName;
 
-        public CuvModeKeyAttribute(string referenceName)
+        public CuvModelKeyAttribute(string referenceName)
         {
             ReferenceName = referenceName;
         }

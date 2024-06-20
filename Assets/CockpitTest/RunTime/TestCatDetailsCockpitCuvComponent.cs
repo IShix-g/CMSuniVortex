@@ -14,6 +14,5 @@ namespace Tests
                 OnChangeLanguage(model);
             }
         }
-        
     }
 }

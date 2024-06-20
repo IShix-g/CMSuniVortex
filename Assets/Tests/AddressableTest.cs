@@ -17,13 +17,13 @@ namespace CMSuniVortex.Tests
         [Test]
         public static void CreateGroupLocal()
         {
-            AddressableHelper.CreateGroupIfNotExists("Test", AddressablePathType.Local);
+            AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Local, true);
         }
         
         [Test]
         public static void CreateGroupRemote()
         {
-            AddressableHelper.CreateGroupIfNotExists("Test", AddressablePathType.Remote);
+            AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Remote, true);
         }
         
         [Test]

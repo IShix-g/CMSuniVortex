@@ -76,9 +76,11 @@ namespace CMSuniVortex
             Debug.Log("Start importing.");
             EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, guids =>
             {
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssetIfDirty(this);
+                
                 IsLoading = false;
                 _modelListGuilds = guids;
-                AssetDatabase.SaveAssetIfDirty(this);
                 if (CanIOutput())
                 {
                     StartOutput();
@@ -102,6 +104,8 @@ namespace CMSuniVortex
             if (!IsLoading)
             {
                 _output.Generate(_buildPath, _client, _modelListGuilds);
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssetIfDirty(this);
             }
         }
         

@@ -11,6 +11,7 @@ namespace Tests
         public string Text;
         public long Number;
         public Sprite Image;
+
         public bool Boolean;
         public Color Color;
         public string Date;

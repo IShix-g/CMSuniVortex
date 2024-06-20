@@ -10,16 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Test
+  m_Name: Cuv_English
   m_EditorClassIdentifier: 
-  m_GroupName: Test
+  m_GroupName: Cuv_English
   m_Data:
     m_SerializedData: []
-  m_GUID: 8eaa66ac66a6e4ea6910a01108693309
-  m_SerializeEntries: []
+  m_GUID: b41718acc019745b1acd61d1e65a8287
+  m_SerializeEntries:
+  - m_GUID: fe501737a00b348fabb11f3ddeeefcf0
+    m_Address: Assets/CockpitTest/ImportedAddressable/CatAddressableDetailsCockpitCuvModelList_English.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f7eaaebeec307412f88d9a3ba8481a1b, type: 2}
-    - {fileID: 11400000, guid: 95c84c4914baf48eba30a468f3ebb2bd, type: 2}
+    - {fileID: 11400000, guid: d1f756972404e462e99f636a83bf98b1, type: 2}
+    - {fileID: 11400000, guid: e7bb3069c3d984dcc989f739a47f7c7b, type: 2}

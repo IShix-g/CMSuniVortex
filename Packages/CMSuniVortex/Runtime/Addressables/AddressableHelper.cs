@@ -1,16 +1,12 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR && ENABLE_ADDRESSABLES
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
-#if ENABLE_ADDRESSABLES
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEditor.AddressableAssets;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement;
-#endif
 
 using Object = UnityEngine.Object;
 
@@ -20,14 +16,9 @@ namespace CMSuniVortex.Addressable
     {
         public static bool IsInstalled()
         {
-#if ENABLE_ADDRESSABLES
             return AddressableAssetSettingsDefaultObject.Settings != default;
-#else
-            return false;
-#endif
         }
         
-#if ENABLE_ADDRESSABLES
         public static AddressableAssetSettings GetSettings()
         {
             if (!IsInstalled())
@@ -36,38 +27,35 @@ namespace CMSuniVortex.Addressable
             }
             return AddressableAssetSettingsDefaultObject.Settings;
         }
-#endif
         
         public static bool HasGroup(string groupName)
         {
-#if ENABLE_ADDRESSABLES
             return IsInstalled() && AddressableAssetSettingsDefaultObject.Settings.FindGroup(groupName) != default;
-#else
-            return false;
-#endif
         }
         
-        public static void CreateGroupIfNotExists(string groupName, AddressablePathType type)
+        public static void CreateGroupIfNotExists(string groupName, AddressableType type, bool isOverride)
         {
-#if ENABLE_ADDRESSABLES
             var settings = GetSettings();
             var group = settings.FindGroup(groupName);
-            if (group != default)
+            if (!isOverride
+                && group != default)
             {
                 return;
             }
-            group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
+
+            if (group == default)
+            {
+                group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
+            }
             var schema = group.GetSchema<BundledAssetGroupSchema>();
-            var buildPathName = type == AddressablePathType.Local ? "Local.BuildPath" : "Remote.BuildPath";
-            var loadPathName = type == AddressablePathType.Local ? "Local.LoadPath" : "Remote.LoadPath";
+            var buildPathName = type == AddressableType.Local ? "Local.BuildPath" : "Remote.BuildPath";
+            var loadPathName = type == AddressableType.Local ? "Local.LoadPath" : "Remote.LoadPath";
             schema.BuildPath.SetVariableByName ( settings, buildPathName );
             schema.LoadPath.SetVariableByName( settings, loadPathName );
-#endif
         }
         
         public static void DeleteGroup(string groupName)
         {
-#if ENABLE_ADDRESSABLES
             if (!IsInstalled())
             {
                 return;
@@ -78,7 +66,6 @@ namespace CMSuniVortex.Addressable
             {
                 settings.RemoveGroup(group);
             }
-#endif
         }
         
         public static string GetAddress(Object obj)
@@ -90,11 +77,9 @@ namespace CMSuniVortex.Addressable
 
         public static string GetAddress(string guid)
         {
-#if ENABLE_ADDRESSABLES
             var settings = GetSettings();
             var entry = settings.FindAssetEntry(guid);
             return entry?.address;
-#endif
         }
         
         public static void AddTo(string groupName, Object obj, string newAddress = default, string[] labels = default)
@@ -106,7 +91,6 @@ namespace CMSuniVortex.Addressable
 
         public static void AddTo(string groupName, string guid, string newAddress = default, string[] labels = default)
         {
-#if ENABLE_ADDRESSABLES
             var settings = GetSettings();
             var group = settings.FindGroup(groupName);
             if (group == default)
@@ -138,21 +122,17 @@ namespace CMSuniVortex.Addressable
             var entriesAdded = new List<AddressableAssetEntry> { entry };
             group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, false, true);
             settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, true, false);
-#endif
         }
 
         public static void RemoveFrom(string groupName, Object obj)
         {
-#if ENABLE_ADDRESSABLES
             var path = AssetDatabase.GetAssetPath(obj);
             var guid = AssetDatabase.AssetPathToGUID(path);
             RemoveFrom(groupName, guid);
-#endif
         }
         
         public static void RemoveFrom(string groupName, string guid)
         {
-#if ENABLE_ADDRESSABLES
             var settings = GetSettings();
             var group = settings.FindGroup(groupName);
             if (group == default)
@@ -167,7 +147,6 @@ namespace CMSuniVortex.Addressable
             settings.RemoveAssetEntry(guid);
             group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryRemoved, null, false, true);
             settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryRemoved, null, true, false);
-#endif
         }
         
         public static bool HasAsset(Object obj)
@@ -184,7 +163,6 @@ namespace CMSuniVortex.Addressable
             return entry != default;
         }
         
-#if ENABLE_ADDRESSABLES
         public static void AttachAsset<T>(this AssetReferenceT<T> assetRef, Object obj) where T : Object
         {
             if (!HasAsset(obj))
@@ -195,7 +173,6 @@ namespace CMSuniVortex.Addressable
             }
             assetRef.SetEditorAsset(obj);
         }
-#endif
         
         public static void SetLabels(string[] labels)
         {

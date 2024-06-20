@@ -5,6 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using JetBrains.Annotations;
 using Unity.EditorCoroutines.Editor;
+using Debug = UnityEngine.Debug;
+
+#if ENABLE_ADDRESSABLES
+using CMSuniVortex.Addressable;
+#endif
 
 namespace CMSuniVortex.Editor
 {
@@ -28,8 +33,13 @@ namespace CMSuniVortex.Editor
         Texture2D _outputIcon;
         string _currentVersion;
         bool _isStartCheckVersion;
-        
-        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
+
+#if ENABLE_ADDRESSABLES
+        IAddressableSettingsProvider _clientAddressableSettingsProvider;
+        IAddressableSettingsProvider _outputAddressableSettingsProvider;
+#endif
+
+        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output"};
         
         void OnEnable()
         {
@@ -59,6 +69,10 @@ namespace CMSuniVortex.Editor
             _clientProp.isExpanded = true;
             _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
             _outputProp.isExpanded = true;
+
+
+            SetClientAddressableSettingsProvider();
+            SetOutputAddressableSettingsProvider();
         }
 
         public override void OnInspectorGUI()
@@ -218,6 +232,7 @@ namespace CMSuniVortex.Editor
             
             if (_clientTypePopup.Draw())
             {
+                SetClientAddressableSettingsProvider();
                 _outputTypePopup.ResetTypes(GetFilteredOutputTypes());
                 _outputTypePopup.ResetReference();
             }
@@ -241,6 +256,8 @@ namespace CMSuniVortex.Editor
 
             if (_outputTypePopup.Draw())
             {
+                SetOutputAddressableSettingsProvider();
+                
                 if (_outputTypePopup.Property.managedReferenceValue != default)
                 {
                     _importer.SelectOutput();
@@ -250,6 +267,15 @@ namespace CMSuniVortex.Editor
                     _importer.DeselectOutput();
                 }
             }
+            
+#if ENABLE_ADDRESSABLES
+            if (_clientAddressableSettingsProvider != default
+                && _outputAddressableSettingsProvider != default)
+            {
+                var setting = _clientAddressableSettingsProvider.GetSetting();
+                _outputAddressableSettingsProvider.SetSetting(setting);
+            }
+#endif
             
             GUILayout.Space(10);
             
@@ -327,19 +353,59 @@ namespace CMSuniVortex.Editor
         
         (Type ModelType, Type ListType) ExtractModelAndListTypes(Type objType)
         {
-            if (objType is null or {IsConstructedGenericType: false})
+            if (objType == default)
             {
-                if (objType == default
-                    || objType.BaseType is null or {IsConstructedGenericType: false})
-                {
-                    return (default, default);
-                }
-                objType = objType.BaseType;
+                return (default, default);
             }
-            var typeArguments = objType.GetGenericArguments();
+            if (objType.IsConstructedGenericType)
+            {
+                return ExtractTypeArguments(objType);
+            }
+            if (objType.BaseType is {IsConstructedGenericType: true})
+            {
+                return ExtractModelAndListTypes(objType.BaseType);
+            }
+
+            var genericInterface = objType.GetInterfaces()
+                    .FirstOrDefault(type => type.IsConstructedGenericType
+                                            && type.GetInterfaces().Contains(typeof(ICuvOutput)));
+            return genericInterface != default
+                ? ExtractTypeArguments(genericInterface)
+                : (default, default);
+        }
+
+        (Type ModelType, Type ListType) ExtractTypeArguments(Type type)
+        {
+            var typeArguments = type.GetGenericArguments();
             var modelType = typeArguments.Length > 0 ? typeArguments[0] : default;
             var modelListType = typeArguments.Length > 1 ? typeArguments[1] : default;
             return (modelType, modelListType);
+        }
+        
+        void SetClientAddressableSettingsProvider()
+        {
+#if ENABLE_ADDRESSABLES
+            var providerType = _clientProp.managedReferenceValue?.GetType().GetInterfaces()
+                .FirstOrDefault(type => type == typeof(IAddressableSettingsProvider));
+            if (providerType != default
+                && providerType.IsInstanceOfType(_clientProp.managedReferenceValue))
+            {
+                _clientAddressableSettingsProvider = (IAddressableSettingsProvider) _clientProp.managedReferenceValue;
+            }
+#endif
+        }
+        
+        void SetOutputAddressableSettingsProvider()
+        {
+#if ENABLE_ADDRESSABLES
+            var providerType = _outputProp.managedReferenceValue?.GetType().GetInterfaces()
+                .FirstOrDefault(type => type == typeof(IAddressableSettingsProvider));
+            if (providerType != default
+                && providerType.IsInstanceOfType(_outputProp.managedReferenceValue))
+            {
+                _outputAddressableSettingsProvider = (IAddressableSettingsProvider) _outputProp.managedReferenceValue;
+            }
+#endif
         }
     }
 }

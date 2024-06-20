@@ -12,7 +12,7 @@ namespace CMSuniVortex.Compornents
     public abstract class CuvComponent<T> : MonoBehaviour where T : ScriptableObject, ICuvReference
     {
         [SerializeField] T _reference;
-        [SerializeField, CuvModeKey("_reference")] string _key;
+        [SerializeField, CuvModelKey("_reference")] string _key;
 
         public T Reference => _reference;
         

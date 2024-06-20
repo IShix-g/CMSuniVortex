@@ -14,7 +14,7 @@ namespace CMSuniVortex
     /// <summary>
     /// Represents a generic abstract client class that manages loading and serialization of model data.
     /// </summary>
-    public abstract class CuvClient<T, TS> : ICuvClient where T : ICuvModel where TS : CuvModelList<T>
+    public abstract class CuvClient<T, TS> : ICuvClient where T : ICuvModel where TS : ScriptableObject, ICuvModelList<T>, ICuvModelListSetter<T>
     {
         protected abstract IEnumerator LoadModels(
             int currentRound,
@@ -38,6 +38,8 @@ namespace CMSuniVortex
 
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
 
+        protected virtual void OnLoad(int currentRound, SystemLanguage language, T obj) {}
+        
         protected virtual void OnLoad(int currentRound, string guid, TS obj) {}
 
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
@@ -59,6 +61,20 @@ namespace CMSuniVortex
                     var language = languages[i];
                     yield return LoadModels(currentRound, buildPath, language, (models, objFileName) =>
                     {
+                        foreach (var model in models)
+                        {
+                            OnLoad(currentRound, language, model);
+                            
+                            switch (model)
+                            {
+                                case IJsonDeserializer jd:
+                                    jd.Deserialized();
+                                    break;
+                                case IObjectDeserializer od:
+                                    od.Deserialized();
+                                    break;
+                            }
+                        }
                         var path = Path.Combine(buildPath, objFileName + ".asset");
                         var obj = default(TS);
                         if (File.Exists(path))
@@ -74,7 +90,7 @@ namespace CMSuniVortex
 
                         var objIndex = (currentRound - 1) * 2 + index;
                         obj.name = objFileName;
-                        obj.SetData(language, models);
+                        ((ICuvModelListSetter<T>) obj).SetData(language, models);
                         AssetDatabase.SaveAssetIfDirty(obj);
                         objs[objIndex] = obj;
                         var guid = AssetDatabase.AssetPathToGUID(path);

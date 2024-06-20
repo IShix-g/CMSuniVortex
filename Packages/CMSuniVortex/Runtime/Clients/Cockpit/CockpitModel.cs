@@ -5,16 +5,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+#if ENABLE_ADDRESSABLES
+using CMSuniVortex.Addressable;
+using UnityEngine.AddressableAssets;
+#endif
+
 namespace CMSuniVortex.Cockpit
 {
     [Serializable]
     public abstract class CockpitModel : ICuvModel, IJsonDeserializer
+    #if ENABLE_ADDRESSABLES
+    ,IAddressableModel
+    #endif
     {
         public string Key;
         public string CockpitID;
@@ -23,6 +34,9 @@ namespace CMSuniVortex.Cockpit
         public string BaseUrl { get; private set; }
         public const string ApiEndPoint = "storage/uploads";
         public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
+#if ENABLE_ADDRESSABLES
+        public HashSet<AddressableAction> AddressableActions { get; private set; }
+#endif
         public string AssetSavePath { get; private set; }
         protected JObject JObject { get; private set; }
 
@@ -54,7 +68,7 @@ namespace CMSuniVortex.Cockpit
                 Key = GetString("Key"); 
             }
             
-            Assert.IsTrue(!string.IsNullOrEmpty(Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md");
+            Assert.IsTrue(!string.IsNullOrEmpty(Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithCockpit.md");
             
             CockpitID = GetString("_id");
             ModifiedDate = GetDateUtc("_modified");
@@ -67,6 +81,10 @@ namespace CMSuniVortex.Cockpit
             ResourcesLoadCoroutines = default;
             AssetSavePath = default;
             JObject = default;
+            
+            #if ENABLE_ADDRESSABLES
+            AddressableActions = default;
+            #endif
         }
 #else
     void IJsonDeserializer.Deserialize(JObject obj){}
@@ -252,6 +270,48 @@ namespace CMSuniVortex.Cockpit
             {
                 Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
             }
+        }
+#endif
+
+#if ENABLE_ADDRESSABLES
+        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completed)
+        {
+#if UNITY_EDITOR
+            AddressableActions ??= new HashSet<AddressableAction>();
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                AddCoroutine(LoadTextureCo(imagePath, path =>
+                {
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                    {
+                        completed?.Invoke(new AssetReferenceSprite(guid));
+                    }));
+                }));
+            }
+#endif
+        }
+        
+        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed)
+        {
+#if UNITY_EDITOR
+            AddressableActions ??= new HashSet<AddressableAction>();
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                AddCoroutine(LoadTextureCo(imagePath, path =>
+                {
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                        {
+                            completed?.Invoke(new AssetReferenceTexture2D(guid));
+                        }));
+                }));
+            }
+#endif
         }
 #endif
 

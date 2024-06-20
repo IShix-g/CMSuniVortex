@@ -110,7 +110,7 @@ namespace CMSuniVortex.GoogleSheet
             
             if (keyIndex < 0)
             {
-                var error = "Key does not exist.";
+                var error = "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md";
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
@@ -129,8 +129,7 @@ namespace CMSuniVortex.GoogleSheet
                 sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
                 
                 var model = new T { Key = key };
-                var od = (IObjectDeserializer) model;
-                od.Deserialize(contents);
+                ((IObjectDeserializer) model).Deserialize(contents);
                 model.SetData(buildPath);
                 if (model.ResourcesLoadCoroutines != default)
                 {
@@ -139,7 +138,6 @@ namespace CMSuniVortex.GoogleSheet
                         yield return enumerator;
                     }
                 }
-                od.Deserialized();
                 models.Add(model);
             }
 

@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ namespace CMSuniVortex
     /// <summary>
     /// Represents a generic abstract class that manages a list of models.
     /// </summary>
-    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList<T> where T : ICuvModel
+    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList<T>, ICuvModelListSetter<T> where T : ICuvModel
     {
         [SerializeField] SystemLanguage _language;
         [SerializeField] T[] _models;
@@ -18,9 +17,8 @@ namespace CMSuniVortex
         public int Length => _models.Length;
 
         protected virtual void OnSetData(SystemLanguage language, IReadOnlyList<T> models){}
-
-        [Conditional("UNITY_EDITOR")]
-        public void SetData(SystemLanguage language, T[] models)
+        
+        void ICuvModelListSetter<T>.SetData(SystemLanguage language, T[] models)
         {
             _language = language;
             _models = models;

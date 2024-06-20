@@ -10,11 +10,11 @@ using UnityEditor;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public class GoogleSheetCuvOutput : CuvOutput<GoogleSheetModel, GoogleSheetCuvModelList, GoogleSheetCuvReference>
+    public class GoogleSheetCuvOutput : IGoogleSheetCuvOutput<GoogleSheetModel, GoogleSheetCuvModelList, GoogleSheetCuvReference>
     {
         [SerializeField, CuvReadOnly] GoogleSheetCuvReference[] _references;
         
-        public override void Generate(string buildPath, ICuvClient client, string[] listGuids)
+        public void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
             var objs = new GoogleSheetCuvModelList[listGuids.Length];
@@ -56,7 +56,7 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
         
-        public override void Select(string buildPath)
+        public void Select(string buildPath)
         {
 #if UNITY_EDITOR
             if (_references == default
@@ -70,9 +70,10 @@ namespace CMSuniVortex.GoogleSheet
             }
 #endif
         }
-        public override void Deselect() {}
         
-        public override void Release()
+        public void Deselect() {}
+        
+        public void Release()
         {
 #if UNITY_EDITOR
             if (_references == default
