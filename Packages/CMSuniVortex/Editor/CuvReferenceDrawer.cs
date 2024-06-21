@@ -6,8 +6,8 @@ using UnityEditor;
 
 namespace CMSuniVortex.Editor
 {
-    [CustomPropertyDrawer(typeof(CuvReferenceAttribute), true)]
-    public sealed class CuvReferenceDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(CuvReferenceAttribute))]
+    sealed class CuvReferenceDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

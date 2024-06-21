@@ -17,18 +17,6 @@ namespace CMSuniVortex.Tests
     public class AddressableTest
     {
         [Test]
-        public static void Test()
-        {
-            var url = "https://docs.google.com/spreddsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0";
-            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
-            var match = regex.Match(url);
-            if (match.Success)
-            {
-                Debug.Log(match.Groups[1].Value);
-            }
-        }
-        
-        [Test]
         public static void CreateGroupLocal()
         {
             AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Local, true);

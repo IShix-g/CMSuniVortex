@@ -29,7 +29,7 @@ MonoBehaviour:
     - rid: 5308239005742530564
       type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:
-        _sheetID: 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw
+        _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/edit?gid=0#gid=0
         _sheetNames:
         - Animals
         - SeaCreatures

@@ -27,7 +27,7 @@ MonoBehaviour:
     - rid: 5308239053261897729
       type: {class: MetaCustomGoogleSheetCuvClient, ns: Test, asm: Assembly-CSharp}
       data:
-        _sheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww
+        _sheetUrl: https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0
         _jsonKeyPath: Assets/googleSheetTest/light-operator-426308-a9-a87f12062c59.json
     - rid: 5308239106803236987
       type: {class: MetaCustomGoogleSheetCuvOutput, ns: Test, asm: Assembly-CSharp}
