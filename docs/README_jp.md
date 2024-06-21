@@ -4,7 +4,7 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 
 ![Import](assets/import.png)
 
-## このプラグインを使う理由？
+## このプラグインを使う理由
 
 このプラグインは **「簡単に入力でき、最高なパフォーマンスを発揮する」** というコンセプトを持っています。
 
@@ -14,7 +14,7 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 
 ### パフォーマンスの良いデータ
 
-`ScriptableObject`はUnityで扱うように最適化されたデータ形式です。これ以上良いパフォーマンスは得られません。
+`ScriptableObject`はUnityで扱うように最適化されたデータ形式です。パフォーマンスに優れています。
 
 しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`を繋ぎ合わせてくれるのがCMSuniVortex(シーエムエス・ユニ・ボルテックス)です。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
 
@@ -23,7 +23,12 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 - [Cockpit](IntegrationWithCockpit_jp.md)
 - [Google Sheets](IntegrationWithGoogleSheet_jp.md)
 
-※ 色々なCMSに対応したいです。協力者募集中です。詳しくは[コチラ](https://github.com/IShix-g/CMSuniVortex/issues/1)をご覧ください。
+## 対応する参照方法
+
+出力したデータの参照方法を指定できます。
+
+- 直接参照
+- [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)で参照
 
 ## Unity Version
 Unity 2021.3.x higher
@@ -31,7 +36,7 @@ Unity 2021.3.x higher
 ## Getting started
 
 ### Install via git URL
-Package ManagerでUrlを追加してください。
+「Window > Package Manager > Add package from git URL...」にUrlを追加してください。
 
 URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
@@ -41,7 +46,7 @@ URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
 ### CuvImporterの作成
 
-Project上を右クリックし「CMSuniVortex > create CuvImporter」から`CuvImporter`を生成します。
+Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」から`CuvImporter`を生成します。
 
 ![create](assets/create.png)
 
@@ -51,7 +56,7 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 ![open generator](assets/open_generator.png)
 
-必要情報を入力しコードを生成します
+必要情報を入力しコードを生成します。今回は、Cockpitのコードを生成します。
 
 <img alt="create classes" src="assets/create_classes.png" width="600"/>
 
@@ -63,26 +68,29 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 ### CuvImporterに必要情報の入力
 
-生成後、CuvImporterに戻り必要情報を入力します。Clientに先ほど生成したスクリプトを指定します。
+生成後、CuvImporterに戻り必要情報を入力します。Clientに先ほど生成したスクリプトを指定します。今回は、直接参照用の`CatDetailsCockpitCuvClient`を選択しました。[Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)を利用する場合は、ひとつ上の`AddressableClient`を選択します。
+
+**出力されたClientの命名ルール :** 「コード生成時に指定したFull class name」 + 「CMS name」 + 「Output name」 + 「CuvClient」
 
 |            | explanation                        | e.g.           |
 |------------|------------------------------------|----------------|
-| Build Path | インポートしたデータの出力先ディレクトリを指定            | Assets/Models/ |
+| Build Path | データの出力先ディレクトリを指定            | Assets/Models/ |
 | Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。    | English|
-| Clint      | Script Generatorで生成したClientを指定します。 | Test.ClassNameCockpitCuvClient|
-
-Clientが生成される命名ルール: 「生成時に指定したFull class name」 + 「CMS name」 + 「CuvClient」
+| Clint      | 直接参照またはAddressablesなど任意のClientを指定します。 | Test.ClassNameCockpitCuvClient|
+| Output      | Clientで出力したデータをどのように参照するかを決定します。 | Test.ClassNameCockpitCuvOutput|
 
 <img alt="select client" src="assets/select_client.png" width="600"/>
 
-### インポートの開始
+#### Cockpit Client
 
-入力後インポートをクリックし完了です。
-
-<img alt="start import" src="assets/start_import.png" width="600"/>
+|            | explanation                        | e.g.           |
+|------------|------------------------------------|----------------|
+| Base Url | CockpitをインストールしたURL            | https://xxx.xxx.com/cockpit/ |
+| Api Key  | Cockpitの管理画面で取得するApi Key    | English|
+| Model Name      | Cockpitの管理画面で設定したモデル名 | Model |
 
 ### Cockpit CMSテスト
-実際にCockpit CMSを使ったテストができます。Clientを必ず*CockpitCuvClientを指定してください。
+実際にCockpit CMSを使ったテストが可能です。下記ご利用ください。
 
 |            | value                                        |
 |------------|----------------------------------------------|
@@ -92,27 +100,78 @@ Clientが生成される命名ルール: 「生成時に指定したFull class n
 
 #### ログイン情報
 
+閲覧権限ですが、実際にログインして管理画面を見る事ができます。
+
 |     | value                                                                  |
 |-----|------------------------------------------------------------------------|
 | URL | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/) |
 | ID  | guest                                                                  |
 | PW  | guest                                                                  |
 
-#### テストサーバーの注意点
+#### Cockpit テストサーバーの注意点
 
 - 利用の際は節度をもった利用をお願いします。
 - 頻繁にアクセスしすぎない。
 - 連続したImportをしない。
-- 無料のレンタルサーバーを利用している為、広告が表示されますが、私は一切関与していません。
+- 無料のレンタルサーバーを利用している為、広告が表示されますが私は一切関与していません。
 - 不適切なアクセスを発見次第、予告なく停止しますのでご了承ください。
+
+### インポートの開始
+
+入力後インポートをクリックすると指定したディレクトリにデータが生成されます。
+
+<img alt="start import" src="assets/start_import.png" width="600"/>
+
+
+### Outputの指定
+
+インポートしたデータをどのように参照するかを決定します。今回は直接参照の`CatDetailsCockpitCuvOutput`を選択します。
+
+<img alt="start import" src="assets/select_output.png" width="600"/>
+
+選択後、Outputをクリックし生成します。
+
+<img alt="start import" src="assets/start_output.png" width="600"/>
+
+### データの取得とテキストの表示
+
+生成した`CatDetailsCockpitCuvReference`から`GetList()`を使用してデータを取得できます。用意している`CuvComponent`を使用すると下記のように取得できます。
+
+<img alt="start import" src="assets/test_text.png" width="600"/>
+
+Referenceのインスタンスと、インスペクタで設定したKeyが渡りますので`TryGetByKey`を使って取得します。
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex.Compornents;
+
+public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
+{
+    [SerializeField] Text _text;
+    
+    protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
+    {
+        if (reference.GetList().TryGetByKey(key, out var model))
+        {
+            _text.text = model.Text;
+        }
+    }
+}
+```
+
+## Cockpitの設定
+
+設定方法などは詳細は[こちら](InitialSetupOfGoogleSheet_jp.md)をごらんください。
+
 
 ## 各クラスの役割
 
-[コチラ](RelationshipsBetweenClasses_jp.md)よりごらんください。
+プラグインを構成する代表的なクラスは[こちら](RelationshipsBetweenClasses_jp.md)より確認できます。
 
-## パフォーマンステスト
+## なぜこのプラグインを作ろうと思ったのか？
 
-私が、このプラグインを開発するきっかけになったのがこのパフォーマンステストです。 データをダウンロードし、表示するには大まかに以下の3つの方法があります。
+私が、このプラグインを開発するきっかけになったのがパフォーマンステストです。 データをダウンロードし、表示するには大まかに以下の3つの方法があります。
 
 ### 1. Addressable
 
@@ -508,8 +567,3 @@ public sealed class JsonTest : MonoBehaviour
 | Addressables | 3.1KB | 0.24ms | 9MB |
 | WebView | 31.8KB | 0.56ms | 70MB |
 | Json | 4.3KB | 1.18ms | 9.7MB |
-
-
-## 今後について
-
-今は、まだ`ScriptableObject`の生成までしか対応していませんが、生成したものをローカルで利用したり、Addressableをビルドしてサーバーに送信できるようにしたいと思っています。 また、CMSの対応も増やしていきたいです。興味ある方はご協力お願いいたします。
