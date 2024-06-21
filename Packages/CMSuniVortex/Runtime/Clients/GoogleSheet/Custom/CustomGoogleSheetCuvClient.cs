@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 #if UNITY_EDITOR
 using Google.Apis.Auth.OAuth2;
@@ -14,7 +15,7 @@ namespace CMSuniVortex.GoogleSheet
 {
     public abstract class CustomGoogleSheetCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
-        [SerializeField] string _sheetID;
+        [SerializeField, CuvOpenUrl] string _sheetUrl;
         [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
         
 #if UNITY_EDITOR
@@ -22,15 +23,15 @@ namespace CMSuniVortex.GoogleSheet
         GoogleCredential _googleCredential;
         string _modifiedTime;
 #endif
-
-        public void SetSheetID(string sheetID) => _sheetID = sheetID;
+        
+        public void SetSheetUrl(string sheetUrl) => _sheetUrl = sheetUrl;
         
         public void SetJsonKeyPath(string jsonKeyPath) => _jsonKeyPath = jsonKeyPath;
 
         protected override void OnLoad(int currentRound, string guid, TS obj)
         {
 #if UNITY_EDITOR
-            obj.SheetID = _sheetID;
+            obj.SheetID = ExtractSheetIdFromUrl(_sheetUrl);
             obj.ModifiedDate = _modifiedTime;
 #endif
         }
@@ -41,9 +42,9 @@ namespace CMSuniVortex.GoogleSheet
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(_sheetID))
+            if (string.IsNullOrEmpty(_sheetUrl))
             {
-                Debug.LogError("Please input the Sheet ID.");
+                Debug.LogError("Please input the Sheet Url.");
                 return false;
             }
             if (string.IsNullOrEmpty(_jsonKeyPath))
@@ -54,6 +55,11 @@ namespace CMSuniVortex.GoogleSheet
             if (!File.Exists(_jsonKeyPath))
             {
                 Debug.LogError("Json Key Path does not exist.");
+                return false;
+            }
+            if (!IsSheetUrlValid(_sheetUrl))
+            {
+                Debug.LogError("Could not convert Sheet Url to Sheet Id, please check if the URL is correct.");
                 return false;
             }
             return true;
@@ -70,9 +76,10 @@ namespace CMSuniVortex.GoogleSheet
                 onError?.Invoke(error);
                 yield break;
             }
-            
-            var opSheet = GoogleSheetService.GetSheet(_credential, _sheetID, language.ToString());
-            var opModified = GoogleSheetService.GetModifiedTime(_credential, _sheetID);
+
+            var sheetID = ExtractSheetIdFromUrl(_sheetUrl);
+            var opSheet = GoogleSheetService.GetSheet(_credential, sheetID, language.ToString());
+            var opModified = GoogleSheetService.GetModifiedTime(_credential, sheetID);
 
             while (!opSheet.IsCompleted
                    || !opModified.IsCompleted)
@@ -159,5 +166,23 @@ namespace CMSuniVortex.GoogleSheet
         string ICuvDoc.GetCmsName() => "Google Sheet";
 
         string ICuvDoc.GetDocUrl() => "https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md";
+        
+        public static bool IsSheetUrlValid(string sheetUrl)
+        {
+            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
+            var match = regex.Match(sheetUrl);
+            return match.Success;
+        }
+
+        public static string ExtractSheetIdFromUrl(string sheetUrl)
+        {
+            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
+            var match = regex.Match(sheetUrl);
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            throw new ArgumentException("Could not convert Sheet Url to Sheet Id, please check if the URL is correct.");
+        }
     }
 }

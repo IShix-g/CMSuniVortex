@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvModelKeyAttribute))]
-    public class CuvModeKeyPropertyDrawer : PropertyDrawer
+    sealed class CuvModeKeyPropertyDrawer : PropertyDrawer
     {
         static readonly List<string> s_emptyList = new ();
         
