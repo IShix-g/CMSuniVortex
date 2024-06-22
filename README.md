@@ -1,4 +1,4 @@
-[日本語のRead me](docs/README.md)
+[日本語のRead me](docs/README_jp.md)
 
 ![Unity](https://img.shields.io/badge/Unity-2021.3%2B-black)
 ![Cockpit](https://img.shields.io/badge/Cockpit-v2-black)
