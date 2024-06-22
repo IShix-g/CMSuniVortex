@@ -1,10 +1,14 @@
 [日本語のRead me](docs/README.md)
 
-![Logo](docs/assets/logo.png)
+![Unity](https://img.shields.io/badge/Unity-2021.3%2B-black)
+![Cockpit](https://img.shields.io/badge/Cockpit-v2-black)
+![Google Drive API](https://img.shields.io/badge/GoogleAPI-Drive%20v3-blue)
+![Google Sheet API](https://img.shields.io/badge/GoogleAPI-Sheet%20v4-blue)
 
-A plugin that allows CMS data to be easily imported into `ScriptableObject`.
+# CMSuniVortex
+It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
 
-![Import](docs/assets/import.png)
+![Logo](docs/assets/top.png)
 
 ## Why use this plugin?
 
@@ -33,7 +37,7 @@ You can specify how to refer to the data you have output.
 - Referenced via [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)
 
 ## Unity Version
-Unity 2021.3.x and higher
+Unity 2021.3.x or higher
 
 ## Getting started
 
@@ -56,11 +60,11 @@ Right click on the Project and select "Create > CMSuniVortex > create CuvImporte
 
 Click the "Script Generator" button on the generated `CuvImporter`.
 
-![open generator](docs/assets/open_generator.png)
+<img alt="open generator" src="docs/assets/open_generator.png" width="600"/>
 
 Enter the necessary information to generate the code. In this case, we generate the code for Cockpit.
 
-<img alt="create classes" src="assets/create_classes.png" width="600"/>
+<img alt="create classes" src="docs/assets/create_classes.png" width="600"/>
 
 |                 | explanation                               | e.g.                |
 |-----------------|-------------------------------------------|---------------------|
@@ -81,7 +85,7 @@ After generating, return to CuvImporter and enter the necessary information. Spe
 | Client     | Specify any client for direct reference or Addressables, etc.. | Test.ClassNameCockpitCuvClient|
 | Output     | Decide how to refer to the data output by the client. | Test.ClassNameCockpitCuvOutput|
 
-<img alt="select client" src="assets/select_client.png" width="600"/>
+<img alt="select client" src="docs/assets/select_client.png" width="600"/>
 
 #### Cockpit Client
 
@@ -122,24 +126,24 @@ Although the permission is read-only, you can actually log in and view the admin
 
 After input, click Import, and the data is generated in the specified directory.
 
-<img alt="start import" src="assets/start_import.png" width="600"/>
+<img alt="start import" src="docs/assets/start_import.png" width="600"/>
 
 
 ### Specifying the Output
 
 Decide how to refer to the imported data. This time, we select `CatDetailsCockpitCuvOutput` for direct reference.
 
-<img alt="start import" src="assets/select_output.png" width="600"/>
+<img alt="start import" src="docs/assets/select_output.png" width="600"/>
 
 After selection, click on Output to generate it.
 
-<img alt="start import" src="assets/start_output.png" width="600"/>
+<img alt="start import" src="docs/assets/start_output.png" width="600"/>
 
 ### Retrieval and Display of Data
 
 Data can be retrieved using `GetList()` from the generated `CatDetailsCockpitCuvReference`. If you use the prepared `CuvComponent`, you can retrieve it as follows.
 
-<img alt="start import" src="assets/test_text.png" width="600"/>
+<img alt="start import" src="docs/assets/test_text.png" width="600"/>
 
 The instance of Reference and the Key set on the inspector are passed, so you use `TryGetByKey` to retrieve it.
 

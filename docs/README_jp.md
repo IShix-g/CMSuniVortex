@@ -1,8 +1,11 @@
-![Logo](assets/logo.png)
+![Unity](https://img.shields.io/badge/Unity-2021.3%2B-black)
+![Cockpit](https://img.shields.io/badge/Cockpit-v2-black)
+![Google Drive API](https://img.shields.io/badge/GoogleAPI-Drive%20v3-blue)
+![Google Sheet API](https://img.shields.io/badge/GoogleAPI-Sheet%20v4-blue)
 
-CMSのデータを `ScriptableObject` に簡単にインポートできるプラグイン
-
-![Import](assets/import.png)
+# CMSuniVortex
+CMSのデータを簡単に`ScriptableObject`にインポートできるプラグイン
+![Logo](assets/top.png)
 
 ## このプラグインを使う理由
 
@@ -28,10 +31,10 @@ CMSのデータを `ScriptableObject` に簡単にインポートできるプラ
 出力したデータの参照方法を指定できます。
 
 - 直接参照
-- [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)で参照
+- [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)から参照
 
 ## Unity Version
-Unity 2021.3.x higher
+Unity 2021.3.x or higher
 
 ## Getting started
 
@@ -54,7 +57,7 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 生成した`CuvImporter`の「Script Generator」ボタンをクリック
 
-![open generator](assets/open_generator.png)
+<img alt="open generator" src="assets/open_generator.png" width="600"/>
 
 必要情報を入力しコードを生成します。今回は、Cockpitのコードを生成します。
 
