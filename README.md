@@ -170,7 +170,7 @@ public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
 
 ## Setup for Cockpit
 
-For details on how to set up, please see [here](docs/InitialSetupOfGoogleSheet.md).
+For details on how to set up, please see [here](docs/IntegrationWithCockpit.md).
 
 
 ## Roles of Each Class

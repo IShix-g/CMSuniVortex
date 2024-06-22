@@ -167,7 +167,7 @@ public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
 
 ## Cockpitの設定
 
-設定方法などの詳細は[こちら](InitialSetupOfGoogleSheet_jp.md)をごらんください。
+設定方法などの詳細は[こちら](IntegrationWithCockpit_jp.md)をごらんください。
 
 
 ## 各クラスの役割
