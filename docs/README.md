@@ -1,106 +1,100 @@
-![Logo](assets/logo.png)
+[日本語のRead me](docs/README_jp.md)
 
-CMSのデータを `ScriptableObject` に簡単にインポートできるプラグイン
+![Logo](docs/assets/logo.png)
 
-![Import](assets/import.png)
+A plugin for easily importing CMS data to `ScriptableObject`
 
-## このプラグインを使う理由
+![Import](docs/assets/import.png)
 
-このプラグインは **「簡単に入力でき、最高なパフォーマンスを発揮する」** というコンセプトを持っています。
+## Why use this plugin?
 
-### 入力の簡単さ
+This plugin is designed with the concept of **"Easy to input, and performs at its best"**.
 
-入力といえばCMS。CMSには **簡単にストレス無く入力できる** ノウハウが詰まっています。また、どこからでも更新できる気軽さもあります。
+### Ease of Input
 
-### パフォーマンスの良いデータ
+When it comes to input, CMS comes up. CMS is packed with know-how to **easily input without stress**. There is also the ease of being able to update from anywhere.
 
-`ScriptableObject`はUnityで扱うように最適化されたデータ形式です。パフォーマンスに優れています。
+### High-Performance Data
 
-しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`を繋ぎ合わせてくれるのがCMSuniVortex(シーエムエス・ユニ・ボルテックス)です。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
+`ScriptableObject` is a data format optimized for handling with Unity. No better performance can be achieved.
 
-## 対応するCMS
+However, these two may seem unrelated at first glance. But CMSuniVortex seamlessly connects CMS and `ScriptableObject`. It is not just a plugin, but a solution born out of pursuing efficiency and performance.
 
-- [Cockpit](IntegrationWithCockpit_jp.md)
-- [Google Sheets](IntegrationWithGoogleSheet_jp.md)
+## Supported CMS
 
-## 対応する参照方法
+- [Cockpit](docs/IntegrationWithCockpit.md)
+- [Google Sheets](docs/IntegrationWithGoogleSheet.md)
 
-出力したデータの参照方法を指定できます。
-
-- 直接参照
-- [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)で参照
+※ We want to support various CMS. We are looking for collaborators. For more details, please check [here](https://github.com/IShix-g/CMSuniVortex/issues/1).
 
 ## Unity Version
+
 Unity 2021.3.x higher
 
 ## Getting started
 
 ### Install via git URL
-「Window > Package Manager > Add package from git URL...」にUrlを追加してください。
+
+Add the URL to the Package Manager
 
 URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
-![Package Manager](assets/package_manager.png)
+![Package Manager](docs/assets/package_manager.png)
 
 ## Quick Start
 
-### CuvImporterの作成
+### Create CuvImporter
 
-Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」から`CuvImporter`を生成します。
+Right-click on the project and select `CMSuniVortex > create CuvImporter` to generate `CuvImporter`.
 
-![create](assets/create.png)
+![create](docs/assets/create.png)
 
-### コードの生成
+### Generation of Code
 
-生成した`CuvImporter`の「Script Generator」ボタンをクリック
+Click the `Script Generator` button of the created `CuvImporter`.
 
-![open generator](assets/open_generator.png)
+<img alt="select client" src="docs/assets/open_generator.png" width="600"/>
 
-必要情報を入力しコードを生成します。今回は、Cockpitのコードを生成します。
+Enter the required information and generate the code.
 
-<img alt="create classes" src="assets/create_classes.png" width="600"/>
+<img alt="select client" src="docs/assets/create_classes.png" width="600"/>
 
-|                 | explanation                   | e.g.                |
-|-----------------|-------------------------------|---------------------|
-| Full Class Name | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
-| Build Path      | コードを生成するディレクトリのパスを指定          | Assets/Models/      |
+|                 | explanation                         | e.g.                       |
+|-----------------|-------------------------------------|----------------------------|
+| Full Class Name | Specify the class name. You can also specify the namespace. | namespace.ClassName |
+| Build Path      | Specify the path of the directory where the code will be generated.  | Assets/Models/             |
 
 
-### CuvImporterに必要情報の入力
+### Enter required information in CuvImporter
 
-生成後、CuvImporterに戻り必要情報を入力します。Clientに先ほど生成したスクリプトを指定します。今回は、直接参照用の`CatDetailsCockpitCuvClient`を選択しました。[Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)を利用する場合は、ひとつ上の`AddressableClient`を選択します。
+After generation, return to CuvImporter and enter the required information. Specify the script you just generated for the Client.
 
-**出力されたClientの命名ルール :** 「コード生成時に指定したFull class name」 + 「CMS name」 + 「Output name」 + 「CuvClient」
+|            | explanation                              | e.g.           |
+|------------|------------------------------------------|----------------|
+| Build Path | Specify the output directory for the imported data.             | Assets/Models/ |
+| Languages  | Specify the language, even if it's not in use, you must select at least one. | English |
+| Client     | Specify the Client generated by the Script Generator. | Test.ClassNameCockpitCuvClient |
 
-|            | explanation                        | e.g.           |
-|------------|------------------------------------|----------------|
-| Build Path | データの出力先ディレクトリを指定            | Assets/Models/ |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。    | English|
-| Clint      | 直接参照またはAddressablesなど任意のClientを指定します。 | Test.ClassNameCockpitCuvClient|
-| Output      | Clientで出力したデータをどのように参照するかを決定します。 | Test.ClassNameCockpitCuvOutput|
+The naming rule for generating the client is: "Full class name specified at the time of generation" + "CMS name" + "CuvClient".
 
-<img alt="select client" src="assets/select_client.png" width="600"/>
+<img alt="select client" src="docs/assets/select_client.png" width="600"/>
 
-#### Cockpit Client
+### Starting the Import
 
-|            | explanation                        | e.g.           |
-|------------|------------------------------------|----------------|
-| Base Url | CockpitをインストールしたURL            | https://xxx.xxx.com/cockpit/ |
-| Api Key  | Cockpitの管理画面で取得するApi Key    | English|
-| Model Name      | Cockpitの管理画面で設定したモデル名 | Model |
+After entering, click import and you're done.
 
-### Cockpit CMSテスト
-実際にCockpit CMSを使ったテストが可能です。下記ご利用ください。
+<img alt="start import" src="docs/assets/start_import.png" width="600"/>
+
+### Cockpit CMS Test
+You can test using Cockpit CMS. Be sure to specify the Client as *CockpitCuvClient.
 
 |            | value                                        |
 |------------|----------------------------------------------|
-| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/)|
+| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/) |
 | Api Key    | API-a92fac21986ac045e143f07c27c60e09f19ae856 |
 | Model Name | Model                                        |
 
-#### ログイン情報
-
-閲覧権限ですが、実際にログインして管理画面を見る事ができます。
+#### Login Information
 
 |     | value                                                                  |
 |-----|------------------------------------------------------------------------|
@@ -108,84 +102,34 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 | ID  | guest                                                                  |
 | PW  | guest                                                                  |
 
-#### Cockpit テストサーバーの注意点
+#### Points to Note for the Test Server
 
-- 利用の際は節度をもった利用をお願いします。
-- 頻繁にアクセスしすぎない。
-- 連続したImportをしない。
-- 無料のレンタルサーバーを利用している為、広告が表示されますが私は一切関与していません。
-- 不適切なアクセスを発見次第、予告なく停止しますのでご了承ください。
+- Please use with moderation.
+- Do not access too often.
+- Do not perform continuous imports.
+- Advertisements are displayed because it uses a free rental server, for which I have no involvement.
+- Please note that inappropriate access will be stopped without notice.
 
-### インポートの開始
+## Role of Each Class
 
-入力後インポートをクリックすると指定したディレクトリにデータが生成されます。
+Please view from [Here](docs/RelationshipsBetweenClasses.md).
 
-<img alt="start import" src="assets/start_import.png" width="600"/>
+## Performance Test
 
-
-### Outputの指定
-
-インポートしたデータをどのように参照するかを決定します。今回は直接参照の`CatDetailsCockpitCuvOutput`を選択します。
-
-<img alt="start import" src="assets/select_output.png" width="600"/>
-
-選択後、Outputをクリックし生成します。
-
-<img alt="start import" src="assets/start_output.png" width="600"/>
-
-### データの取得とテキストの表示
-
-生成した`CatDetailsCockpitCuvReference`から`GetList()`を使用してデータを取得できます。用意している`CuvComponent`を使用すると下記のように取得できます。
-
-<img alt="start import" src="assets/test_text.png" width="600"/>
-
-Referenceのインスタンスと、インスペクタで設定したKeyが渡りますので`TryGetByKey`を使って取得します。
-
-```csharp
-using UnityEngine;
-using UnityEngine.UI;
-using CMSuniVortex.Compornents;
-
-public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
-{
-    [SerializeField] Text _text;
-    
-    protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
-    {
-        if (reference.GetList().TryGetByKey(key, out var model))
-        {
-            _text.text = model.Text;
-        }
-    }
-}
-```
-
-※ Addressablesは`CuvAsyncComponent`を使います。
-
-## Cockpitの設定
-
-設定方法などの詳細は[こちら](InitialSetupOfGoogleSheet_jp.md)をごらんください。
-
-
-## 各クラスの役割
-
-プラグインを構成する代表的なクラスは[こちら](RelationshipsBetweenClasses_jp.md)より確認できます。
-
-## なぜこのプラグインを作ろうと思ったのか？
-
-私が、このプラグインを開発するきっかけになったのがパフォーマンステストです。 データをダウンロードし、表示するには大まかに以下の3つの方法があります。
+The performance test was the trigger for me to develop this plugin. There are roughly three ways to download and display data.
 
 ### 1. Addressable
 
-#### メリット
+#### Merits
 
-`ScriptableObject`や`Sprite`を使う事で、デシリアライズやデータ変換が必要無くパフォーマンスが良い
+With `ScriptableObject` and `Sprite`, you can get good performance without needing to deserialize or convert data.
 
-#### 懸念点
+#### Concerns
 
-Unityで書き出す必要があるのでプログラマーが必要。またはそれなりの変換システムを構築する必要がある
+A programmer is needed because it needs to be outputted in Unity. Alternatively, a substantial conversion system needs to be built.
 
-<details><summary>テストコード</summary>
+<details><summary>Test Code</summary>
+
 
 ```csharp
 
@@ -267,22 +211,24 @@ public sealed class AddressableData : ScriptableObject
     public string GetText() => "ID:" + ID + "\nTitle:" + Title + "\nContents:" + Contents;
 }
 ```
+
 </details>
+
 
 ### 2. WebView
 
-[Cross Platform Essential Kit](https://assetstore.unity.com/packages/tools/integration/cross-platform-native-plugins-essential-kit-mobile-ios-android-140111)のWebViewを使用
+Webview from [Cross Platform Essential Kit](https://assetstore.unity.com/packages/tools/integration/cross-platform-native-plugins-essential-kit-mobile-ios-android-140111)
 
-#### メリット
+#### Merits
 
-- WEBページとアプリで兼用できる
-- リリース後もレイアウトが自由
+- Can be used for both WEB pages and applications.
+- The layout can be free even after release.
 
-#### 懸念点
+#### Concerns
 
-- メモリ使用量が心配
+- Concerned about the amount of memory used.
 
-<details><summary>テストコード</summary>
+<details><summary>Test Code</summary>
 
 ```csharp
 
@@ -410,23 +356,23 @@ $model->Contents = '猫は、古代のミアキスと言う豹のような大き
 $model->Image = 'https://xxx.xxxx.com/webview/cat.jpg';
 echo json_encode( $model );
 ```
+
 </details>
 
-### [テスト3] Json
 
-[UnityWebRequest](https://docs.unity3d.com/ja/2021.3/ScriptReference/Networking.UnityWebRequest.html)でサーバーから取得したJsonを変換して表示。
+### 3. Json
 
-#### メリット
-- WEBとアプリで兼用できる
-- 初期化以外はWebViewより軽そう
+Display by converting JSON obtained from the server using [UnityWebRequest](https://docs.unity3d.com/ja/2021.3/ScriptReference/Networking.UnityWebRequest.html).
 
-#### 懸念点
-- jsonのデシリアライズやSpriteの生成が必要なので初期化コストが心配
-- データをキャッシュしないのでキャッシュする機構を自身で用意する必要がある
+#### Merits
+- Can be used for WEB and apps.
+- Apart from initialization, it seems lighter than WebView.
 
-<details><summary>テストコード</summary>
+#### Concerns
+- There is a concern about the initialization cost if there are many images (only one image in the test).
+- If you don't cache data, you need to provide your own caching mechanism.
 
-※データを取得するAPIはWebViewで使ったものを利用しているので省略
+<details><summary>Test Code</summary>
 
 ```csharp
 
@@ -542,17 +488,18 @@ public sealed class JsonTest : MonoBehaviour
     }
 }
 ```
+
 </details>
 
-### 計測結果からわかった事
+### What We Learned From the Test Results
 
-このテストから下記の事がわかりました。
+From these tests, we learned that:
 
-- Addressableが一番パフォーマンスが良い。
-- WebViewはAndroidで無視できないメモリを使う。※すべてのメモリを解放できない可能性あり
-- Jsonは画像が多いと無視できない初期化コストが発生する。(テストでは画像1枚のみ)
+- Addressable performs the best.
+- WebView uses significant memory on Android. It might not be possible to fully release all memory.
+- Json has a significant initialization cost when there are many images.
 
-この結果からパフォーマンスの良いAddressableを使いつつ、デメリットを解消する為に気軽に更新できるCMSから入力できるようにしたいと思いこのプラグインを開発しました。
+From these results, I wanted to use Addressable, which has the best performance, but also allows for easy updates from the CMS, so I developed this plugin.
 
 #### iOS : iPhone SE2 17.5.1
 
@@ -569,3 +516,7 @@ public sealed class JsonTest : MonoBehaviour
 | Addressables | 3.1KB | 0.24ms | 9MB |
 | WebView | 31.8KB | 0.56ms | 70MB |
 | Json | 4.3KB | 1.18ms | 9.7MB |
+
+## Plans for the Future
+
+Currently, the system only supports up to the generation of `ScriptableObject`. However, we are planning to enhance it to handle the locally generated objects and to build Addressable to send to a server. We would also like to increase support for CMS. If you are interested, we appreciate your cooperation.

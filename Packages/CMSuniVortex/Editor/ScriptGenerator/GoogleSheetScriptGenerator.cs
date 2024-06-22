@@ -76,6 +76,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
@@ -108,6 +109,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
@@ -125,6 +127,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
@@ -157,6 +160,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}

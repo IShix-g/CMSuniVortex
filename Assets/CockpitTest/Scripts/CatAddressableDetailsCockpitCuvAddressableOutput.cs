@@ -1,4 +1,5 @@
 
+using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
 namespace Tests

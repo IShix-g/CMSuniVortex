@@ -1,100 +1,108 @@
-[日本語のRead me](docs/README_jp.md)
+[日本語のRead me](docs/README.md)
 
 ![Logo](docs/assets/logo.png)
 
-A plugin for easily importing CMS data to `ScriptableObject`
+A plugin that allows CMS data to be easily imported into `ScriptableObject`.
 
 ![Import](docs/assets/import.png)
 
 ## Why use this plugin?
 
-This plugin is designed with the concept of **"Easy to input, and performs at its best"**.
+This plugin is built on the concept of being **"Easy to input and delivering top-notch performance"**.
 
 ### Ease of Input
 
-When it comes to input, CMS comes up. CMS is packed with know-how to **easily input without stress**. There is also the ease of being able to update from anywhere.
+When it comes to input, we think of CMS. CMS is filled with knowledge on **how to input data easily and without stress**. Also, it gives the ease of being able to be updated from anywhere.
 
-### High-Performance Data
+### High-performance Data
 
-`ScriptableObject` is a data format optimized for handling with Unity. No better performance can be achieved.
+`ScriptableObject` is a data format that is optimized for handling in Unity. It has excellent performance.
 
-However, these two may seem unrelated at first glance. But CMSuniVortex seamlessly connects CMS and `ScriptableObject`. It is not just a plugin, but a solution born out of pursuing efficiency and performance.
+However, these two may seem unrelated at first glance. But it is CMSuniVortex that connects CMS and `ScriptableObject`. This is not a mere plugin, but a solution born out of pursuing efficiency and performance.
 
 ## Supported CMS
 
 - [Cockpit](docs/IntegrationWithCockpit.md)
 - [Google Sheets](docs/IntegrationWithGoogleSheet.md)
 
-※ We want to support various CMS. We are looking for collaborators. For more details, please check [here](https://github.com/IShix-g/CMSuniVortex/issues/1).
+## Methods of Reference Supported
+
+You can specify how to refer to the data you have output.
+
+- Direct reference
+- Referenced via [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)
 
 ## Unity Version
-
-Unity 2021.3.x higher
+Unity 2021.3.x and higher
 
 ## Getting started
 
 ### Install via git URL
+Please add the URL to "Window > Package Manager > Add package from git URL...".
 
-Add the URL to the Package Manager
-
-URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
+URL: `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
 ![Package Manager](docs/assets/package_manager.png)
 
 ## Quick Start
 
-### Create CuvImporter
+### Creating a CuvImporter
 
-Right-click on the project and select `CMSuniVortex > create CuvImporter` to generate `CuvImporter`.
+Right click on the Project and select "Create > CMSuniVortex > create CuvImporter" to create a `CuvImporter`.
 
 ![create](docs/assets/create.png)
 
-### Generation of Code
+### Generating the code
 
-Click the `Script Generator` button of the created `CuvImporter`.
+Click the "Script Generator" button on the generated `CuvImporter`.
 
 ![open generator](docs/assets/open_generator.png)
 
-Enter the required information and generate the code.
+Enter the necessary information to generate the code. In this case, we generate the code for Cockpit.
 
-<img alt="create classes" src="docs/assets/create_classes.png" width="600"/>
+<img alt="create classes" src="assets/create_classes.png" width="600"/>
 
-|                 | explanation                         | e.g.                       |
-|-----------------|-------------------------------------|----------------------------|
-| Full Class Name | Specify the class name. You can also specify the namespace. | namespace.ClassName |
-| Build Path      | Specify the path of the directory where the code will be generated.  | Assets/Models/             |
+|                 | explanation                               | e.g.                |
+|-----------------|-------------------------------------------|---------------------|
+| Full Class Name | Specify the class name. Namespace can also be specified. | namespace.ClassName |
+| Build Path      | Specify the path of the directory to generate the code.      | Assets/Models/      |
 
 
-### Enter required information in CuvImporter
+### Entering Necessary Information in CuvImporter
 
-After generation, return to CuvImporter and enter the required information. Specify the script you just generated for the Client.
+After generating, return to CuvImporter and enter the necessary information. Specify the script generated earlier as the client. This time, we selected `CatDetailsCockpitCuvClient` for direct reference. If using [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html), select the `AddressableClient` above it.
 
-|            | explanation                              | e.g.           |
-|------------|------------------------------------------|----------------|
-| Build Path | Specify the output directory for the imported data.             | Assets/Models/ |
-| Languages  | Specify the language, even if it's not in use, you must select at least one. | English |
-| Client     | Specify the Client generated by the Script Generator. | Test.ClassNameCockpitCuvClient |
+**Naming rule for output Client:** "Full class name specified when generating code" + "CMS name" + "Output name" + "CuvClient"
 
-The naming rule for generating the client is: "Full class name specified at the time of generation" + "CMS name" + "CuvClient".
+|            | explanation                                            | e.g.           |
+|------------|--------------------------------------------------------|----------------|
+| Build Path | Specify the directory where the data will be output.           | Assets/Models/ |
+| Languages  | Specify the language, even if not used, at least one needs to be selected.    | English|
+| Client     | Specify any client for direct reference or Addressables, etc.. | Test.ClassNameCockpitCuvClient|
+| Output     | Decide how to refer to the data output by the client. | Test.ClassNameCockpitCuvOutput|
 
-<img alt="select client" src="docs/assets/select_client.png" width="600"/>
+<img alt="select client" src="assets/select_client.png" width="600"/>
 
-### Starting the Import
+#### Cockpit Client
 
-After entering, click import and you're done.
-
-<img alt="start import" src="docs/assets/start_import.png" width="600"/>
+|            | explanation                                            | e.g.           |
+|------------|--------------------------------------------------------|----------------|
+| Base Url | URL where Cockpit is installed           | https://xxx.xxx.com/cockpit/ |
+| Api Key  | Api Key obtainable from the Cockpit admin page    | English|
+| Model Name      | Model name set on Cockpit's admin page | Model |
 
 ### Cockpit CMS Test
-You can test using Cockpit CMS. Be sure to specify the Client as *CockpitCuvClient.
+Actual tests using Cockpit CMS are possible. Please use the following.
 
 |            | value                                        |
 |------------|----------------------------------------------|
-| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/) |
+| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/)|
 | Api Key    | API-a92fac21986ac045e143f07c27c60e09f19ae856 |
 | Model Name | Model                                        |
 
 #### Login Information
+
+Although the permission is read-only, you can actually log in and view the admin page.
 
 |     | value                                                                  |
 |-----|------------------------------------------------------------------------|
@@ -102,31 +110,82 @@ You can test using Cockpit CMS. Be sure to specify the Client as *CockpitCuvClie
 | ID  | guest                                                                  |
 | PW  | guest                                                                  |
 
-#### Points to Note for the Test Server
+#### Notes for Cockpit Test Server
 
-- Please use with moderation.
-- Do not access too often.
-- Do not perform continuous imports.
-- Advertisements are displayed because it uses a free rental server, for which I have no involvement.
-- Please note that inappropriate access will be stopped without notice.
+- Please use in moderation.
+- Do not access too frequently.
+- Do not perform consecutive imports.
+- Although advertisements are displayed because I use a free rental server, I am not involved at all.
+- Please note that we may stop without notice if we find inappropriate access.
 
-## Role of Each Class
+### Starting the Import
 
-Please view from [Here](docs/RelationshipsBetweenClasses.md).
+After input, click Import, and the data is generated in the specified directory.
 
-## Performance Test
+<img alt="start import" src="assets/start_import.png" width="600"/>
 
-The performance test was the trigger for me to develop this plugin. There are roughly three ways to download and display data.
+
+### Specifying the Output
+
+Decide how to refer to the imported data. This time, we select `CatDetailsCockpitCuvOutput` for direct reference.
+
+<img alt="start import" src="assets/select_output.png" width="600"/>
+
+After selection, click on Output to generate it.
+
+<img alt="start import" src="assets/start_output.png" width="600"/>
+
+### Retrieval and Display of Data
+
+Data can be retrieved using `GetList()` from the generated `CatDetailsCockpitCuvReference`. If you use the prepared `CuvComponent`, you can retrieve it as follows.
+
+<img alt="start import" src="assets/test_text.png" width="600"/>
+
+The instance of Reference and the Key set on the inspector are passed, so you use `TryGetByKey` to retrieve it.
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex.Compornents;
+
+public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
+{
+    [SerializeField] Text _text;
+    
+    protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
+    {
+        if (reference.GetList().TryGetByKey(key, out var model))
+        {
+            _text.text = model.Text;
+        }
+    }
+}
+```
+
+※ `CuvAsyncComponent` is used for Addressables.
+
+## Setup for Cockpit
+
+For details on how to set up, please see [here](docs/InitialSetupOfGoogleSheet.md).
+
+
+## Roles of Each Class
+
+You can check representative classes that constitute the plugin [here](docs/RelationshipsBetweenClasses.md).
+
+## Why Do I Want to Make This Plugin?
+
+What prompted me to develop this plugin was performance testing. There are roughly three methods to download data and display it.
 
 ### 1. Addressable
 
-#### Merits
+#### Advantages
 
-With `ScriptableObject` and `Sprite`, you can get good performance without needing to deserialize or convert data.
+Good performance with no need for deserialization or data conversion by using `ScriptableObject` or `Sprite`
 
 #### Concerns
 
-A programmer is needed because it needs to be outputted in Unity. Alternatively, a substantial conversion system needs to be built.
+Since it needs to be exported by Unity, a programmer is required. Or a significant conversion system needs to be established.
 
 <details><summary>Test Code</summary>
 

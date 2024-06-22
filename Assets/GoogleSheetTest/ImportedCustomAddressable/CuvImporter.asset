@@ -27,7 +27,7 @@ MonoBehaviour:
     - rid: 5308239191345725443
       type: {class: MetaAddressableCustomGoogleSheetCuvAddressableClient, ns: Test, asm: Assembly-CSharp}
       data:
-        _sheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww
+        _sheetUrl: https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0
         _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
         _addressableSettings:
           AddressableType: 0

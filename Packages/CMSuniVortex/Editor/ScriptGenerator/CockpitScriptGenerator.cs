@@ -88,7 +88,8 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                     $@"
-{usings}using CMSuniVortex.Cockpit;
+using CMSuniVortex;
+using CMSuniVortex.Cockpit;
 using Newtonsoft.Json;
 
 namespace {namespaceName}
@@ -125,6 +126,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
@@ -180,6 +182,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
