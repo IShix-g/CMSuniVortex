@@ -10,7 +10,7 @@ namespace CMSuniVortex.Cockpit
 {
     public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc where T : CockpitModel where TS : CockpitCuvModelList<T>
     {
-        [SerializeField] string _baseUrl;
+        [SerializeField, CuvOpenUrl] string _baseUrl;
         [SerializeField] string _apiKey;
         [SerializeField] string _modelName;
         

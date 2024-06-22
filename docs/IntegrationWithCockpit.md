@@ -1,36 +1,42 @@
 
 [日本語](IntegrationWithCockpit_jp.md)
 
-## Required Environment for Cockpit
+## Essential Environment for Cockpit
 
-- A server that can use PHP
+- Server where PHP can be used
 - SQLite or MongoDB
 
-Please check [Requirements](https://getcockpit.com/documentation/core/quickstart/requirements) for more details.
+For more details, please check [Requirements](https://getcockpit.com/documentation/core/quickstart/requirements).
 
 If you want to use it locally, you can install it on [Xampp](https://www.apachefriends.org/).
 
 ## Cockpit Installation
 
-Download the free version from [Cockpit](https://getcockpit.com/start-journey) and install it. Detailed installation will not be explained here.
+Download and install the free version from [Cockpit](https://getcockpit.com/start-journey). Details of the installation will be omitted.
 
-## Configuring Contents
+## Content Settings
 
-Set up the Collection. The Name is input into `CuvImporter's` `Client > Model Name`.
+Set up the Collection. The Name you set will be used later on the Unity side.
 
 ![](assets/cockpit/collection.png)
 
-### Adding a Field
+### Add Field
 
 Click "ADD FIELD".
 
 ![](assets/cockpit/addField.png)
 
+### Values to Always Set
+
+Please always set the `Key` of Text. Specify `Key` or `key` for Name.
+
+![](assets/cockpit/need_key.png)
+
 ### Text
 
 ![](assets/cockpit/create_text.png)
 
-After addition, you can retrieve the Name as ID in Unity as follows:
+The added items can be retrieved on Unity with the ID as the Name.
 
 ```csharp
 [Serializable]
@@ -47,11 +53,11 @@ public sealed class TestCockpitModel : CockpitModel
 
 ### Select
 
-You can add constants from Options to Select or Tag.
+You can add constants from Options in Select and Tag.
 
 ![](assets/cockpit/select.png)
 
-It's also possible to convert to `enum`.
+It's easy to use when converted to `enum`.
 
 ```csharp
 [Serializable]
@@ -68,9 +74,9 @@ public sealed class TestCockpitModel : CockpitModel
 }
 ```
 
-### Listing
+### List
 
-In addition to the following, there are multiple retrieval methods like GetStrings(key).
+In addition to the following, there are multiple acquisition methods such as `GetStrings(key)`.
 
 ```csharp
 using System;
@@ -110,70 +116,88 @@ namespace CMSuniVortex.Tests
 }
 ```
 
-### Entering Items
+If you've selected the Addressable-compatible CuvClient, you can use AssetReference.
 
-After saving the Field, we will test the retrieval, so enter random multiple Items.
+```csharp
+using System;
+using CMSuniVortex.Cockpit;
+using UnityEngine.AddressableAssets;
+
+[Serializable]
+public sealed class CatAddressableDetails : CockpitModel
+{
+    public AssetReferenceSprite Sprite;
+    public AssetReferenceTexture2D Texture;
+
+    protected override void OnDeserialize()
+    {
+        LoadSpriteReference("image", asset => Sprite = asset);
+        LoadTextureReference("image2", asset => Texture = asset);
+    }
+}
+```
+
+### Input of Item
+
+After saving the Field, enter multiple Items arbitrarily as we will conduct a retrieval test.
 
 ![](assets/cockpit/edit_item.png)
 
 ### Roles
 
-After entering the Item, configure the Roles so they can be retrieved from the outside. Click the setting mark on the bottom left.
+After inputting the Item, set the Roles so that it can be retrieved from the outside.
+Click the settings mark at the bottom left
 
 ![](assets/cockpit/items.png)
 
-Click on ROLES & PERMISSIONS
+Click ROLES & PERMISSIONS
 
 ![](assets/cockpit/roles.png)
 
-From "ADD ROLE" at the bottom right, select only Read of the CONTENT's Items created earlier and create with "CREATE ROLE".
+From "ADD ROLE" at the bottom right, select only Read of the CONTENT's Items created earlier and create it with "CREATE ROLE".
 
 ![](assets/cockpit/add_role.png)
 
-Click on Api in the left menu and specify the Role just created. The selection place is hard to see, please click on the position of the dropdown in the image.
+Click Api in the left menu and specify the Role you created earlier. The place to select is hard to understand. Please click the position where the dropdown is displayed in the image.
 
 ![](assets/cockpit/api.png)
 
-After setting, it will look like below. Click on "REST" to confirm if it works properly. Enter the Api key in CuvImporter's Client > Api Key.
+After setting, it will look like the following. Click "REST" to check if it works correctly.
 
 ![](assets/cockpit/api_setted.png)
 
-Perform GET /content/items/{model} test. Here, check if it can be retrieved properly. If something strange happens, please remember to first run this test. It will certainly be useful.
+Perform a GET /content/items/{model} test. Check here to make sure you can retrieve it without problems. If something is wrong, remember to first perform this test.
 
 ![](assets/cockpit/api_test.png)
 
 ### Import
 
-Go up to Unity, enter the necessary information of CuvImporter and click on the Import button. If it can be retrieved, it is done.
+Move to Unity and enter the required information of `CuvImporter`, then click the Import button. If it can be retrieved, it is completed. For detail settings on the Unity side, please see [Readme](../README.md).
 
-|            | Explanation                                   | e.g.                               |
-|------------|-----------------------------------------------|------------------------------------|
-| Build Path | The path to generate assets                   | Assets/Generated/                  |
-| Languages  | Specify languages, at least one is required even if not used | English                            |
-| Base Url   | URL of the Cockpit                            | https://devx.myonick.biz/cockpit/  |
-| Api Key    | Api Key set in [Roles](#Roles)                | API-a92fac21986ac045e143f07c27c60e09f19ae |
-| Model Name | Name set in [Cockpit installation](#cockpit-installation) | Model  |
+|            | Explanation                                 | e.g.                          |
+|------------|---------------------------------------------|-------------------------------|
+| Build Path | Path to generate assets                     | Assets/Generated/ |
+| Languages  | Specify a language, even if you don't use it, you must select at least one.     | English |
+| Base Url   | URL of Cockpit                              | https://devx.myonick.biz/cockpit/ |
+| Api Key    | Api Key set in [Roles](#Roles)              | API-a92fac21986ac045e143f07c27c60e09f19ae | 
+| Model Name | Name set in [Cockpit Installation](#cockpit-installation) | Model |
 
 <img src="assets/cockpit/cuv_importer.png" width="600"/>
 
-## Language Setting
+## Setting Up Languages
 
-Select "LOCALES" from the setting mark on the bottom left.
+Select "LOCALES" from the settings mark at the bottom left.
 
 ![](assets/cockpit/select_locales.png)
 
-As language, configure the value of [SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html).
+Set the language to the value of [SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html). English should be set as the default language, so set other languages.
 
 ![](assets/cockpit/create_locale.png)
 
-Please turn on the Localize field of the Item you want to localize.
+Turn on the Localize field of the Item you want to localize.
 
 ![](assets/cockpit/select_localize_field.png)
 
-Then, "TRANSLATION" will be displayed on the Item editing screen.
+Then "TRANSLATION" will be displayed in the Item editing screen.
 
 ![](assets/cockpit/edit_item2.png)
-
-## Unity Setup
-
-Please view the [Readme](../README.md).

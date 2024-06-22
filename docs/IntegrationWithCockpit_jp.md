@@ -9,11 +9,11 @@
 
 ## Cockpitのインストール
 
-[Cockpit](https://getcockpit.com/start-journey)からfreeの方をダウンロードしインストールします。インストールの詳細はここでは説明しません。
+[Cockpit](https://getcockpit.com/start-journey)からfreeの方をダウンロードしインストールします。インストールの詳細は省略します。
 
 ## コンテンツの設定
 
-Collectionを設定します。Nameは`CuvImporter`の`Client > Model Name`に入力します。
+Collectionを設定します。設定したNameは後ほどUnity側で使います。
 
 ![](assets/cockpit/collection.png)
 
@@ -22,6 +22,12 @@ Collectionを設定します。Nameは`CuvImporter`の`Client > Model Name`に�
 「ADD FIELD」をクリックします。
 
 ![](assets/cockpit/addField.png)
+
+### 必ず設定する値
+
+Textの`Key`は必ず設定してください。Nameに`Key`または`key`を指定してください。
+
+![](assets/cockpit/need_key.png)
 
 ### Text
 
@@ -48,7 +54,7 @@ SelectやTagはOptionsから定数を追加できます。
 
 ![](assets/cockpit/select.png)
 
-`enum`に変換する事も可能です。
+`enum`に変換すると使いやすいです。
 
 ```csharp
 [Serializable]
@@ -107,6 +113,27 @@ namespace CMSuniVortex.Tests
 }
 ```
 
+Addressable対応の`CuvClient`を選択した場合、`AssetReference`を使えます。
+
+```csharp
+using System;
+using CMSuniVortex.Cockpit;
+using UnityEngine.AddressableAssets;
+
+[Serializable]
+public sealed class CatAddressableDetails : CockpitModel
+{
+    public AssetReferenceSprite Sprite;
+    public AssetReferenceTexture2D Texture;
+
+    protected override void OnDeserialize()
+    {
+        LoadSpriteReference("image", asset => Sprite = asset);
+        LoadTextureReference("image2", asset => Texture = asset);
+    }
+}
+```
+
 ### Itemの入力
 
 Fieldを保存後、取得テストをするので適当に複数のItemを入力します。
@@ -115,7 +142,7 @@ Fieldを保存後、取得テストをするので適当に複数のItemを入�
 
 ### Roles
 
-Itemを入力したあとは、外部から取得できるようにRolesの設定をします。
+Itemを入力後、外部から取得できるようにRolesを設定します。
 左下の設定マークをクリック
 
 ![](assets/cockpit/items.png)
@@ -128,23 +155,21 @@ ROLES & PERMISSIONSをクリック
 
 ![](assets/cockpit/add_role.png)
 
-左メニューのApiをクリックして先ほど作成したRoleを指定します。選択する場所が分かりづらいです。画像のドロップダウンの位置をクリックしてください。
+左メニューのApiをクリックして先ほど作成したRoleを指定します。選択する箇所が分かりづらいです。画像のドロップダウンが表示されている位置をクリックしてください。
 
 ![](assets/cockpit/api.png)
 
 設定後、下記のようになります。「REST」をクリックして正常に動作するか確認します。
-Api keyは`CuvImporter`の`Client > Api Key`に入力します。
 
 ![](assets/cockpit/api_setted.png)
 
-GET /content/items/{model}テストをします。ここで問題なく取得できるかを確認します。何か動作がおかしい場合は、まずこちらのテストを実行するという事を覚えておいてください。きっと役に立ちます。
+GET /content/items/{model}テストをします。ここで問題なく取得できるかを確認します。何か動作がおかしい場合は、まずこちらのテストを実行するという事を覚えておいてください。
 
 ![](assets/cockpit/api_test.png)
 
 ### インポート
 
-Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンをクリックしてください。
-取得できれば完了です。
+Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンをクリックしてください。取得できれば完了です。Unity側の設定詳細は[Readme](README_jp.md)をごらんください。
 
 |            | explanation                                 | e.g.                          |
 |------------|---------------------------------------------|-------------------------------|
@@ -162,7 +187,7 @@ Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンを�
 
 ![](assets/cockpit/select_locales.png)
 
-言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。
+言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。英語はDefaultにした方が良いのでそれ以外の言語を設定します。
 
 ![](assets/cockpit/create_locale.png)
 
@@ -173,7 +198,3 @@ Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンを�
 そうするとItemの編集画面に「TRANSLATION」が表示されるようになります。
 
 ![](assets/cockpit/edit_item2.png)
-
-## Unityの設定
-
-[Readme](README_jp.md)をごらんください。

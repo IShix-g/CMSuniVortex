@@ -15,6 +15,8 @@
 
 ## Simple
 
+スプレッドシートの構成を変更できませんが、スクリプトの生成無しにすぐ使う事ができます。
+
 ### スプレッドシートの生成
 
 - [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/)を開く
@@ -37,17 +39,53 @@ Clientに`CMSuniVortex.GoogleSheet.GoogleSheetCuvClient`を選択
 |------------|---------------------------------|-----------------------|
 | Build Path | アセットを生成するパス | Assets/Generated/  |
 | Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English |
-| Sheet ID   | スプレッドシートのURLに含まれるID  | 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw|
+| Sheet Url   | スプレッドシートのURLを指定  | https://docs.google.com/spreadsheets/d/sheetID/|
 | Sheet Names   | スプレッドシートの下段タブ名 | Animals, SeaCreatures |
 | Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
 
 ![](assets/googleSheet/simple_sheet.png)
 
-入力後、「Import」をクリックしてください。エラーが出ず`Build Path`に出力されていれば完了です。
+### Import
+
+入力後、「Import」をクリックしてください。エラー無く出力されていれば完了です。
 
 <img src="assets/googleSheet/simple2.png" width="600"/>
 
+### Output
+
+どうやって参照するかを指定します。今回は直接参照の`GoogleSheetCuvOutput`を指定しました。
+
+<img src="assets/googleSheet/simple3.png" width="600"/>
+
+### 取得と表示
+
+一番簡単な方法は`CuvComponent`を使う事です。下記のコードをTestText.csとして保存しAssets配下に配置、`Text`にアタッチして必要情報を入力してください。
+
+```csharp
+using CMSuniVortex.Compornents;
+using CMSuniVortex.GoogleSheet;
+using UnityEngine;
+using UnityEngine.UI;
+
+public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
+{
+    [SerializeField] Text _text;
+        
+    protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
+    {
+        if (reference.GetList().TryGetByKey(key, out var model))
+        {
+            _text.text = model.Text;
+        }
+    }
+}
+```
+
+<img src="assets/googleSheet/simple4.png" width="600"/>
+
 ## Custom
+
+スプレッドシートの1番目のKey以外は自由に変更できます。スクリプトの生成が必要です。
 
 ### スプレッドシートの生成
 
@@ -78,7 +116,7 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 ### CuvImporterに必要情報の入力
 
-Clientに生成したClientを選択
+生成したClientを選択します。
 
 <img src="assets/googleSheet/select_client.png" width="600"/>
 
@@ -86,33 +124,43 @@ Clientに生成したClientを選択
 
 |            | explanation                     | e.g.                                             |
 |------------|---------------------------------|--------------------------------------------------|
-| Build Path | アセットを生成するパス                     | Assets/Generated/                                |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English                                          |
-| Sheet ID   | スプレッドシートのURLに含まれるID  | 19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw     |
+| Build Path | アセットを生成するパス                     | Assets/Generated/ |
+| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English |
+| Sheet Url   | スプレッドシートのURLを指定  | https://docs.google.com/spreadsheets/d/sheetID/|
 | Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
 
 ![](assets/googleSheet/custom_sheet.png)
 
-### インポート
+### Import
 
-インポートボタンをクリックしてインポートします。
-インポート後、エラーなく`Build Path`に出力されていれば成功です。
+「Import」ボタンをクリックしてインポートします。インポート後、エラー無く出力されていれば成功です。
 
 <img src="assets/googleSheet/import_custom.png" width="600"/>
 
-## カスタム方法
+### Output
 
-シートの'Text'は
+どうやって参照するかを指定します。今回は直接参照の`CustomGoogleSheetCuvOutput`を指定しました。「Output」をクリックして出力します。
+
+<img src="assets/googleSheet/output_custom.png" width="600"/>
+
+### 取得と表示
+
+Simpleを参照してください。
+
+### 必ずKeyを設定する
+シートは1番目の`Key`だけは必ず設定してください。またそのキーは重複しないように注意してください。
+
+## カスタム方法
 
 ![](assets/googleSheet/custom_sheet_get_text.png)
 
-生成したモデルの`public string Text;`と一致します。理由は`Text = GetString("Text");`の`"Text"`とスプレッドシートの1番目のセルの名称が一致するからです。
+シートの'Text'列はモデルの`Text = GetString("Text");`で取得できます。
 
 ```csharp
 public sealed class Meta : CustomGoogleSheetModel
 {
     public ElementType Element;
-    public string Text;
+    public string Text; // <--
     public bool Boolean;
     public int Number;
     public Sprite Image;
@@ -133,8 +181,29 @@ public sealed class Meta : CustomGoogleSheetModel
 }
 ```
 
+Addressable対応の`CuvClient`を選択した場合、`AssetReference`を使えます。
+
+```csharp
+using System;
+using CMSuniVortex.GoogleSheet;
+using UnityEngine.AddressableAssets;
+
+[Serializable]
+public sealed class MetaAddressable : CustomGoogleSheetModel
+{
+    public AssetReferenceSprite Sprite;
+    public AssetReferenceTexture2D Texture;
+
+    protected override void OnDeserialize()
+    {
+        LoadSpriteReference("Image", asset => Sprite = asset);
+        LoadTextureReference("Image2", asset => Texture = asset);
+    }
+}
+```
+
 ### 追加
-では、追加方法を説明します。まずEnglishのシートにFloatを追加してみたいと思います。
+追加方法を説明します。まずEnglishのシートにFloatを追加してみたいと思います。
 
 ![](assets/googleSheet/custom_sheet_add_flort.png)
 
