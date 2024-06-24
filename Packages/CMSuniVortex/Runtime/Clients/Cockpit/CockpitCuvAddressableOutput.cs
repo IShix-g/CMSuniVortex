@@ -2,9 +2,9 @@
 using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using CMSuniVortex.Addressable;
 
 #if UNITY_EDITOR
-using CMSuniVortex.Addressable;
 using UnityEditor;
 #endif
 

@@ -11,16 +11,19 @@ namespace CMSuniVortex.GoogleSheet
         
         protected override void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages)
         {
+#if UNITY_EDITOR
             base.OnStartLoad(assetPath, languages);
             
             foreach (var language in languages)
             {
                 AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language, typeof(T).Name), _addressableSettings.AddressableType, true);
             }
+#endif
         }
 
         protected override void OnLoad(int currentRound, SystemLanguage language, T obj)
         {
+#if UNITY_EDITOR
             base.OnLoad(currentRound, language, obj);
 
             if (obj.AddressableActions != default)
@@ -31,6 +34,7 @@ namespace CMSuniVortex.GoogleSheet
                     t.Completed(t.Guid);
                 }
             }
+#endif
         }
 
         AddressableCuvSettings IAddressableSettingsProvider.GetSetting() => _addressableSettings;

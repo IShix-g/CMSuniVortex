@@ -1,12 +1,12 @@
 #if ENABLE_ADDRESSABLES
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using CMSuniVortex.Addressable;
 
 #if UNITY_EDITOR
-using System.Collections.Generic;
-using CMSuniVortex.Addressable;
 using UnityEditor;
 #endif
 
