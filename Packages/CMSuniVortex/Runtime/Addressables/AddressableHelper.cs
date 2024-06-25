@@ -48,8 +48,8 @@ namespace CMSuniVortex.Addressable
                 group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
             }
             var schema = group.GetSchema<BundledAssetGroupSchema>();
-            var buildPathName = type == AddressableType.Local ? "Local.BuildPath" : "Remote.BuildPath";
-            var loadPathName = type == AddressableType.Local ? "Local.LoadPath" : "Remote.LoadPath";
+            var buildPathName = type == AddressableType.Local ? AddressableAssetSettings.kLocalBuildPath : AddressableAssetSettings.kRemoteBuildPath;
+            var loadPathName = type == AddressableType.Local ? AddressableAssetSettings.kLocalLoadPath : AddressableAssetSettings.kRemoteLoadPath;
             schema.BuildPath.SetVariableByName ( settings, buildPathName );
             schema.LoadPath.SetVariableByName( settings, loadPathName );
         }
@@ -119,9 +119,9 @@ namespace CMSuniVortex.Addressable
                 }
             }
             
-            var entriesAdded = new List<AddressableAssetEntry> { entry };
-            group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, false, true);
-            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, true, false);
+            var entries = new List<AddressableAssetEntry> { entry };
+            group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entries, false, true);
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entries, true, false);
         }
 
         public static void RemoveFrom(string groupName, Object obj)
