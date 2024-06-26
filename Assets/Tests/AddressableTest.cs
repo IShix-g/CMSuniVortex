@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement;
 
@@ -19,13 +20,27 @@ namespace CMSuniVortex.Tests
         [Test]
         public static void CreateGroupLocal()
         {
-            AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Local, true);
+            var setting = new AddressableCuvSettings
+            {
+                AddressableType = AddressableType.Local,
+                BuildCompressionMode = BundledAssetGroupSchema.BundleCompressionMode.LZMA,
+                BundlePackingMode = BundledAssetGroupSchema.BundlePackingMode.PackSeparately,
+                UpdateRestriction = AddressableCuvSettings.UpdateRestrictionType.CannotChangePostRelease
+            };
+            AddressableHelper.CreateGroupIfNotExists("Test", setting, true);
         }
         
         [Test]
         public static void CreateGroupRemote()
         {
-            AddressableHelper.CreateGroupIfNotExists("Test", AddressableType.Remote, true);
+            var setting = new AddressableCuvSettings
+            {
+                AddressableType = AddressableType.Remote,
+                BuildCompressionMode = BundledAssetGroupSchema.BundleCompressionMode.LZMA,
+                BundlePackingMode = BundledAssetGroupSchema.BundlePackingMode.PackSeparately,
+                UpdateRestriction = AddressableCuvSettings.UpdateRestrictionType.CannotChangePostRelease
+            };
+            AddressableHelper.CreateGroupIfNotExists("Test", setting, true);
         }
         
         [Test]

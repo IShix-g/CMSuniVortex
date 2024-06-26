@@ -7,7 +7,9 @@ namespace CMSuniVortex.GoogleSheet
 {
     public abstract class CustomGoogleSheetCuvAddressableClient<T, TS> : CustomGoogleSheetCuvClient<T, TS>, IAddressableSettingsProvider where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
-        [SerializeField] AddressableCuvSettings _addressableSettings;
+        [SerializeField] AddressableCuvSettings _addressableSettings = AddressableCuvSettings.Default;
+        
+        public void SetSettings(AddressableCuvSettings settings) => _addressableSettings = settings;
         
         protected override void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages)
         {
@@ -16,7 +18,7 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var language in languages)
             {
-                AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language, typeof(T).Name), _addressableSettings.AddressableType, true);
+                AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language, typeof(T).Name), _addressableSettings, true);
             }
 #endif
         }

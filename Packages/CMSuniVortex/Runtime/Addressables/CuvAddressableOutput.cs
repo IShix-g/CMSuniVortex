@@ -8,9 +8,11 @@ namespace CMSuniVortex.Addressable
         where TModelList : ICuvModelList<TModel>
         where TReference : ICuvAsyncReference
     {
-        [SerializeField] AddressableCuvSettings _addressableSettings;
+        [SerializeField] AddressableCuvSettings _addressableSettings = AddressableCuvSettings.Default;
         
-        public AddressableType AddressableType => _addressableSettings.AddressableType;
+        public AddressableCuvSettings AddressableSettings => _addressableSettings;
+        
+        public void SetSettings(AddressableCuvSettings settings) => _addressableSettings = settings;
         
         public abstract void Select(string assetPath);
         public abstract void Deselect();
