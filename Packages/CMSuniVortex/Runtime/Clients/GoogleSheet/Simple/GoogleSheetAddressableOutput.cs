@@ -37,7 +37,7 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var obj in objs)
             {
-                AddressableHelper.CreateGroupIfNotExists(GetGroupName(obj.Language), AddressableType, true);
+                AddressableHelper.CreateGroupIfNotExists(GetGroupName(obj.Language), AddressableSettings, true);
             }
             
             var current = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvAddressableReference), new[] {buildPath})

@@ -1,6 +1,6 @@
 {
     "name": "com.ishix.cmsunivortex",
-    "version": "0.8.4",
+    "version": "0.8.5",
     "displayName": "CMSuniVortex",
     "description": "Data can be retrieved from CMS and imported into ScriptableObject.",
     "unity": "2021.3",
@@ -12,7 +12,10 @@
         "Unity",
         "CMS",
         "Importer",
-        "Tool"
+        "Tool",
+        "Cockpit",
+        "Google",
+        "Sheets"
     ],
     "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.1",

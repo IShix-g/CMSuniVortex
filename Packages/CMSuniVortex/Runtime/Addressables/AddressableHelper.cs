@@ -33,7 +33,7 @@ namespace CMSuniVortex.Addressable
             return IsInstalled() && AddressableAssetSettingsDefaultObject.Settings.FindGroup(groupName) != default;
         }
         
-        public static void CreateGroupIfNotExists(string groupName, AddressableType type, bool isOverride)
+        public static void CreateGroupIfNotExists(string groupName, AddressableCuvSettings cuvSettings, bool isOverride)
         {
             var settings = GetSettings();
             var group = settings.FindGroup(groupName);
@@ -47,11 +47,24 @@ namespace CMSuniVortex.Addressable
             {
                 group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
             }
-            var schema = group.GetSchema<BundledAssetGroupSchema>();
-            var buildPathName = type == AddressableType.Local ? AddressableAssetSettings.kLocalBuildPath : AddressableAssetSettings.kRemoteBuildPath;
-            var loadPathName = type == AddressableType.Local ? AddressableAssetSettings.kLocalLoadPath : AddressableAssetSettings.kRemoteLoadPath;
-            schema.BuildPath.SetVariableByName ( settings, buildPathName );
-            schema.LoadPath.SetVariableByName( settings, loadPathName );
+
+            {
+                var schema = group.GetSchema<BundledAssetGroupSchema>();
+                var buildPathName = cuvSettings.AddressableType == AddressableType.Local
+                    ? AddressableAssetSettings.kLocalBuildPath
+                    : AddressableAssetSettings.kRemoteBuildPath;
+                var loadPathName = cuvSettings.AddressableType == AddressableType.Local
+                    ? AddressableAssetSettings.kLocalLoadPath
+                    : AddressableAssetSettings.kRemoteLoadPath;
+                schema.BuildPath.SetVariableByName ( settings, buildPathName );
+                schema.LoadPath.SetVariableByName( settings, loadPathName );
+                schema.BundleMode = cuvSettings.BundlePackingMode;
+                schema.Compression = cuvSettings.BuildCompressionMode;
+            }
+            {
+                var schema = group.GetSchema<ContentUpdateGroupSchema>();
+                schema.StaticContent = cuvSettings.UpdateRestriction == AddressableCuvSettings.UpdateRestrictionType.CannotChangePostRelease;
+            }
         }
         
         public static void DeleteGroup(string groupName)
