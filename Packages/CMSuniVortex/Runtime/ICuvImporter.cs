@@ -15,6 +15,8 @@ namespace CMSuniVortex
         public bool IsLoading { get; }
         bool CanIImport();
         void StartImport(Action onLoaded = default);
+        void SelectClient();
+        void DeselectClient();
         bool CanIOutput();
         void StartOutput();
         void SelectOutput();

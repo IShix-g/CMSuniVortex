@@ -17,24 +17,24 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 41ae2f7b49ec24a8b9954317e6d50d2d
   m_SerializeEntries:
-  - m_GUID: 23d66324816304ca69907d5487ad26af
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/cat_kuroashineko.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: f96c84b6c8664450c9cff61da7f6b904
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/monogatari_alice_cheshire_neko.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: c0d15a5b1db3b4c9f801d37931abb3a6
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/pet_darui_cat.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5140b01a03aad4cee8bdefa04fcf0385
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 23d66324816304ca69907d5487ad26af
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/cat_kuroashineko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e8cd38ad2b0484a26996a61ca0441a7b
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/cat_koubakozuwari_gray.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 5140b01a03aad4cee8bdefa04fcf0385
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/pet_cat_oddeye_black.png
+  - m_GUID: f96c84b6c8664450c9cff61da7f6b904
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/monogatari_alice_cheshire_neko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ae82f4270fe684907abfb182d0fa10e7

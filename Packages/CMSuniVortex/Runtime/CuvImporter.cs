@@ -109,6 +109,18 @@ namespace CMSuniVortex
             }
         }
         
+        void ICuvImporter.SelectClient()
+        {
+            IsLoading = true;
+            EditorApplication.delayCall += () =>
+            {
+                _client.Select(_buildPath);
+                IsLoading = false;
+            };
+        }
+
+        void ICuvImporter.DeselectClient() => _client?.Deselect();
+        
         void ICuvImporter.SelectOutput()
         {
             IsLoading = true;

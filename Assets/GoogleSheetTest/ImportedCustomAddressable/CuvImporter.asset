@@ -34,6 +34,7 @@ MonoBehaviour:
           CustomGroupName: 
           BuildCompressionMode: 1
           BundlePackingMode: 0
+          UpdateRestriction: 0
     - rid: 5308239191345725444
       type: {class: MetaAddressableCustomGoogleSheetCuvAddressableOutput, ns: Test, asm: Assembly-CSharp}
       data:
@@ -42,4 +43,5 @@ MonoBehaviour:
           CustomGroupName: 
           BuildCompressionMode: 1
           BundlePackingMode: 0
+          UpdateRestriction: 0
         _reference: {fileID: 11400000, guid: 9dd2ed8750cdb45ea99c631ac630e47f, type: 2}

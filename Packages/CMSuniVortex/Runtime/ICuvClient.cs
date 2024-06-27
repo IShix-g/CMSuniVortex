@@ -14,5 +14,7 @@ namespace CMSuniVortex
         bool CanILoad();
         IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded);
         int GetRepeatCount();
+        void Select(string assetPath);
+        void Deselect();
     }
 }
