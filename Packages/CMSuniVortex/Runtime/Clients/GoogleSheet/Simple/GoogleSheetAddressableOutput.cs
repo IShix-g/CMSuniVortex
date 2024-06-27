@@ -124,7 +124,7 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
         
-        string GetReferencePath(string buildPath, string sheetName) => Path.Combine(buildPath, nameof(GoogleSheetCuvAddressableReference) + "_" + sheetName + ".asset");
+        public static string GetReferencePath(string buildPath, string sheetName) => Path.Combine(buildPath, nameof(GoogleSheetCuvAddressableReference) + "_" + sheetName + ".asset");
     }
 }
 #endif

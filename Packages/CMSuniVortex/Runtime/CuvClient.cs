@@ -37,12 +37,11 @@ namespace CMSuniVortex
         public virtual int GetRepeatCount() => 1;
 
         protected virtual void OnStartLoad(string assetPath, IReadOnlyList<SystemLanguage> languages) {}
-
         protected virtual void OnLoad(int currentRound, SystemLanguage language, T obj) {}
-        
         protected virtual void OnLoad(int currentRound, string guid, TS obj) {}
-
         protected virtual void OnLoaded(string[] guids, TS[] objs) {}
+        protected virtual void OnSelect(string assetPath){}
+        protected virtual void OnDeselect(){}
 
         public IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded)
         {
@@ -106,5 +105,9 @@ namespace CMSuniVortex
         return default;
 #endif
         }
+
+        public void Select(string assetPath) => OnSelect(assetPath);
+
+        public void Deselect() => OnDeselect();
     }
 }

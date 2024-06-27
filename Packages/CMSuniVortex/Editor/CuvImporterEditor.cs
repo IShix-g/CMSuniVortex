@@ -39,7 +39,7 @@ namespace CMSuniVortex.Editor
         IAddressableSettingsProvider _outputAddressableSettingsProvider;
 #endif
 
-        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output"};
+        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
         
         void OnEnable()
         {
@@ -137,7 +137,7 @@ namespace CMSuniVortex.Editor
                     padding = new RectOffset(5, 5, 5, 5),
                     alignment = TextAnchor.MiddleCenter,
                 };
-                GUILayout.Label(_logo, style, GUILayout.MinWidth(50), GUILayout.MaxHeight(80));
+                GUILayout.Label(_logo, style, GUILayout.Height(70));
             }
             {
                 var style = new GUIStyle(GUI.skin.label)
@@ -235,6 +235,15 @@ namespace CMSuniVortex.Editor
                 SetClientAddressableSettingsProvider();
                 _outputTypePopup.ResetTypes(GetFilteredOutputTypes());
                 _outputTypePopup.ResetReference();
+
+                if (_clientProp.managedReferenceValue != default)
+                {
+                    _importer.SelectClient();
+                }
+                else
+                {
+                    _importer.DeselectClient();
+                }
             }
 
             GUILayout.Space(20);

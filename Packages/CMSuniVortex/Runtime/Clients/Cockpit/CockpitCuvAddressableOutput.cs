@@ -88,7 +88,7 @@ namespace CMSuniVortex.Cockpit
 #endif
         }
         
-        string GetReferencePath(string buildPath) => Path.Combine(buildPath, typeof(TReference).Name + ".asset");
+        public static string GetReferencePath(string buildPath) => Path.Combine(buildPath, typeof(TReference).Name + ".asset");
     }
 }
 #endif
