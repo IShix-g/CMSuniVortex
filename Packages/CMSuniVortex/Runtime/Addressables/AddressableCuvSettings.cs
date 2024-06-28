@@ -14,6 +14,7 @@ namespace CMSuniVortex.Addressable
         public AddressableType AddressableType;
         [Tooltip("Create a group with a new name. If not entered, the default name will be used.")]
         public string CustomGroupName;
+        public string[] Labels;
 #if UNITY_EDITOR
         public BundledAssetGroupSchema.BundleCompressionMode BuildCompressionMode;
         public BundledAssetGroupSchema.BundlePackingMode BundlePackingMode;
@@ -25,9 +26,30 @@ namespace CMSuniVortex.Addressable
             CannotChangePostRelease = 1
         }
 #endif
+
+        public void Set(AddressableCuvSettings settings)
+        {
+            AddressableType = settings.AddressableType;
+            CustomGroupName = settings.CustomGroupName;
+            if (settings.Labels != null)
+            {
+                Labels = new string[settings.Labels.Length];
+                settings.Labels.CopyTo(Labels, 0);
+            }
+            else
+            {
+                Labels = null;
+            }
+#if UNITY_EDITOR
+            BuildCompressionMode = settings.BuildCompressionMode;
+            BundlePackingMode = settings.BundlePackingMode;
+            UpdateRestriction = settings.UpdateRestriction;
+#endif
+        }
+        
         public string GetGroupName(SystemLanguage language, string className)
             => (string.IsNullOrEmpty(CustomGroupName) ? className : CustomGroupName) + "_" + language;
-
+        
         static readonly AddressableCuvSettings s_default = new AddressableCuvSettings
         {
             BuildCompressionMode = BundledAssetGroupSchema.BundleCompressionMode.LZ4,

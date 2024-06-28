@@ -20,11 +20,13 @@ MonoBehaviour:
   - m_GUID: df44704d0286344ab844f1374e24a6c5
     m_Address: Assets/GoogleSheetTest/ImportedAddressable/GoogleSheetCuvModelList_Animals_English.asset
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - TestLabel1
   - m_GUID: b47eb541f09ab4a1d9e3b2572981f2e2
     m_Address: Assets/GoogleSheetTest/ImportedAddressable/GoogleSheetCuvModelList_SeaCreatures_English.asset
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - TestLabel1
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:

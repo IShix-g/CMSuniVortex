@@ -23,7 +23,7 @@ namespace CMSuniVortex.Addressable
 
         AddressableCuvSettings IAddressableSettingsProvider.GetSetting() => _addressableSettings;
 
-        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings) => _addressableSettings = settings;
+        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings) => _addressableSettings.Set(settings);
     }
 }
 #endif

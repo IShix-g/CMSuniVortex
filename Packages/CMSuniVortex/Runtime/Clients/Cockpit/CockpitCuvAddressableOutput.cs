@@ -46,7 +46,7 @@ namespace CMSuniVortex.Cockpit
             for (var i = 0; i < objs.Length; i++)
             {
                 var obj = objs[i];
-                AddressableHelper.AddTo(GetGroupName(obj.Language), obj);
+                AddressableHelper.AddTo(GetGroupName(obj.Language), obj, default, AddressableSettings.Labels);
                 var model = new AddressableModel<TModel, TModelList>
                 {
                     Language = obj.Language,

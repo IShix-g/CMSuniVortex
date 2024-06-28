@@ -69,8 +69,7 @@ namespace CMSuniVortex.Editor
             _clientProp.isExpanded = true;
             _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
             _outputProp.isExpanded = true;
-
-
+            
             SetClientAddressableSettingsProvider();
             SetOutputAddressableSettingsProvider();
         }
