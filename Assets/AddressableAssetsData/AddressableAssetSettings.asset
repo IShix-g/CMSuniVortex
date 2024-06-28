@@ -92,6 +92,7 @@ MonoBehaviour:
     - default
     - preLoad
     - test2
+    - TestLabel1
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f3581767bb8f1497d9dcc2b7dc43c81b, type: 2}

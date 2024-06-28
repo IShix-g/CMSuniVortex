@@ -32,7 +32,7 @@ namespace CMSuniVortex.GoogleSheet
             {
                 foreach (var t in obj.AddressableActions)
                 {
-                    AddressableHelper.AddTo(_addressableSettings.GetGroupName(language, typeof(T).Name), t.Guid);
+                    AddressableHelper.AddTo(_addressableSettings.GetGroupName(language, typeof(T).Name), t.Guid, default, _addressableSettings.Labels);
                     t.Completed(t.Guid);
                 }
             }
@@ -41,10 +41,7 @@ namespace CMSuniVortex.GoogleSheet
 
         AddressableCuvSettings IAddressableSettingsProvider.GetSetting() => _addressableSettings;
 
-        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings)
-        {
-            _addressableSettings = settings;
-        }
+        void IAddressableSettingsProvider.SetSetting(AddressableCuvSettings settings) => _addressableSettings.Set(settings);
     }
 }
 #endif

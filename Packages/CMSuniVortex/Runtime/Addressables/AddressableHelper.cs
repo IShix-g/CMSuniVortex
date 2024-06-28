@@ -47,7 +47,7 @@ namespace CMSuniVortex.Addressable
             {
                 group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
             }
-
+            
             {
                 var schema = group.GetSchema<BundledAssetGroupSchema>();
                 var buildPathName = cuvSettings.AddressableType == AddressableType.Local
@@ -118,7 +118,10 @@ namespace CMSuniVortex.Addressable
                 var labelList = new List<string>(entry.labels);
                 foreach (var label in labelList)
                 {
-                    entry.SetLabel(label, false);
+                    if (!string.IsNullOrEmpty(label))
+                    {
+                        entry.SetLabel(label, false);
+                    }
                 }
             }
             
@@ -128,7 +131,10 @@ namespace CMSuniVortex.Addressable
                 
                 foreach (var label in labels)
                 {
-                    entry.SetLabel(label, true);
+                    if (!string.IsNullOrEmpty(label))
+                    {
+                        entry.SetLabel(label, true);
+                    }
                 }
             }
             
@@ -193,7 +199,8 @@ namespace CMSuniVortex.Addressable
             var labelNames = settings.GetLabels();
             foreach (var label in labels)
             {
-                if (!labelNames.Contains(label))
+                if (!string.IsNullOrEmpty(label)
+                    && !labelNames.Contains(label))
                 {
                     settings.AddLabel(label);
                 }

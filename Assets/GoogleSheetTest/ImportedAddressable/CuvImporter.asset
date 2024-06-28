@@ -40,6 +40,8 @@ MonoBehaviour:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
+          Labels:
+          - TestLabel1
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0

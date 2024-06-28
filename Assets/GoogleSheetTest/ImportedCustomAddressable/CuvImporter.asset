@@ -32,6 +32,9 @@ MonoBehaviour:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
+          Labels:
+          - TestLabel3
+          - TestLabel4
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0
@@ -41,6 +44,9 @@ MonoBehaviour:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
+          Labels:
+          - TestLabel3
+          - TestLabel4
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0

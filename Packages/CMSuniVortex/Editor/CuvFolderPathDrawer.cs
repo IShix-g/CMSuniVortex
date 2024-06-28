@@ -17,12 +17,11 @@ namespace CMSuniVortex.Editor
             }
             
             EditorGUI.BeginProperty(position, label, property);
-            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var buttonRect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
             var fieldRect = new Rect(position.x, position.y, position.width - 65, position.height);
 
-            EditorGUI.PropertyField(fieldRect, property, GUIContent.none);
+            EditorGUI.PropertyField(fieldRect, property, label);
             if (GUI.Button(buttonRect, "Select"))
             {
                 EditorApplication.delayCall += () => 
