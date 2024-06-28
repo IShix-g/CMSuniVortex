@@ -34,8 +34,8 @@ namespace CMSuniVortex
 
         protected virtual void OnStartImport(string buildPath, IReadOnlyList<SystemLanguage> languages){}
         protected virtual void OnImported(string[] listGuids){}
-        protected virtual void OnStartOutput(string buildPath, ICuvClient client, string[] listGuids){}
-        protected virtual void OnOutputted(string[] listGuids){}
+        protected virtual void OnStartOutput(string buildPath, ICuvClient client, ICuvOutput output, string[] listGuids){}
+        protected virtual void OnOutputted(ICuvOutput output, string[] listGuids){}
         
 #if UNITY_EDITOR
         bool ICuvImporter.CanIImport()
@@ -110,9 +110,9 @@ namespace CMSuniVortex
                 return;
             }
             Debug.Log("Start Output.");
-            OnStartOutput(_buildPath, _client, _modelListGuilds);
+            OnStartOutput(_buildPath, _client, _output, _modelListGuilds);
             _output.Generate(_buildPath, _client, _modelListGuilds);
-            OnOutputted(_modelListGuilds);
+            OnOutputted(_output, _modelListGuilds);
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
         }
