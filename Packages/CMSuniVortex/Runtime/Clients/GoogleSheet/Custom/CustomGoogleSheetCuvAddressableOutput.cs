@@ -17,6 +17,8 @@ namespace CMSuniVortex.GoogleSheet
     {
         [SerializeField, CuvReadOnly] TReference _reference;
         
+        public override TReference GetReference() => _reference;
+        
         public override void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
