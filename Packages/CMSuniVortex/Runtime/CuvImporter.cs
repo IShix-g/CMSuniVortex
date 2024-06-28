@@ -144,12 +144,18 @@ namespace CMSuniVortex
         protected virtual void Reset()
         {
             _languages = new[] { SystemLanguage.English };
-            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            _buildPath = Path.GetDirectoryName(path);
-            if (!string.IsNullOrEmpty(_buildPath)
-                && !_buildPath.EndsWith('/'))
+            if (Selection.activeObject != default)
             {
-                _buildPath += "/";
+                var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    _buildPath = Path.GetDirectoryName(path);
+                    if (!string.IsNullOrEmpty(_buildPath)
+                        && !_buildPath.EndsWith('/'))
+                    {
+                        _buildPath += "/";
+                    }
+                }
             }
         }
 
