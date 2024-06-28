@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -26,13 +27,15 @@ namespace CMSuniVortex
         public SystemLanguage[] Languages => _languages;
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
-
-        #region Editor
+        
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
-        
         protected void SetClient(ICuvClient client) => _client = client;
-        
         protected void SetOutput(ICuvOutput output) => _output = output;
+
+        protected virtual void OnStartImport(string buildPath, IReadOnlyList<SystemLanguage> languages){}
+        protected virtual void OnImported(string[] listGuids){}
+        protected virtual void OnStartOutput(string buildPath, ICuvClient client, string[] listGuids){}
+        protected virtual void OnOutputted(string[] listGuids){}
         
 #if UNITY_EDITOR
         bool ICuvImporter.CanIImport()
@@ -74,20 +77,21 @@ namespace CMSuniVortex
             IsLoading = true;
             
             Debug.Log("Start importing.");
-            EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, guids =>
+            OnStartImport(_buildPath, _languages);
+            EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, listGuilds =>
             {
+                OnImported(listGuilds);
                 EditorUtility.SetDirty(this);
                 AssetDatabase.SaveAssetIfDirty(this);
+                Debug.Log("Completion of importing.");
                 
                 IsLoading = false;
-                _modelListGuilds = guids;
+                _modelListGuilds = listGuilds;
                 if (CanIOutput())
                 {
                     StartOutput();
                 }
                 onLoaded?.Invoke();
-                Debug.Log("Completion of importing.");
-                
             }), this);
         }
 
@@ -101,12 +105,16 @@ namespace CMSuniVortex
 
         void StartOutput()
         {
-            if (!IsLoading)
+            if (IsLoading)
             {
-                _output.Generate(_buildPath, _client, _modelListGuilds);
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssetIfDirty(this);
+                return;
             }
+            Debug.Log("Start Output.");
+            OnStartOutput(_buildPath, _client, _modelListGuilds);
+            _output.Generate(_buildPath, _client, _modelListGuilds);
+            OnOutputted(_modelListGuilds);
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
         
         void ICuvImporter.SelectClient()
@@ -150,12 +158,12 @@ namespace CMSuniVortex
 #else
         bool ICuvImporter.CanIImport() => false;
         void ICuvImporter.StartImport(Action onLoaded) => throw new NotImplementedException();
+        void ICuvImporter.SelectClient() => throw new NotImplementedException();
+        void ICuvImporter.DeselectClient() => throw new NotImplementedException();
         bool ICuvImporter.CanIOutput() => false;
         void ICuvImporter.StartOutput() => throw new NotImplementedException();
         void ICuvImporter.SelectOutput() => throw new NotImplementedException();
         void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
 #endif
-
-        #endregion
     }
 }
