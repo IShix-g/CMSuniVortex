@@ -8,14 +8,16 @@ using UnityEditor;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public abstract class CustomGoogleSheetCuvOutput<TModel, TModelList, TReference> : ICuvOutput
+    public abstract class CustomGoogleSheetCuvOutput<TModel, TModelList, TReference> : CuvOutput<TModel, TModelList, TReference>
         where TModel : CustomGoogleSheetModel
         where TModelList : CustomGoogleSheetCuvModelList<TModel>
         where TReference : CustomGoogleSheetCuvReference<TModel, TModelList>
     {
         [SerializeField, CuvReadOnly] TReference _reference;
         
-        public void Generate(string buildPath, ICuvClient client, string[] listGuids)
+        public override TReference GetReference() => _reference;
+        
+        public override void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
             var objs = new TModelList[listGuids.Length];
@@ -41,7 +43,7 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
         
-        public void Select(string buildPath)
+        public override void Select(string buildPath)
         {
 #if UNITY_EDITOR
             var buildFullPath =  GetReferencePath(buildPath);
@@ -52,9 +54,9 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
         
-        public void Deselect() {}
+        public override void Deselect() {}
         
-        public void Release()
+        public override void Release()
         {
 #if UNITY_EDITOR
             if (_reference == default)
