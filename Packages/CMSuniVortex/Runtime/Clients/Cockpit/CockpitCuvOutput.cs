@@ -17,6 +17,8 @@ namespace CMSuniVortex.Cockpit
         
         public override TReference GetReference() => _reference;
         
+        public override bool IsCompleted() => _reference != default;
+        
         public override void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR

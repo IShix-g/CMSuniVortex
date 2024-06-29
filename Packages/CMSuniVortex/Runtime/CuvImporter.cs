@@ -22,12 +22,13 @@ namespace CMSuniVortex
         [SerializeReference] ICuvClient _client;
         [SerializeReference] ICuvOutput _output;
         [SerializeField] string[] _modelListGuilds;
-        
-        public bool IsBuildCompleted => _modelListGuilds.Length > 0;
+
+        public bool IsBuildCompleted => _modelListGuilds.Length > 0
+                                        && _output != default && _output.IsCompleted();
         public SystemLanguage[] Languages => _languages;
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
-        
+
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
         protected void SetClient(ICuvClient client) => _client = client;
         protected void SetOutput(ICuvOutput output) => _output = output;

@@ -14,6 +14,8 @@ namespace CMSuniVortex.GoogleSheet
     {
         [SerializeField, CuvReadOnly] GoogleSheetCuvReference[] _references;
         
+        public bool IsCompleted() => _references is {Length: > 0};
+        
         public void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
@@ -67,7 +69,7 @@ namespace CMSuniVortex.GoogleSheet
             _references = references.ToArray();
 #endif
         }
-        
+
         public void Select(string buildPath)
         {
 #if UNITY_EDITOR

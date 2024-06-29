@@ -6,6 +6,7 @@ namespace CMSuniVortex
     /// </summary>
     public interface ICuvOutput
     {
+        bool IsCompleted();
         void Select(string assetPath);
         void Deselect();
         void Generate(string buildPath, ICuvClient client, string[] listGuids);

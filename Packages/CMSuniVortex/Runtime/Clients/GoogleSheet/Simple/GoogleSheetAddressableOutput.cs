@@ -18,6 +18,8 @@ namespace CMSuniVortex.GoogleSheet
         
         public override GoogleSheetCuvAddressableReference GetReference() => _references[0];
         
+        public override bool IsCompleted() => _references is {Length: > 0};
+
         public override void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
