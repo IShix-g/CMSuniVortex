@@ -14,7 +14,7 @@ namespace Tests
             {
                 await _reference.InitializeAsync();
             }
-            Debug.Log("IsLoaded : " + (_reference.GetList().GetByKey("model_cat1") != default));
+            Debug.Log("IsLoaded : " + (_reference.GetList().GetByIndex(0).Text));
         }
     }
 }

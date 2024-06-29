@@ -30,6 +30,27 @@ namespace CMSuniVortex.Addressable
         
         [NonSerialized] AsyncOperationHandle<TS> _handle;
 
+        protected virtual void OnEnable()
+        {
+#if UNITY_EDITOR
+            if( EditorApplication.isPlayingOrWillChangePlaymode )
+            {
+                EditorApplication.playModeStateChanged += LogPlayModeState;
+            }
+#endif
+        }
+        
+#if UNITY_EDITOR
+        void LogPlayModeState(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingPlayMode)
+            {
+                EditorApplication.playModeStateChanged -= LogPlayModeState;
+                Resources.UnloadAsset(this);
+            }
+        }
+#endif
+        
         public void SetModelLists(AddressableModel<T, TS>[] modelLists) => _modelLists = modelLists;
         
         public IEnumerator Initialize(Action onLoaded = default)
