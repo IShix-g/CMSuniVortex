@@ -141,8 +141,22 @@ namespace CMSuniVortex
 
         void ICuvImporter.DeselectOutput() => _output?.Deselect();
 
+        bool IsFileOrDirectoryExists(string path)
+            => Directory.Exists(path) || File.Exists(path);
+#else
+        bool ICuvImporter.CanIImport() => false;
+        void ICuvImporter.StartImport(Action onLoaded) => throw new NotImplementedException();
+        void ICuvImporter.SelectClient() => throw new NotImplementedException();
+        void ICuvImporter.DeselectClient() => throw new NotImplementedException();
+        bool ICuvImporter.CanIOutput() => false;
+        void ICuvImporter.StartOutput() => throw new NotImplementedException();
+        void ICuvImporter.SelectOutput() => throw new NotImplementedException();
+        void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
+#endif
+        
         protected virtual void Reset()
         {
+#if UNITY_EDITOR
             _languages = new[] { SystemLanguage.English };
             if (Selection.activeObject != default)
             {
@@ -157,19 +171,7 @@ namespace CMSuniVortex
                     }
                 }
             }
-        }
-
-        bool IsFileOrDirectoryExists(string path)
-            => Directory.Exists(path) || File.Exists(path);
-#else
-        bool ICuvImporter.CanIImport() => false;
-        void ICuvImporter.StartImport(Action onLoaded) => throw new NotImplementedException();
-        void ICuvImporter.SelectClient() => throw new NotImplementedException();
-        void ICuvImporter.DeselectClient() => throw new NotImplementedException();
-        bool ICuvImporter.CanIOutput() => false;
-        void ICuvImporter.StartOutput() => throw new NotImplementedException();
-        void ICuvImporter.SelectOutput() => throw new NotImplementedException();
-        void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
 #endif
+        }
     }
 }
