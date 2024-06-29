@@ -52,9 +52,11 @@ namespace CMSuniVortex.Addressable
         
         static readonly AddressableCuvSettings s_default = new AddressableCuvSettings
         {
+#if UNITY_EDITOR
             BuildCompressionMode = BundledAssetGroupSchema.BundleCompressionMode.LZ4,
             BundlePackingMode = BundledAssetGroupSchema.BundlePackingMode.PackTogether,
             UpdateRestriction = UpdateRestrictionType.CanChangePostRelease
+#endif
         };
 
         public static AddressableCuvSettings Default => s_default;
