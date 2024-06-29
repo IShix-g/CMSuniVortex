@@ -15,6 +15,7 @@ namespace CMSuniVortex.Addressable
         public void SetSettings(AddressableCuvSettings settings) => _addressableSettings = settings;
 
         public abstract TReference GetReference();
+        public abstract bool IsCompleted();
         public abstract void Select(string assetPath);
         public abstract void Deselect();
         public abstract void Generate(string buildPath, ICuvClient client, string[] listGuids);
