@@ -20,7 +20,7 @@ namespace CMSuniVortex.Compornents
 
         protected abstract void OnChangeLanguage(T reference, string key);
         
-        protected virtual void OnEnable()
+        protected virtual async void OnEnable()
         {
 #if DEBUG
             if (string.IsNullOrEmpty(_key))
@@ -32,7 +32,7 @@ namespace CMSuniVortex.Compornents
         
             if (!_reference.IsInitialized)
             {
-                StartCoroutine(_reference.Initialize(default));
+                await _reference.InitializeAsync(default);
             }
             else if(!_reference.IsLoading)
             {

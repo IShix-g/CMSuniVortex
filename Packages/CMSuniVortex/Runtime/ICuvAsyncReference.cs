@@ -9,6 +9,7 @@ namespace CMSuniVortex
     public interface ICuvAsyncReference
     {
         event Action<SystemLanguage> OnChangeLanguage;
+        int ContentsLength { get; }
         bool IsLoading { get; }
         bool IsInitialized { get; }
         SystemLanguage Language { get; }

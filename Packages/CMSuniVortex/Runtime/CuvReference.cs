@@ -12,7 +12,9 @@ namespace CMSuniVortex
         public event Action<SystemLanguage> OnChangeLanguage = delegate {};
         
         [SerializeField] TS[] _modelLists;
-        
+
+        public int ContentsLength => GetList().Length;
+
         public SystemLanguage Language { get; private set; }
         public TS[] ModelLists => _modelLists;
         

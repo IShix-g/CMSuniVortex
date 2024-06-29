@@ -10,6 +10,7 @@ namespace CMSuniVortex
     public interface ICuvReference
     {
         event Action<SystemLanguage> OnChangeLanguage;
+        int ContentsLength { get; }
         SystemLanguage Language { get; }
         void ChangeLanguage(SystemLanguage language);
         bool HasContents();

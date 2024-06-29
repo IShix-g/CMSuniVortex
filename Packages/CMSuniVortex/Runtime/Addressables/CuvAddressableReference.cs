@@ -22,6 +22,7 @@ namespace CMSuniVortex.Addressable
         
         [SerializeField] AddressableModel<T, TS>[] _modelLists;
 
+        public int ContentsLength => Current != default ? Current.Length : 0;
         public bool IsInitialized { get; private set; }
         public bool IsLoading { get; private set; }
         public SystemLanguage Language { get; private set; }
@@ -33,7 +34,14 @@ namespace CMSuniVortex.Addressable
         
         public IEnumerator Initialize(Action onLoaded = default)
         {
-            yield return Initialize(Application.systemLanguage, onLoaded);
+            if (!IsInitialized)
+            {
+                yield return Initialize(Application.systemLanguage, onLoaded);
+            }
+            else
+            {
+                onLoaded?.Invoke();
+            }
         }
 
         public IEnumerator Initialize(SystemLanguage language, Action onLoaded = default)
@@ -50,7 +58,13 @@ namespace CMSuniVortex.Addressable
         }
         
         public async Task InitializeAsync()
-             => await InitializeAsync(Application.systemLanguage);
+        {
+            if (!IsInitialized)
+            {
+                IsInitialized = true;
+                await ChangeLanguageAsync(Application.systemLanguage);
+            }
+        }
         
         public async Task InitializeAsync(SystemLanguage language)
         {
@@ -190,7 +204,7 @@ namespace CMSuniVortex.Addressable
             {
                 return;
             }
-    
+            
             Language = newModel.Language;
 
             if (_handle.IsValid()
