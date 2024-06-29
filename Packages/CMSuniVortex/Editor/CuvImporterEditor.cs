@@ -39,15 +39,15 @@ namespace CMSuniVortex.Editor
         IAddressableSettingsProvider _outputAddressableSettingsProvider;
 #endif
 
-        readonly string[] _propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
+        static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
         
         void OnEnable()
         {
-            _scriptProp = serializedObject.FindProperty(_propertiesToExclude[0]);
-            _buildPathProp = serializedObject.FindProperty(_propertiesToExclude[1]);
-            _languagesProp = serializedObject.FindProperty(_propertiesToExclude[2]);
-            _clientProp = serializedObject.FindProperty(_propertiesToExclude[3]);
-            _outputProp = serializedObject.FindProperty(_propertiesToExclude[4]);
+            _scriptProp = serializedObject.FindProperty(s_propertiesToExclude[0]);
+            _buildPathProp = serializedObject.FindProperty(s_propertiesToExclude[1]);
+            _languagesProp = serializedObject.FindProperty(s_propertiesToExclude[2]);
+            _clientProp = serializedObject.FindProperty(s_propertiesToExclude[3]);
+            _outputProp = serializedObject.FindProperty(s_propertiesToExclude[4]);
 
             {
                 var types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
@@ -195,7 +195,7 @@ namespace CMSuniVortex.Editor
             {
                 do
                 {
-                    if (!_propertiesToExclude.Contains(prop.name)) 
+                    if (!s_propertiesToExclude.Contains(prop.name)) 
                     {
                         EditorGUILayout.PropertyField(prop, true);
                     }
