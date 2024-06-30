@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 2134c3caecfa4422db15ac883fc56c95
   m_SerializeEntries:
-  - m_GUID: 74734e7bba4ab42ed9968603651b3032
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02.jpeg
+  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
     m_ReadOnly: 0
     m_SerializedLabels:
     - TestLabel
@@ -27,8 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - TestLabel
-  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
+  - m_GUID: 74734e7bba4ab42ed9968603651b3032
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02.jpeg
     m_ReadOnly: 0
     m_SerializedLabels:
     - TestLabel
