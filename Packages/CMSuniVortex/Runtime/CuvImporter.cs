@@ -25,6 +25,7 @@ namespace CMSuniVortex
 
         public bool IsBuildCompleted => _modelListGuilds.Length > 0
                                         && _output != default && _output.IsCompleted();
+        public string BuildPath => _buildPath;
         public SystemLanguage[] Languages => _languages;
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
