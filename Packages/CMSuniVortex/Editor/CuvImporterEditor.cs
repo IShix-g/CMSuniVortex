@@ -136,7 +136,7 @@ namespace CMSuniVortex.Editor
                     padding = new RectOffset(5, 5, 5, 5),
                     alignment = TextAnchor.MiddleCenter,
                 };
-                GUILayout.Label(_logo, style, GUILayout.Height(70));
+                GUILayout.Label(_logo, style, GUILayout.MinWidth(430), GUILayout.Height(75));
             }
             {
                 var style = new GUIStyle(GUI.skin.label)

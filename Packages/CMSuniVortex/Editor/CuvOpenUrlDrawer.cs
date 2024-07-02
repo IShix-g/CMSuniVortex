@@ -7,23 +7,23 @@ namespace CMSuniVortex.Editor
     [CustomPropertyDrawer(typeof(CuvOpenUrlAttribute))]
     public sealed class CuvOpenUrlDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (prop.propertyType != SerializedPropertyType.String)
+            if (property.propertyType != SerializedPropertyType.String)
             {
-                EditorGUI.PropertyField(position, prop, label, true);
+                EditorGUI.PropertyField(position, property, label, true);
                 return;
             }
             
-            EditorGUI.BeginProperty(position, label, prop);
+            EditorGUI.BeginProperty(position, label, property);
             var buttonRect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
             var fieldRect = new Rect(position.x, position.y, position.width - 65, position.height);
 
-            EditorGUI.PropertyField(fieldRect, prop, label);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(prop.stringValue));
+            EditorGUI.PropertyField(fieldRect, property, label);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(property.stringValue));
             if (GUI.Button(buttonRect, "Open"))
             {
-                Application.OpenURL(prop.stringValue);
+                Application.OpenURL(property.stringValue);
             }
             EditorGUI.EndDisabledGroup();
             EditorGUI.EndProperty();
