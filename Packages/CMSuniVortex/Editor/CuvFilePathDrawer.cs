@@ -8,44 +8,43 @@ namespace CMSuniVortex.Editor
     [CustomPropertyDrawer(typeof(CuvFilePathAttribute))]
     sealed class CuvFilePathDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (prop.propertyType != SerializedPropertyType.String)
+            if (property.propertyType != SerializedPropertyType.String)
             {
-                EditorGUI.PropertyField(position, prop, label, true);
+                EditorGUI.PropertyField(position, property, label, true);
                 return;
             }
     
             var extension = (attribute as CuvFilePathAttribute)?.Extension;
 
-            EditorGUI.BeginProperty(position, label, prop);
-            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            EditorGUI.BeginProperty(position, label, property);
 
             var buttonRect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
             var fieldRect = new Rect(position.x, position.y, position.width - 65, position.height);
 
-            EditorGUI.PropertyField(fieldRect, prop, GUIContent.none);
+            EditorGUI.PropertyField(fieldRect, property, label);
             if (GUI.Button(buttonRect, "Select"))
             {
                 EditorApplication.delayCall += () => 
                 {
                     var selectedPath = EditorUtility.OpenFilePanel("Select File Path", 
-                        string.IsNullOrEmpty(prop.stringValue) ? "Assets/" : prop.stringValue, extension); 
+                        string.IsNullOrEmpty(property.stringValue) ? "Assets/" : property.stringValue, extension); 
             
                     if (!string.IsNullOrEmpty(selectedPath))
                     {
                         var assetsIndex = selectedPath.IndexOf("Assets", StringComparison.Ordinal);
                         if (assetsIndex >= 0)
                         {
-                            prop.stringValue = selectedPath.Substring(assetsIndex);
+                            property.stringValue = selectedPath.Substring(assetsIndex);
                         }
                         else
                         {
-                            prop.stringValue = string.Empty;
+                            property.stringValue = string.Empty;
                             Debug.LogError("Please select the path under Assets.");
                         }
                     }
-                    prop.serializedObject.ApplyModifiedProperties();
+                    property.serializedObject.ApplyModifiedProperties();
                 };
             }
 
