@@ -182,7 +182,6 @@ namespace CMSuniVortex
         void ICuvImporter.StartOutput() => throw new NotImplementedException();
         void ICuvImporter.SelectOutput() => throw new NotImplementedException();
         void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
-        void ICuvImporter.ReloadReference() => throw new NotImplementedException();
 #endif
         
         protected virtual void Reset()
