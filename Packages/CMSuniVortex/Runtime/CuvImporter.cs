@@ -24,7 +24,8 @@ namespace CMSuniVortex
         [SerializeField] string[] _modelListGuilds;
 
         public bool IsBuildCompleted => _modelListGuilds.Length > 0
-                                        && _output != default && _output.IsCompleted();
+                                        && _output != default
+                                        && _output.IsCompleted();
         public string BuildPath => _buildPath;
         public SystemLanguage[] Languages => _languages;
         public string[] ModelListGuilds => _modelListGuilds;
@@ -38,8 +39,35 @@ namespace CMSuniVortex
         protected virtual void OnImported(string[] listGuids){}
         protected virtual void OnStartOutput(string buildPath, ICuvClient client, ICuvOutput output, string[] listGuids){}
         protected virtual void OnOutputted(ICuvOutput output, string[] listGuids){}
-        
+
+        protected virtual void OnEnable()
+        {
 #if UNITY_EDITOR
+            if( EditorApplication.isPlayingOrWillChangePlaymode )
+            {
+                EditorApplication.playModeStateChanged += LogPlayModeState;
+            }
+#endif  
+        }
+
+#if UNITY_EDITOR
+        void LogPlayModeState(PlayModeStateChange state)
+        {
+            if (state != PlayModeStateChange.ExitingPlayMode)
+            {
+                return;
+            }
+            EditorApplication.playModeStateChanged -= LogPlayModeState;
+            EditorApplication.delayCall += () =>
+            {
+                if (_output != default
+                    && !string.IsNullOrEmpty(_buildPath))
+                {
+                    _output.ReloadReference(_buildPath);
+                }
+            };
+        }
+        
         bool ICuvImporter.CanIImport()
         {
             if (string.IsNullOrEmpty(_buildPath))
@@ -154,6 +182,7 @@ namespace CMSuniVortex
         void ICuvImporter.StartOutput() => throw new NotImplementedException();
         void ICuvImporter.SelectOutput() => throw new NotImplementedException();
         void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
+        void ICuvImporter.ReloadReference() => throw new NotImplementedException();
 #endif
         
         protected virtual void Reset()

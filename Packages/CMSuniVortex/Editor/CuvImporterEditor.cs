@@ -48,7 +48,6 @@ namespace CMSuniVortex.Editor
             _languagesProp = serializedObject.FindProperty(s_propertiesToExclude[2]);
             _clientProp = serializedObject.FindProperty(s_propertiesToExclude[3]);
             _outputProp = serializedObject.FindProperty(s_propertiesToExclude[4]);
-
             {
                 var types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
                     .Where(type => typeof(ICuvClient).IsAssignableFrom(type)
@@ -60,7 +59,7 @@ namespace CMSuniVortex.Editor
             }
             _outputTypePopup = new CuvTypePopup(_outputProp, GetFilteredOutputTypes());
             
-            _importer = target as CuvImporter;
+            _importer = target as ICuvImporter;
             _logo = GetLogo();
             _importIcon = GetImportIcon();
             _outputIcon = GetOutputIcon();

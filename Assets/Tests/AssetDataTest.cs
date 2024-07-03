@@ -11,8 +11,16 @@ namespace CMSuniVortex.Tests
     {
         const string _guid1 = "c14ce121346a949128cb173ac749715f";
         const string _guid2 = "107add0dfec32489aa1d3904ff990be6";
-        
+
+        [MenuItem("Tests/Build Completed Check Test")]
+        static void BuildCompletedCheckTest()
+        {
+            var obj = AssetDatabase.LoadAssetAtPath<CuvImporter>("Assets/GoogleSheetTest/ImportedCustomAddressable/CuvImporter.asset");
+            Debug.Log(obj.IsBuildCompleted);
+        }
+
         [TestCase(_guid1)]
+        [TestCase(_guid2)]
         public void LoadTest(string listGuid)
         {
             var listPath = AssetDatabase.GUIDToAssetPath(listGuid);

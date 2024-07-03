@@ -127,7 +127,22 @@ namespace CMSuniVortex.GoogleSheet
             }
 #endif
         }
-        
+
+        public override void ReloadReference(string buildPath)
+        {
+#if UNITY_EDITOR
+            if (_references == default
+                || _references.Length == 0)
+            {
+                _references = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvAddressableReference), new[] { buildPath })
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Select(AssetDatabase.LoadAssetAtPath<GoogleSheetCuvAddressableReference>)
+                    .Where(x => x != default)
+                    .ToArray();
+            }
+#endif
+        }
+
         public static string GetReferencePath(string buildPath, string sheetName) => Path.Combine(buildPath, nameof(GoogleSheetCuvAddressableReference) + "_" + sheetName + ".asset");
     }
 }
