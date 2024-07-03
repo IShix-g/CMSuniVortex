@@ -20,6 +20,7 @@ namespace CMSuniVortex.Addressable
         public abstract void Deselect();
         public abstract void Generate(string buildPath, ICuvClient client, string[] listGuids);
         public abstract void Release();
+        public abstract void ReloadReference(string buildPath);
 
         public string GetGroupName(SystemLanguage language) => _addressableSettings.GetGroupName(language, typeof(TModel).Name);
 

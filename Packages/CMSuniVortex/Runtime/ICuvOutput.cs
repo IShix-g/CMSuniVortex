@@ -7,9 +7,10 @@ namespace CMSuniVortex
     public interface ICuvOutput
     {
         bool IsCompleted();
-        void Select(string assetPath);
+        void Select(string buildPath);
         void Deselect();
         void Generate(string buildPath, ICuvClient client, string[] listGuids);
         void Release();
+        void ReloadReference(string buildPath);
     }
 }

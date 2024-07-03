@@ -43,11 +43,12 @@ namespace CMSuniVortex.Addressable
 #if UNITY_EDITOR
         void LogPlayModeState(PlayModeStateChange state)
         {
-            if (state == PlayModeStateChange.ExitingPlayMode)
+            if (state != PlayModeStateChange.ExitingPlayMode)
             {
-                EditorApplication.playModeStateChanged -= LogPlayModeState;
-                Resources.UnloadAsset(this);
+                return;
             }
+            EditorApplication.playModeStateChanged -= LogPlayModeState;
+            Resources.UnloadAsset(this);
         }
 #endif
         

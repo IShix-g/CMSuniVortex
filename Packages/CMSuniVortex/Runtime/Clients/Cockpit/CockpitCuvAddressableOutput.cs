@@ -92,6 +92,18 @@ namespace CMSuniVortex.Cockpit
 #endif
         }
         
+        public override void ReloadReference(string buildPath)
+        {
+#if UNITY_EDITOR
+            var buildFullPath =  GetReferencePath(buildPath);
+            if (_reference == default
+                && File.Exists(buildFullPath))
+            {
+                _reference = AssetDatabase.LoadAssetAtPath<TReference>(buildFullPath);
+            }
+#endif
+        }
+        
         public static string GetReferencePath(string buildPath) => Path.Combine(buildPath, typeof(TReference).Name + ".asset");
     }
 }

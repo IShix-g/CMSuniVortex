@@ -10,9 +10,10 @@ namespace CMSuniVortex
     {
         public abstract TReference GetReference();
         public abstract bool IsCompleted();
-        public abstract void Select(string assetPath);
+        public abstract void Select(string buildPath);
         public abstract void Deselect();
         public abstract void Generate(string buildPath, ICuvClient client, string[] listGuids);
         public abstract void Release();
+        public abstract void ReloadReference(string buildPath);
     }
 }
