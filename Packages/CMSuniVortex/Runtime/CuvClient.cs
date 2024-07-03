@@ -90,11 +90,11 @@ namespace CMSuniVortex
                         var objIndex = (currentRound - 1) * 2 + index;
                         obj.name = objFileName;
                         ((ICuvModelListSetter<T>) obj).SetData(language, models);
-                        AssetDatabase.SaveAssetIfDirty(obj);
                         objs[objIndex] = obj;
                         var guid = AssetDatabase.AssetPathToGUID(path);
                         guids[objIndex] = guid;
                         OnLoad(currentRound, guid, obj);
+                        AssetDatabase.SaveAssetIfDirty(obj);
                     });
                 }
             }
