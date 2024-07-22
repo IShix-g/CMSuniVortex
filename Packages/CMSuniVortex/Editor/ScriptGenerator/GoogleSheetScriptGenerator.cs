@@ -76,13 +76,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvClient : CustomGoogleSheetCuvClient<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
 }}");
                 }
@@ -109,13 +110,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvOutput : CustomGoogleSheetCuvOutput<{className}, {className}CustomGoogleSheetCuvModelList, {className}CustomGoogleSheetCuvReference> {{}}
 }}");
                 }
@@ -127,13 +129,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvAddressableClient : CustomGoogleSheetCuvAddressableClient<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
 }}");
                 }
@@ -160,13 +163,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvAddressableOutput : CustomGoogleSheetCuvAddressableOutput<{className}, {className}CustomGoogleSheetCuvModelList, {className}CustomGoogleSheetCuvAddressableReference> {{}}
 }}");
                 }

@@ -9,8 +9,17 @@
         "com.unity.editorcoroutines": "1.0.0"
       }
     },
+    "com.ishix.uniprom": {
+      "version": "https://github.com/IShix-g/Uniprom.git?path=Packages/Uniprom",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.addressables": "1.19.19"
+      },
+      "hash": "662308b3106d32a3e7f5f1ca159d6aad49244057"
+    },
     "com.unity.2d.animation": {
-      "version": "7.1.0",
+      "version": "7.1.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -22,7 +31,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.aseprite": {
-      "version": "1.1.2",
+      "version": "1.1.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -152,18 +161,18 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.feature.2d": {
-      "version": "2.0.0",
+      "version": "2.0.1",
       "depth": 0,
       "source": "builtin",
       "dependencies": {
-        "com.unity.2d.animation": "7.1.0",
+        "com.unity.2d.animation": "7.1.1",
         "com.unity.2d.pixel-perfect": "5.0.3",
         "com.unity.2d.psdimporter": "6.0.9",
         "com.unity.2d.sprite": "1.0.0",
         "com.unity.2d.spriteshape": "7.0.7",
         "com.unity.2d.tilemap": "1.0.0",
         "com.unity.2d.tilemap.extras": "2.2.7",
-        "com.unity.2d.aseprite": "1.1.2"
+        "com.unity.2d.aseprite": "1.1.4"
       }
     },
     "com.unity.ide.rider": {
