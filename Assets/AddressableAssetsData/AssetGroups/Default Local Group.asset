@@ -16,7 +16,11 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 7147840badec14edea446477e4cf4235
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: ef59b06e7771f4eb3b43b2ecacc336c1
+    m_Address: UnipromInterstitial
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:

@@ -88,6 +88,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                     $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 using Newtonsoft.Json;
@@ -95,7 +96,7 @@ using Newtonsoft.Json;
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvClient : CockpitCuvClient<{className}, {className}CockpitCuvModelList>
     {{
         protected override JsonConverter<{className}> CreateConverter()
@@ -126,13 +127,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvOutput : CockpitCuvOutput<{className}, {className}CockpitCuvModelList, {className}CockpitCuvReference> {{}}
 }}");
                 }
@@ -144,6 +146,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 using Newtonsoft.Json;
@@ -151,7 +154,7 @@ using Newtonsoft.Json;
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvAddressableClient : CockpitCuvAddressableClient<{className}, {className}CockpitCuvModelList>
     {{
         protected override JsonConverter<{className}> CreateConverter()
@@ -182,13 +185,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
-    // [CuvDisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
+    // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvAddressableOutput : CockpitCuvAddressableOutput<{className}, {className}CockpitCuvModelList, {className}CockpitCuvAddressableReference> {{}}
 }}");
                 }

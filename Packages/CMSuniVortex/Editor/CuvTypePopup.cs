@@ -1,5 +1,6 @@
 
 using System;
+using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,10 +30,10 @@ namespace CMSuniVortex.Editor
             for (var i = 0; i < Types.Length; i++)
             {
                 var type = Types[i];
-                var className = (Attribute.IsDefined(type, typeof(CuvDisplayNameAttribute)))
-                    ? ((CuvDisplayNameAttribute)Attribute.GetCustomAttribute(type, typeof(CuvDisplayNameAttribute))).DisplayName
+                var displayName = (Attribute.IsDefined(type, typeof(DisplayNameAttribute)))
+                    ? ((DisplayNameAttribute)Attribute.GetCustomAttribute(type, typeof(DisplayNameAttribute))).DisplayName
                     : type.FullName;
-                _options[i + 1] = className;
+                _options[i + 1] = displayName;
             }
         }
 
