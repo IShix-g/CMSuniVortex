@@ -60,6 +60,7 @@ namespace CMSuniVortex.Addressable
                 schema.LoadPath.SetVariableByName( settings, loadPathName );
                 schema.BundleMode = cuvSettings.BundlePackingMode;
                 schema.Compression = cuvSettings.BuildCompressionMode;
+                schema.RetryCount = cuvSettings.RetryCount;
             }
             {
                 var schema = group.GetSchema<ContentUpdateGroupSchema>();

@@ -19,6 +19,7 @@ namespace CMSuniVortex.Addressable
         public BundledAssetGroupSchema.BundleCompressionMode BuildCompressionMode;
         public BundledAssetGroupSchema.BundlePackingMode BundlePackingMode;
         public UpdateRestrictionType UpdateRestriction;
+        public int RetryCount;
         
         public enum UpdateRestrictionType
         {
@@ -44,6 +45,7 @@ namespace CMSuniVortex.Addressable
             BuildCompressionMode = settings.BuildCompressionMode;
             BundlePackingMode = settings.BundlePackingMode;
             UpdateRestriction = settings.UpdateRestriction;
+            RetryCount = settings.RetryCount;
 #endif
         }
         

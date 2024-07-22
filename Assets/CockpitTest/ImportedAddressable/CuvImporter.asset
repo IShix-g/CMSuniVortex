@@ -38,6 +38,7 @@ MonoBehaviour:
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0
+          RetryCount: 2
     - rid: 5308239187074351110
       type: {class: CatAddressableDetailsCockpitCuvAddressableOutput, ns: Tests, asm: Assembly-CSharp}
       data:
@@ -49,4 +50,5 @@ MonoBehaviour:
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0
+          RetryCount: 2
         _reference: {fileID: 11400000, guid: 5dd876b2e2ff447398190ea2a365475d, type: 2}
