@@ -18,16 +18,23 @@ namespace CMSuniVortex.GoogleSheet
         [SerializeField, CuvOpenUrl] string _sheetUrl;
         [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
         
+        public string SheetUrl
+        {
+            get => _sheetUrl;
+            set => _sheetUrl = value;
+        }
+        public string JsonKeyPath
+        {
+            get => _jsonKeyPath;
+            set => _jsonKeyPath = value;
+        }
+        
 #if UNITY_EDITOR
         ICredential _credential;
         GoogleCredential _googleCredential;
         string _modifiedTime;
 #endif
         
-        public void SetSheetUrl(string sheetUrl) => _sheetUrl = sheetUrl;
-        
-        public void SetJsonKeyPath(string jsonKeyPath) => _jsonKeyPath = jsonKeyPath;
-
         protected override void OnLoad(int currentRound, string guid, TS obj)
         {
 #if UNITY_EDITOR
