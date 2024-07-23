@@ -28,12 +28,34 @@ namespace CMSuniVortex
                                         && _output.IsCompleted();
         public string BuildPath => _buildPath;
         public SystemLanguage[] Languages => _languages;
+        public ICuvClient Client
+        {
+            get => _client;
+            set
+            {
+                _client = value;
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssetIfDirty(this);
+#endif
+            }
+        }
+        public ICuvOutput Output
+        {
+            get => _output;
+            set
+            {
+                _output = value;
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssetIfDirty(this);
+#endif
+            }
+        }
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
 
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
-        protected void SetClient(ICuvClient client) => _client = client;
-        protected void SetOutput(ICuvOutput output) => _output = output;
 
         protected virtual void OnStartImport(string buildPath, IReadOnlyList<SystemLanguage> languages){}
         protected virtual void OnImported(string[] listGuids){}
