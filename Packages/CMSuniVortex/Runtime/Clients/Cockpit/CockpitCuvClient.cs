@@ -14,6 +14,22 @@ namespace CMSuniVortex.Cockpit
         [SerializeField] string _apiKey;
         [SerializeField] string _modelName;
         
+        public string BaseUrl
+        {
+            get => _baseUrl;
+            set => _baseUrl = value;
+        }
+        public string ApiKey
+        {
+            get => _apiKey;
+            set => _apiKey = value;
+        }
+        public string ModelName
+        {
+            get => _modelName;
+            set => _modelName = value;
+        }
+        
         protected abstract JsonConverter<T> CreateConverter();
         
         public override bool CanILoad()
