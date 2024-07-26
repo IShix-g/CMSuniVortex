@@ -58,38 +58,39 @@ namespace CMSuniVortex
                 {
                     var index = i;
                     var language = languages[i];
-                    yield return LoadModels(currentRound, buildPath, language, (models, objFileName) =>
+                    yield return LoadModels(
+                        currentRound,
+                        buildPath,
+                        language,
+                        (models, objFileName) =>
                     {
                         foreach (var model in models)
                         {
                             OnLoad(currentRound, language, model);
-                            
-                            switch (model)
+                            if (model is IDeserializationNotifier notifier)
                             {
-                                case IJsonDeserializer jd:
-                                    jd.Deserialized();
-                                    break;
-                                case IObjectDeserializer od:
-                                    od.Deserialized();
-                                    break;
+                                notifier.Deserialized();
                             }
                         }
+                        
                         var path = Path.Combine(buildPath, objFileName + ".asset");
                         var obj = default(TS);
                         if (File.Exists(path))
                         {
                             obj = AssetDatabase.LoadAssetAtPath<TS>(path);
+                            Debug.Log("Loading CuvModelList in " + language + " path: " + path);
                         }
-                        else
+                        if(obj == default)
                         {
                             obj = ScriptableObject.CreateInstance<TS>();
                             obj.hideFlags = HideFlags.NotEditable;
                             AssetDatabase.CreateAsset(obj, path);
+                            Debug.Log("Generation of CuvModelList in " + language + " path: " + path);
                         }
 
                         var objIndex = (currentRound - 1) * 2 + index;
                         obj.name = objFileName;
-                        ((ICuvModelListSetter<T>) obj).SetData(language, models);
+                        obj.SetData(language, models);
                         objs[objIndex] = obj;
                         var guid = AssetDatabase.AssetPathToGUID(path);
                         guids[objIndex] = guid;

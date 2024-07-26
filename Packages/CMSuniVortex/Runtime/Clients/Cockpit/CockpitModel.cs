@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -75,7 +76,7 @@ namespace CMSuniVortex.Cockpit
             OnDeserialize();
         }
 
-        void IJsonDeserializer.Deserialized()
+        void IDeserializationNotifier.Deserialized()
         {
             BaseUrl = default;
             ResourcesLoadCoroutines = default;
@@ -247,7 +248,7 @@ namespace CMSuniVortex.Cockpit
             }
 #endif
         }
-
+        
 #if UNITY_EDITOR
         public IEnumerator LoadTextureCo(string imagePath, Action<string> onSuccess = default)
         {
@@ -257,14 +258,35 @@ namespace CMSuniVortex.Cockpit
 
             if (request.result == UnityWebRequest.Result.Success)
             {
+                imagePath = AppendImageExtension(imagePath, request);
                 var texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-                var imageBytes = texture.EncodeToPNG();
-                var fileName = Path.GetFileName(url);
+                var imageBytes = default(byte[]);
+                
+                if (imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageBytes = texture.EncodeToPNG();
+                }
+                else if (imagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+                         || imagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageBytes = texture.EncodeToJPG();
+                }
+                else
+                {
+                    Debug.LogWarning("Image could not be saved. path: " + imagePath);
+                    onSuccess?.Invoke(default);
+                    yield break;
+                }
+                
+                var fileName = Path.GetFileName(imagePath);
                 var path = Path.Combine(AssetSavePath, fileName);
                 File.WriteAllBytes(path, imageBytes);
                 Object.DestroyImmediate(texture);
                 AssetDatabase.ImportAsset(path);
                 onSuccess?.Invoke(path);
+                
+                var contentType = request.GetResponseHeader("Content-Type");
+                Debug.Log("Image saved. [" + contentType + "] from URL: " + url + " to Path: " + path);
             }
             else
             {
@@ -345,6 +367,44 @@ namespace CMSuniVortex.Cockpit
             }
 
             return default;
+        }
+        
+        static string AppendImageExtension(string imagePath, UnityWebRequest request)
+        {
+            imagePath = imagePath.TrimEnd('/');
+            var fileName = Path.GetFileName(imagePath);
+            fileName = Regex.Replace(fileName, "[?<>:*|]", "");
+            var directory = Path.GetDirectoryName(imagePath);
+            imagePath = Path.Combine(directory, fileName);
+            
+            if (Path.HasExtension(imagePath)
+                && !imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                && !imagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+                && !imagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+            {
+                imagePath = imagePath.Replace(Path.GetExtension(imagePath), "");
+            }
+
+            if (Path.HasExtension(imagePath))
+            {
+                return imagePath;
+            }
+            
+            var contentType = request.GetResponseHeader("Content-Type");
+            if (contentType.Contains("image/png"))
+            {
+                imagePath += ".png";
+            }
+            else if (contentType.Contains("image/jpeg"))
+            {
+                imagePath += ".jpg";
+            }
+            else
+            {
+                Debug.LogWarning("Unknown image format from Content-Type header, encoding as PNG instead. path: " + imagePath);
+                imagePath += ".png";
+            }
+            return imagePath;
         }
     }
 }
