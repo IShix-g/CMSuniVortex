@@ -45,6 +45,7 @@ MonoBehaviour:
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0
+          RetryCount: 0
         _references:
         - {fileID: 11400000, guid: e858915ec5c1546808a32bb994ed16b1, type: 2}
         - {fileID: 11400000, guid: 259e917f920b54463afe7cc593a89e3e, type: 2}

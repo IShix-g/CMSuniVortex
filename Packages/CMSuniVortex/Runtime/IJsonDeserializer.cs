@@ -3,9 +3,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CMSuniVortex
 {
-    public interface IJsonDeserializer
+    public interface IJsonDeserializer : IDeserializationNotifier
     {
         void Deserialize(JObject obj);
-        void Deserialized();
     }
 }
