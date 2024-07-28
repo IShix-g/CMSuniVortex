@@ -90,7 +90,7 @@ namespace CMSuniVortex.Cockpit
 #else
     void IJsonDeserializer.Deserialize(JObject obj){}
 
-    void IJsonDeserializer.Deserialized(){}
+    void IDeserializationNotifier.Deserialized(){}
 #endif
         #endregion
 
