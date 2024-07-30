@@ -14,24 +14,18 @@ namespace CMSuniVortex.Addressable
 {
     public static class AddressableHelper
     {
-        public static bool IsInstalled()
-        {
-            return AddressableAssetSettingsDefaultObject.Settings != default;
-        }
+        public static bool IsInstalled() => AddressableAssetSettingsDefaultObject.Settings != default;
         
         public static AddressableAssetSettings GetSettings()
         {
             if (!IsInstalled())
             {
-                throw new InvalidOperationException("Addressables is not installed.");
+                throw new InvalidOperationException("Addressables is not installed. Execute \"Create Addressables Settings\" in Window > Asset Management > Addressables > Group. For more Infomation : https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/AddressableAssetsGettingStarted.html#installation");
             }
             return AddressableAssetSettingsDefaultObject.Settings;
         }
         
-        public static bool HasGroup(string groupName)
-        {
-            return IsInstalled() && AddressableAssetSettingsDefaultObject.Settings.FindGroup(groupName) != default;
-        }
+        public static bool HasGroup(string groupName) => IsInstalled() && GetSettings().FindGroup(groupName) != default;
         
         public static void CreateGroupIfNotExists(string groupName, AddressableCuvSettings cuvSettings, bool isOverride)
         {
@@ -144,6 +138,32 @@ namespace CMSuniVortex.Addressable
             settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entries, true, false);
         }
 
+        public static void RemoveFromAll(string groupName)
+        {
+            var settings = GetSettings();
+            var group = settings.FindGroup(groupName);
+            if (group == default)
+            {
+                Debug.Log($"Group {groupName} does not exist.");
+                return;
+            }
+
+            if (group.entries.Count == 0)
+            {
+                Debug.Log("No assets were found in the Group. name: " + groupName);
+                return;
+            }
+            
+            var entries = new List<AddressableAssetEntry>(group.entries);
+            foreach (var entry in entries)
+            {
+                group.RemoveAssetEntry(entry);
+            }
+            Debug.Log("Removed all assets from group. name: " + groupName);
+            group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryRemoved, entries, false, true);
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryRemoved, entries, true, false);
+        }
+        
         public static void RemoveFrom(string groupName, Object obj)
         {
             var path = AssetDatabase.GetAssetPath(obj);
@@ -157,10 +177,11 @@ namespace CMSuniVortex.Addressable
             var group = settings.FindGroup(groupName);
             if (group == default)
             {
-                throw new ArgumentException("A non-existent Addressable Group was specified. group name:" + groupName);
+                Debug.Log($"Group {groupName} does not exist.");
+                return;
             }
             var entry = settings.FindAssetEntry(guid);
-            if (entry == null)
+            if (entry == default)
             {
                 return;
             }

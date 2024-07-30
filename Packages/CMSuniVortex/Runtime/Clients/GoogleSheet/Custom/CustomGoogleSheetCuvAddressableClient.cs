@@ -18,7 +18,12 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var language in languages)
             {
-                AddressableHelper.CreateGroupIfNotExists(_addressableSettings.GetGroupName(language, typeof(T).Name), _addressableSettings, true);
+                var groupName = _addressableSettings.GetGroupName(language, typeof(T).Name);
+                if (AddressableHelper.HasGroup(groupName))
+                {
+                    AddressableHelper.RemoveFromAll(groupName);
+                }
+                AddressableHelper.CreateGroupIfNotExists(groupName, _addressableSettings, true);
             }
 #endif
         }
@@ -30,10 +35,11 @@ namespace CMSuniVortex.GoogleSheet
 
             if (obj.AddressableActions != default)
             {
-                foreach (var t in obj.AddressableActions)
+                foreach (var addressableAction in obj.AddressableActions)
                 {
-                    AddressableHelper.AddTo(_addressableSettings.GetGroupName(language, typeof(T).Name), t.Guid, default, _addressableSettings.Labels);
-                    t.Completed(t.Guid);
+                    var groupName = _addressableSettings.GetGroupName(language, typeof(T).Name);
+                    AddressableHelper.AddTo(groupName, addressableAction.Guid, default, _addressableSettings.Labels);
+                    addressableAction.Completed(addressableAction.Guid);
                 }
             }
 #endif

@@ -95,6 +95,12 @@ namespace CMSuniVortex.Tests
         {
             AddressableHelper.RemoveLabels(new []{ "preLoad", "test2" });
         }
+        
+        [Test]
+        public static void RemoveFromAll()
+        {
+            AddressableHelper.RemoveFromAll("MetaAddressable_Japanese");
+        }
     }
 }
 #endif
