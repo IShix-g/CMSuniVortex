@@ -25,6 +25,7 @@ namespace CMSuniVortex.Addressable
         public int ContentsLength => IsInitialized ? Current.Length : 0;
         public bool IsInitialized => Current != default;
         public bool IsLoading { get; private set; }
+        // TODO: Languageに何が入るかを初期化前に知りたい
         public SystemLanguage Language { get; private set; }
         public TS Current { get; private set; }
         
@@ -113,33 +114,34 @@ namespace CMSuniVortex.Addressable
 
         public T GetByIndex(int index)
             => GetList().GetByIndex(index);
+
+        public SystemLanguage FindLanguage() => FindLanguage(Application.systemLanguage);
         
-        public IEnumerator ChangeLanguage(SystemLanguage language, Action onLoaded)
+        public SystemLanguage FindLanguage(SystemLanguage current) => FindModelList(current).Language;
+
+        public AddressableModel<T, TS> FindModelList(SystemLanguage current)
         {
             foreach (var list in _modelLists)
             {
-                if (list.Language == language)
+                if (list.Language == current)
                 {
-                    yield return SetLanguage(list);
-                    onLoaded?.Invoke();
-                    yield break;
+                    return list;
                 }
             }
-            yield return SetLanguage(_modelLists[0]);
+            return _modelLists[0];
+        }
+        
+        public IEnumerator ChangeLanguage(SystemLanguage language, Action onLoaded)
+        {
+            var modelList = FindModelList(language);
+            yield return SetLanguage(modelList);
             onLoaded?.Invoke();
         }
         
         public async Task ChangeLanguageAsync(SystemLanguage language)
         {
-            foreach (var list in _modelLists)
-            {
-                if (list.Language == language)
-                {
-                    await SetLanguageAsync(list);
-                    return;
-                }
-            }
-            await SetLanguageAsync(_modelLists[0]);
+            var modelList = FindModelList(language);
+            await SetLanguageAsync(modelList);
         }
 
         public bool HasContents() => Current is {Length: > 0};

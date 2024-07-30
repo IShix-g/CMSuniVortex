@@ -96,6 +96,18 @@ MonoBehaviour:
     - TestLabel3
     - TestLabel4
     - TestLabel
+    - ContentsTestLabel
+    - ListTestLabel
+    - ListTestSimpleLabel
+    - ContentsTestLabel1
+    - ContentsTestLabel2
+    - ListTestLabel1
+    - ListTestLabel2
+    - ContentsTestLabel1_English
+    - ContentsTestLabel1_Japanese
+    - ListTestLabel1_English
+    - ListTestLabel1_Japanese
+    - ContentsTestLabel3
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f3581767bb8f1497d9dcc2b7dc43c81b, type: 2}

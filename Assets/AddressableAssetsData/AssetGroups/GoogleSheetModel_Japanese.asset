@@ -21,12 +21,12 @@ MonoBehaviour:
     m_Address: Assets/GoogleSheetTest/ImportedAddressable/GoogleSheetCuvModelList_Animals_Japanese.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - TestLabel1
+    - ListTestSimpleLabel
   - m_GUID: 790e9d92b8fe34a9eb7e14fc2cf2bfc3
     m_Address: Assets/GoogleSheetTest/ImportedAddressable/GoogleSheetCuvModelList_SeaCreatures_Japanese.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - TestLabel1
+    - ListTestSimpleLabel
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
