@@ -55,7 +55,7 @@ namespace CMSuniVortex.Cockpit
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-            var url = Path.Combine(_baseUrl, "api/content/items/", _modelName.Trim('/') + "?locale=" + language);
+            var url = Path.Combine(_baseUrl, "api/content/items/", _modelName.Trim('/') + "?locale=" + language + "&sort=%7B_id%3A+1%7D");
             using var request = UnityWebRequest.Get(url);
             request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
             request.SetRequestHeader("api-key", _apiKey);

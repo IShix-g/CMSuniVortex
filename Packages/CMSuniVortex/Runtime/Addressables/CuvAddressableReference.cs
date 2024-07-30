@@ -25,7 +25,6 @@ namespace CMSuniVortex.Addressable
         public int ContentsLength => IsInitialized ? Current.Length : 0;
         public bool IsInitialized => Current != default;
         public bool IsLoading { get; private set; }
-        // TODO: Languageに何が入るかを初期化前に知りたい
         public SystemLanguage Language { get; private set; }
         public TS Current { get; private set; }
         
