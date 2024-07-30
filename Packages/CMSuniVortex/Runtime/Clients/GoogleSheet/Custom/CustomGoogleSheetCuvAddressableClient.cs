@@ -38,7 +38,8 @@ namespace CMSuniVortex.GoogleSheet
                 foreach (var addressableAction in obj.AddressableActions)
                 {
                     var groupName = _addressableSettings.GetGroupName(language, typeof(T).Name);
-                    AddressableHelper.AddTo(groupName, addressableAction.Guid, default, _addressableSettings.Labels);
+                    var labels = _addressableSettings.GetLocalizedContentsLabels(language);
+                    AddressableHelper.AddTo(groupName, addressableAction.Guid, default, labels);
                     addressableAction.Completed(addressableAction.Guid);
                 }
             }

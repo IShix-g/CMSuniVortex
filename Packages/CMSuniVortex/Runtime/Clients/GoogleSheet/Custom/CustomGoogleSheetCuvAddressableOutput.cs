@@ -52,7 +52,8 @@ namespace CMSuniVortex.GoogleSheet
             {
                 var obj = objs[i];
                 var groupName = GetGroupName(obj.Language);
-                AddressableHelper.AddTo(groupName, obj);
+                var labels = AddressableSettings.GetLocalizedListLabels(obj.Language);
+                AddressableHelper.AddTo(groupName, obj, default, labels);
                 var model = new AddressableModel<TModel, TModelList>
                 {
                     Language = obj.Language,

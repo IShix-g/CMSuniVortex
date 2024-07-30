@@ -20,9 +20,7 @@ MonoBehaviour:
   - m_GUID: ae82f4270fe684907abfb182d0fa10e7
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/MetaAddressableCustomGoogleSheetCuvModelList_Japanese.asset
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - TestLabel3
-    - TestLabel4
+    m_SerializedLabels: []
   - m_GUID: 23d66324816304ca69907d5487ad26af
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/cat_kuroashineko.png
     m_ReadOnly: 0

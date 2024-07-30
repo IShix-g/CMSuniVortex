@@ -32,9 +32,12 @@ MonoBehaviour:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
-          Labels:
-          - TestLabel3
-          - TestLabel4
+          ListLabels:
+          - ListTestLabel1_[language]
+          - ListTestLabel2
+          ContentsLabels:
+          - ContentsTestLabel1_[language]
+          - ContentsTestLabel2
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0
@@ -45,9 +48,12 @@ MonoBehaviour:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
-          Labels:
-          - TestLabel3
-          - TestLabel4
+          ListLabels:
+          - ListTestLabel1_[language]
+          - ListTestLabel2
+          ContentsLabels:
+          - ContentsTestLabel1_[language]
+          - ContentsTestLabel2
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0

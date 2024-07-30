@@ -107,18 +107,6 @@ namespace CMSuniVortex.Addressable
             }
             var entry = settings.CreateOrMoveEntry(guid, group, false, false);
             entry.address = newAddress;
-
-            if (entry.labels is {Count: > 0})
-            {
-                var labelList = new List<string>(entry.labels);
-                foreach (var label in labelList)
-                {
-                    if (!string.IsNullOrEmpty(label))
-                    {
-                        entry.SetLabel(label, false);
-                    }
-                }
-            }
             
             if (labels is {Length: > 0})
             {

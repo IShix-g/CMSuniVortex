@@ -9,15 +9,6 @@
         "com.unity.editorcoroutines": "1.0.0"
       }
     },
-    "com.ishix.uniprom": {
-      "version": "https://github.com/IShix-g/Uniprom.git?path=Packages/Uniprom",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.addressables": "1.19.19"
-      },
-      "hash": "91fabd7e997a90928807772573ff7ac2aeab7ed4"
-    },
     "com.unity.2d.animation": {
       "version": "7.1.1",
       "depth": 1,
