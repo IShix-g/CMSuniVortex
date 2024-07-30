@@ -33,7 +33,8 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var obj in objs)
             {
-                AddressableHelper.CreateGroupIfNotExists(GetGroupName(obj.Language), AddressableSettings, true);
+                var groupName = GetGroupName(obj.Language);
+                AddressableHelper.CreateGroupIfNotExists(groupName, AddressableSettings, true);
             }
             
             var assetPath = GetReferencePath(buildPath);
@@ -50,7 +51,8 @@ namespace CMSuniVortex.GoogleSheet
             for (var i = 0; i < objs.Length; i++)
             {
                 var obj = objs[i];
-                AddressableHelper.AddTo(GetGroupName(obj.Language), obj);
+                var groupName = GetGroupName(obj.Language);
+                AddressableHelper.AddTo(groupName, obj, default, AddressableSettings.Labels);
                 var model = new AddressableModel<TModel, TModelList>
                 {
                     Language = obj.Language,
