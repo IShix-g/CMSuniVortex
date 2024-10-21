@@ -150,20 +150,25 @@ namespace CMSuniVortex.Editor
             
             GUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_buildPathProp);
-            if (GUILayout.Button("Select", GUILayout.Width(60)))
+            var buttonClicked = GUILayout.Button("Select", GUILayout.Width(60));
+            GUILayout.EndHorizontal();
+
+            if (buttonClicked)
             {
                 if (!AssetDatabase.IsValidFolder(_buildPathProp.stringValue))
                 {
                     _buildPathProp.stringValue = AssetDatabase.GetAssetPath(target);
                 }
                 
-                _buildPathProp.stringValue = EditorUtility.OpenFolderPanel(
+                var selectedPath = EditorUtility.OpenFolderPanel(
                     "Select Build Path",
                     string.IsNullOrEmpty(_buildPathProp.stringValue)
                         ? "Assets/"
                         : _buildPathProp.stringValue, "Select Build Path");
-                if (!string.IsNullOrEmpty(_buildPathProp.stringValue))
+                
+                if (!string.IsNullOrEmpty(selectedPath))
                 {
+                    _buildPathProp.stringValue = selectedPath;
                     var assetsIndex = _buildPathProp.stringValue.IndexOf("Assets", StringComparison.Ordinal);
                     if (assetsIndex >= 0)
                     {
@@ -181,7 +186,6 @@ namespace CMSuniVortex.Editor
                     }
                 }
             }
-            GUILayout.EndHorizontal();
             
             GUILayout.Space(5);
             

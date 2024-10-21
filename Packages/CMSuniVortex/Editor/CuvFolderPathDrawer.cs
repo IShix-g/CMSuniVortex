@@ -26,6 +26,8 @@ namespace CMSuniVortex.Editor
             {
                 EditorApplication.delayCall += () => 
                 {
+                    property.serializedObject.Update();
+
                     var selectedPath = EditorUtility.OpenFolderPanel(
                         "Select Folder Path", 
                         string.IsNullOrEmpty(property.stringValue)
