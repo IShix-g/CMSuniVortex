@@ -44,7 +44,8 @@ namespace CMSuniVortex.GoogleSheet
             var models = new List<T>();
             for (var i = 1; i < sheet.Count; i++)
             {
-                if (sheet[i].Count == 0)
+                var length = sheet[i].Count;
+                if (length == 0 || keyIndex >= length)
                 {
                     continue;
                 }

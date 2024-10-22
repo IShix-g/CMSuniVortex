@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+
 #if UNITY_EDITOR
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
@@ -141,6 +142,11 @@ namespace CMSuniVortex.GoogleSheet
             var models = new List<GoogleSheetModel>();
             for (var i = 1; i < sheet.Count; i++)
             {
+                var length = sheet[i].Count;
+                if (length == 0 || keyIndex >= length)
+                {
+                    continue;
+                }
                 var key = sheet[i][keyIndex].ToString();
                 var text = sheet[i][langIndex].ToString();
                 if (string.IsNullOrEmpty(key)
