@@ -44,12 +44,15 @@ namespace CMSuniVortex.GoogleSheet
             var models = new List<T>();
             for (var i = 1; i < sheet.Count; i++)
             {
+                if (sheet[i].Count == 0)
+                {
+                    continue;
+                }
                 var key = sheet[i][keyIndex].ToString();
                 if (string.IsNullOrEmpty(key))
                 {
                     continue;
                 }
-                
                 sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
                 
                 var model = new T { Key = key };
