@@ -12,9 +12,9 @@ namespace CMSuniVortex.Editor
     {
         public abstract string GetName();
         public abstract string GetLogoName();
-        protected abstract IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath);
+        protected abstract IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput);
         
-        public void Generate(string className, string rootPath)
+        public void Generate(string className, string rootPath, bool isGenerateOutput)
         {
             var isChanged = false;
             var namespaceName = string.Empty;
@@ -26,7 +26,7 @@ namespace CMSuniVortex.Editor
                 className = className.Substring(lastDotIndex + 1);
             }
             
-            foreach (var result in OnGenerate(namespaceName, className, rootPath))
+            foreach (var result in OnGenerate(namespaceName, className, rootPath, isGenerateOutput))
             {
                 var changed = true;
                 CreateDirectory(result.Path);

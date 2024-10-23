@@ -33,6 +33,8 @@ namespace CMSuniVortex.Editor
         string _className;
         string _buildPath;
         readonly HashSet<ScriptGenerator> _generators = new ();
+        bool _isGenerateAddressableClient;
+        bool _isGenerateOutput = true;
 
         void OnEnable()
         {
@@ -79,13 +81,15 @@ namespace CMSuniVortex.Editor
             {
                 _className = EditorGUILayout.TextField("Full Class Name", _className);
                 GUILayout.Space(5);
+                
                 GUILayout.BeginHorizontal();
                 _buildPath = EditorGUILayout.TextField("Build Path", _buildPath);
                 if (GUILayout.Button("Select", GUILayout.Width(60)))
                 {
-                    _buildPath = EditorUtility.OpenFolderPanel("Select Build Path", "Assets/", "");
-                    if (!string.IsNullOrEmpty(_buildPath))
+                    var path = EditorUtility.OpenFolderPanel("Select Build Path", "Assets/", "");
+                    if (!string.IsNullOrEmpty(path))
                     {
+                        _buildPath = path;
                         var assetsIndex = _buildPath.IndexOf("Assets", StringComparison.Ordinal);
                         if (assetsIndex >= 0)
                         {
@@ -104,10 +108,16 @@ namespace CMSuniVortex.Editor
                     }
                 }
                 GUILayout.EndHorizontal();
+                
+                GUILayout.Space(5);
+                _isGenerateOutput = EditorGUILayout.Toggle("Generate Output", _isGenerateOutput);
             }
             GUILayout.EndVertical();
             
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(_className) || string.IsNullOrEmpty(_buildPath));
+            EditorGUI.BeginDisabledGroup(
+                string.IsNullOrEmpty(_className)
+                || string.IsNullOrEmpty(_buildPath)
+            );
             {
                 var style = new GUIStyle(GUI.skin.button)
                 {
@@ -133,7 +143,7 @@ namespace CMSuniVortex.Editor
 
                     if (isClicked)
                     {
-                        generator.Generate(_className, _buildPath);
+                        generator.Generate(_className, _buildPath, _isGenerateOutput);
                     }
                 }
 

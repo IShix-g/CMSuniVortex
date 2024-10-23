@@ -9,7 +9,7 @@ namespace CMSuniVortex.Editor.Cockpit
         public override string GetName() => "Cockpit";
         public override string GetLogoName() => "CockpitLogo";
 
-        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath)
+        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput)
         {
             var usings = string.Empty;
             if (!string.IsNullOrEmpty(namespaceName))
@@ -81,7 +81,7 @@ namespace {namespaceName}
 }}");
                 }
             }
-
+            
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvClient.cs");
                 if (!File.Exists(classPath))
@@ -106,6 +106,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvReference.cs");
                 if (!File.Exists(classPath))
@@ -121,6 +122,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvOutput.cs");
                 if (!File.Exists(classPath))
@@ -164,6 +166,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvAddressableReference.cs");
                 if (!File.Exists(classPath))
@@ -179,6 +182,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvAddressableOutput.cs");
                 if (!File.Exists(classPath))

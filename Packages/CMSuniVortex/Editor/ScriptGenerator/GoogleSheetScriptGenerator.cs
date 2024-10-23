@@ -9,7 +9,7 @@ namespace CMSuniVortex.Editor.GoogleSheet
         public override string GetName() => "Custom Google Sheet";
         public override string GetLogoName() => "GoogleSheetLogo";
 
-        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath)
+        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput)
         {
             if (string.IsNullOrEmpty(namespaceName))
             {
@@ -89,6 +89,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvReference.cs");
                 if (!File.Exists(classPath))
@@ -104,6 +105,7 @@ namespace {namespaceName}
                 }
             }
 
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvOutput.cs");
                 if (!File.Exists(classPath))
@@ -142,6 +144,7 @@ namespace {namespaceName}
                 }
             }
             
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvAddressableReference.cs");
                 if (!File.Exists(classPath))
@@ -157,6 +160,7 @@ namespace {namespaceName}
                 }
             }
             
+            if(isGenerateOutput)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvAddressableOutput.cs");
                 if (!File.Exists(classPath))
