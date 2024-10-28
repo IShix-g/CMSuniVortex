@@ -14,7 +14,7 @@ namespace CMSuniVortex.Editor
         {
             var window = GetWindow<ScriptGeneratorWindow>("Script Generator");
             window.Show();
-            window.minSize = new Vector2(480, 300);
+            window.minSize = new Vector2(480, 480);
             return window;
         }
 

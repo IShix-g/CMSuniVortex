@@ -4,13 +4,14 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEngine.Networking;
 
 namespace CMSuniVortex.Editor
 {
     sealed class CheckVersion
     {
-        internal static IEnumerator GetVersionOnServer(string gitUrl, Action<string> onSuccess, Action onFailed)
+        internal static IEnumerator GetVersionOnServer(string gitUrl, Action<string> onSuccess, Action onFailed = default)
         {
             using var request = UnityWebRequest.Get(gitUrl);
             yield return request.SendWebRequest();
@@ -32,6 +33,11 @@ namespace CMSuniVortex.Editor
             var path = Path.Combine(packagePath, "package.json");
             var json = File.ReadAllText(path);
             return GetVersionByJson(json);
+        }
+
+        internal static void OpenPackageManager()
+        {
+            EditorApplication.ExecuteMenuItem("Window/Package Manager");
         }
         
         static string GetVersionByJson(string json)

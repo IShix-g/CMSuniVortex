@@ -32,7 +32,6 @@ namespace CMSuniVortex.Editor
         Texture2D _importIcon;
         Texture2D _outputIcon;
         string _currentVersion;
-        bool _isStartCheckVersion;
 
 #if ENABLE_ADDRESSABLES
         IAddressableSettingsProvider _clientAddressableSettingsProvider;
@@ -64,7 +63,6 @@ namespace CMSuniVortex.Editor
             _importIcon = GetImportIcon();
             _outputIcon = GetOutputIcon();
             _currentVersion = "v" + CheckVersion.GetCurrent(_packagePath);
-            _isStartCheckVersion = false;
             _clientProp.isExpanded = true;
             _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
             _outputProp.isExpanded = true;
@@ -92,10 +90,9 @@ namespace CMSuniVortex.Editor
             {
                 Application.OpenURL("https://github.com/IShix-g/CMSuniVortex");
             }
-            EditorGUI.BeginDisabledGroup(_isStartCheckVersion);
+
             if (GUILayout.Button("Check for Update"))
             {
-                _isStartCheckVersion = true;
                 EditorCoroutineUtility.StartCoroutine(
                     CheckVersion.GetVersionOnServer(
                         _packageUrl,
@@ -104,7 +101,6 @@ namespace CMSuniVortex.Editor
                             var comparisonResult = 0;
                             if (!string.IsNullOrEmpty(version))
                             {
-                                Debug.Log("Local: " + _currentVersion + " | GitHub: v" + version);
                                 var current = new Version(_currentVersion.TrimStart('v').Trim());
                                 var server = new Version(version.Trim());
                                 comparisonResult = current.CompareTo(server);
@@ -113,17 +109,19 @@ namespace CMSuniVortex.Editor
                             
                             if (comparisonResult >= 0)
                             {
-                                EditorUtility.DisplayDialog("Check for Update", "The current version is the latest release.", "Close");
+                                EditorUtility.DisplayDialog("You have the latest version.", "Editor: " + _currentVersion + " | GitHub: v" + version + "\nThe current version is the latest release.", "Close");
                             }
                             else
                             {
-                                EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + "), please update from Package Manager.", "Close");
+                                var isOpen = EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + "), please update from Package Manager.", "Open Package Manager", "Close");
+                                
+                                if (isOpen)
+                                {
+                                    EditorApplication.ExecuteMenuItem("Window/Package Manager");
+                                }
                             }
-                            _isStartCheckVersion = false;
-                        },
-                        () => _isStartCheckVersion = false), this);
+                        }), this);
             }
-            EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10);

@@ -50,7 +50,7 @@ URL: `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
 
 ## Quick Start
 
-### Creating a CuvImporter
+### Generate CuvImporter
 
 Right click on the Project and select "Create > CMSuniVortex > create CuvImporter" to create a `CuvImporter`.
 
