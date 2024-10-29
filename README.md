@@ -2,8 +2,8 @@
 
 ![Unity](https://img.shields.io/badge/Unity-2021.3%2B-black)
 ![Cockpit](https://img.shields.io/badge/Cockpit-v2-black)
-![Google Drive API](https://img.shields.io/badge/GoogleAPI-Drive%20v3-blue)
-![Google Sheet API](https://img.shields.io/badge/GoogleAPI-Sheet%20v4-blue)
+![Google Drive API](https://img.shields.io/badge/GoogleAPI-Drive%20v3%201.68.0.3568-blue)
+![Google Sheet API](https://img.shields.io/badge/GoogleAPI-Sheet%20v4%201.68.0.3574-blue)
 
 # CMSuniVortex
 It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
