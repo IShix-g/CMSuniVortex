@@ -253,3 +253,15 @@ public sealed class Meta : CustomGoogleSheetModel
 この要領で削除したり追加したりして自分のオリジナルのシートを作ってみてください。
 
 ![](assets/googleSheet/custom_sheet_add_flort3.png)
+
+## Google API ライブラリ
+
+データ取得に、オフィシャルのライブラリを利用しています。
+
+[https://www.nuget.org/profiles/google-apis-packages](https://www.nuget.org/profiles/google-apis-packages)
+
+- Google.Apis
+- Google.Apis.Core
+- Google.Apis.Auth
+- Google.Apis.Drive.v3
+- Google.Apis.Sheets.v4

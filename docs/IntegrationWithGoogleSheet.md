@@ -253,3 +253,15 @@ After adding, we import.
 If it's added without any errors, like shown below, then it's complete. By removing or adding in this manner, try creating your own original sheet.
 
 ![](assets/googleSheet/custom_sheet_add_flort3.png)
+
+## Google API Libraries
+
+We are using the official libraries for data retrieval.
+
+[https://www.nuget.org/profiles/google-apis-packages](https://www.nuget.org/profiles/google-apis-packages)
+
+- Google.Apis
+- Google.Apis.Core
+- Google.Apis.Auth
+- Google.Apis.Drive.v3
+- Google.Apis.Sheets.v4
