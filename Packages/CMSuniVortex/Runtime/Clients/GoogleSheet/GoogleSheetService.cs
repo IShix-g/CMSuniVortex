@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
+using UnityEditor;
 
 namespace CMSuniVortex.GoogleSheet
 {
@@ -23,7 +25,7 @@ namespace CMSuniVortex.GoogleSheet
             return credential;
         }
 
-        public static async Task<IList<IList<object>>> GetSheet(ICredential credential, string sheetId, string sheetRange = "Sheet!A:Z")
+        public static async Task<IList<IList<object>>> GetSheet(ICredential credential, string sheetId, string sheetRange)
         {
             var sheetService = new SheetsService(new BaseClientService.Initializer
             {
@@ -48,6 +50,27 @@ namespace CMSuniVortex.GoogleSheet
             return file.ModifiedTimeDateTimeOffset;
         }
         
+        public static async Task<(bool HasUpdate, string Details)> CheckForUpdate(string sheetUrl, string jsonKeyPath, DateTime? editorLatestModifiedTime)
+        {
+            var credential = GetCredential(jsonKeyPath, new[] { DriveService.Scope.DriveReadonly });
+            var sheetID = ExtractSheetIdFromUrl(sheetUrl);
+            var result = await GetModifiedTime(credential, sheetID);
+            if (string.IsNullOrEmpty(result?.ToString()))
+            {
+                throw new OperationCanceledException("Failed to retrieve data correctly.");
+            }
+            var sheetTime = DateTime.Parse(result!.ToString());
+            var msg = $"Sheet: {sheetTime:MM/dd/yyyy HH:mm}";
+            if (editorLatestModifiedTime.HasValue)
+            {
+                msg += $"\nEditor: {editorLatestModifiedTime.Value:MM/dd/yyyy HH:mm}";
+                return (sheetTime > editorLatestModifiedTime.Value, msg);
+            }
+
+            msg += "\nEditor: Not Generated Yet";
+            return (true, msg);
+        }
+        
         public static bool IsSheetUrlValid(string sheetUrl) => s_sheetUrlRegex.IsMatch(sheetUrl);
 
         public static string ExtractSheetIdFromUrl(string sheetUrl)
@@ -66,7 +89,6 @@ namespace CMSuniVortex.GoogleSheet
             CancellationToken cancellationToken = default)
         {
             var context = SynchronizationContext.Current;
-
             @this.ConfigureAwait(false)
                 .GetAwaiter()
                 .OnCompleted(() =>
@@ -86,6 +108,54 @@ namespace CMSuniVortex.GoogleSheet
                         continuationAction(@this);
                     }
                 });
+        }
+        
+        public static void SafeContinueWith(
+            this Task @this,
+            Action<Task> continuationAction,
+            CancellationToken cancellationToken = default)
+        {
+            var context = SynchronizationContext.Current;
+            @this.ConfigureAwait(false)
+                .GetAwaiter()
+                .OnCompleted(() =>
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+        
+                    if (context != null
+                        && SynchronizationContext.Current != context)
+                    {
+                        context.Post(state => continuationAction(@this), null);
+                    }
+                    else
+                    {
+                        continuationAction(@this);
+                    }
+                });
+        }
+        
+        public static void SafeCancelAndDispose(this CancellationTokenSource @this)
+        {
+            if (@this == default)
+            {
+                return;
+            }
+            
+            try
+            {
+                if (!@this.IsCancellationRequested)
+                {
+                    @this.Cancel();
+                }
+                @this.Dispose();
+            }
+            catch
+            {
+                // Ignore
+            }
         }
     }
 }

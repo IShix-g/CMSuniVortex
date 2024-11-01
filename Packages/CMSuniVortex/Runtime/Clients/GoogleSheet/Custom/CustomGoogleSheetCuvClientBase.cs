@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -32,10 +33,20 @@ namespace CMSuniVortex.GoogleSheet
         
 #if UNITY_EDITOR
         string _modifiedTime;
+        CancellationTokenSource _source;
 #endif
+
+        protected override void OnDeselect()
+        {
+            base.OnDeselect();
+#if UNITY_EDITOR
+            _source?.SafeCancelAndDispose();
+#endif
+        }
         
         protected override void OnLoad(int currentRound, string guid, TS obj)
         {
+            base.OnLoad(currentRound, guid, obj);
 #if UNITY_EDITOR
             obj.SheetID = GoogleSheetService.ExtractSheetIdFromUrl(SheetUrl);
             obj.ModifiedDate = _modifiedTime;
@@ -129,74 +140,61 @@ namespace CMSuniVortex.GoogleSheet
         void ICuvUpdateChecker.CheckForUpdate(string buildPath, Action<bool, string> successAction, Action<string> failureAction)
         {
 #if UNITY_EDITOR
-            var credential = GoogleSheetService.GetCredential(_jsonKeyPath, new[] { DriveService.Scope.DriveReadonly });
-            var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(_sheetUrl);
-            
-            GoogleSheetService.GetModifiedTime(credential, sheetID)
-                .SafeContinueWith(task =>
+            _source = new CancellationTokenSource();
+            var modifiedTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath);
+            GoogleSheetService.CheckForUpdate(_sheetUrl, _jsonKeyPath, modifiedTime)
+                .SafeContinueWith(
+                task =>
                 {
-                    if (task.IsFaulted)
+                    try
                     {
-                        failureAction?.Invoke("Failed to retrieve updates from sheets.");
-                        if (task.Exception != default)
+                        if (!task.IsFaulted)
                         {
+                            var result = task.Result;
+                            successAction?.Invoke(result.HasUpdate, result.Details);
+                        }
+                        else if (task.Exception != default)
+                        {
+                            failureAction?.Invoke("See console for error details.");
                             throw task.Exception;
                         }
-                        return;
-                    }
-                    
-                    var result = task.Result?.ToString();
-                    if (string.IsNullOrEmpty(result))
-                    {
-                        failureAction?.Invoke("Failed to retrieve data correctly.");
-                        if (task.Exception != default)
+                        else
                         {
-                            throw task.Exception;
+                            failureAction?.Invoke("Unknown error. Please try again later.");
                         }
-                        return;
                     }
-                
-                    var hasUpdate = default(bool);
-                    var dateTime = DateTime.Parse(result);
-                    var msg = "Sheet: " + dateTime.ToString("MM/dd/yyyy HH:mm");
-                    var editorTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath);
-
-                    if (editorTime.HasValue)
+                    finally
                     {
-                        msg += "\nEditor: " + editorTime.Value.ToString("MM/dd/yyyy HH:mm");
-                        hasUpdate = dateTime > editorTime.Value;
+                        _source.SafeCancelAndDispose();
+                        _source = null;
                     }
-                    else
-                    {
-                        msg += "\nEditor: N/A";
-                        hasUpdate = true;
-                    }
-                    successAction?.Invoke(hasUpdate, msg);
-                });
-            
-            static DateTime? GetModifiedTimeFromEditor(string sheetUrl, string buildPath)
+                }, _source.Token);
+#endif
+        }
+        
+        DateTime? GetModifiedTimeFromEditor(string sheetUrl, string buildPath)
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(sheetUrl))
             {
-                if (string.IsNullOrEmpty(sheetUrl))
-                {
-                    return default;
-                }
-                if (Path.HasExtension(buildPath))
-                {
-                    buildPath = Path.GetDirectoryName(buildPath);
-                }
-                var assets = AssetDatabase.FindAssets("t:" + typeof(TS), new []{ buildPath })
-                    .Select(AssetDatabase.GUIDToAssetPath)
-                    .Select(AssetDatabase.LoadAssetAtPath<TS>)
-                    .ToArray();
-                var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
-                if (latestAsset != default
-                    && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
-                {
-                    return DateTime.Parse(latestAsset.ModifiedDate);
-                }
                 return default;
             }
+            if (Path.HasExtension(buildPath))
+            {
+                buildPath = Path.GetDirectoryName(buildPath);
+            }
+            var assets = AssetDatabase.FindAssets("t:" + typeof(TS), new []{ buildPath })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(AssetDatabase.LoadAssetAtPath<TS>)
+                .ToArray();
+            var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
+            if (latestAsset != default
+                && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+            {
+                return DateTime.Parse(latestAsset.ModifiedDate);
+            }
 #endif
+            return default;
         }
     }
 }

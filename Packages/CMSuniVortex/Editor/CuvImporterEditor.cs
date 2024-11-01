@@ -228,21 +228,23 @@ namespace CMSuniVortex.Editor
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10);
             }
-            
+
+            var prev = _clientProp.managedReferenceValue;
             if (_clientTypePopup.Draw())
             {
                 SetClientAddressableSettingsProvider();
                 _outputTypePopup.ResetTypes(GetFilteredOutputTypes());
                 _outputTypePopup.ResetReference();
-
+                
+                if (prev != null)
+                {
+                    _importer.DeselectClient();
+                }
                 if (_clientProp.managedReferenceValue != default)
                 {
                     _importer.SelectClient();
                 }
-                else
-                {
-                    _importer.DeselectClient();
-                }
+
                 _updateFlag = UpdateFlag.None;
                 _updateText = "---";
             }
