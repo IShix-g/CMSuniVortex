@@ -16,7 +16,7 @@ MonoBehaviour:
   _models:
   - Key: model_cat1
     CockpitID: 6666803aa27c48f2d70f4353
-    ModifiedDate: 2024-06-19T01:10:43.0000000+09:00
+    ModifiedDate: 2024-11-01T15:43:53.0000000+09:00
     Text: Cat1
     Number: 1111
     Image:
@@ -32,7 +32,7 @@ MonoBehaviour:
     Param: You got {number} coins.
   - Key: model_cat2
     CockpitID: 6666806a8eb2e6b8770a3de1
-    ModifiedDate: 2024-06-19T01:10:55.0000000+09:00
+    ModifiedDate: 2024-11-01T15:37:11.0000000+09:00
     Text: Cat2
     Number: 2222
     Image:

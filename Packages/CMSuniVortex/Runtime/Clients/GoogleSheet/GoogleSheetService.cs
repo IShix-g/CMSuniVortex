@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using UnityEditor;
 
 namespace CMSuniVortex.GoogleSheet
 {
@@ -98,33 +96,6 @@ namespace CMSuniVortex.GoogleSheet
                         return;
                     }
 
-                    if (context != null
-                        && SynchronizationContext.Current != context)
-                    {
-                        context.Post(state => continuationAction(@this), null);
-                    }
-                    else
-                    {
-                        continuationAction(@this);
-                    }
-                });
-        }
-        
-        public static void SafeContinueWith(
-            this Task @this,
-            Action<Task> continuationAction,
-            CancellationToken cancellationToken = default)
-        {
-            var context = SynchronizationContext.Current;
-            @this.ConfigureAwait(false)
-                .GetAwaiter()
-                .OnCompleted(() =>
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-        
                     if (context != null
                         && SynchronizationContext.Current != context)
                     {
