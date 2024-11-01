@@ -6,6 +6,7 @@ namespace CMSuniVortex.GoogleSheet
     public class GoogleSheetCuvModelList : CuvModelList<GoogleSheetModel>
     {
         public string SheetName;
+        public string ModifiedDate;
 
         public string GetTextByKey(string key)
         {

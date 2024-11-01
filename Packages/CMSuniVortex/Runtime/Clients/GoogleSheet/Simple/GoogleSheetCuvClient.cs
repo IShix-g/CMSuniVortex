@@ -4,17 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using Google.Apis.Auth.OAuth2;
+using UnityEditor;
+using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
 #endif
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public class GoogleSheetCuvClient : CuvClient<GoogleSheetModel, GoogleSheetCuvModelList>, ICuvDoc
+    public class GoogleSheetCuvClient : CuvClient<GoogleSheetModel, GoogleSheetCuvModelList>, ICuvDoc, ICuvUpdateChecker
     {
         [SerializeField, CuvOpenUrl] string _sheetUrl;
         [SerializeField] string[] _sheetNames;
@@ -32,8 +32,7 @@ namespace CMSuniVortex.GoogleSheet
         }
         
 #if UNITY_EDITOR
-        ICredential _credential;
-        GoogleCredential _googleCredential;
+        string _modifiedTime;
 #endif
 
         public override int GetRepeatCount() => _sheetNames.Length;
@@ -65,7 +64,7 @@ namespace CMSuniVortex.GoogleSheet
                 Debug.LogError("Json Key Path does not exist.");
                 return false;
             }
-            if (!IsSheetUrlValid(_sheetUrl))
+            if (!GoogleSheetService.IsSheetUrlValid(_sheetUrl))
             {
                 Debug.LogError("Could not convert Sheet Url to Sheet Id, please check if the URL is correct.");
                 return false;
@@ -73,14 +72,20 @@ namespace CMSuniVortex.GoogleSheet
             return true;
         }
 
-        protected override void OnLoad(int currentRound, string guid, GoogleSheetCuvModelList obj) => obj.SheetName = _sheetNames[currentRound - 1];
+        protected override void OnLoad(int currentRound, string guid, GoogleSheetCuvModelList obj)
+        {
+#if UNITY_EDITOR
+            obj.SheetName = _sheetNames[currentRound - 1];
+            obj.ModifiedDate = _modifiedTime;
+#endif
+        }
 
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<GoogleSheetModel[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-           _credential ??= GoogleSheetService.GetCredential(_jsonKeyPath, new[] {SheetsService.Scope.SpreadsheetsReadonly});
+            var credential = GoogleSheetService.GetCredential(_jsonKeyPath, new[] { SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly });
 
-            if (_credential == default)
+            if (credential == default)
             {
                 var error = "Goole auth authentication failed.";
                 Debug.LogError(error);
@@ -88,14 +93,17 @@ namespace CMSuniVortex.GoogleSheet
                 yield break;
             }
             
-            var sheetID = ExtractSheetIdFromUrl(_sheetUrl);
+            var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(_sheetUrl);
             var sheetName = _sheetNames[currentRound - 1];
-            var opSheet = GoogleSheetService.GetSheet(_credential, sheetID, sheetName);
+            var opSheet = GoogleSheetService.GetSheet(credential, sheetID, sheetName);
+            var opModified = GoogleSheetService.GetModifiedTime(credential, sheetID);
 
-            while (!opSheet.IsCompleted)
+            while (!opSheet.IsCompleted
+                   || !opModified.IsCompleted)
             {
                 yield return default;
             }
+            
             if (opSheet.IsCanceled)
             {
                 var error = "The operation was canceled.";
@@ -110,6 +118,10 @@ namespace CMSuniVortex.GoogleSheet
                 onError?.Invoke(error);
                 yield break;
             }
+            
+            _modifiedTime = !opModified.IsFaulted
+                ? opModified.Result?.ToString()
+                : string.Empty;
             
             var sheet = opSheet.Result;
             var keyValue = "Key";
@@ -178,27 +190,92 @@ namespace CMSuniVortex.GoogleSheet
             return default;
 #endif
         }
-        
+
         string ICuvDoc.GetCmsName() => "Google Sheet";
         
         string ICuvDoc.GetDocUrl() => "https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md";
         
-        public static bool IsSheetUrlValid(string sheetUrl)
+        
+        bool ICuvUpdateChecker.IsUpdateAvailable()
+            => !string.IsNullOrEmpty(_sheetUrl)
+               && _sheetNames is {Length: > 0} 
+               && !string.IsNullOrEmpty(_jsonKeyPath);
+
+        void ICuvUpdateChecker.CheckForUpdate(string buildPath, Action<bool, string> successAction, Action<string> failureAction)
         {
-            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
-            var match = regex.Match(sheetUrl);
-            return match.Success;
+#if UNITY_EDITOR
+            var credential = GoogleSheetService.GetCredential(_jsonKeyPath, new[] { DriveService.Scope.DriveReadonly });
+            var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(_sheetUrl);
+            
+            GoogleSheetService.GetModifiedTime(credential, sheetID)
+                .SafeContinueWith(task =>
+                {
+                    if (task.IsFaulted)
+                    {
+                        failureAction?.Invoke("Failed to retrieve updates from sheets.");
+                        if (task.Exception != default)
+                        {
+                            throw task.Exception;
+                        }
+                        return;
+                    }
+                    
+                    var result = task.Result?.ToString();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        failureAction?.Invoke("Failed to retrieve data correctly.");
+                        if (task.Exception != default)
+                        {
+                            throw task.Exception;
+                        }
+                        return;
+                    }
+                
+                    var hasUpdate = default(bool);
+                    var sheetTime = DateTime.Parse(result);
+                    var msg = "Sheet: " + sheetTime.ToString("MM/dd/yyyy HH:mm");
+                    var editorTime = GetModifiedTimeFromEditor(buildPath);
+                    if (editorTime.HasValue)
+                    {
+                        msg += "\nEditor: " + editorTime.Value.ToString("MM/dd/yyyy HH:mm");
+                        hasUpdate = sheetTime > editorTime.Value;
+                    }
+                    else
+                    {
+                        msg += "\nEditor: N/A";
+                        hasUpdate = true;
+                    }
+                    successAction?.Invoke(hasUpdate, msg);
+                });
+#endif
         }
 
-        public static string ExtractSheetIdFromUrl(string sheetUrl)
+#if UNITY_EDITOR
+        DateTime? GetModifiedTimeFromEditor(string buildPath)
         {
-            var regex = new Regex(@"spreadsheets/d/([a-zA-Z0-9-_]+)");
-            var match = regex.Match(sheetUrl);
-            if (match.Success)
+            if (string.IsNullOrEmpty(_sheetUrl))
             {
-                return match.Groups[1].Value;
+                return null;
             }
-            throw new ArgumentException("Could not convert Sheet Url to Sheet Id, please check if the URL is correct.");
+            if (Path.HasExtension(buildPath))
+            {
+                buildPath = Path.GetDirectoryName(buildPath);
+            }
+            
+            var assets = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvModelList), new []{ buildPath })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(AssetDatabase.LoadAssetAtPath<GoogleSheetCuvModelList>)
+                .ToArray();
+
+            var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate)
+                .FirstOrDefault();
+            if (latestAsset != default
+                && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+            {
+                return DateTime.Parse(latestAsset.ModifiedDate);
+            }
+            return default;
         }
+#endif
     }
 }

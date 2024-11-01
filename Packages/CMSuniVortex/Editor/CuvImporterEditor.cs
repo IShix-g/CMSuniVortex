@@ -18,6 +18,9 @@ namespace CMSuniVortex.Editor
     {
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
+        static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
+        
+        enum UpdateFlag { None, Update, Error, NowLoading }
         
         SerializedProperty _scriptProp;
         SerializedProperty _buildPathProp;
@@ -27,18 +30,17 @@ namespace CMSuniVortex.Editor
         CuvTypePopup _clientTypePopup;
         CuvTypePopup _outputTypePopup;
         ICuvImporter _importer;
-        ICuvDoc _cuvDoc;
         Texture2D _logo;
         Texture2D _importIcon;
         Texture2D _outputIcon;
         string _currentVersion;
+        string _updateText = "---";
+        UpdateFlag _updateFlag;
 
 #if ENABLE_ADDRESSABLES
         IAddressableSettingsProvider _clientAddressableSettingsProvider;
         IAddressableSettingsProvider _outputAddressableSettingsProvider;
 #endif
-
-        static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
         
         void OnEnable()
         {
@@ -64,13 +66,12 @@ namespace CMSuniVortex.Editor
             _outputIcon = GetOutputIcon();
             _currentVersion = "v" + CheckVersion.GetCurrent(_packagePath);
             _clientProp.isExpanded = true;
-            _cuvDoc = _clientProp.managedReferenceValue as ICuvDoc;
             _outputProp.isExpanded = true;
             
             SetClientAddressableSettingsProvider();
             SetOutputAddressableSettingsProvider();
         }
-
+        
         public override void OnInspectorGUI()
         {
             serializedObject.UpdateIfRequiredOrScript();
@@ -205,10 +206,8 @@ namespace CMSuniVortex.Editor
             }
             
             GUILayout.Space(10);
-
-            _cuvDoc ??= _clientProp.managedReferenceValue as ICuvDoc;
             
-            if (_cuvDoc != default)
+            if (_clientProp.managedReferenceValue is ICuvDoc cuvDoc)
             {
                 var boxStyle = new GUIStyle(GUI.skin.box)
                 {
@@ -220,11 +219,11 @@ namespace CMSuniVortex.Editor
                     padding = new RectOffset(5, 5, 5, 5),
                     alignment = TextAnchor.MiddleCenter,
                 };
-                GUILayout.Label(_cuvDoc.GetCmsName(), labelStyle);
-                if (!string.IsNullOrEmpty(_cuvDoc.GetDocUrl())
+                GUILayout.Label(cuvDoc.GetCmsName(), labelStyle);
+                if (!string.IsNullOrEmpty(cuvDoc.GetDocUrl())
                     && GUILayout.Button("doc", GUILayout.Width(50)))
                 {
-                    Application.OpenURL(_cuvDoc.GetDocUrl());
+                    Application.OpenURL(cuvDoc.GetDocUrl());
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10);
@@ -244,8 +243,59 @@ namespace CMSuniVortex.Editor
                 {
                     _importer.DeselectClient();
                 }
+                _updateFlag = UpdateFlag.None;
+                _updateText = "---";
             }
 
+            if (_clientProp.managedReferenceValue is ICuvUpdateChecker checker)
+            {
+                GUILayout.Space(5);
+                var boxStyle = new GUIStyle(GUI.skin.box)
+                {
+                    padding = new RectOffset(5, 5, 5, 5),
+                };
+                GUILayout.BeginHorizontal(boxStyle);
+
+                EditorGUI.BeginDisabledGroup(
+                    !checker.IsUpdateAvailable()
+                    || _updateFlag == UpdateFlag.NowLoading
+                    || _importer.IsLoading
+                );
+                if (GUILayout.Button("Check for Updates", GUILayout.Width(130)))
+                {
+                    _updateFlag = UpdateFlag.NowLoading;
+                    _updateText = "Now check for updates...";
+                    
+                    checker.CheckForUpdate(_buildPathProp.stringValue, (has, msg) =>
+                    {
+                        _updateText = has ? "Updates available. Please import.\n" : "You have the latest version.\n";
+                        _updateText += msg;
+                        _updateFlag = has ? UpdateFlag.Update : UpdateFlag.None;
+                    }, msg =>
+                    {
+                        _updateText = "Update check failed.\n";
+                        _updateText += msg;
+                        _updateFlag = UpdateFlag.Error;
+                    });
+                }
+                EditorGUI.EndDisabledGroup();
+                    
+                var labelStyle = new GUIStyle(GUI.skin.label)
+                {
+                    padding = new RectOffset(5, 5, 5, 5),
+                    alignment = TextAnchor.MiddleLeft
+                };
+                labelStyle.normal.textColor = _updateFlag switch
+                {
+                    UpdateFlag.NowLoading => Color.green,
+                    UpdateFlag.Update => Color.cyan,
+                    UpdateFlag.Error => Color.red,
+                    _ => labelStyle.normal.textColor
+                };
+                GUILayout.Label(_updateText, labelStyle);
+                GUILayout.EndHorizontal();
+            }
+            
             GUILayout.Space(20);
             
             EditorGUI.BeginDisabledGroup(_importer.IsLoading);
@@ -256,6 +306,8 @@ namespace CMSuniVortex.Editor
                     if (_importer.CanIImport())
                     {
                         _importer.StartImport();
+                        _updateFlag = UpdateFlag.None;
+                        _updateText = "---";
                     }
                 }
             }

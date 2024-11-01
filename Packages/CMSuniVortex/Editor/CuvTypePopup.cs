@@ -51,13 +51,14 @@ namespace CMSuniVortex.Editor
             var selectedIndex = EditorGUILayout.Popup(targetIndex == 0 ? Property.displayName : string.Empty, targetIndex, _options);
             
             SelectedIndex = selectedIndex;
-
+            
             if (!EditorGUI.EndChangeCheck())
             {
                 if (Property.managedReferenceValue != default)
                 {
                     EditorGUILayout.PropertyField(Property, true);
                 }
+                
                 return false;
             }
             if (selectedIndex == 0)
@@ -73,6 +74,7 @@ namespace CMSuniVortex.Editor
                     Property.managedReferenceValue = Activator.CreateInstance(selectedType);
                 }
             }
+            
             return true;
         }
     }
