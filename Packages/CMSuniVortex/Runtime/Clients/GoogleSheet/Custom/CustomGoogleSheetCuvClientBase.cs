@@ -131,6 +131,7 @@ namespace CMSuniVortex.GoogleSheet
 #if UNITY_EDITOR
             var credential = GoogleSheetService.GetCredential(_jsonKeyPath, new[] { DriveService.Scope.DriveReadonly });
             var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(_sheetUrl);
+            
             GoogleSheetService.GetModifiedTime(credential, sheetID)
                 .SafeContinueWith(task =>
                 {
@@ -158,7 +159,7 @@ namespace CMSuniVortex.GoogleSheet
                     var hasUpdate = default(bool);
                     var dateTime = DateTime.Parse(result);
                     var msg = "Sheet: " + dateTime.ToString("MM/dd/yyyy HH:mm");
-                    var editorTime = GetModifiedTimeFromEditor(buildPath);
+                    var editorTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath);
 
                     if (editorTime.HasValue)
                     {
@@ -172,33 +173,30 @@ namespace CMSuniVortex.GoogleSheet
                     }
                     successAction?.Invoke(hasUpdate, msg);
                 });
-#endif
-        }
-
-#if UNITY_EDITOR
-        DateTime? GetModifiedTimeFromEditor(string buildPath)
-        {
-            if (string.IsNullOrEmpty(_sheetUrl))
-            {
-                return null;
-            }
-            if (Path.HasExtension(buildPath))
-            {
-                buildPath = Path.GetDirectoryName(buildPath);
-            }
             
-            var assets = AssetDatabase.FindAssets("t:" + typeof(TS), new []{ buildPath })
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(AssetDatabase.LoadAssetAtPath<TS>)
-                .ToArray();
-            var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
-            if (latestAsset != default
-                && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+            static DateTime? GetModifiedTimeFromEditor(string sheetUrl, string buildPath)
             {
-                return DateTime.Parse(latestAsset.ModifiedDate);
+                if (string.IsNullOrEmpty(sheetUrl))
+                {
+                    return default;
+                }
+                if (Path.HasExtension(buildPath))
+                {
+                    buildPath = Path.GetDirectoryName(buildPath);
+                }
+                var assets = AssetDatabase.FindAssets("t:" + typeof(TS), new []{ buildPath })
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Select(AssetDatabase.LoadAssetAtPath<TS>)
+                    .ToArray();
+                var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
+                if (latestAsset != default
+                    && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+                {
+                    return DateTime.Parse(latestAsset.ModifiedDate);
+                }
+                return default;
             }
-            return default;
-        }
 #endif
+        }
     }
 }

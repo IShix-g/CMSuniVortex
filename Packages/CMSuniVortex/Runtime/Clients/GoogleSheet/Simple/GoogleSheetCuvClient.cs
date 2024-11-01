@@ -234,7 +234,7 @@ namespace CMSuniVortex.GoogleSheet
                     var hasUpdate = default(bool);
                     var sheetTime = DateTime.Parse(result);
                     var msg = "Sheet: " + sheetTime.ToString("MM/dd/yyyy HH:mm");
-                    var editorTime = GetModifiedTimeFromEditor(buildPath);
+                    var editorTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath);
                     if (editorTime.HasValue)
                     {
                         msg += "\nEditor: " + editorTime.Value.ToString("MM/dd/yyyy HH:mm");
@@ -247,35 +247,30 @@ namespace CMSuniVortex.GoogleSheet
                     }
                     successAction?.Invoke(hasUpdate, msg);
                 });
-#endif
-        }
-
-#if UNITY_EDITOR
-        DateTime? GetModifiedTimeFromEditor(string buildPath)
-        {
-            if (string.IsNullOrEmpty(_sheetUrl))
-            {
-                return null;
-            }
-            if (Path.HasExtension(buildPath))
-            {
-                buildPath = Path.GetDirectoryName(buildPath);
-            }
             
-            var assets = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvModelList), new []{ buildPath })
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(AssetDatabase.LoadAssetAtPath<GoogleSheetCuvModelList>)
-                .ToArray();
-
-            var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate)
-                .FirstOrDefault();
-            if (latestAsset != default
-                && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+            static DateTime? GetModifiedTimeFromEditor(string sheetUrl, string buildPath)
             {
-                return DateTime.Parse(latestAsset.ModifiedDate);
+                if (string.IsNullOrEmpty(sheetUrl))
+                {
+                    return default;
+                }
+                if (Path.HasExtension(buildPath))
+                {
+                    buildPath = Path.GetDirectoryName(buildPath);
+                }
+                var assets = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvModelList), new []{ buildPath })
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Select(AssetDatabase.LoadAssetAtPath<GoogleSheetCuvModelList>)
+                    .ToArray();
+                var latestAsset = assets.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
+                if (latestAsset != default
+                    && !string.IsNullOrEmpty(latestAsset.ModifiedDate))
+                {
+                    return DateTime.Parse(latestAsset.ModifiedDate);
+                }
+                return default;
             }
-            return default;
-        }
 #endif
+        }
     }
 }
