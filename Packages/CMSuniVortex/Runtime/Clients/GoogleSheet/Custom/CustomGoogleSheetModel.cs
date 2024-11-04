@@ -17,13 +17,11 @@ using UnityEngine.AddressableAssets;
 namespace CMSuniVortex.GoogleSheet
 {
     [Serializable]
-    public abstract class CustomGoogleSheetModel : ICuvModel, IObjectDeserializer
+    public abstract class CustomGoogleSheetModel : GoogleSheetModelBase, IObjectDeserializer
 #if ENABLE_ADDRESSABLES
         ,IAddressableModel
 #endif
     {
-        public string Key;
-        
         Dictionary<string, string> _contents;
         
         public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
@@ -33,8 +31,6 @@ namespace CMSuniVortex.GoogleSheet
         public string AssetSavePath { get; private set; }
         
         protected abstract void OnDeserialize();
-        
-        public string GetKey() => Key;
         
 #if UNITY_EDITOR
         public void SetData(string assetSavePath) => AssetSavePath = assetSavePath;

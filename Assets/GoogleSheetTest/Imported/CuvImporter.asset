@@ -30,10 +30,10 @@ MonoBehaviour:
       type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:
         _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/edit?gid=0#gid=0
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
         _sheetNames:
         - Animals
         - SeaCreatures
-        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
     - rid: 5308239191345725441
       type: {class: GoogleSheetCuvOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:

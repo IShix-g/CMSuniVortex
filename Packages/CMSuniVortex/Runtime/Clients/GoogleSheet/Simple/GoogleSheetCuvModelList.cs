@@ -3,10 +3,9 @@ using UnityEngine;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public class GoogleSheetCuvModelList : CuvModelList<GoogleSheetModel>
+    public class GoogleSheetCuvModelList : GoogleSheetCuvModelListBase<GoogleSheetModel>
     {
         public string SheetName;
-        public string ModifiedDate;
 
         public string GetTextByKey(string key)
         {

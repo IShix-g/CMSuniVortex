@@ -10,16 +10,13 @@ using UnityEngine.AddressableAssets;
 namespace CMSuniVortex.GoogleSheet
 {
     [Serializable]
-    public class GoogleSheetModel : ICuvModel
+    public class GoogleSheetModel : GoogleSheetModelBase
 #if ENABLE_ADDRESSABLES
         ,IAddressableModel
 #endif
     {
-        public string Key;
         public string Text;
         public string Comment;
-
-        public string GetKey() => Key;
         
 #if ENABLE_ADDRESSABLES
         HashSet<AddressableAction> IAddressableModel.AddressableActions { get; }

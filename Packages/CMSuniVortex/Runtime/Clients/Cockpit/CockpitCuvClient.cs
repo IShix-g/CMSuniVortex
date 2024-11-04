@@ -5,12 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CMSuniVortex.GoogleSheet;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using CMSuniVortex.Tasks;
 
 #if UNITY_EDITOR
+using System.Net.Http;
 using UnityEditor;
 #endif
 
@@ -63,7 +64,7 @@ namespace CMSuniVortex.Cockpit
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
-            var url = GetLoadAllItemsUrl(language);
+            var url = ConvertToLoadAllItemsUrl(language);
             using var request = UnityWebRequest.Get(url);
             request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
             request.SetRequestHeader("api-key", _apiKey);
@@ -99,7 +100,7 @@ namespace CMSuniVortex.Cockpit
 #endif
         }
         
-        string GetLoadAllItemsUrl(SystemLanguage language)
+        string ConvertToLoadAllItemsUrl(SystemLanguage language)
             => Path.Combine(_baseUrl, "api/content/items/", $"{_modelName.Trim('/')}?locale={language}&sort=%7B_id%3A+1%7D");
         
         bool ICuvUpdateChecker.IsUpdateAvailable()
@@ -145,7 +146,23 @@ namespace CMSuniVortex.Cockpit
 
             foreach (var asset in lists)
             {
-                var results = await GetModels(asset.Language);
+                var url = ConvertToLoadAllItemsUrl(asset.Language);
+                using var request = UnityWebRequest.Get(url);
+                request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
+                request.SetRequestHeader("api-key", _apiKey);
+            
+                await request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError($"LoadModelsInternal: {request.error}");
+                    throw new HttpRequestException($"LoadModelsInternal: {request.error}");
+                }
+
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(CreateConverter());
+                var results = JsonConvert.DeserializeObject<T[]>(request.downloadHandler.text, settings);
+                
                 sb.Append("- ");
                 sb.Append(asset.Language);
                 sb.Append(" -\n");
@@ -187,34 +204,6 @@ namespace CMSuniVortex.Cockpit
                 }
             }
             return default;
-        }
-        
-        async Task<T[]> GetModels(SystemLanguage language)
-        {
-            var url = GetLoadAllItemsUrl(language);
-            using var request = UnityWebRequest.Get(url);
-            request.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
-            request.SetRequestHeader("api-key", _apiKey);
-
-            var operation = request.SendWebRequest();
-            await CompleteOperation(operation);
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"LoadModelsInternal: {request.error}");
-                throw new Exception($"LoadModelsInternal: {request.error}");
-            }
-
-            var settings = new JsonSerializerSettings();
-            settings.Converters.Add(CreateConverter());
-            return JsonConvert.DeserializeObject<T[]>(request.downloadHandler.text, settings);
-        }
-
-        static Task CompleteOperation(AsyncOperation operation)
-        {
-            var tcs = new TaskCompletionSource<object>();
-            operation.completed += _ => tcs.SetResult(null);
-            return tcs.Task;
         }
 #endif
         
