@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
@@ -22,7 +23,7 @@ namespace CMSuniVortex.GoogleSheet
             return credential;
         }
 
-        public static async Task<IList<IList<object>>> GetSheet(ICredential credential, string sheetId, string sheetRange)
+        public static async Task<IList<IList<object>>> GetSheet(ICredential credential, string sheetId, string sheetRange, CancellationToken token)
         {
             var sheetService = new SheetsService(new BaseClientService.Initializer
             {
@@ -30,11 +31,11 @@ namespace CMSuniVortex.GoogleSheet
                 ApplicationName = "CMSuniVortex Google Sheets Integration"
             });
             var request = sheetService.Spreadsheets.Values.Get(sheetId, sheetRange);
-            var response = await request.ExecuteAsync();
+            var response = await request.ExecuteAsync(token);
             return response.Values;
         }
         
-        public static async Task<DateTimeOffset?> GetModifiedTime(ICredential credential, string sheetId)
+        public static async Task<DateTimeOffset?> GetModifiedTime(ICredential credential, string sheetId, CancellationToken token)
         {
             var driveService = new DriveService(new BaseClientService.Initializer()
             {
@@ -43,15 +44,15 @@ namespace CMSuniVortex.GoogleSheet
             });
             var request = driveService.Files.Get(sheetId);
             request.Fields = "modifiedTime";
-            var file = await request.ExecuteAsync();
+            var file = await request.ExecuteAsync(token);
             return file.ModifiedTimeDateTimeOffset;
         }
         
-        public static async Task<(bool HasUpdate, string Details)> CheckForUpdate(string sheetUrl, string jsonKeyPath, DateTime? editorLatestModifiedTime)
+        public static async Task<(bool HasUpdate, string Details)> CheckForUpdate(string sheetUrl, string jsonKeyPath, DateTime? editorLatestModifiedTime, CancellationToken token)
         {
             var credential = GetCredential(jsonKeyPath, new[] { DriveService.Scope.DriveReadonly });
             var sheetID = ExtractSheetIdFromUrl(sheetUrl);
-            var result = await GetModifiedTime(credential, sheetID);
+            var result = await GetModifiedTime(credential, sheetID, token);
             if (string.IsNullOrEmpty(result?.ToString()))
             {
                 throw new OperationCanceledException("Failed to retrieve data correctly.");

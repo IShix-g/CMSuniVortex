@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 #if UNITY_EDITOR
+using System.Threading;
 using UnityEditor;
 using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
@@ -17,7 +18,16 @@ namespace CMSuniVortex.GoogleSheet
     {
 #if UNITY_EDITOR
         string _modifiedTime;
+        CancellationTokenSource _source;
 #endif
+        
+        protected override void OnDeselect()
+        {
+            base.OnDeselect();
+#if UNITY_EDITOR
+            _source?.SafeCancelAndDispose();
+#endif
+        }
         
         protected override void OnLoad(int currentRound, string guid, TS obj)
         {
@@ -41,18 +51,21 @@ namespace CMSuniVortex.GoogleSheet
             }
 
             var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(SheetUrl);
-            var opSheet = GoogleSheetService.GetSheet(credential, sheetID, sheetRange);
-            var opModified = GoogleSheetService.GetModifiedTime(credential, sheetID);
+            
+            _source = new CancellationTokenSource();
+            var opSheet = GoogleSheetService.GetSheet(credential, sheetID, sheetRange, _source.Token);
+            var opModified = GoogleSheetService.GetModifiedTime(credential, sheetID, _source.Token);
 
             while (!opSheet.IsCompleted
                    || !opModified.IsCompleted)
             {
                 yield return default;
             }
+            
             if (opSheet.IsCanceled)
             {
                 var error = "The operation was canceled.";
-                Debug.LogError(error);
+                Debug.LogWarning(error);
                 onError?.Invoke(error);
                 yield break;
             }
@@ -67,6 +80,9 @@ namespace CMSuniVortex.GoogleSheet
             _modifiedTime = !opModified.IsFaulted
                 ? opModified.Result?.ToString()
                 : string.Empty;
+            
+            _source?.Dispose();
+            _source = default;
             
             onSuccess?.Invoke(opSheet.Result);
 #else

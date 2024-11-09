@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
-using CMSuniVortex.Tasks;
 
 namespace CMSuniVortex.GoogleSheet
 {
@@ -26,14 +25,14 @@ namespace CMSuniVortex.GoogleSheet
         }
         
 #if UNITY_EDITOR
-        CancellationTokenSource _source;
+        CancellationTokenSource _updateTokenSource;
 #endif
 
         protected override void OnDeselect()
         {
             base.OnDeselect();
 #if UNITY_EDITOR
-            _source?.SafeCancelAndDispose();
+            _updateTokenSource?.SafeCancelAndDispose();
 #endif
         }
         
@@ -83,36 +82,31 @@ namespace CMSuniVortex.GoogleSheet
         public virtual void CheckForUpdate(string buildPath, Action<bool, string> successAction, Action<string> failureAction)
         {
 #if UNITY_EDITOR
-            _source = new CancellationTokenSource();
+            _updateTokenSource = new CancellationTokenSource();
             var lists = LoadEditorCuvModelLists(buildPath);
             var modifiedTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath, lists);
-            GoogleSheetService.CheckForUpdate(_sheetUrl, _jsonKeyPath, modifiedTime)
-                .SafeContinueWith(
-                task =>
-                {
-                    try
+            GoogleSheetService.CheckForUpdate(_sheetUrl, _jsonKeyPath, modifiedTime, _updateTokenSource.Token)
+                .ContinueOnMainThread(
+                    onSuccess: task =>
                     {
-                        if (!task.IsFaulted)
-                        {
-                            var result = task.Result;
-                            successAction?.Invoke(result.HasUpdate, result.Details);
-                        }
-                        else if (task.Exception != default)
+                        var result = task.Result;
+                        successAction?.Invoke(result.HasUpdate, result.Details);
+                    },
+                    onError: error =>
+                    {
+                        if (error != default)
                         {
                             failureAction?.Invoke("See console for error details.");
-                            throw task.Exception;
+                            throw error;
                         }
-                        else
-                        {
-                            failureAction?.Invoke("Unknown error. Please try again later.");
-                        }
-                    }
-                    finally
+                        
+                        failureAction?.Invoke("Unknown error. Please try again later.");
+                    },
+                    onCompleted: () =>
                     {
-                        _source.SafeCancelAndDispose();
-                        _source = null;
-                    }
-                }, _source.Token);
+                        _updateTokenSource?.Dispose();
+                        _updateTokenSource = default;
+                    });
 #endif
         }
 

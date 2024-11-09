@@ -4,6 +4,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -37,6 +38,18 @@ namespace CMSuniVortex.Cockpit
         {
             get => _modelName;
             set => _modelName = value;
+        }
+        
+#if UNITY_EDITOR
+        CancellationTokenSource _updateTokenSource;
+#endif
+        
+        protected override void OnDeselect()
+        {
+            base.OnDeselect();
+#if UNITY_EDITOR
+            _updateTokenSource?.SafeCancelAndDispose();
+#endif
         }
         
         protected abstract JsonConverter<T> CreateConverter();
@@ -111,24 +124,30 @@ namespace CMSuniVortex.Cockpit
         void ICuvUpdateChecker.CheckForUpdate(string buildPath, Action<bool, string> successAction, Action<string> failureAction)
         {
 #if UNITY_EDITOR
+            _updateTokenSource = new CancellationTokenSource();
             CheckForUpdate(buildPath)
-                .SafeContinueWith(task =>
-                {
-                    if (!task.IsFaulted)
+                .ContinueOnMainThread(
+                    onSuccess: task =>
                     {
                         var result = task.Result;
                         successAction?.Invoke(result.HasUpdate, result.Details);
-                    }
-                    else if (task.Exception != null)
+                    },
+                    onError: error =>
                     {
-                        failureAction?.Invoke("See console for error details.");
-                        throw task.Exception;
-                    }
-                    else
-                    {
+                        if (error != default)
+                        {
+                            failureAction?.Invoke("See console for error details.");
+                            throw error;
+                        }
+                        
                         failureAction?.Invoke("Unknown error. Please try again later.");
-                    }
-                });
+                    },
+                    onCompleted: () =>
+                    {
+                        _updateTokenSource?.Dispose();
+                        _updateTokenSource = default;
+                    },
+                    cancellationToken: _updateTokenSource.Token);
 #endif
         }
 

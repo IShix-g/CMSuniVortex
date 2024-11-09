@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 #if UNITY_EDITOR
+using System.Threading;
 using UnityEditor;
 using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
@@ -19,7 +20,15 @@ namespace CMSuniVortex.GoogleSheet
         
 #if UNITY_EDITOR
         string _modifiedTime;
+        CancellationTokenSource _source;
 #endif
+        protected override void OnDeselect()
+        {
+            base.OnDeselect();
+#if UNITY_EDITOR
+            _source?.SafeCancelAndDispose();
+#endif
+        }
         
         public override int GetRepeatCount() => _sheetNames.Length;
         
@@ -62,11 +71,13 @@ namespace CMSuniVortex.GoogleSheet
             
             var sheetID = GoogleSheetService.ExtractSheetIdFromUrl(SheetUrl);
             var sheetName = _sheetNames[currentRound - 1];
-            var opSheet = GoogleSheetService.GetSheet(credential, sheetID, sheetName);
-            var opModified = GoogleSheetService.GetModifiedTime(credential, sheetID);
+            
+            _source = new CancellationTokenSource();
+            var opSheet = GoogleSheetService.GetSheet(credential, sheetID, sheetName, _source.Token);
+            var opModified = GoogleSheetService.GetModifiedTime(credential, sheetID, _source.Token);
 
             while (!opSheet.IsCompleted
-                   || !opModified.IsCompleted)
+                    || !opModified.IsCompleted)
             {
                 yield return default;
             }
@@ -74,10 +85,11 @@ namespace CMSuniVortex.GoogleSheet
             if (opSheet.IsCanceled)
             {
                 var error = "The operation was canceled.";
-                Debug.LogError(error);
+                Debug.LogWarning(error);
                 onError?.Invoke(error);
                 yield break;
             }
+            
             if (opSheet.IsFaulted)
             {
                 var error = "Failed to get sheet: " + opSheet.Exception;

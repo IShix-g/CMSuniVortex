@@ -41,7 +41,8 @@ namespace CMSuniVortex.Tests
                 throw new ApplicationException("Google auth authentication failed.");
             }
             
-            var op = GoogleSheetService.GetSheet(_credential, _sheetID, _language.ToString());
+            var source = new CancellationTokenSource();
+            var op = GoogleSheetService.GetSheet(_credential, _sheetID, _language.ToString(), source.Token);
             while (!op.IsCompleted)
             {
                 yield return default;

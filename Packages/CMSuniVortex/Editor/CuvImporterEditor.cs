@@ -1,11 +1,14 @@
 
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CMSuniVortex.Tasks;
 using UnityEditor;
 using UnityEngine;
 using JetBrains.Annotations;
 using Unity.EditorCoroutines.Editor;
-using Debug = UnityEngine.Debug;
+using UnityEditor.PackageManager;
 
 #if ENABLE_ADDRESSABLES
 using CMSuniVortex.Addressable;
@@ -18,6 +21,9 @@ namespace CMSuniVortex.Editor
     {
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
+        const string _packageName = "com.ishix.cmsunivortex";
+        const string _gitUrl = "https://github.com/IShix-g/CMSuniVortex";
+        const string _gitInstallUrl = _gitUrl + ".git?path=Packages/CMSuniVortex";
         static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
         
         enum UpdateFlag { None, Update, Error, NowLoading }
@@ -36,6 +42,8 @@ namespace CMSuniVortex.Editor
         string _currentVersion;
         string _updateText = "---";
         UpdateFlag _updateFlag;
+        bool _isProcessing;
+        readonly PackageInstaller _packageInstaller = new ();
 
 #if ENABLE_ADDRESSABLES
         IAddressableSettingsProvider _clientAddressableSettingsProvider;
@@ -71,6 +79,14 @@ namespace CMSuniVortex.Editor
             SetClientAddressableSettingsProvider();
             SetOutputAddressableSettingsProvider();
         }
+
+        void OnDisable()
+        {
+            if (_packageInstaller.IsProcessing)
+            {
+                _packageInstaller.Cancel();
+            }
+        }
         
         public override void OnInspectorGUI()
         {
@@ -89,7 +105,7 @@ namespace CMSuniVortex.Editor
             }
             if (GUILayout.Button("Github"))
             {
-                Application.OpenURL("https://github.com/IShix-g/CMSuniVortex");
+                Application.OpenURL(_gitUrl);
             }
 
             if (GUILayout.Button("Check for Update"))
@@ -118,7 +134,7 @@ namespace CMSuniVortex.Editor
                                 
                                 if (isOpen)
                                 {
-                                    EditorApplication.ExecuteMenuItem("Window/Package Manager");
+                                    _packageInstaller.InstallAsync(_gitInstallUrl, _packageName).Handled();
                                 }
                             }
                         }), this);
@@ -146,6 +162,11 @@ namespace CMSuniVortex.Editor
             GUILayout.EndVertical();
             
             GUILayout.Space(10);
+            
+            EditorGUI.BeginDisabledGroup(
+                _isProcessing
+                || _updateFlag == UpdateFlag.NowLoading
+                || _importer.IsLoading);
             
             GUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_buildPathProp);
@@ -258,11 +279,8 @@ namespace CMSuniVortex.Editor
                 };
                 GUILayout.BeginHorizontal(boxStyle);
 
-                EditorGUI.BeginDisabledGroup(
-                    !checker.IsUpdateAvailable()
-                    || _updateFlag == UpdateFlag.NowLoading
-                    || _importer.IsLoading
-                );
+                EditorGUI.BeginDisabledGroup(!checker.IsUpdateAvailable());
+                
                 if (GUILayout.Button("Check for Updates", GUILayout.Width(130)))
                 {
                     _updateFlag = UpdateFlag.NowLoading;
@@ -300,7 +318,6 @@ namespace CMSuniVortex.Editor
             
             GUILayout.Space(20);
             
-            EditorGUI.BeginDisabledGroup(_importer.IsLoading);
             {
                 var content = new GUIContent(_importer.IsLoading ? " Now importing..." : " Import", _importIcon);
                 if (GUILayout.Button(content, GUILayout.Height(38)))
@@ -313,7 +330,6 @@ namespace CMSuniVortex.Editor
                     }
                 }
             }
-            EditorGUI.EndDisabledGroup();
             
             GUILayout.Space(10);
 
@@ -342,7 +358,7 @@ namespace CMSuniVortex.Editor
             
             GUILayout.Space(10);
             
-            EditorGUI.BeginDisabledGroup(!_importer.CanIOutput() || _importer.IsLoading);
+            EditorGUI.BeginDisabledGroup(!_importer.CanIOutput());
             {
                 var content = new GUIContent("Output", _outputIcon);
                 if (GUILayout.Button(content, GUILayout.Height(38)))
@@ -354,6 +370,7 @@ namespace CMSuniVortex.Editor
                 }
             }
 
+            EditorGUI.EndDisabledGroup();
             EditorGUI.EndDisabledGroup();
             
             serializedObject.ApplyModifiedProperties();
