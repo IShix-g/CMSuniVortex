@@ -134,7 +134,7 @@ namespace CMSuniVortex.Editor
                                 
                                 if (isOpen)
                                 {
-                                    _packageInstaller.InstallAsync(_gitInstallUrl, _packageName).Handled();
+                                    _packageInstaller.Install(new []{ _gitInstallUrl }).Handled();
                                 }
                             }
                         }), this);
