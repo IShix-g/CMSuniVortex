@@ -155,10 +155,12 @@ namespace CMSuniVortex.Editor
 
         public void Cancel()
         {
-            if (_tokenSource == default)
+            if (!IsProcessing
+                || _tokenSource == default)
             {
                 return;
             }
+            
             if (!_tokenSource.IsCancellationRequested)
             {
                 _tokenSource.Cancel();
@@ -175,6 +177,11 @@ namespace CMSuniVortex.Editor
             }
             _isDisposed = true;
 
+            if (IsProcessing)
+            {
+                Cancel();
+            }
+            
             if (_tokenSource != default)
             {
                 _tokenSource.Dispose();

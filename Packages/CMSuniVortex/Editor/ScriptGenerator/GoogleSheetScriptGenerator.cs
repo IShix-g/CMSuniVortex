@@ -131,6 +131,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
@@ -140,7 +141,8 @@ namespace {namespaceName}
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvAddressableClient : CustomGoogleSheetCuvAddressableClient<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
-}}");
+}}
+#endif");
                 }
             }
             
@@ -151,12 +153,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     public sealed class {className}CustomGoogleSheetCuvAddressableReference : CustomGoogleSheetCuvAddressableReference<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
-}}");
+}}
+#endif");
                 }
             }
             
@@ -167,6 +171,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
@@ -176,7 +181,8 @@ namespace {namespaceName}
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvAddressableOutput : CustomGoogleSheetCuvAddressableOutput<{className}, {className}CustomGoogleSheetCuvModelList, {className}CustomGoogleSheetCuvAddressableReference> {{}}
-}}");
+}}
+#endif");
                 }
             }
         }

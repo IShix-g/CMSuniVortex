@@ -148,6 +148,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
@@ -162,7 +163,8 @@ namespace {namespaceName}
         protected override JsonConverter<{className}> CreateConverter()
             => new CuvModelConverter<{className}>();
     }}
-}}");
+}}
+#endif");
                 }
             }
 
@@ -173,12 +175,14 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
 {{
     public sealed class {className}CockpitCuvAddressableReference : CockpitCuvAddressableReference<{className}, {className}CockpitCuvModelList> {{}}
-}}");
+}}
+#endif");
                 }
             }
 
@@ -189,6 +193,7 @@ namespace {namespaceName}
                 {
                     yield return (classPath,
                         $@"
+#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
@@ -198,7 +203,8 @@ namespace {namespaceName}
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvAddressableOutput : CockpitCuvAddressableOutput<{className}, {className}CockpitCuvModelList, {className}CockpitCuvAddressableReference> {{}}
-}}");
+}}
+#endif");
                 }
             }
         }

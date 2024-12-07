@@ -15,21 +15,28 @@ MonoBehaviour:
   _buildPath: Assets/GoogleSheetTest/Imported/
   _languages: 0a00000016000000
   _client:
-    rid: 7786519458101592077
+    rid: 5308239005742530564
   _output:
-    rid: -2
+    rid: 5308239191345725441
   _modelListGuilds:
-  - 
+  - 4d65182daf30e4fa4b24ee4a8e601861
   - 24f4cb45a4b4049f7af1318547273a75
   - ac645b0e3c1114ea4b7fbdea48254710
   - 44b0c2d164d76429a9b9972e940eaf2a
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 7786519458101592077
-      type: {class: MetaCustomGoogleSheetCuvClient, ns: Test, asm: Assembly-CSharp}
+    - rid: 5308239005742530564
+      type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:
-        _sheetUrl: 
-        _jsonKeyPath: 
+        _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/edit?gid=0#gid=0
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+        _sheetNames:
+        - Animals
+        - SeaCreatures
+    - rid: 5308239191345725441
+      type: {class: GoogleSheetCuvOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+      data:
+        _references:
+        - {fileID: 11400000, guid: b180cf192c7aa4c4998c84f7ca731bae, type: 2}
+        - {fileID: 11400000, guid: 450b7bf8d27e34753b0e35543fad1593, type: 2}
