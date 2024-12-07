@@ -130,7 +130,7 @@ namespace CMSuniVortex.Editor
                             }
                             else
                             {
-                                var isOpen = EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + "), please update from Package Manager.", "Open Package Manager", "Close");
+                                var isOpen = EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version (" + version + ").", "Update", "Close");
                                 
                                 if (isOpen)
                                 {
