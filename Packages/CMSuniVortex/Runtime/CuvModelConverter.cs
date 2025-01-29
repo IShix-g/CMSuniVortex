@@ -22,7 +22,7 @@ namespace CMSuniVortex
             model.Deserialize(obj);
             return model;
 #else
-        throw new NotImplementedException();
+            throw new NotImplementedException();
 #endif
         }
     }
