@@ -51,7 +51,7 @@ jobs:
       BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
     with:
       ref: ${{ github.ref }}
-      file-path: ./Packages/SimplePackage/package.json
+      file-path: ./Packages/CMSuniVortex/package.json
       tag: ${{ inputs.tag }}
       dry-run: ${{ inputs.dry-run }}
 
