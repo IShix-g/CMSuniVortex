@@ -19,14 +19,12 @@ namespace CMSuniVortex.GoogleSheet
         public void Generate(string buildPath, ICuvClient client, string[] listGuids)
         {
 #if UNITY_EDITOR
-            var objs = new GoogleSheetCuvModelList[listGuids.Length];
             var sheetNameToObjects = new Dictionary<string, List<GoogleSheetCuvModelList>>();
             
-            for (var i = 0; i < listGuids.Length; i++)
+            foreach (var guid in listGuids)
             {
-                var path = AssetDatabase.GUIDToAssetPath(listGuids[i]);
+                var path = AssetDatabase.GUIDToAssetPath(guid);
                 var obj = AssetDatabase.LoadAssetAtPath<GoogleSheetCuvModelList>(path);
-                objs[i] = obj;
                 
                 if (!sheetNameToObjects.ContainsKey(obj.SheetName))
                 {
