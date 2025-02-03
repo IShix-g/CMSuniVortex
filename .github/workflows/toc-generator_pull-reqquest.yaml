@@ -12,7 +12,7 @@ permissions:
 jobs:
   validate-branch:
     runs-on: ubuntu-22.04
-    if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged || github.event_name == 'workflow_dispatch' }}
     outputs:
       passed: ${{ steps.check-branch.outputs.passed }}
     steps:
@@ -39,7 +39,7 @@ jobs:
 
   validate-commit-message:
     runs-on: ubuntu-22.04
-    if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged || github.event_name == 'workflow_dispatch' }}
     outputs:
       passed: ${{ steps.validate-message.outputs.passed }}
     steps:
