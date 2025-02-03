@@ -12,8 +12,49 @@ It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
 
 ## Table of Contents
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Details</summary>
+
+- [Why use this plugin?](#why-use-this-plugin)
+  - [Ease of Input](#ease-of-input)
+  - [High-performance Data](#high-performance-data)
+- [Supported CMS](#supported-cms)
+- [Methods of Reference Supported](#methods-of-reference-supported)
+- [Unity Version](#unity-version)
+- [Getting started](#getting-started)
+  - [Install via git URL](#install-via-git-url)
+- [Quick Start](#quick-start)
+  - [Generate CuvImporter](#generate-cuvimporter)
+  - [Generating the code](#generating-the-code)
+  - [Entering Necessary Information in CuvImporter](#entering-necessary-information-in-cuvimporter)
+    - [Cockpit Client](#cockpit-client)
+  - [Cockpit CMS Test](#cockpit-cms-test)
+    - [Login Information](#login-information)
+    - [Notes for Cockpit Test Server](#notes-for-cockpit-test-server)
+  - [Starting the Import](#starting-the-import)
+  - [Specifying the Output](#specifying-the-output)
+  - [Retrieval and Display of Data](#retrieval-and-display-of-data)
+- [Setup for Cockpit](#setup-for-cockpit)
+- [Roles of Each Class](#roles-of-each-class)
+- [Why Do I Want to Make This Plugin?](#why-do-i-want-to-make-this-plugin)
+  - [1. Addressable](#1-addressable)
+    - [Advantages](#advantages)
+    - [Concerns](#concerns)
+  - [2. WebView](#2-webview)
+    - [Merits](#merits)
+    - [Concerns](#concerns-1)
+  - [3. Json](#3-json)
+    - [Merits](#merits-1)
+    - [Concerns](#concerns-2)
+  - [What We Learned From the Test Results](#what-we-learned-from-the-test-results)
+    - [iOS : iPhone SE2 17.5.1](#ios--iphone-se2-1751)
+    - [Android : Galaxy S10 Android11](#android--galaxy-s10-android11)
+- [Plans for the Future](#plans-for-the-future)
+
+</details>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Why use this plugin?
 

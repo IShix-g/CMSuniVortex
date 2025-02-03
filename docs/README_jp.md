@@ -9,8 +9,48 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 
 ## 目次
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Details</summary>
+
+- [このプラグインを使う理由](#%E3%81%93%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E4%BD%BF%E3%81%86%E7%90%86%E7%94%B1)
+  - [入力の簡単さ](#%E5%85%A5%E5%8A%9B%E3%81%AE%E7%B0%A1%E5%8D%98%E3%81%95)
+  - [パフォーマンスの良いデータ](#%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%81%AE%E8%89%AF%E3%81%84%E3%83%87%E3%83%BC%E3%82%BF)
+- [対応するCMS](#%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8Bcms)
+- [対応する参照方法](#%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8B%E5%8F%82%E7%85%A7%E6%96%B9%E6%B3%95)
+- [Unity Version](#unity-version)
+- [Getting started](#getting-started)
+  - [Install via git URL](#install-via-git-url)
+- [Quick Start](#quick-start)
+  - [CuvImporterの作成](#cuvimporter%E3%81%AE%E4%BD%9C%E6%88%90)
+  - [コードの生成](#%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E7%94%9F%E6%88%90)
+  - [CuvImporterに必要情報の入力](#cuvimporter%E3%81%AB%E5%BF%85%E8%A6%81%E6%83%85%E5%A0%B1%E3%81%AE%E5%85%A5%E5%8A%9B)
+    - [Cockpit Client](#cockpit-client)
+  - [Cockpit CMSテスト](#cockpit-cms%E3%83%86%E3%82%B9%E3%83%88)
+    - [ログイン情報](#%E3%83%AD%E3%82%B0%E3%82%A4%E3%83%B3%E6%83%85%E5%A0%B1)
+    - [Cockpit テストサーバーの注意点](#cockpit-%E3%83%86%E3%82%B9%E3%83%88%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9)
+  - [インポートの開始](#%E3%82%A4%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%88%E3%81%AE%E9%96%8B%E5%A7%8B)
+  - [Outputの指定](#output%E3%81%AE%E6%8C%87%E5%AE%9A)
+  - [データの取得とテキストの表示](#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%8F%96%E5%BE%97%E3%81%A8%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%81%AE%E8%A1%A8%E7%A4%BA)
+- [Cockpitの設定](#cockpit%E3%81%AE%E8%A8%AD%E5%AE%9A)
+- [各クラスの役割](#%E5%90%84%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AE%E5%BD%B9%E5%89%B2)
+- [なぜこのプラグインを作ろうと思ったのか？](#%E3%81%AA%E3%81%9C%E3%81%93%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E4%BD%9C%E3%82%8D%E3%81%86%E3%81%A8%E6%80%9D%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%8B)
+  - [1. Addressable](#1-addressable)
+    - [メリット](#%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88)
+    - [懸念点](#%E6%87%B8%E5%BF%B5%E7%82%B9)
+  - [2. WebView](#2-webview)
+    - [メリット](#%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88-1)
+    - [懸念点](#%E6%87%B8%E5%BF%B5%E7%82%B9-1)
+  - [&#91;テスト3&#93; Json](#%E3%83%86%E3%82%B9%E3%83%883-json)
+    - [メリット](#%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88-2)
+    - [懸念点](#%E6%87%B8%E5%BF%B5%E7%82%B9-2)
+  - [計測結果からわかった事](#%E8%A8%88%E6%B8%AC%E7%B5%90%E6%9E%9C%E3%81%8B%E3%82%89%E3%82%8F%E3%81%8B%E3%81%A3%E3%81%9F%E4%BA%8B)
+    - [iOS : iPhone SE2 17.5.1](#ios--iphone-se2-1751)
+    - [Android : Galaxy S10 Android11](#android--galaxy-s10-android11)
+
+</details>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## このプラグインを使う理由
 
