@@ -10,6 +10,11 @@ It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
 
 ![Logo](docs/assets/top.png)
 
+## Table of Contents
+
+<!-- START doctoc -->
+<!-- END doctoc -->
+
 ## Why use this plugin?
 
 This plugin is built on the concept of being **"Easy to input and delivering top-notch performance"**.
