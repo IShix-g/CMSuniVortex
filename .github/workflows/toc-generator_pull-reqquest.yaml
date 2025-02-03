@@ -1,4 +1,4 @@
-name: TOC Generation via Push and PR
+name: TOC Generation via PR
 
 on:
   workflow_dispatch:
