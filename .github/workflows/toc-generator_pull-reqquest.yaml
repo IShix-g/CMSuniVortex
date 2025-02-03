@@ -19,7 +19,7 @@ jobs:
       - name: Check if ref is not default branch
         id: check-branch
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
+          if [ "${{ github.event_name }}" == "pull_request" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             target_branch="${{ github.event.pull_request.base.ref }}"
           else
             target_branch=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
