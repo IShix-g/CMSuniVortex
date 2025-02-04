@@ -32,7 +32,7 @@ jobs:
             echo "tag=$extracted_tag" >> "$GITHUB_OUTPUT"
             echo "::notice::Tag extracted from the Pull Request title: $extracted_tag"
           else
-            echo "::error::No valid tag found in Pull Request title."
+            echo "::notice::No valid tag found in Pull Request title."
           fi
 
   update-packagejson:
