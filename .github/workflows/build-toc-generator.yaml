@@ -1,0 +1,21 @@
+name: TOC Generation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+jobs:
+  toc-generator:
+    uses: IShix-g/Unity-GitHubActions/.github/workflows/reusable-toc-generator.yaml@main
+    if: ${{ github.event.pull_request.merged || github.event_name == 'workflow_dispatch' }}
+    secrets:
+      BOT_APP_ID: ${{ secrets.BOT_APP_ID }}
+      BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
+    with:
+      target-paths: 'README*.md,docs/README*.md'
+      check-only-default-branch: true
