@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9fef23c4bd10414a877c0c534f98294, type: 3}
+  m_Name: TestCockpitModelCockpitCuvModelList_Japanese
+  m_EditorClassIdentifier: 
+  _language: 22
+  _models:
+  - Key: model_cat1
+    CockpitID: 6666803aa27c48f2d70f4353
+    ModifiedDate: 2024-06-19T01:10:43.0000000+09:00
+    Text: "\u306C\u30531"
+    Number: 1111
+    Image: {fileID: 21300000, guid: e20a176fb75bf4c04b3d01e1d7e07994, type: 3}
+    Boolean: 0
+    Color: {r: 0, g: 1, b: 0.6156863, a: 1}
+    Date: 2024-06-01T00:00:00.0000000+09:00
+    Select: 0
+    Tags: 00000000
+    Param: You got {number} coins.
+  - Key: model_cat2
+    CockpitID: 6666806a8eb2e6b8770a3de1
+    ModifiedDate: 2024-06-19T01:10:55.0000000+09:00
+    Text: "\u306C\u30532"
+    Number: 2222
+    Image: {fileID: 21300000, guid: 1c4daad8f55b84123bb7a22781ed218a, type: 3}
+    Boolean: 0
+    Color: {r: 1, g: 0, b: 0, a: 1}
+    Date: 2024-06-02T00:00:00.0000000+09:00
+    Select: 1
+    Tags: 0000000001000000
+    Param: You got {number} coins.
+  - Key: model_cat3
+    CockpitID: 666680c18eb2e6b8770a3de4
+    ModifiedDate: 2024-06-19T01:11:08.0000000+09:00
+    Text: "\u306C\u30533"
+    Number: 3333
+    Image: {fileID: 21300000, guid: 9aa90fa688bb249d18018cfe84742d26, type: 3}
+    Boolean: 0
+    Color: {r: 1, g: 0.8352941, b: 0, a: 1}
+    Date: 2024-06-03T00:00:00.0000000+09:00
+    Select: 2
+    Tags: 0100000002000000
+    Param: You got {number} coins.

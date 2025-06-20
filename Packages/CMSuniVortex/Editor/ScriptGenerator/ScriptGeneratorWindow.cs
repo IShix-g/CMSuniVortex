@@ -9,7 +9,7 @@ namespace CMSuniVortex.Editor
 {
     sealed class ScriptGeneratorWindow : EditorWindow
     {
-        [MenuItem("Window/CMSuniVortex/Script Generator", false, 2)]
+        [MenuItem("Window/CMSuniVortex/open Script Generator", false, 2)]
         public static ScriptGeneratorWindow ShowDialog()
         {
             var window = GetWindow<ScriptGeneratorWindow>("Script Generator");
