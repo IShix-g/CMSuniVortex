@@ -229,7 +229,7 @@ You can check a list of created CuvImporters.
 
 ![CuvImporter list](docs/assets/cuvImporterList.jpg)
 
-### 表示方法
+### Display Method
 Window > CMSuniVortex > open CuvImporter list
 
 <img alt="start import" src="docs/assets/cuvImporterListMenu.jpg" width="600"/>
