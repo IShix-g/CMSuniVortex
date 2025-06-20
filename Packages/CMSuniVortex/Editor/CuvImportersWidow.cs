@@ -27,7 +27,7 @@ namespace CMSuniVortex.Editor
         float _columnOutputWidth = 200f;
         bool _isDragging;
         int _draggingColumnIndex = -1;
-        float _dragStartX; 
+        float _dragStartX;
         float _initialColumnWidth;
         
         void OnEnable()
@@ -76,7 +76,7 @@ namespace CMSuniVortex.Editor
             if (_isDragging
                 && _draggingColumnIndex == columnIndex)
             {
-                float mouseDelta = Event.current.mousePosition.x - _dragStartX;
+                var mouseDelta = Event.current.mousePosition.x - _dragStartX;
                 columnWidth = Mathf.Max(_maxColumnWidth, _initialColumnWidth + mouseDelta);
                 Repaint();
             }
@@ -120,6 +120,5 @@ namespace CMSuniVortex.Editor
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
-
     }
 }
