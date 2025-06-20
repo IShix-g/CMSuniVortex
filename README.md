@@ -38,6 +38,8 @@ It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
   - [Retrieval and Display of Data](#retrieval-and-display-of-data)
 - [Setup for Cockpit](#setup-for-cockpit)
 - [Roles of Each Class](#roles-of-each-class)
+- [CuvImporter list](#cuvimporter-list)
+  - [Display Method](#display-method)
 - [Why Do I Want to Make This Plugin?](#why-do-i-want-to-make-this-plugin)
   - [1. Addressable](#1-addressable)
     - [Advantages](#advantages)
