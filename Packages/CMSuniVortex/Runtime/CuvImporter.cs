@@ -15,13 +15,14 @@ namespace CMSuniVortex
     /// CuvImporter is responsible for importing CMS data into Unity.
     /// </summary>
     [CreateAssetMenu(menuName = "CMSuniVortex/create CuvImporter", fileName = "New CuvImporter", order = 0)]
-    public class CuvImporter : ScriptableObject, ICuvImporter
+    public class CuvImporter : ScriptableObject, ICuvImporter, ICuvImporterStatus
     {
         [SerializeField] string _buildPath;
         [SerializeField] SystemLanguage[] _languages;
         [SerializeReference] ICuvClient _client;
         [SerializeReference] ICuvOutput _output;
         [SerializeField] string[] _modelListGuilds;
+        ICuvImporterStatus _cuvImporterStatusImplementation;
 
         public bool IsBuildCompleted => _modelListGuilds.Length > 0
                                         && _output != default
@@ -54,7 +55,7 @@ namespace CMSuniVortex
         }
         public string[] ModelListGuilds => _modelListGuilds;
         public bool IsLoading { get; private set; }
-
+        
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
 
         protected virtual void OnStartImport(string buildPath, IReadOnlyList<SystemLanguage> languages){}
@@ -89,6 +90,14 @@ namespace CMSuniVortex
                 }
             };
         }
+
+        string ICuvImporterStatus.GetName() => name;
+
+        string ICuvImporterStatus.GetClintName() => _client != default ? _client.GetType().Name : string.Empty;
+
+        string ICuvImporterStatus.GetOutputName()=> _output != default ? _output.GetType().Name : string.Empty;
+
+        string ICuvImporterStatus.GetBuildPath() => _buildPath;
         
         bool ICuvImporter.CanIImport()
         {
