@@ -223,6 +223,17 @@ For details on how to set up, please see [here](docs/IntegrationWithCockpit.md).
 
 You can check representative classes that constitute the plugin [here](docs/RelationshipsBetweenClasses.md).
 
+## CuvImporter list
+
+You can check a list of created CuvImporters.
+
+![CuvImporter list](docs/assets/cuvImporterList.jpg)
+
+### 表示方法
+Window > CMSuniVortex > open CuvImporter list
+
+<img alt="start import" src="docs/assets/cuvImporterListMenu.jpg" width="600"/>
+
 ## Why Do I Want to Make This Plugin?
 
 What prompted me to develop this plugin was performance testing. There are roughly three methods to download data and display it.

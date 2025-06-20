@@ -214,10 +214,20 @@ public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
 
 設定方法などの詳細は[こちら](IntegrationWithCockpit_jp.md)をごらんください。
 
-
 ## 各クラスの役割
 
 プラグインを構成する代表的なクラスは[こちら](RelationshipsBetweenClasses_jp.md)より確認できます。
+
+## CuvImporter list
+
+作成したCuvImporterの一覧を確認できます。
+
+![CuvImporter list](assets/cuvImporterList.jpg)
+
+### 表示方法
+Window > CMSuniVortex > open CuvImporter list
+
+<img alt="start import" src="assets/cuvImporterListMenu.jpg" width="600"/>
 
 ## なぜこのプラグインを作ろうと思ったのか？
 
