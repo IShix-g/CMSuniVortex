@@ -7,8 +7,9 @@ namespace CMSuniVortex.Editor
 {
     public sealed class CuvImportersWidow: EditorWindow
     {
-        const float _dragHandleWidth = 15f;
-        const float _maxColumnWidth = 90f;
+        const float _dragHandleWidth = 80f;
+        const float _dragHandleOffset = 3f;
+        const float _minColumnWidth = 90f;
         const float _openButtonWidth = 30f;
         
         [MenuItem("Window/CMSuniVortex/open CuvImporter list")]
@@ -20,6 +21,7 @@ namespace CMSuniVortex.Editor
         }
         
         GUIContent _openButtonIcon;
+        GUIContent _linkIcon;
         ICuvImporterStatus[] _importers;
         Vector2 _scrollPosition;
         float _columnNameWidth = 90f;
@@ -29,10 +31,13 @@ namespace CMSuniVortex.Editor
         int _draggingColumnIndex = -1;
         float _dragStartX;
         float _initialColumnWidth;
+        Texture2D _logo;
         
         void OnEnable()
         {
+            _logo = CuvImporterEditor.GetLogo();
             _openButtonIcon = EditorGUIUtility.IconContent("Folder Icon");
+            _linkIcon = EditorGUIUtility.IconContent("d_Linked");
             _importers = AssetDatabase.FindAssets("t:ScriptableObject")
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>)
@@ -43,6 +48,29 @@ namespace CMSuniVortex.Editor
 
         void OnGUI()
         {
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    padding = new RectOffset(5, 5, 5, 5),
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                GUILayout.Label(_logo, style, GUILayout.MinWidth(430), GUILayout.Height(75));
+            }
+            if (_importers != null
+                && _importers.Length > 0)
+            {
+                EditorGUILayout.HelpBox("If the name is hard to read, you can drag the header text.", MessageType.Info);
+            }
+            EditorGUILayout.EndVertical();
+
+            if (_importers == null
+                || _importers.Length == 0)
+            {
+                EditorGUILayout.HelpBox("No CuvImporter found.", MessageType.Info);
+                return;
+            }
+            
             DrawHeader();
             
             _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
@@ -56,10 +84,10 @@ namespace CMSuniVortex.Editor
         void DrawHeader()
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
-            GUILayout.Label("", GUILayout.Width(_openButtonWidth));
-            DrawResizableColumn("Name", ref _columnNameWidth, 0);
-            DrawResizableColumn("Clint Name", ref _columnClientWidth, 1);
-            DrawResizableColumn("Output Name", ref _columnOutputWidth, 2);
+            GUILayout.Label(_linkIcon, GUILayout.Width(_openButtonWidth));
+            DrawResizableColumn("| Name", ref _columnNameWidth, 0);
+            DrawResizableColumn("| Clint Name", ref _columnClientWidth, 1);
+            DrawResizableColumn("| Output Name", ref _columnOutputWidth, 2);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
@@ -69,7 +97,7 @@ namespace CMSuniVortex.Editor
             GUILayout.Label(title, GUILayout.Width(columnWidth));
 
             var lastRect = GUILayoutUtility.GetLastRect();
-            var dragRect = new Rect(lastRect.xMax - _dragHandleWidth / 2, lastRect.y, _dragHandleWidth, lastRect.height);
+            var dragRect = new Rect(lastRect.xMax - _dragHandleOffset, lastRect.y, _dragHandleWidth + _dragHandleOffset, lastRect.height);
 
             EditorGUIUtility.AddCursorRect(dragRect, MouseCursor.ResizeHorizontal);
 
@@ -77,7 +105,7 @@ namespace CMSuniVortex.Editor
                 && _draggingColumnIndex == columnIndex)
             {
                 var mouseDelta = Event.current.mousePosition.x - _dragStartX;
-                columnWidth = Mathf.Max(_maxColumnWidth, _initialColumnWidth + mouseDelta);
+                columnWidth = Mathf.Max(_minColumnWidth, _initialColumnWidth + mouseDelta);
                 Repaint();
             }
 

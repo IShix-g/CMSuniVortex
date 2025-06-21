@@ -15,6 +15,7 @@ namespace CMSuniVortex
     /// CuvImporter is responsible for importing CMS data into Unity.
     /// </summary>
     [CreateAssetMenu(menuName = "CMSuniVortex/create CuvImporter", fileName = "New CuvImporter", order = 0)]
+    [HelpURL("https://github.com/IShix-g/CMSuniVortex?tab=readme-ov-file")]
     public class CuvImporter : ScriptableObject, ICuvImporter, ICuvImporterStatus
     {
         [SerializeField] string _buildPath;
