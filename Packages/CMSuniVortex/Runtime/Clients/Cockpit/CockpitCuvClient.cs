@@ -18,6 +18,7 @@ using UnityEditor;
 
 namespace CMSuniVortex.Cockpit
 {
+    [CuvClient("Cockpit")]
     public abstract class CockpitCuvClient<T, TS> : CuvClient<T, TS>, ICuvDoc, ICuvUpdateChecker where T : CockpitModel where TS : CockpitCuvModelList<T>
     {
         [SerializeField, CuvOpenUrl] string _baseUrl;

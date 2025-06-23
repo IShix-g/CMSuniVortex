@@ -6,7 +6,7 @@ namespace CMSuniVortex.Editor.GoogleSheet
 {
     sealed class GoogleSheetScriptGenerator : ScriptGenerator
     {
-        public override string GetName() => "Custom Google Sheet";
+        public override string GetName() => "Google Sheet";
         public override string GetLogoName() => "GoogleSheetLogo";
 
         protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput)

@@ -14,6 +14,7 @@ using Google.Apis.Sheets.v4;
 
 namespace CMSuniVortex.GoogleSheet
 {
+    [CuvClient("Google Sheet")]
     public class GoogleSheetCuvClient : GoogleSheetCuvClientBase<GoogleSheetModel, GoogleSheetCuvModelList>
     {
         [SerializeField] string[] _sheetNames;

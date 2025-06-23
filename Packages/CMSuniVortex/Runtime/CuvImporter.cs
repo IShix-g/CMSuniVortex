@@ -94,9 +94,26 @@ namespace CMSuniVortex
 
         string ICuvImporterStatus.GetName() => name;
 
-        string ICuvImporterStatus.GetClintName() => _client != default ? _client.GetType().Name : string.Empty;
+        string ICuvImporterStatus.GetClientName()
+        {
+#if UNITY_EDITOR
+            if (_client != default)
+            {
+                var type = _client.GetType();
+                var customAttributes = type.GetCustomAttributes(typeof(CuvClientAttribute), true);
+                if (customAttributes.Length > 0)
+                {
+                    var attribute = (CuvClientAttribute)customAttributes[0];
+                    return attribute.ClientName;
+                }
+            }
+#endif
+            return string.Empty;
+        }
+        
+        string ICuvImporterStatus.GetClintClassName() => _client != default ? _client.GetType().Name : string.Empty;
 
-        string ICuvImporterStatus.GetOutputName()=> _output != default ? _output.GetType().Name : string.Empty;
+        string ICuvImporterStatus.GetOutputClassName()=> _output != default ? _output.GetType().Name : string.Empty;
 
         string ICuvImporterStatus.GetBuildPath() => _buildPath;
         
