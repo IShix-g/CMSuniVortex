@@ -4,8 +4,9 @@ namespace CMSuniVortex
     public interface ICuvImporterStatus
     {
         string GetName();
-        string GetClintName();
-        string GetOutputName();
+        string GetClientName();
+        string GetClintClassName();
+        string GetOutputClassName();
         string GetBuildPath();
     }
 }

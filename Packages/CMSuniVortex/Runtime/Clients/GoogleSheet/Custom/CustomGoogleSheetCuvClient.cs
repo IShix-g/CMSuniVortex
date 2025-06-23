@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.GoogleSheet
 {
+    [CuvClient("Google Sheet")]
     public abstract class CustomGoogleSheetCuvClient<T, TS> : CustomGoogleSheetCuvClientBase<T, TS> where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
         protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<T[], string> onSuccess = default, Action<string> onError = default)

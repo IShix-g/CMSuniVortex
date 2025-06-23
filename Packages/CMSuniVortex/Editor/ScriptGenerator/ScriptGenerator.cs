@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,19 @@ namespace CMSuniVortex.Editor
 {
     public abstract class ScriptGenerator
     {
+        static List<ScriptGenerator> s_generators;
+        public static IReadOnlyList<ScriptGenerator> Generators
+        {
+            get
+            {
+                if(s_generators == null)
+                {
+                    s_generators = LoadAllGenerators();
+                }
+                return s_generators;
+            }
+        }
+        
         public abstract string GetName();
         public abstract string GetLogoName();
         protected abstract IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput);
@@ -91,6 +105,20 @@ namespace CMSuniVortex.Editor
                 }
                 combinePath += '/' + dir;
             }
+        }
+
+        public static List<ScriptGenerator> LoadAllGenerators()
+        {
+            var types = TypeCache.GetTypesDerivedFrom<ScriptGenerator>()
+                .Where(p => !p.IsInterface && !p.IsAbstract)
+                .ToArray();
+            
+            var generators = new List<ScriptGenerator>();
+            foreach (var type in types)
+            {
+                generators.Add((ScriptGenerator)Activator.CreateInstance(type));
+            }
+            return generators;
         }
     }
 }

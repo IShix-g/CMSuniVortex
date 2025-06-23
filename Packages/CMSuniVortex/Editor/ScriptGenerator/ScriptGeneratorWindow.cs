@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,23 +31,12 @@ namespace CMSuniVortex.Editor
         Texture2D _logo;
         string _className;
         string _buildPath;
-        readonly HashSet<ScriptGenerator> _generators = new ();
         bool _isGenerateAddressableClient;
         bool _isGenerateOutput = true;
 
         void OnEnable()
         {
             _logo = CuvImporterEditor.GetLogo();
-            
-            var types = TypeCache.GetTypesDerivedFrom<ScriptGenerator>()
-                .Where(p => !p.IsInterface
-                            && !p.IsAbstract)
-                .ToArray();
-            
-            foreach (var type in types)
-            {
-                _generators.Add((ScriptGenerator)Activator.CreateInstance(type));
-            }
         }
 
         void OnGUI()
@@ -126,10 +114,10 @@ namespace CMSuniVortex.Editor
                 
                 GUILayout.BeginVertical( GUI.skin.box );
 
-                foreach (var generator in _generators)
+                foreach (var generator in ScriptGenerator.Generators)
                 {
                     var texture = generator.GetLogo();
-                    var isClicked = default(bool);
+                    var isClicked = false;
                     var btnText = $" Generation - {generator.GetName()}";
                     if (texture != default)
                     {

@@ -11,6 +11,7 @@ namespace CMSuniVortex.Editor
         const float _dragHandleOffset = 3f;
         const float _minColumnWidth = 90f;
         const float _openButtonWidth = 30f;
+        const float _clientIconWidth = 25f;
         
         [MenuItem("Window/CMSuniVortex/open CuvImporter list")]
         public static void OpenCustomMenu()
@@ -20,8 +21,10 @@ namespace CMSuniVortex.Editor
             window.Show();
         }
         
+        Texture2D _logo;
         GUIContent _openButtonIcon;
         GUIContent _linkIcon;
+        IconState[] _clientIcons;
         ICuvImporterStatus[] _importers;
         Vector2 _scrollPosition;
         float _columnNameWidth = 90f;
@@ -31,13 +34,28 @@ namespace CMSuniVortex.Editor
         int _draggingColumnIndex = -1;
         float _dragStartX;
         float _initialColumnWidth;
-        Texture2D _logo;
+
+        class IconState
+        {
+            public readonly string Name;
+            public readonly Texture2D Icon;
+
+            public IconState(string name, Texture2D icon)
+            {
+                Name = name;
+                Icon = icon;
+            }
+        }
         
         void OnEnable()
         {
             _logo = CuvImporterEditor.GetLogo();
             _openButtonIcon = EditorGUIUtility.IconContent("Folder Icon");
             _linkIcon = EditorGUIUtility.IconContent("d_Linked");
+            _clientIcons = ScriptGenerator.Generators
+                .Where(g => !string.IsNullOrEmpty(g.GetLogoName()))
+                .Select(g => new IconState(g.GetName(), g.GetLogo()))
+                .ToArray();
             _importers = AssetDatabase.FindAssets("t:ScriptableObject")
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>)
@@ -85,9 +103,10 @@ namespace CMSuniVortex.Editor
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
             GUILayout.Label(_linkIcon, GUILayout.Width(_openButtonWidth));
+            GUILayout.Label(string.Empty, GUILayout.Width(_clientIconWidth));
             DrawResizableColumn("| Name", ref _columnNameWidth, 0);
-            DrawResizableColumn("| Clint Name", ref _columnClientWidth, 1);
-            DrawResizableColumn("| Output Name", ref _columnOutputWidth, 2);
+            DrawResizableColumn("| Clint name", ref _columnClientWidth, 1);
+            DrawResizableColumn("| Output name", ref _columnOutputWidth, 2);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
@@ -142,11 +161,17 @@ namespace CMSuniVortex.Editor
                 Selection.activeObject = obj;
                 EditorGUIUtility.PingObject(obj);
             }
+
+            var clientIcon = GetClientIcon(status.GetClientName());
+            GUILayout.Label(clientIcon, GUILayout.Width(_clientIconWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight));
             GUILayout.Label(status.GetName(), GUILayout.Width(_columnNameWidth));
-            GUILayout.Label(status.GetClintName(), GUILayout.Width(_columnClientWidth));
-            GUILayout.Label(status.GetOutputName(), GUILayout.Width(_columnOutputWidth));
+            GUILayout.Label(status.GetClintClassName(), GUILayout.Width(_columnClientWidth));
+            GUILayout.Label(status.GetOutputClassName(), GUILayout.Width(_columnOutputWidth));
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
+        
+        Texture2D GetClientIcon(string clientName)
+            => _clientIcons.FirstOrDefault(g => g.Name == clientName)?.Icon;
     }
 }

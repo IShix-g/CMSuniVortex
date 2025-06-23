@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Cockpit
 {
+    [CuvClient("Cockpit")]
     public abstract class CockpitCuvAddressableClient<T, TS> : CockpitCuvClient<T, TS>, IAddressableSettingsProvider where T : CockpitModel where TS : CockpitCuvModelList<T>
     {
         [SerializeField] AddressableCuvSettings _addressableSettings = AddressableCuvSettings.Default;
