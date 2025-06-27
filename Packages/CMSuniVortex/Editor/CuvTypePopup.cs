@@ -10,7 +10,8 @@ namespace CMSuniVortex.Editor
     {
         public SerializedProperty Property { get; private set; }
         public Type[] Types { get; private set; }
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex { get; private set; }
+        public bool IsEnabledSelect { get; set; } = true;
 
         string[] _options;
         
@@ -48,7 +49,10 @@ namespace CMSuniVortex.Editor
             EditorGUI.BeginChangeCheck();
             var fullTypeName = Property.managedReferenceFullTypename;
             var targetIndex = string.IsNullOrEmpty(fullTypeName) || fullTypeName == "  " ? 0 : Array.FindIndex(Types, t => t.FullName == fullTypeName.Substring(fullTypeName.IndexOf(' ') + 1)) + 1;
+            
+            EditorGUI.BeginDisabledGroup(!IsEnabledSelect);
             var selectedIndex = EditorGUILayout.Popup(targetIndex == 0 ? Property.displayName : string.Empty, targetIndex, _options);
+            EditorGUI.EndDisabledGroup();
             
             SelectedIndex = selectedIndex;
             

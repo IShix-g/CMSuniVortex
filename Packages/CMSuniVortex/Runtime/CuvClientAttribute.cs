@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace CMSuniVortex
 {
     [Conditional("UNITY_EDITOR")]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class CuvClientAttribute : Attribute
     {
         public string ClientName { get; }
