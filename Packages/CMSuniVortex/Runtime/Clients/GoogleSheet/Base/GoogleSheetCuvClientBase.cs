@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.GoogleSheet
 {
+    [CuvClient("Google Sheet")]
     public abstract class GoogleSheetCuvClientBase<T, TS> : CuvClient<T, TS>, ICuvDoc, ICuvUpdateChecker where T : GoogleSheetModelBase, new() where TS : GoogleSheetCuvModelListBase<T>
     {
         [SerializeField, CuvOpenUrl] string _sheetUrl;
