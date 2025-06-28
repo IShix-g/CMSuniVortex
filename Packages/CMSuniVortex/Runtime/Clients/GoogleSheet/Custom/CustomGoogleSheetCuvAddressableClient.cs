@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    [CuvClient("Google Sheet")]
     public abstract class CustomGoogleSheetCuvAddressableClient<T, TS> : CustomGoogleSheetCuvClient<T, TS>, IAddressableSettingsProvider where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
         [SerializeField] AddressableCuvSettings _addressableSettings = AddressableCuvSettings.Default;

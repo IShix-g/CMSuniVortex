@@ -1,14 +1,11 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using CMSuniVortex.Tasks;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using JetBrains.Annotations;
 using Unity.EditorCoroutines.Editor;
-using UnityEditor.PackageManager;
 
 #if ENABLE_ADDRESSABLES
 using CMSuniVortex.Addressable;
@@ -44,7 +41,8 @@ namespace CMSuniVortex.Editor
         UpdateFlag _updateFlag;
         bool _isProcessing;
         readonly PackageInstaller _packageInstaller = new ();
-
+        CuvImporterAttribute _importerSetting;
+        
 #if ENABLE_ADDRESSABLES
         IAddressableSettingsProvider _clientAddressableSettingsProvider;
         IAddressableSettingsProvider _outputAddressableSettingsProvider;
@@ -52,6 +50,7 @@ namespace CMSuniVortex.Editor
         
         void OnEnable()
         {
+            _importerSetting = target.GetType().GetCustomAttribute<CuvImporterAttribute>() ?? new CuvImporterAttribute();
             _scriptProp = serializedObject.FindProperty(s_propertiesToExclude[0]);
             _buildPathProp = serializedObject.FindProperty(s_propertiesToExclude[1]);
             _languagesProp = serializedObject.FindProperty(s_propertiesToExclude[2]);
@@ -64,10 +63,16 @@ namespace CMSuniVortex.Editor
                                 && !type.IsAbstract
                                 && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any())
                     .ToArray();
-                _clientTypePopup = new CuvTypePopup(_clientProp, types);
+                _clientTypePopup = new CuvTypePopup(_clientProp, types)
+                {
+                    IsEnabledSelect = _importerSetting.IsEnabledSelectClient
+                };
             }
-            _outputTypePopup = new CuvTypePopup(_outputProp, GetFilteredOutputTypes());
-            
+            _outputTypePopup = new CuvTypePopup(_outputProp, GetFilteredOutputTypes())
+            {
+                IsEnabledSelect = _importerSetting.IsEnabledSelectOutput
+            };
+
             _importer = target as ICuvImporter;
             _logo = GetLogo();
             _importIcon = GetImportIcon();
@@ -96,80 +101,30 @@ namespace CMSuniVortex.Editor
             {
                 EditorGUILayout.PropertyField(_scriptProp, true);
             }
-            
-            GUILayout.Space(10);
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Script Generator"))
-            {
-                ScriptGeneratorWindow.ShowDialog();
-            }
-            if (GUILayout.Button("Github"))
-            {
-                Application.OpenURL(_gitUrl);
-            }
-
-            if (GUILayout.Button("Check for Update"))
-            {
-                EditorCoroutineUtility.StartCoroutine(
-                    CheckVersion.GetVersionOnServer(
-                        _packageUrl,
-                        version =>
-                        {
-                            var comparisonResult = 0;
-                            if (!string.IsNullOrEmpty(version))
-                            {
-                                var current = new Version(_currentVersion.TrimStart('v').Trim());
-                                var server = new Version(version.Trim());
-                                comparisonResult = current.CompareTo(server);
-                                version = "v" + version;
-                            }
-                            
-                            if (comparisonResult >= 0)
-                            {
-                                EditorUtility.DisplayDialog("You have the latest version.", "Editor: " + _currentVersion + " | GitHub: " + version + "\nThe current version is the latest release.", "Close");
-                            }
-                            else
-                            {
-                                var isOpen = EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version " + version + ".", "Update", "Close");
-                                
-                                if (isOpen)
-                                {
-                                    _packageInstaller.Install(new []{ _gitInstallUrl }).Handled();
-                                }
-                            }
-                        }), this);
-            }
-            GUILayout.EndHorizontal();
 
             GUILayout.Space(10);
             
-            GUILayout.BeginVertical(GUI.skin.box);
+            if (_importerSetting.IsShowMenu)
             {
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    padding = new RectOffset(5, 5, 5, 5),
-                    alignment = TextAnchor.MiddleCenter,
-                };
-                GUILayout.Label(_logo, style, GUILayout.MinWidth(430), GUILayout.Height(75));
+                ShowMenu();
+                GUILayout.Space(10);
             }
+
+            if (_importerSetting.IsShowLogo)
             {
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    alignment = TextAnchor.MiddleCenter,
-                };
-                EditorGUILayout.LabelField(_currentVersion, style);
+                ShowLogo();
+                GUILayout.Space(10);
             }
-            GUILayout.EndVertical();
-            
-            GUILayout.Space(10);
-            
+
             EditorGUI.BeginDisabledGroup(
                 _isProcessing
                 || _updateFlag == UpdateFlag.NowLoading
                 || _importer.IsLoading);
             
             GUILayout.BeginHorizontal();
+            EditorGUI.BeginDisabledGroup(!_importerSetting.IsEnabledBuildPath);
             EditorGUILayout.PropertyField(_buildPathProp);
+            
             var buttonClicked = GUILayout.Button("Select", GUILayout.Width(60));
             GUILayout.EndHorizontal();
 
@@ -207,10 +162,15 @@ namespace CMSuniVortex.Editor
                 }
             }
             
+            EditorGUI.EndDisabledGroup();
+            
             GUILayout.Space(5);
             
-            EditorGUILayout.PropertyField(_languagesProp);
-            
+            using (new EditorGUI.DisabledScope(!_importerSetting.IsEnabledLanguages))
+            {
+                EditorGUILayout.PropertyField(_languagesProp);
+            }
+
             GUILayout.Space(10);
             
             var prop = serializedObject.GetIterator();
@@ -249,7 +209,7 @@ namespace CMSuniVortex.Editor
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10);
             }
-
+            
             var prev = _clientProp.managedReferenceValue;
             if (_clientTypePopup.Draw())
             {
@@ -299,7 +259,7 @@ namespace CMSuniVortex.Editor
                     });
                 }
                 EditorGUI.EndDisabledGroup();
-                    
+
                 var labelStyle = new GUIStyle(GUI.skin.label)
                 {
                     padding = new RectOffset(5, 5, 5, 5),
@@ -318,6 +278,7 @@ namespace CMSuniVortex.Editor
             
             GUILayout.Space(20);
             
+            using (new EditorGUI.DisabledScope(!_importerSetting.IsEnabledImportButton))
             {
                 var content = new GUIContent(_importer.IsLoading ? " Now importing..." : " Import", _importIcon);
                 if (GUILayout.Button(content, GUILayout.Height(38)))
@@ -358,7 +319,7 @@ namespace CMSuniVortex.Editor
             
             GUILayout.Space(10);
             
-            EditorGUI.BeginDisabledGroup(!_importer.CanIOutput());
+            using (new EditorGUI.DisabledScope(!_importer.CanIOutput() || !_importerSetting.IsEnabledOutputButton))
             {
                 var content = new GUIContent("Output", _outputIcon);
                 if (GUILayout.Button(content, GUILayout.Height(38)))
@@ -370,12 +331,97 @@ namespace CMSuniVortex.Editor
                 }
             }
 
-            EditorGUI.EndDisabledGroup();
+            if (!_importerSetting.IsShowLogo)
+            {
+                GUILayout.Space(10);
+                ShowAppText();
+            }
+
             EditorGUI.EndDisabledGroup();
             
             serializedObject.ApplyModifiedProperties();
         }
 
+        void ShowMenu()
+        {
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Script Generator"))
+            {
+                ScriptGeneratorWindow.ShowDialog();
+            }
+            if (GUILayout.Button("Github"))
+            {
+                Application.OpenURL(_gitUrl);
+            }
+
+            if (GUILayout.Button("Check for Update"))
+            {
+                EditorCoroutineUtility.StartCoroutine(
+                    CheckVersion.GetVersionOnServer(
+                        _packageUrl,
+                        version =>
+                        {
+                            var comparisonResult = 0;
+                            if (!string.IsNullOrEmpty(version))
+                            {
+                                var current = new Version(_currentVersion.TrimStart('v').Trim());
+                                var server = new Version(version.Trim());
+                                comparisonResult = current.CompareTo(server);
+                                version = "v" + version;
+                            }
+                            
+                            if (comparisonResult >= 0)
+                            {
+                                EditorUtility.DisplayDialog("You have the latest version.", "Editor: " + _currentVersion + " | GitHub: " + version + "\nThe current version is the latest release.", "Close");
+                            }
+                            else
+                            {
+                                var isOpen = EditorUtility.DisplayDialog(_currentVersion + " -> " + version, "There is a newer version " + version + ".", "Update", "Close");
+                                
+                                if (isOpen)
+                                {
+                                    _packageInstaller.Install(new []{ _gitInstallUrl }).Handled();
+                                }
+                            }
+                        }), this);
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        void ShowLogo()
+        {
+            GUILayout.BeginVertical(GUI.skin.box);
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    padding = new RectOffset(5, 5, 5, 5),
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                GUILayout.Label(_logo, style, GUILayout.MinWidth(430), GUILayout.Height(75));
+            }
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                EditorGUILayout.LabelField(_currentVersion, style);
+            }
+            GUILayout.EndVertical();
+        }
+
+        void ShowAppText()
+        {
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    alignment = TextAnchor.MiddleRight,
+                    padding = new RectOffset(5, 5, 5, 5),
+                    fontSize = 11,
+                };
+                EditorGUILayout.LabelField("CMSuniVortex " + _currentVersion, style);
+            }
+        }
+        
         [CanBeNull]
         internal static Texture2D GetLogo() => GetTexture("CuvDataImporterLogo");
         
