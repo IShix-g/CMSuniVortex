@@ -84,7 +84,9 @@ Unity 2021.3.x or higher
 ### Install via git URL
 「Window > Package Manager > Add package from git URL...」にUrlを追加してください。
 
-URL : `https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex`
+```
+https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex
+```
 
 ![Package Manager](assets/package_manager.png)
 
