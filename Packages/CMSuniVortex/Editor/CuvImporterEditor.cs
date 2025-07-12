@@ -372,7 +372,7 @@ namespace CMSuniVortex.Editor
                             
                             if (comparisonResult >= 0)
                             {
-                                EditorUtility.DisplayDialog("You have the latest version.", "Editor: " + _currentVersion + " | GitHub: " + version + "\nThe current version is the latest release.", "Close");
+                                EditorUtility.DisplayDialog(_currentVersion + "\nYou're up to date.", "You have the latest version installed.", "OK");
                             }
                             else
                             {

@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -8,11 +9,11 @@ namespace CMSuniVortex
     /// <summary>
     /// Represents a generic abstract class that manages a list of models.
     /// </summary>
-    public abstract class CuvModelList<T> : ScriptableObject, ICuvModelList<T>, ICuvModelListSetter<T> where T : ICuvModel
+    public abstract class CuvModelList<T> : ScriptableObject, IReadOnlyList<T>, ICuvModelList<T>, ICuvModelListSetter<T> where T : ICuvModel
     {
         [SerializeField] SystemLanguage _language;
         [SerializeField] T[] _models;
-        
+
         public SystemLanguage Language => _language;
         public int Length => _models.Length;
 
@@ -52,6 +53,23 @@ namespace CMSuniVortex
             }
             model = default;
             return false;
+        }
+
+        public int Count => Length;
+
+        public T this[int index] => GetByIndex(index);
+        
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (var model in _models)
+            {
+                yield return model;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
