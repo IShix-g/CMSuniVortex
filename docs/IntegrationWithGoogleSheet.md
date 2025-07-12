@@ -71,10 +71,10 @@ using UnityEngine.UI;
 public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
 {
     [SerializeField] Text _text;
-        
+
     protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
     {
-        if (reference.GetList().TryGetByKey(key, out var model))
+        if (reference.TryGetByKey(key, out var model))
         {
             _text.text = model.Text;
         }

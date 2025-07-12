@@ -9,7 +9,7 @@ namespace Tests
         
         protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
         {
-            if (reference.GetList().TryGetByKey(key, out var model))
+            if (reference.TryGetByKey(key, out var model))
             {
                 OnChangeLanguage(model);
             }

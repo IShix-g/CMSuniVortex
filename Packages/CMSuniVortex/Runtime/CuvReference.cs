@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -53,20 +54,29 @@ namespace CMSuniVortex
         public void SetModelLists(TS[] modelLists) => _modelLists = modelLists;
 
         public TS GetList() => _modelLists[_currentLanguageIndex];
-
+        
+        [Obsolete("This method is obsolete. Please use GetByKey instead.")]
         public T GetById(string id)
         {
-            if (GetList().TryGetByKey(id, out var model))
-            {
-                return model;
-            }
-            throw new ArgumentException("Id that does not exist : " + id);
+            return GetByKey(id);
         }
         
+        public T GetByKey(string key)
+        {
+            var model = GetList().GetByKey(key);
+            Assert.IsTrue(model != null, "Id that does not exist : " + key);
+            return model;
+        }
+        
+        [Obsolete("This method is obsolete. Please use TryGetByKey instead.")]
         public bool TryGetById(string id, out T model)
         {
-            model = GetList().GetByKey(id);
-            return model != null;
+            return TryGetByKey(id, out model);
+        }
+        
+        public bool TryGetByKey(string key, out T model)
+        {
+            return GetList().TryGetByKey(key, out model);
         }
 
         public T GetByIndex(int index)
