@@ -448,19 +448,21 @@ namespace CMSuniVortex.Editor
             {
                 return Array.Empty<Type>();
             }
-            var clientTypes = ExtractModelAndListTypes(_clientProp.managedReferenceValue.GetType());
+
+            var reference = _clientProp.managedReferenceValue.GetType();
+            var clientTypes = ExtractModelAndListTypes(reference);
             if (clientTypes.ModelType == default
                 || clientTypes.ListType == default)
             {
                 return Array.Empty<Type>();
             }
-            return _clientProp.managedReferenceValue != default ?
-                TypeCache.GetTypesDerivedFrom<ICuvOutput>()
+            return _clientProp.managedReferenceValue != default 
+                ? TypeCache.GetTypesDerivedFrom<ICuvOutput>()
                     .Where(type => typeof(ICuvOutput).IsAssignableFrom(type)
-                                   && !type.IsInterface
-                                   && !type.IsAbstract
-                                   && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any()
-                                   && IsTypeMatch(type, clientTypes.ModelType, clientTypes.ListType))
+                       && !type.IsInterface
+                       && !type.IsAbstract
+                       && !type.GetCustomAttributes(typeof(CuvIgnoreAttribute), false).Any()
+                       && IsTypeMatch(type, clientTypes.ModelType, clientTypes.ListType))
                     .ToArray()
                 : Array.Empty<Type>();
         }
