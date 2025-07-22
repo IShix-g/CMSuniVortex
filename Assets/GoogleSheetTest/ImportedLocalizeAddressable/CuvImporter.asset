@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/GoogleSheetTest/ImportedLocalizeAddressable/
+  _client:
+    rid: 4810069043157663755
+  _output:
+    rid: 4810069043157663756
+  _modelListGuilds:
+  - 48213e135daa144e8ba4b3ffb6155b9f
+  - 14a0a813ccced4103bbc09c9683fcc28
+  references:
+    version: 2
+    RefIds:
+    - rid: 4810069043157663755
+      type: {class: MetaLocalizeAddressableCustomGoogleSheetCuvAddressableClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _sheetUrl: https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+        _languages: 0a00000016000000
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+    - rid: 4810069043157663756
+      type: {class: MetaLocalizeAddressableCustomGoogleSheetCuvAddressableOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+        _reference: {fileID: 11400000, guid: 3224b1a79641441eeb91ef2fd3cad856, type: 2}

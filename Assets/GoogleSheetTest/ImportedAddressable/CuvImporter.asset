@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: CuvImporter
   m_EditorClassIdentifier: 
   _buildPath: Assets/GoogleSheetTest/ImportedAddressable/
-  _languages: 0a00000016000000
   _client:
     rid: 5308239005742530564
   _output:
@@ -30,10 +29,11 @@ MonoBehaviour:
       type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:
         _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/edit?gid=0#gid=0
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+        _languages: 0a00000016000000
         _sheetNames:
         - Animals
         - SeaCreatures
-        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
     - rid: 5308239191345725440
       type: {class: GoogleSheetAddressableOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
       data:

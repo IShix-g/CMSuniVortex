@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: CuvImporter
   m_EditorClassIdentifier: 
   _buildPath: Assets/CockpitTest/ImportedAddressable/
-  _languages: 0a00000016000000
   _client:
     rid: 5308239187074351109
   _output:
     rid: 5308239187074351110
   _modelListGuilds:
-  - fe501737a00b348fabb11f3ddeeefcf0
-  - 1bae530abe85e463ea9fc623ee47ee60
+  - 12501919fbbd34bdcbcdd5597b15e2dd
   references:
     version: 2
     RefIds:
@@ -30,6 +28,7 @@ MonoBehaviour:
         _baseUrl: https://devx.myonick.biz/cockpit/
         _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
         _modelName: Model
+        _keyName: key
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 

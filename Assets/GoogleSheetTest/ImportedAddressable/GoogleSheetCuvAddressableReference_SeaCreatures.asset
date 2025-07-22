@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: GoogleSheetCuvAddressableReference_SeaCreatures
   m_EditorClassIdentifier: 
   _modelLists:
-  - Language: 10
+  - CuvId: English
     List:
       m_AssetGUID: df44704d0286344ab844f1374e24a6c5
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - Language: 22
+  - CuvId: Japanese
     List:
       m_AssetGUID: 149a9aa07d7154314a0f623e01654e99
       m_SubObjectName: 

@@ -6,7 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/CockpitTest/RunTime/CompornentTestScene.unity
+    path: Assets/CockpitTest/RunTime/Cockpit_LocalizedCompornentTest.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/CockpitTest/RunTime/Cockpit_CompornentTest.unity
+    guid: 45a9590555e4945de9873558cba4070d
+  - enabled: 1
+    path: Assets/CockpitTest/RunTime/Cockpit_InitializeLocalizationTest.unity
+    guid: 071116e0454f4498fb18f8d0c8984823
+  - enabled: 1
+    path: Assets/GoogleSheetTest/RunTime/GoogleSheet_LocalizedCompornentTest.unity
+    guid: 88bf4c6b961594adcb3e04964eaf697f
+  - enabled: 1
+    path: Assets/GoogleSheetTest/RunTime/GoogleSheet_CompornentTest.unity
+    guid: 2c169956dea1e422e8427a1498da5d04
+  - enabled: 1
+    path: Assets/GoogleSheetTest/RunTime/GoogleSheet_InitializeLocalizationTest.unity
+    guid: be485a6d643d24fb5ad84847df41890e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1aa7a29eba83a4392ada8c6abce62ec4, type: 2}

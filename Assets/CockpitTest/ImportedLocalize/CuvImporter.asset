@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/CockpitTest/ImportedLocalize/
+  _client:
+    rid: 4810069043157663761
+  _output:
+    rid: 4810069043157663762
+  _modelListGuilds:
+  - 37c0ec2ae92a840d2866a3da2ee4ed60
+  - ee8c6c63bcd6546009c221a0173420d0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4810069043157663761
+      type: {class: CatDetailsLocalizeCockpitCuvClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _baseUrl: https://devx.myonick.biz/cockpit/
+        _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
+        _modelName: Model
+        _keyName: key
+        _languages: 0a00000016000000
+    - rid: 4810069043157663762
+      type: {class: CatDetailsLocalizeCockpitCuvOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _reference: {fileID: 11400000, guid: d20083d1940ed4d2c869cc439c44ab6c, type: 2}

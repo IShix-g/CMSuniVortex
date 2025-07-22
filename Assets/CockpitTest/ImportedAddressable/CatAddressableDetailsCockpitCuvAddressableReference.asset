@@ -13,15 +13,9 @@ MonoBehaviour:
   m_Name: CatAddressableDetailsCockpitCuvAddressableReference
   m_EditorClassIdentifier: 
   _modelLists:
-  - Language: 10
+  - CuvId: default
     List:
-      m_AssetGUID: fe501737a00b348fabb11f3ddeeefcf0
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - Language: 22
-    List:
-      m_AssetGUID: 1bae530abe85e463ea9fc623ee47ee60
+      m_AssetGUID: 12501919fbbd34bdcbcdd5597b15e2dd
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

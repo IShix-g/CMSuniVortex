@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa63795d6c14cf5b8e7961c376e1853, type: 3}
   m_Name: GoogleSheetCuvModelList_SeaCreatures_English
   m_EditorClassIdentifier: 
-  _language: 10
+  _cuvId: English
   _models:
   - Key: Key1
     Text: Salmon
