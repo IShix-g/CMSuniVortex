@@ -22,7 +22,6 @@ It's a plugin that allows you to easily load CMS data into `ScriptableObject`.
   - [High-performance Data](#high-performance-data)
 - [Supported CMS](#supported-cms)
 - [Methods of Reference Supported](#methods-of-reference-supported)
-- [Unity Version](#unity-version)
 - [Getting started](#getting-started)
   - [Install via git URL](#install-via-git-url)
 - [Quick Start](#quick-start)
@@ -72,20 +71,68 @@ When it comes to input, we think of CMS. CMS is filled with knowledge on **how t
 
 However, these two may seem unrelated at first glance. But it is CMSuniVortex that connects CMS and `ScriptableObject`. This is not a mere plugin, but a solution born out of pursuing efficiency and performance.
 
-## Supported CMS
+## Supported CMS – Client
 
 - [Cockpit](docs/IntegrationWithCockpit.md)
 - [Google Sheets](docs/IntegrationWithGoogleSheet.md)
 
-## Methods of Reference Supported
+## Methods of Reference Supported – Output
 
 You can specify how to refer to the data you have output.
 
 - Direct reference
 - Referenced via [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)
 
-## Unity Version
-Unity 2021.3.x or higher
+## Upgrading from 1.X to 2.X
+
+> [!IMPORTANT]
+> **2.X upgrade contains breaking changes. Please make sure to backup before upgrading.**
+
+Specifically, we separated classes that use Languages (which was mandatory in 1.X) from those that don't. As a result,
+previous Language settings have been cleared, so please reconfigure and re-import after setting them again.
+
+<details><summary>Change Details</summary>
+
+### Added ability to select Localization in Script Generator
+
+We made the previously mandatory Language selection optional.
+
+`Window > CMSuniVortex > open Script Generator`
+
+<img alt="start import" src="docs/assets/2x_generator.jpg" width="500"/>
+
+### Changed Languages to Sheet Names in GoogleSheet
+
+If you want to continue using Language as before, please select Use localization in the Script Generator and build.
+※This will not affect existing classes.
+
+<img alt="start import" src="docs/assets/2x_importer.jpg" width="500"/>
+
+### Key names can now be changed
+
+The Key name required for data can now be modified.
+
+<img alt="start import" src="docs/assets/2x_importer2.jpg" width="500"/>
+
+For example, in GoogleSheet, you previously had to use "Key" as the column name for unique IDs, but this could be
+unclear in some cases. Now you can change it to match your sheet.
+
+<img alt="start import" src="docs/assets/google_sheet_key.jpg" width="700"/>
+
+### Component Changes and Additions
+
+We renamed components used to get values from output data and added components for Localization.
+
+- **CuvList**
+- **CuvModel**
+- **CuvLocalize**
+- **CuvAddressableList**
+- **CuvAddressableModel**
+- **CuvLanguages**
+- **CuvLanguageDropDown**
+- **CuvLanguageSwitcher**
+
+</details></summary>
 
 ## Getting started
 
@@ -114,13 +161,17 @@ Click the "Script Generator" button on the generated `CuvImporter`.
 
 Enter the necessary information to generate the code. In this case, we generate the code for Cockpit.
 
-<img alt="create classes" src="docs/assets/create_classes.png" width="600"/>
+<img alt="create classes" src="docs/assets/create_classes.jpg" width="600"/>
 
-|                 | explanation                               | e.g.                |
-|-----------------|-------------------------------------------|---------------------|
-| Full Class Name | Specify the class name. Namespace can also be specified. | namespace.ClassName |
-| Build Path      | Specify the path of the directory to generate the code.      | Assets/Models/      |
+※ Classes that have been generated once will not be overwritten when generated again and will be ignored.
 
+|                  | explanation                                              | e.g.                |
+|------------------|----------------------------------------------------------|---------------------|
+| Full Class Name  | Specify the class name. Namespace can also be specified. | namespace.ClassName |
+| Build Path       | Specify the path of the directory to generate the code.  | Assets/Scripts/     |
+| Use addressables | Should output code for using addressables?               |                     |
+| Use localization | Should output code for localization?                     |                     |
+| Generate output  | Should output code for output?                           |                     |
 
 ### Entering Necessary Information in CuvImporter
 
@@ -191,37 +242,58 @@ After selection, click on Output to generate it.
 
 ### Retrieval and Display of Data
 
-Data can be retrieved using `GetList()` from the generated `CatDetailsCockpitCuvReference`. If you use the prepared `CuvComponent`, you can retrieve it as follows.
+Data can be retrieved using `GetList()` from the generated `CatDetailsCockpitCuvReference`. If you use the prepared `CuvLocalized`, you can retrieve it as follows.
 
 <img alt="start import" src="docs/assets/test_text.png" width="600"/>
 
 The instance of Reference and the Key set on the inspector are passed, so you use `TryGetByKey` to retrieve it.
 
+**CuvLocalizedTest.cs**
 ```csharp
-using UnityEngine;
-using UnityEngine.UI;
-using CMSuniVortex.Compornents;
+using CMSuniVortex;
 
-public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
+public abstract class CuvLocalizedTest : CuvLocalized<CatDetailsLocalizeCockpitCuvReference>
 {
-    [SerializeField] Text _text;
+    protected abstract void OnChangeLanguage(CatDetailsLocalize catDetails);
     
-    protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
+    protected override void OnChangeLanguage(CatDetailsLocalizeCockpitCuvReference reference, string key)
     {
-        if (reference.GetList().TryGetByKey(key, out var model))
+        if (reference.TryGetByKey(key, out var model))
         {
-            _text.text = model.Text;
+            OnChangeLanguage(model);
         }
     }
 }
 ```
 
-※ `CuvAsyncComponent` is used for Addressables.
+**CuvLocalizedTextTest.cs**
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+[RequireComponent(typeof(Text))]
+public sealed class CuvLocalizedTextTest : CuvLocalizedTest
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(CatDetailsLocalize model)
+    {
+        _text.text = model.Text;
+    }
+    
+    protected override void Reset()
+    {
+        base.Reset();
+        _text = GetComponent<Text>();
+    }
+}
+```
+
+※ `CuvAddressableLocalized` is used for Addressables.
 
 ## Setup for Cockpit
 
 For details on how to set up, please see [here](docs/IntegrationWithCockpit.md).
-
 
 ## Roles of Each Class
 
@@ -237,6 +309,10 @@ You can check a list of created CuvImporters.
 Window > CMSuniVortex > open CuvImporter list
 
 <img alt="start import" src="docs/assets/cuvImporterListMenu.jpg" width="600"/>
+
+## Localization
+
+For information about localization, please refer to [here](docs/Localization.md).
 
 ## Why Do I Want to Make This Plugin?
 

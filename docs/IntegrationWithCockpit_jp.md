@@ -25,7 +25,8 @@ Collectionを設定します。設定したNameは後ほどUnity側で使いま�
 
 ### 必ず設定する値
 
-Textの`Key`は必ず設定してください。Nameに`Key`または`key`を指定してください。
+Textの`Key`は必ず設定してください。Display Nameは任意のもので良いですが、Nameには必ず`key`を指定してください。  
+Unity上でデータを取得する際にこのKeyを使って取得します。
 
 ![](assets/cockpit/need_key.png)
 
@@ -33,7 +34,9 @@ Textの`Key`は必ず設定してください。Nameに`Key`または`key`を指
 
 ![](assets/cockpit/create_text.png)
 
-追加したものは下記のようにNameをIDとしてUnity上で取得できます。
+#### Textのデシリアライズ
+
+追加したものは下記のようにデシリアライズの際にNameをIDとして取得できます。それを`public`または、`[SerializeField]`を付与した変数に代入します。
 
 ```csharp
 [Serializable]

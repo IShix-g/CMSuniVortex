@@ -35,13 +35,14 @@ Clientに`CMSuniVortex.GoogleSheet.GoogleSheetCuvClient`を選択
 
 ### CuvImporterに必要情報の入力
 
-|            | explanation                     | e.g.|
-|------------|---------------------------------|-----------------------|
-| Build Path | アセットを生成するパス | Assets/Generated/  |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English |
-| Sheet Url   | スプレッドシートのURLを指定  | https://docs.google.com/spreadsheets/d/sheetID/|
-| Sheet Names   | スプレッドシートの下段タブ名 | Animals, SeaCreatures |
-| Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+|               | explanation                     | e.g.                              |
+|---------------|---------------------------------|-----------------------------------|
+| Build Path    | アセットを生成するパス                     | Assets/Generated/                 |
+| Languages     | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English                           |
+| Sheet Url     | スプレッドシートのURLを指定                 | https://docs.google.com/spreadsheets/d/sheetID/ |
+| Sheet Names   | スプレッドシートの下段タブ名                  | Animals, SeaCreatures             |
+| Json Key Path | サービスアカウントを保存したパス                | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+| Key Name      | シートに必ず必要なKey名を変更できます            | Key |
 
 ![](assets/googleSheet/simple_sheet.png)
 
@@ -59,29 +60,95 @@ Clientに`CMSuniVortex.GoogleSheet.GoogleSheetCuvClient`を選択
 
 ### 取得と表示
 
-一番簡単な方法は`CuvComponent`を使う事です。下記のコードをTestText.csとして保存しAssets配下に配置、`Text`にアタッチして必要情報を入力してください。
+一番簡単な方法は`CuvLocalized<T>`を使う事です。下記のコードをAssets配下に保存、`Text`にアタッチして必要情報を入力してください。
 
+#### コンポーネント編
+
+Outputで出力された対象の`CuvReference`を指定した親クラスを作ります。
 ```csharp
-using CMSuniVortex.Compornents;
-using CMSuniVortex.GoogleSheet;
-using UnityEngine;
-using UnityEngine.UI;
+using CMSuniVortex;
 
-public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
+namespace Test.Cockpit
 {
-    [SerializeField] Text _text;
-        
-    protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
+    public abstract class CuvLocalizedTest : CuvLocalized<GoogleSheetCuvReference>
     {
-        if (reference.TryGetByKey(key, out var model))
+        protected abstract void OnChangeLanguage(GoogleSheetModel catDetails);
+        
+        protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
         {
-            _text.text = model.Text;
+            if (reference.TryGetByKey(key, out var model))
+            {
+                OnChangeLanguage(model);
+            }
         }
     }
 }
 ```
 
+上記のクラスを継承して、テキストを表示するスクリプトを作ります。
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+[RequireComponent(typeof(Text))]
+public sealed class CuvLocalizedTextTest : CuvLocalizedTest
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(CatDetailsLocalize model)
+    {
+        _text.text = model.Text;
+    }
+    
+    protected override void Reset()
+    {
+        base.Reset();
+        _text = GetComponent<Text>();
+    }
+}
+```
+
+下記のようにKeyを選択する事で、Keyに合った`Text`という変数を表示できます。
+
 <img src="assets/googleSheet/simple4.png" width="600"/>
+
+#### スクリプト編
+
+Outputで出力された対象の`CuvReference`を使い`OnChangeLanguage`イベントをバインドして表示します。
+
+```csharp
+
+using System.Threading;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using CMSuniVortex;
+
+public sealed class InitializeLocalizationTest : MonoBehaviour
+{
+    [SerializeField] GoogleSheetCuvAddressableReference _reference;
+
+    void OnEnable()
+    {
+        _reference.OnChangeLanguage += OnChangeLanguage;
+        if (_reference.IsInitializedLocalize)
+        {
+            OnChangeLanguage(_reference.ActiveLanguage);
+        }
+    }
+
+    void OnDisable()
+    {
+        _reference.OnChangeLanguage -= OnChangeLanguage;
+    }
+    
+    void OnChangeLanguage(SystemLanguage language)
+    {
+        var obj = _reference.ActiveLocalizedList[1];
+        Debug.Log("OnChangeLanguage : " + obj.Text);
+    }
+}
+```
 
 ## Custom
 
@@ -148,7 +215,7 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 Simpleを参照してください。
 
 ### 必ずKeyを設定する
-シートは1番目の`Key`だけは必ず設定してください。またそのキーは重複しないように注意してください。
+シートは1番目の`Key`を必ず設定してください。またそのキーは重複しないように注意してください。
 
 ## カスタム方法
 
