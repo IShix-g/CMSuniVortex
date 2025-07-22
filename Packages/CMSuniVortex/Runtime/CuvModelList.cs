@@ -11,29 +11,33 @@ namespace CMSuniVortex
     /// </summary>
     public abstract class CuvModelList<T> : ScriptableObject, IReadOnlyList<T>, ICuvModelList<T>, ICuvModelListSetter<T> where T : ICuvModel
     {
-        [SerializeField] SystemLanguage _language;
+        [SerializeField] string _cuvId;
         [SerializeField] T[] _models;
 
-        public SystemLanguage Language => _language;
+        public string CuvId => _cuvId;
         public int Length => _models.Length;
 
-        protected virtual void OnSetData(SystemLanguage language, IReadOnlyList<T> models){}
+        protected virtual void OnSetData(string cuvId, IReadOnlyList<T> models){}
         
-        void ICuvModelListSetter<T>.SetData(SystemLanguage language, T[] models)
+        void ICuvModelListSetter<T>.SetData(string cuvId, T[] models)
         {
-            _language = language;
+            _cuvId = cuvId;
             _models = models;
-            OnSetData(_language, _models);
+            OnSetData(_cuvId, _models);
         }
 
-        public T GetByIndex(int index) => _models[index];
+        public T GetFirst() => _models[0];
+        
+        public T GetLast() => _models[^1];
+        
+        public T GetAt(int index) => _models[index];
 
         [CanBeNull]
-        public T GetByKey(string id)
+        public T GetByKey(string key)
         {
             foreach (var model in _models)
             {
-                if (model.GetKey() == id)
+                if (model.GetKey() == key)
                 {
                     return model;
                 }
@@ -41,11 +45,11 @@ namespace CMSuniVortex
             return default;
         }
         
-        public bool TryGetByKey(string id, out T model)
+        public bool TryGetByKey(string key, out T model)
         {
             foreach (var m in _models)
             {
-                if (m.GetKey() == id)
+                if (m.GetKey() == key)
                 {
                     model = m;
                     return true;
@@ -57,7 +61,7 @@ namespace CMSuniVortex
 
         public int Count => Length;
 
-        public T this[int index] => GetByIndex(index);
+        public T this[int index] => GetAt(index);
         
         public IEnumerator<T> GetEnumerator()
         {

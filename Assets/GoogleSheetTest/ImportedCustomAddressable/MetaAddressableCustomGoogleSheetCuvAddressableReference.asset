@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MetaAddressableCustomGoogleSheetCuvAddressableReference
   m_EditorClassIdentifier: 
   _modelLists:
-  - Language: 10
+  - CuvId: English
     List:
       m_AssetGUID: 63628c0ffa52a43ec888b2bc2a3abff2
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - Language: 22
+  - CuvId: Japanese
     List:
       m_AssetGUID: ae82f4270fe684907abfb182d0fa10e7
       m_SubObjectName: 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class CuvImporterCreator
+    internal sealed class CuvImporterCreator
     {
         [MenuItem("Window/CMSuniVortex/create CuvImporter", false, 1)]
         static void CreateMyAsset()
@@ -22,8 +22,9 @@ namespace CMSuniVortex.Editor
             AssetDatabase.CreateAsset(asset, path);
             AssetDatabase.SaveAssets();
             EditorUtility.FocusProjectWindow();
-            Selection.activeObject = asset;
-            EditorGUIUtility.PingObject(asset);
+            var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+            Selection.activeObject = obj;
+            EditorGUIUtility.PingObject(obj);
         }
     }
 }

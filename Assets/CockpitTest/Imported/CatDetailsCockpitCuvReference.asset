@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: CatDetailsCockpitCuvReference
   m_EditorClassIdentifier: 
   _modelLists:
-  - {fileID: 11400000, guid: c14ce121346a949128cb173ac749715f, type: 2}
-  - {fileID: 11400000, guid: 107add0dfec32489aa1d3904ff990be6, type: 2}
+  - {fileID: 11400000, guid: c05d8d6eacfd04d43a671d10729bfa96, type: 2}

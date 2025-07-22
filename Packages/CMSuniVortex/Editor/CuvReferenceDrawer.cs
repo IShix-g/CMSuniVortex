@@ -7,7 +7,7 @@ using UnityEditor;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvReferenceAttribute))]
-    sealed class CuvReferenceDrawer : PropertyDrawer
+    internal sealed class CuvReferenceDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -30,7 +30,7 @@ namespace CMSuniVortex.Editor
             var objs = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject))
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>)
-                .Where(x => x is ICuvReference)
+                .Where(x => x is ICuvKeyReference)
                 .ToList();
             
             if (objs.Count == 0)

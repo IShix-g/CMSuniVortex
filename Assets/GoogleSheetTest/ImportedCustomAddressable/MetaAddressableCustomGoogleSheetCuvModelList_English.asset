@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece4f5f58d3094578a0cdaec574fb4ec, type: 3}
   m_Name: MetaAddressableCustomGoogleSheetCuvModelList_English
   m_EditorClassIdentifier: 
-  _language: 10
+  _cuvId: English
   _models:
   - Key: Story1_0
     Element: 0
@@ -80,5 +80,5 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     Date: 2024-06-06T00:00:00.0000000+09:00
-  ModifiedDate: 7/26/2024 8:11:36 AM +00:00
+  ModifiedDate: 7/12/2025 4:43:58 AM +00:00
   SheetID: 13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww

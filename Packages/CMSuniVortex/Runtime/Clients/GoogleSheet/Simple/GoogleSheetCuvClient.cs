@@ -14,14 +14,17 @@ using Google.Apis.Sheets.v4;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public class GoogleSheetCuvClient : GoogleSheetCuvClientBase<GoogleSheetModel, GoogleSheetCuvModelList>
+    public class GoogleSheetCuvClient : GoogleSheetCuvClientBase<GoogleSheetModel, GoogleSheetCuvModelList>, ICuvLocalizedClient
     {
+        [SerializeField, Tooltip("You can change the Key name that must be set in GoogleSheet.")] string _keyName = "Key";
+        [SerializeField] SystemLanguage[] _languages;
         [SerializeField] string[] _sheetNames;
         
 #if UNITY_EDITOR
         string _modifiedTime;
         CancellationTokenSource _source;
 #endif
+
         protected override void OnDeselect()
         {
             base.OnDeselect();
@@ -29,7 +32,12 @@ namespace CMSuniVortex.GoogleSheet
             _source?.SafeCancelAndDispose();
 #endif
         }
+
+        public override string GetKeyName() => _keyName;
         
+        public override IReadOnlyList<string> GetCuvIds()
+            => _languages.Select(language => language.ToString()).ToList();
+
         public override int GetRepeatCount() => _sheetNames.Length;
         
         public override bool CanILoad()
@@ -56,7 +64,7 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
 
-        protected override IEnumerator LoadModels(int currentRound, string buildPath, SystemLanguage language, Action<GoogleSheetModel[], string> onSuccess = default, Action<string> onError = default)
+        protected override IEnumerator LoadModels(int currentRound, string buildPath, string cuvId, Action<GoogleSheetModel[], string> onSuccess = default, Action<string> onError = default)
         {
 #if UNITY_EDITOR
             var credential = GoogleSheetService.GetCredential(JsonKeyPath, new[] { SheetsService.Scope.SpreadsheetsReadonly, DriveService.Scope.DriveReadonly });
@@ -103,16 +111,16 @@ namespace CMSuniVortex.GoogleSheet
                 : string.Empty;
             
             var sheet = opSheet.Result;
-            var keyValue = "Key";
+            var keyValue = GetKeyName().Trim();
             var keyIndex = sheet[0].IndexOf(keyValue);
             
             if (keyIndex < 0)
             {
-                keyValue = "key";
+                keyValue = keyValue.ToLower();
                 keyIndex = sheet[0].IndexOf(keyValue);
             }
             
-            var langIndex = sheet[0].IndexOf(language.ToString());
+            var langIndex = sheet[0].IndexOf(cuvId);
             var commentIndex = sheet[0].IndexOf("Comment");
 
             if (keyIndex < 0)
@@ -124,7 +132,7 @@ namespace CMSuniVortex.GoogleSheet
             }
             if (langIndex < 0)
             {
-                var error = "Language that does not exist : " + language;
+                var error = "Language that does not exist : " + cuvId;
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
@@ -157,7 +165,7 @@ namespace CMSuniVortex.GoogleSheet
 
             if (models.Count > 0)
             {
-                onSuccess?.Invoke(models.ToArray(), nameof(GoogleSheetCuvModelList) + "_" + sheetName + "_" + language);
+                onSuccess?.Invoke(models.ToArray(), nameof(GoogleSheetCuvModelList) + "_" + sheetName + "_" + cuvId);
             }
             else
             {
@@ -185,5 +193,7 @@ namespace CMSuniVortex.GoogleSheet
             return default;
 #endif
         }
+
+        public SystemLanguage[] GetLanguages() => _languages;
     }
 }

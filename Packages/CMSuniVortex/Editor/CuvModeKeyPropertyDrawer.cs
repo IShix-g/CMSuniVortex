@@ -7,9 +7,9 @@ using UnityEngine;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvModelKeyAttribute))]
-    sealed class CuvModeKeyPropertyDrawer : PropertyDrawer
+    internal sealed class CuvModeKeyPropertyDrawer : PropertyDrawer
     {
-        static readonly List<string> s_emptyList = new ();
+        readonly List<string> _objs = new ();
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -18,6 +18,7 @@ namespace CMSuniVortex.Editor
                 EditorGUI.PropertyField(position, property, label);
                 return;
             }
+            
             if (Application.isPlaying)
             {
                 EditorGUI.BeginDisabledGroup(true);
@@ -35,37 +36,25 @@ namespace CMSuniVortex.Editor
                 referenceProp = serializedObject.FindProperty(referenceName);
             }
             
-            if (!Application.isPlaying)
+            EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            var value = property.stringValue;
+            _objs.Clear();
+            _objs.Add("Select..");
+            if(referenceProp is {objectReferenceValue: ICuvKeyReference reference})
             {
-                EditorGUI.BeginProperty(position, label, property);
-                position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-                var value = property.stringValue;
-                var objs = GetKeys(referenceProp);
-                objs.Insert(0, "Select..");
-                var optionsArray = objs.Select(o => new GUIContent(o)).ToArray();
-                var currentIndex = Mathf.Clamp(objs.IndexOf(value), 0, objs.Count - 1);
-                var newIndex = EditorGUI.Popup(position, currentIndex, optionsArray);
-                var newValue = IsIndexValid(objs, newIndex) ? objs[newIndex] : objs[0];
-                if (currentIndex != newIndex)
-                {
-                    property.stringValue = newValue;
-                }
-                EditorGUI.EndProperty();
+                _objs.AddRange(reference.GetKeys().ToList());
             }
-            else
+            
+            var optionsArray = _objs.Select(o => new GUIContent(o)).ToArray();
+            var currentIndex = Mathf.Clamp(_objs.IndexOf(value), 0, _objs.Count - 1);
+            var newIndex = EditorGUI.Popup(position, currentIndex, optionsArray);
+            var newValue = IsIndexValid(_objs, newIndex) ? _objs[newIndex] : _objs[0];
+            if (currentIndex != newIndex)
             {
-                EditorGUI.LabelField(position, "Set the Reference.");
+                property.stringValue = newValue;
             }
-        }
-
-        List<string> GetKeys(SerializedProperty prop)
-        {
-            return prop switch
-            {
-                {objectReferenceValue: ICuvReference reference} => reference.GetKeys().ToList(),
-                {objectReferenceValue: ICuvAsyncReference asyncReference} => asyncReference.GetKeys().ToList(),
-                _ => s_emptyList
-            };
+            EditorGUI.EndProperty();
         }
         
         bool IsIndexValid<T>(List<T> list, int index)

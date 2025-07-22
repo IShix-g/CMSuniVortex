@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/GoogleSheetTest/ImportedLocalize/
+  _client:
+    rid: 4810069043157663752
+  _output:
+    rid: 4810069043157663753
+  _modelListGuilds:
+  - 2409ed321a186496c97d6b6273692fbc
+  - ff9bb3e715bab4c968e30b5a179e2db3
+  references:
+    version: 2
+    RefIds:
+    - rid: 4810069043157663752
+      type: {class: MetaLocalizeCustomGoogleSheetCuvClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _sheetUrl: https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/edit?gid=0#gid=0
+        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+        _languages: 0a00000016000000
+    - rid: 4810069043157663753
+      type: {class: MetaLocalizeCustomGoogleSheetCuvOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _reference: {fileID: 11400000, guid: 70834c2381b244ec7800a9e46ea64bad, type: 2}

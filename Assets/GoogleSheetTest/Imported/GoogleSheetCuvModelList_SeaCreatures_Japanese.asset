@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa63795d6c14cf5b8e7961c376e1853, type: 3}
   m_Name: GoogleSheetCuvModelList_SeaCreatures_Japanese
   m_EditorClassIdentifier: 
-  _language: 22
+  _cuvId: Japanese
   _models:
   - Key: Key1
     Text: "\u3055\u3051"

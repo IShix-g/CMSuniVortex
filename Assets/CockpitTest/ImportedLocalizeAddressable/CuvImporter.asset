@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/CockpitTest/ImportedLocalizeAddressable/
+  _client:
+    rid: 4810069043157663759
+  _output:
+    rid: 4810069043157663760
+  _modelListGuilds:
+  - 2af29a50f8d0d41169084a7c0bbc3cf9
+  - 88efeb1e054aa4b09835c58a9d020f08
+  references:
+    version: 2
+    RefIds:
+    - rid: 4810069043157663759
+      type: {class: CatAddressableDetailsLocalizeCockpitCuvAddressableClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _baseUrl: https://devx.myonick.biz/cockpit/
+        _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
+        _modelName: Model
+        _keyName: key
+        _languages: 0a00000016000000
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+    - rid: 4810069043157663760
+      type: {class: CatAddressableDetailsLocalizeCockpitCuvAddressableOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+        _reference: {fileID: 11400000, guid: 48d2c05bb29be4c59bfad65f14cfede1, type: 2}

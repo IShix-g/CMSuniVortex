@@ -15,7 +15,6 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
   - [パフォーマンスの良いデータ](#%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%81%AE%E8%89%AF%E3%81%84%E3%83%87%E3%83%BC%E3%82%BF)
 - [対応するCMS](#%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8Bcms)
 - [対応する参照方法](#%E5%AF%BE%E5%BF%9C%E3%81%99%E3%82%8B%E5%8F%82%E7%85%A7%E6%96%B9%E6%B3%95)
-- [Unity Version](#unity-version)
 - [Getting started](#getting-started)
   - [Install via git URL](#install-via-git-url)
 - [Quick Start](#quick-start)
@@ -64,20 +63,64 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 
 しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`を繋ぎ合わせてくれるのがCMSuniVortex(シーエムエス・ユニ・ボルテックス)です。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
 
-## 対応するCMS
+## 対応するCMS - Client
 
 - [Cockpit](IntegrationWithCockpit_jp.md)
 - [Google Sheets](IntegrationWithGoogleSheet_jp.md)
 
-## 対応する参照方法
+## 対応する参照方法 - Output
 
 出力したデータの参照方法を指定できます。
 
 - 直接参照
 - [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)から参照
 
-## Unity Version
-Unity 2021.3.x or higher
+## 1.X → 2.Xへのアップグレード
+> [!IMPORTANT]
+> **2.Xへのアップグレードには破壊的な変更が含まれます。必ずバックアップを取ってアップグレードしてください。**
+
+具体的には、1.Xで必ず必要だったLanguagesを使うクラスと使わないクラスに分離しました。それに伴い、今までのLanguagesの設定が未選択状態になっているので再設定後、再インポートしてください。
+
+<details><summary>変更の詳細</summary>
+
+### Script GeneratorでLocalizationを選択できるように変更しました
+
+今まで必ず必要だったLanguageを選択式に変更しました。
+
+`Window > CMSuniVortex > open Script Generator`
+
+<img alt="start import" src="assets/2x_generator.jpg" width="500"/>
+
+### GoogleSheetではLanguagesをSheet Namesに変更しました
+今まで通りLanguageを使いたい場合は、Script GeneratorでUse localizationを選択してビルドしてください。  
+※既に存在するクラスに影響を与えません。
+
+<img alt="start import" src="assets/2x_importer.jpg" width="500"/>
+
+### Keyの名称が変更できるようになりました
+
+データに必ず必要なKey名が変更可能になりました。
+
+<img alt="start import" src="assets/2x_importer2.jpg" width="500"/>
+
+例えば、今までGoogleSheetでユニークなIDのカラム名をKeyとする必要がありましたが、Keyだと分かりづらい場合があります。それをシートに合わせて変更できるようにしました。
+
+<img alt="start import" src="assets/google_sheet_key.jpg" width="700"/>
+
+### 各種コンポーネントの変更と追加
+
+出力したデータから値を取得する為のコンポーネントの名称を変更し、Localize用のコンポーネントを追加しました。
+
+- **CuvList** 
+- **CuvModel**
+- **CuvLocalize**
+- **CuvAddressableList**
+- **CuvAddressableModel**
+- **CuvLanguages**
+- **CuvLanguageDropDown**
+- **CuvLanguageSwitcher**
+
+</details></summary>
 
 ## Getting started
 
@@ -106,13 +149,17 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 必要情報を入力しコードを生成します。今回は、Cockpitのコードを生成します。
 
-<img alt="create classes" src="assets/create_classes.png" width="600"/>
+<img alt="create classes" src="assets/create_classes.jpg" width="600"/>
 
-|                 | explanation                   | e.g.                |
-|-----------------|-------------------------------|---------------------|
-| Full Class Name | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
-| Build Path      | コードを生成するディレクトリのパスを指定          | Assets/Models/      |
+※ 一度出力したクラスを再度出力しても上書きはされず無視されます。
 
+|                  | explanation                  | e.g.                |
+|------------------|------------------------------|---------------------|
+| Full Class Name  | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
+| Build Path       | コードを生成するディレクトリのパスを指定         | Assets/Scripts/     |
+| Use addressables | addressablesを利用をするコードを出力するか？ |                     |
+| Use localization | ローカライズで使用するコードを出力するか？        |                     |
+| Generate output  | outputに関するコードを出力するか？         |                     |
 
 ### CuvImporterに必要情報の入力
 
@@ -183,36 +230,58 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 ### データの取得とテキストの表示
 
-生成した`CatDetailsCockpitCuvReference`から`GetList()`を使用してデータを取得できます。用意している`CuvComponent`を使用すると下記のように取得できます。
+生成した`CatDetailsCockpitCuvReference`から`GetList()`を使用してデータを取得できます。用意している`CuvLocalized`を使用すると下記のように取得できます。
 
 <img alt="start import" src="assets/test_text.png" width="600"/>
 
 Referenceのインスタンスと、インスペクタで設定したKeyが渡りますので`TryGetByKey`を使って取得します。
-
+![cuvImporterList.jpg](../../../../../../Desktop/cuvImporterList.jpg)
+**CuvLocalizedTest.cs**
 ```csharp
-using UnityEngine;
-using UnityEngine.UI;
-using CMSuniVortex.Compornents;
+using CMSuniVortex;
 
-public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
+public abstract class CuvLocalizedTest : CuvLocalized<CatDetailsLocalizeCockpitCuvReference>
 {
-    [SerializeField] Text _text;
+    protected abstract void OnChangeLanguage(CatDetailsLocalize catDetails);
     
-    protected override void OnChangeLanguage(CatDetailsCockpitCuvReference reference, string key)
+    protected override void OnChangeLanguage(CatDetailsLocalizeCockpitCuvReference reference, string key)
     {
-        if (reference.GetList().TryGetByKey(key, out var model))
+        if (reference.TryGetByKey(key, out var model))
         {
-            _text.text = model.Text;
+            OnChangeLanguage(model);
         }
     }
 }
 ```
 
-※ Addressablesは`CuvAsyncComponent`を使います。
+**CuvLocalizedTextTest.cs**
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+[RequireComponent(typeof(Text))]
+public sealed class CuvLocalizedTextTest : CuvLocalizedTest
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(CatDetailsLocalize model)
+    {
+        _text.text = model.Text;
+    }
+    
+    protected override void Reset()
+    {
+        base.Reset();
+        _text = GetComponent<Text>();
+    }
+}
+```
+
+※ Addressablesは`CuvAddressableLocalized`を使います。
 
 ## Cockpitの設定
 
-設定方法などの詳細は[こちら](IntegrationWithCockpit_jp.md)をごらんください。
+Cockpit側の設定方法は[こちら](IntegrationWithCockpit_jp.md)をごらんください。
 
 ## 各クラスの役割
 
@@ -222,12 +291,16 @@ public sealed class TestText : CuvComponent<CatDetailsCockpitCuvReference>
 
 作成したCuvImporterの一覧を確認できます。
 
-![CuvImporter list](assets/cuvImporterList.jpg)
+<img alt="start import" src="assets/cuvImporterList.jpg" width="700"/>
 
 ### 表示方法
-Window > CMSuniVortex > open CuvImporter list
+`Window > CMSuniVortex > open CuvImporter list`
 
-<img alt="start import" src="assets/cuvImporterListMenu.jpg" width="600"/>
+<img alt="start import" src="assets/cuvImporterListMenu.jpg" width="700"/>
+
+## ローカライズ
+
+ローカライズについては、[こちら](Localization_jp.md)をごらんください。
 
 ## なぜこのプラグインを作ろうと思ったのか？
 

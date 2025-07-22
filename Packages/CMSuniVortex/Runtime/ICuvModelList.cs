@@ -1,6 +1,4 @@
 
-using UnityEngine;
-
 namespace CMSuniVortex
 {
     /// <summary>
@@ -8,10 +6,12 @@ namespace CMSuniVortex
     /// </summary>
     public interface ICuvModelList<T> where T : ICuvModel
     {
-        SystemLanguage Language { get; }
+        string CuvId { get; }
         int Length { get; }
-        T GetByIndex(int index);
-        T GetByKey(string id);
-        bool TryGetByKey(string id, out T model);
+        T GetFirst();
+        T GetLast();
+        T GetAt(int index);
+        T GetByKey(string key);
+        bool TryGetByKey(string key, out T model);
     }
 }

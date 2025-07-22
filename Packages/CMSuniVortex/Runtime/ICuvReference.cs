@@ -1,19 +1,12 @@
 
-using System;
-using UnityEngine;
-
 namespace CMSuniVortex
 {
     /// <summary>
     /// Managing a reference to a list of models.
     /// </summary>
-    public interface ICuvReference
+    public interface ICuvReference<T> : ICuvKeyReference, ICuvIdReference
+        where T : ICuvModel
     {
-        event Action<SystemLanguage> OnChangeLanguage;
-        int ContentsLength { get; }
-        SystemLanguage Language { get; }
-        void ChangeLanguage(SystemLanguage language);
-        bool HasContents();
-        string[] GetKeys();
+        ICuvModelList<T> GetModelList(string id);
     }
 }

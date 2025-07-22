@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CatAddressableDetailsLocalize_English
+  m_EditorClassIdentifier: 
+  m_GroupName: CatAddressableDetailsLocalize_English
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d4dfdf87dff6d453dbbc149486450058
+  m_SerializeEntries:
+  - m_GUID: 2af29a50f8d0d41169084a7c0bbc3cf9
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/CatAddressableDetailsLocalizeCockpitCuvModelList_English.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9c1107da5dec84716863e5210cfb87cf, type: 2}
+    - {fileID: 11400000, guid: 0451e7ef174d545c7bc4d146db07f410, type: 2}

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CatAddressableDetailsLocalize_Japanese
+  m_EditorClassIdentifier: 
+  m_GroupName: CatAddressableDetailsLocalize_Japanese
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f2afbf0a2a6d2468a9d76e72430f0191
+  m_SerializeEntries:
+  - m_GUID: 88efeb1e054aa4b09835c58a9d020f08
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/CatAddressableDetailsLocalizeCockpitCuvModelList_Japanese.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dea8f99c5c4de4ad5a7ed95a07c674a8
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat3_uid_66667faecd4ec.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: acde8092cdb4d489ebbfa6d51c2f3fea
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat2_uid_66667fadcbe5b.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 82ec747ea107f4871a39cdad72f92fbc
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat_uid_66667faf01d02.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: cbb479b76257b48cbab23e5ef75ddf88, type: 2}
+    - {fileID: 11400000, guid: 4112a033bc77d41f29e2366bcc7e6dc5, type: 2}

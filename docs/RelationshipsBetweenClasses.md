@@ -95,23 +95,23 @@ public abstract class Test : MonoBehaviour
 
 ```
 
-### CuvComponent
+### CuvLocalized
 
-A class that wraps the `CuvModelKey` to simplify usage.
+A localization class that wraps the `CuvModelKey` attribute to make it easier to use.
 
 ```csharp
-using CMSuniVortex.Compornents;
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
+public sealed class TestText : CuvLocalized<GoogleSheetCuvReference>
 {
     [SerializeField] Text _text;
-        
+
     protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
     {
-        if (reference.GetList().TryGetByKey(key, out var model))
+        if (reference.TryGetByKey(key, out var model))
         {
             _text.text = model.Text;
         }
@@ -119,17 +119,137 @@ public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
 }
 ```
 
-### CuvAsyncComponent
+### CuvAddressableLocalized
 
-Asynchronous version of the `CuvComponent`.
+This is an asynchronous version of `CuvLocalized`.
+
+```csharp
+using CMSuniVortex;
+using CMSuniVortex.GoogleSheet;
+using UnityEngine;
+using UnityEngine.UI;
+
+public sealed class TestText : CuvAddressableLocalized<GoogleSheetCuvReference>
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
+    {
+        if (reference.TryGetByKey(key, out var model))
+        {
+            _text.text = model.Text;
+        }
+    }
+}
+```
 
 ### SetParam
 
-By enclosing it with `{}`, you can embed parameters.
+You can embed parameters by enclosing them with `{}`.
 
-- Statement  `You have earned {number} coins.`
-- Display `You have earned 5 coins.`
+- Text: `You have earned {number} coins.`
+- Display: `You have earned 5 coins.`
 
 ```csharp
-var text = model.Text.SetParam("number", 5);
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex;
+using Tests;
+
+public class CuvListTest : CuvList<CatDetails, CatDetailsCockpitCuvReference>
+{
+    [SerializeField] Text _text;
+    
+    void Start()
+    {
+        Debug.Log("CuvId: " + List.CuvId);
+        _text.text = List.CuvId;
+    }
+}
 ```
+
+<img src="assets/cuv_list.jpg" width="500"/>
+
+### CuvModel
+
+This adds the ability to specify a Key to the functionality of `CuvList`.
+
+```csharp
+
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex;
+using Tests;
+
+    public sealed class CuvModelTest : CuvModel<CatDetails, CatDetailsCockpitCuvReference>
+    {
+        [SerializeField] Text _text;
+        [SerializeField] Image _image;
+
+        void Start()
+        {
+            Debug.Log("ModelId: " + Model.Key);
+            _text.text = Model.Text;
+            _image.sprite = Model.Image;
+        }
+    }
+```
+
+<img src="assets/cuv_model.jpg" width="500"/>
+
+### CuvLanguages
+
+You can get a list of available languages and the current language. Here is an example implementation of a DropDown:
+
+```csharp
+
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CMSuniVortex
+{
+    public sealed class CuvLanguageDropDown : CuvLanguages
+    {
+        [SerializeField] Dropdown _dropdown;
+
+        protected override void OnInitialized()
+        {
+            var options = new List<Dropdown.OptionData>();
+            foreach (var language in Languages)
+            {
+                var languageString = language.ToString();
+                var data = new Dropdown.OptionData(languageString);
+                options.Add(data);
+            }
+            _dropdown.options = options;
+            _dropdown.value = GetLanguageIndex(ActiveLanguage);
+            _dropdown.onValueChanged.AddListener(OnValueChanged);
+        }
+
+        void OnValueChanged(int index)
+        {
+            var language = GetLanguageAt(index);
+            ChangeLanguage(language);
+        }
+
+        void Reset() => _dropdown = GetComponent<Dropdown>();
+    }
+}
+```
+
+You can display a language selection screen like the one below in your game.
+
+<img src="assets/drop_down.jpg" width="500"/>
+
+### CuvLanguageSwitcher
+
+The base class that holds the language list and current language. `CuvLanguages` is a wrapper class for this.
+
+### CuvLanguageSettings
+
+Language settings. For details, please see [here](Localization.md).
+
+`Window > CMSuniVortex > open Language Setting`
+
+<img src="assets/language_setting.jpg" width="500"/>

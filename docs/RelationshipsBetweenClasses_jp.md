@@ -95,23 +95,23 @@ public abstract class Test : MonoBehaviour
 
 ```
 
-### CuvComponent
+### CuvLocalized
 
-`CuvModelKey`をラップして使いやすくしたクラスです。
+`CuvModelKey`アトリビュートをラップして使いやすくしたローカライズ用のクラスです。
 
 ```csharp
-using CMSuniVortex.Compornents;
+using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
+public sealed class TestText : CuvLocalized<GoogleSheetCuvReference>
 {
     [SerializeField] Text _text;
-        
+
     protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
     {
-        if (reference.GetList().TryGetByKey(key, out var model))
+        if (reference.TryGetByKey(key, out var model))
         {
             _text.text = model.Text;
         }
@@ -119,9 +119,29 @@ public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
 }
 ```
 
-### CuvAsyncComponent
+### CuvAddressableLocalized
 
-`CuvComponent`の非同期版です。
+`CuvLocalized`の非同期版です。
+
+```csharp
+using CMSuniVortex;
+using CMSuniVortex.GoogleSheet;
+using UnityEngine;
+using UnityEngine.UI;
+
+public sealed class TestText : CuvAddressableLocalized<GoogleSheetCuvReference>
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
+    {
+        if (reference.TryGetByKey(key, out var model))
+        {
+            _text.text = model.Text;
+        }
+    }
+}
+```
 
 ### SetParam
 
@@ -133,3 +153,112 @@ public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
 ```csharp
 var text = model.Text.SetParam("number", 5);
 ```
+
+### CuvList
+
+ローカライズではない場合、`CuvList`コンポーネントが使えます。
+これを使う事でListのIDをInspector指定できます。
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex;
+using Tests;
+
+public class CuvListTest : CuvList<CatDetails, CatDetailsCockpitCuvReference>
+{
+    [SerializeField] Text _text;
+    
+    void Start()
+    {
+        Debug.Log("CuvId: " + List.CuvId);
+        _text.text = List.CuvId;
+    }
+}
+```
+
+<img src="assets/cuv_list.jpg" width="500"/>
+
+### CuvModel
+
+`CuvList`の機能に、更にKeyを指定できるようになります。
+
+```csharp
+
+using UnityEngine;
+using UnityEngine.UI;
+using CMSuniVortex;
+using Tests;
+
+    public sealed class CuvModelTest : CuvModel<CatDetails, CatDetailsCockpitCuvReference>
+    {
+        [SerializeField] Text _text;
+        [SerializeField] Image _image;
+
+        void Start()
+        {
+            Debug.Log("ModelId: " + Model.Key);
+            _text.text = Model.Text;
+            _image.sprite = Model.Image;
+        }
+    }
+```
+
+<img src="assets/cuv_model.jpg" width="500"/>
+
+### CuvLanguages
+
+現在使用可能な言語一覧と現在の言語を取得できます。下記は、DropDownの実装例です。
+
+```csharp
+
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CMSuniVortex
+{
+    public sealed class CuvLanguageDropDown : CuvLanguages
+    {
+        [SerializeField] Dropdown _dropdown;
+
+        protected override void OnInitialized()
+        {
+            var options = new List<Dropdown.OptionData>();
+            foreach (var language in Languages)
+            {
+                var languageString = language.ToString();
+                var data = new Dropdown.OptionData(languageString);
+                options.Add(data);
+            }
+            _dropdown.options = options;
+            _dropdown.value = GetLanguageIndex(ActiveLanguage);
+            _dropdown.onValueChanged.AddListener(OnValueChanged);
+        }
+
+        void OnValueChanged(int index)
+        {
+            var language = GetLanguageAt(index);
+            ChangeLanguage(language);
+        }
+
+        void Reset() => _dropdown = GetComponent<Dropdown>();
+    }
+}
+```
+
+ゲーム中に下記のような言語選択の画面を表示できます。
+
+<img src="assets/drop_down.jpg" width="500"/>
+
+### CuvLanguageSwitcher
+
+言語の一覧、現在の言語などを保持する大元のクラス。`CuvLanguages`はこのクラスをラップしたクラスです。
+
+### CuvLanguageSettings
+
+言語の設定。詳しくは、[コチラ](Localization_jp.md)をごらんください。
+
+`Window > CMSuniVortex > open Language Setting`
+
+<img src="assets/language_setting.jpg" width="500"/>

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9fef23c4bd10414a877c0c534f98294, type: 3}
+  m_Name: TestCockpitModelCockpitCuvModelList_Japanese
+  m_EditorClassIdentifier: 
+  _cuvId: Japanese
+  _models:
+  - Key: model_cat1
+    CockpitID: 6666803aa27c48f2d70f4353
+    ModifiedDate: 2025-07-18T15:18:23.0000000+09:00
+    Text: "\u306C\u30531"
+    Number: 1111
+    Image: {fileID: 21300000, guid: 2f5738612088c401d82481c09dee5c40, type: 3}
+    Boolean: 0
+    Color: {r: 0, g: 1, b: 0.6156863, a: 1}
+    Date: 2024-06-01T00:00:00.0000000+09:00
+    Select: 0
+    Tags: 00000000
+    Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
+  - Key: model_cat2
+    CockpitID: 6666806a8eb2e6b8770a3de1
+    ModifiedDate: 2025-07-18T15:18:54.0000000+09:00
+    Text: "\u306C\u30532"
+    Number: 2222
+    Image: {fileID: 21300000, guid: cc68306f08a304be19a8cd1fbd9855ab, type: 3}
+    Boolean: 0
+    Color: {r: 1, g: 0, b: 0, a: 1}
+    Date: 2024-06-02T00:00:00.0000000+09:00
+    Select: 1
+    Tags: 0000000001000000
+    Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
+  - Key: model_cat3
+    CockpitID: 666680c18eb2e6b8770a3de4
+    ModifiedDate: 2025-07-18T15:19:23.0000000+09:00
+    Text: "\u306C\u30533"
+    Number: 3333
+    Image: {fileID: 21300000, guid: 98efff5b88ef24450896e959592c528d, type: 3}
+    Boolean: 0
+    Color: {r: 1, g: 0.8352941, b: 0, a: 1}
+    Date: 2024-06-03T00:00:00.0000000+09:00
+    Select: 2
+    Tags: 0100000002000000
+    Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"

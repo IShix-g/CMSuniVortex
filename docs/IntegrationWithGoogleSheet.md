@@ -36,13 +36,14 @@ Select `CMSuniVortex.GoogleSheet.GoogleSheetCuvClient` as client
 
 ### Enter Required Information in CuvImporter
 
-|            | explanation                     | e.g.
-|------------|---------------------------------|-----------------------|
-| Build Path | Path to generate assets | Assets/Generated/
-| Languages  | Specify the language, even if not in use, you must select at least one. | English
-| Sheet Url   | Specify the URL of the spreadsheet  | https://docs.google.com/spreadsheets/d/sheetID/
-| Sheet Names   | Name of the tab at the bottom of the spreadsheet | Animals, SeaCreatures
-| Json Key Path   | Path where the service account is saved  | Assets/GoogleSheetTest/light-operator-x-x-x.json 
+|               | explanation                                                             | e.g.                                             
+|---------------|-------------------------------------------------------------------------|--------------------------------------------------|
+| Build Path    | Path to generate assets                                                 | Assets/Generated/                                
+| Languages     | Specify the language, even if not in use, you must select at least one. | English                                          
+| Sheet Url     | Specify the URL of the spreadsheet                                      | https://docs.google.com/spreadsheets/d/sheetID/  
+| Sheet Names   | Name of the tab at the bottom of the spreadsheet                        | Animals, SeaCreatures                            
+| Json Key Path | Path where the service account is saved                                 | Assets/GoogleSheetTest/light-operator-x-x-x.json 
+| Key Name      | You can change the required Key name in the sheet                       | Key                                              |
 
 ![](assets/googleSheet/simple_sheet.png)
 
@@ -60,29 +61,96 @@ Specify how to reference. This time, we specified `GoogleSheetCuvOutput` which i
 
 ### Acquisition and Display
 
-The easiest way is to use `CuvComponent`. Save the following code as TestText.cs, place it under Assets, attach it to `Text`, and enter the necessary information.
+The easiest way is to use `CuvLocalized<T>`. Save the code below under Assets folder and attach it to `Text`, then enter
+the required information.
 
+#### Component Section
+
+Create a parent class specifying the `CuvReference` that was output in Output.
 ```csharp
-using CMSuniVortex.Compornents;
-using CMSuniVortex.GoogleSheet;
-using UnityEngine;
-using UnityEngine.UI;
+using CMSuniVortex;
 
-public sealed class TestText : CuvComponent<GoogleSheetCuvReference>
+namespace Test.Cockpit
 {
-    [SerializeField] Text _text;
-
-    protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
+    public abstract class CuvLocalizedTest : CuvLocalized<GoogleSheetCuvReference>
     {
-        if (reference.TryGetByKey(key, out var model))
+        protected abstract void OnChangeLanguage(GoogleSheetModel catDetails);
+        
+        protected override void OnChangeLanguage(GoogleSheetCuvReference reference, string key)
         {
-            _text.text = model.Text;
+            if (reference.TryGetByKey(key, out var model))
+            {
+                OnChangeLanguage(model);
+            }
         }
     }
 }
 ```
 
+Create a script that inherits from the above class to display text.
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+[RequireComponent(typeof(Text))]
+public sealed class CuvLocalizedTextTest : CuvLocalizedTest
+{
+    [SerializeField] Text _text;
+
+    protected override void OnChangeLanguage(CatDetailsLocalize model)
+    {
+        _text.text = model.Text;
+    }
+    
+    protected override void Reset()
+    {
+        base.Reset();
+        _text = GetComponent<Text>();
+    }
+}
+```
+
+You can display the `Text` variable matching the selected Key as shown below.
+
 <img src="assets/googleSheet/simple4.png" width="600"/>
+
+#### Script Section
+
+Using the `CuvReference` outputted in Output, bind the `OnChangeLanguage` event to display.
+
+```csharp
+
+using System.Threading;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using CMSuniVortex;
+
+public sealed class InitializeLocalizationTest : MonoBehaviour
+{
+    [SerializeField] GoogleSheetCuvAddressableReference _reference;
+
+    void OnEnable()
+    {
+        _reference.OnChangeLanguage += OnChangeLanguage;
+        if (_reference.IsInitializedLocalize)
+        {
+            OnChangeLanguage(_reference.ActiveLanguage);
+        }
+    }
+
+    void OnDisable()
+    {
+        _reference.OnChangeLanguage -= OnChangeLanguage;
+    }
+    
+    void OnChangeLanguage(SystemLanguage language)
+    {
+        var obj = _reference.ActiveLocalizedList[1];
+        Debug.Log("OnChangeLanguage : " + obj.Text);
+    }
+}
+```
 
 ## Custom
 

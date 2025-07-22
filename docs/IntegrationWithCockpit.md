@@ -28,7 +28,8 @@ Click "ADD FIELD".
 
 ### Values to Always Set
 
-Please always set the `Key` of Text. Specify `Key` or `key` for Name.
+Be sure to set the `Key` field for Text. While the Display Name can be any value, you must specify `key` for the Name.
+This Key will be used to retrieve data in Unity.
 
 ![](assets/cockpit/need_key.png)
 

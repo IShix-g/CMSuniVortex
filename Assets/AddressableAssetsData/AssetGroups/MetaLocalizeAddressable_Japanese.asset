@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MetaLocalizeAddressable_Japanese
+  m_EditorClassIdentifier: 
+  m_GroupName: MetaLocalizeAddressable_Japanese
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 794aba30e75264e8280312d91d1831e0
+  m_SerializeEntries:
+  - m_GUID: 14a0a813ccced4103bbc09c9683fcc28
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/MetaLocalizeAddressableCustomGoogleSheetCuvModelList_Japanese.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3ca2b4ee3b9a545f48c4c4d25e7415db
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/cat_kuroashineko.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c84d1f5a59bfc4b3b8f1df960d701bf5
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/monogatari_alice_cheshire_neko.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 287bfe0b11a1d417b93e07e767eac850
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/cat_koubakozuwari_gray.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 606bcf6ff24d145d6affc4ada5e7ab32
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fca5602aeed414524936a5c4e956a938
+    m_Address: Assets/GoogleSheetTest/ImportedLocalizeAddressable/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 76171be10576542b18ba30db20c8749f, type: 2}
+    - {fileID: 11400000, guid: 16e8caec574a24448ab63b50cb314d6c, type: 2}

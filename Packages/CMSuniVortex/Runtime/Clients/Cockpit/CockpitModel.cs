@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
@@ -23,7 +22,7 @@ using UnityEngine.AddressableAssets;
 namespace CMSuniVortex.Cockpit
 {
     [Serializable]
-    public abstract class CockpitModel : ICuvModel, IJsonDeserializer
+    public abstract class CockpitModel : ICuvModel, IJsonDeserializerKeySettable, IJsonDeserializer
     #if ENABLE_ADDRESSABLES
     ,IAddressableModel
     #endif
@@ -47,6 +46,8 @@ namespace CMSuniVortex.Cockpit
         
         #region Editor
 #if UNITY_EDITOR
+        string _keyName;
+        
         public void SetData(string basePath, string assetSavePath)
         {
             BaseUrl = basePath;
@@ -59,38 +60,32 @@ namespace CMSuniVortex.Cockpit
             ResourcesLoadCoroutines.Add(enumerator);
         }
 
+        void IJsonDeserializerKeySettable.Set(string keyName) => _keyName = keyName;
+        
         void IJsonDeserializer.Deserialize(JObject obj)
         {
             JObject = obj;
-            Key = GetString("key");
-
-            if (string.IsNullOrEmpty(Key))
-            {
-                Key = GetString("Key"); 
-            }
-            
-            Assert.IsTrue(!string.IsNullOrEmpty(Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithCockpit.md");
-            
+            Key = GetString(_keyName);
             CockpitID = GetString("_id");
             ModifiedDate = GetDateUtc("_modified");
             OnDeserialize();
         }
 
-        void IDeserializationNotifier.Deserialized()
+        void IDeserializationNotifier.OnDeserialized()
         {
             BaseUrl = default;
             ResourcesLoadCoroutines = default;
             AssetSavePath = default;
             JObject = default;
             
-            #if ENABLE_ADDRESSABLES
+#if ENABLE_ADDRESSABLES
             AddressableActions = default;
-            #endif
+#endif
         }
 #else
+    void IJsonDeserializerKeySettable.Set(string keyName){}
     void IJsonDeserializer.Deserialize(JObject obj){}
-
-    void IDeserializationNotifier.Deserialized(){}
+    void IDeserializationNotifier.OnDeserialized(){}
 #endif
         #endregion
 

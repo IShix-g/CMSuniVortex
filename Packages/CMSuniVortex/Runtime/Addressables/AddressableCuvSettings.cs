@@ -66,25 +66,23 @@ namespace CMSuniVortex.Addressable
 #endif
         }
         
-        public string GetGroupName(SystemLanguage language, string className)
-            => (string.IsNullOrEmpty(CustomGroupName) ? className : CustomGroupName) + "_" + language;
+        public string GetGroupName(string cuvId, string className)
+            => (string.IsNullOrEmpty(CustomGroupName) ? className : CustomGroupName) + "_" + cuvId;
 
-        public string[] GetLocalizedListLabels(SystemLanguage language)
+        public string[] GetLocalizedListLabels(string cuvId)
         {
-            var languageString = language.ToString();
             return ListLabels.Any(label => label.Contains(LanguagePlaceholder))
                 ? ListLabels.Select(label => label.Contains(LanguagePlaceholder)
-                    ? label.Replace(LanguagePlaceholder, languageString)
+                    ? label.Replace(LanguagePlaceholder, cuvId)
                     : label).ToArray()
                 : ListLabels;
         }
         
-        public string[] GetLocalizedContentsLabels(SystemLanguage language)
+        public string[] GetLocalizedContentsLabels(string cuvId)
         {
-            var languageString = language.ToString();
             return ContentsLabels.Any(label => label.Contains(LanguagePlaceholder))
                 ? ContentsLabels.Select(label => label.Contains(LanguagePlaceholder)
-                    ? label.Replace(LanguagePlaceholder, languageString)
+                    ? label.Replace(LanguagePlaceholder, cuvId)
                     : label).ToArray()
                 : ContentsLabels;
         }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e92a569c07f6443e9367151ca957efc, type: 3}
+  m_Name: CatAddressableDetailsLocalizeCockpitCuvAddressableReference
+  m_EditorClassIdentifier: 
+  _modelLists:
+  - CuvId: English
+    List:
+      m_AssetGUID: 2af29a50f8d0d41169084a7c0bbc3cf9
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - CuvId: Japanese
+    List:
+      m_AssetGUID: 88efeb1e054aa4b09835c58a9d020f08
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
