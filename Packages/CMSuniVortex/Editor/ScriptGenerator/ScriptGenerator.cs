@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    public abstract class ScriptGenerator
+    internal abstract class ScriptGenerator
     {
         static List<ScriptGenerator> s_generators;
         public static IReadOnlyList<ScriptGenerator> Generators
@@ -26,9 +26,9 @@ namespace CMSuniVortex.Editor
         
         public abstract string GetName();
         public abstract string GetLogoName();
-        protected abstract IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput);
+        protected abstract IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput, bool useAddressables, bool useLocalization);
         
-        public void Generate(string className, string rootPath, bool isGenerateOutput)
+        public void Generate(string className, string rootPath, bool isGenerateOutput, bool useAddressables, bool useLocalization)
         {
             var isChanged = false;
             var namespaceName = string.Empty;
@@ -40,7 +40,7 @@ namespace CMSuniVortex.Editor
                 className = className.Substring(lastDotIndex + 1);
             }
             
-            foreach (var result in OnGenerate(namespaceName, className, rootPath, isGenerateOutput))
+            foreach (var result in OnGenerate(namespaceName, className, rootPath, isGenerateOutput, useAddressables, useLocalization))
             {
                 var changed = true;
                 CreateDirectory(result.Path);

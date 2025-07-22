@@ -8,7 +8,10 @@ using UnityEngine;
 namespace CMSuniVortex.GoogleSheet
 {
     [CuvClient("Google Sheet")]
-    public abstract class GoogleSheetCuvClientBase<T, TS> : CuvClient<T, TS>, ICuvDoc, ICuvUpdateChecker where T : GoogleSheetModelBase, new() where TS : GoogleSheetCuvModelListBase<T>
+    public abstract class GoogleSheetCuvClientBase<T, TS>
+        : CuvClient<T, TS>, ICuvDoc, ICuvUpdateChecker 
+        where T : GoogleSheetModelBase, new() 
+        where TS : GoogleSheetCuvModelListBase<T>
     {
         [SerializeField, CuvOpenUrl] string _sheetUrl;
         [SerializeField, CuvFilePath("json")] string _jsonKeyPath;
@@ -42,6 +45,14 @@ namespace CMSuniVortex.GoogleSheet
 #if UNITY_EDITOR
             if (!base.CanILoad())
             {
+                return false;
+            }
+            if (GetCuvIds() == null
+                || GetCuvIds().Count == 0)
+            {
+                Debug.LogError(this is ICuvLocalizedClient
+                    ? "Please configure at least one language."
+                    : "Set Sheet Name to 1 or more.");
                 return false;
             }
             if (string.IsNullOrEmpty(_sheetUrl))

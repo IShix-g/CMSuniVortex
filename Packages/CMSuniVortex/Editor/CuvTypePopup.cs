@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    sealed class CuvTypePopup
+    internal sealed class CuvTypePopup
     {
         public SerializedProperty Property { get; private set; }
         public Type[] Types { get; private set; }

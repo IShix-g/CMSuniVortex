@@ -13,7 +13,7 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace CMSuniVortex.Editor
 {
-    public sealed class PackageInstaller : IDisposable
+    internal sealed class PackageInstaller : IDisposable
     {
         public bool IsProcessing{ get; private set; }
 

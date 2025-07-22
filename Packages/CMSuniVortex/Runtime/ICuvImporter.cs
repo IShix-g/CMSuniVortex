@@ -1,6 +1,5 @@
 
 using System;
-using UnityEngine;
 
 namespace CMSuniVortex
 {
@@ -11,7 +10,6 @@ namespace CMSuniVortex
     {
         public bool IsBuildCompleted { get; }
         public string BuildPath { get; }
-        public SystemLanguage[] Languages { get; }
         public string[] ModelListGuilds { get; }
         public bool IsLoading { get; }
         bool CanIImport();

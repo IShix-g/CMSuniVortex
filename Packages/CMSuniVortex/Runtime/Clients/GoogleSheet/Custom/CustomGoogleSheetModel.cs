@@ -41,7 +41,7 @@ namespace CMSuniVortex.GoogleSheet
             OnDeserialize();
         }
 
-        void IObjectDeserializer.Deserialized()
+        void IDeserializationNotifier.OnDeserialized()
         {
             ResourcesLoadCoroutines = default;
             AssetSavePath = default;
@@ -55,8 +55,7 @@ namespace CMSuniVortex.GoogleSheet
         }
 #else
         void IObjectDeserializer.Deserialize(Dictionary<string, string> contents) {}
-
-        void IObjectDeserializer.Deserialized() {}
+        void IDeserializationNotifier.OnDeserialized() {}
 #endif
         
         public string GetString(string key)
@@ -270,6 +269,11 @@ namespace CMSuniVortex.GoogleSheet
                 imagePath += ".png";
             }
             return imagePath;
+        }
+
+        public void OnDeserialized()
+        {
+            throw new NotImplementedException();
         }
     }
 }

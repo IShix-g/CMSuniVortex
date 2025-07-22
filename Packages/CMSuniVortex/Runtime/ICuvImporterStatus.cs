@@ -8,5 +8,6 @@ namespace CMSuniVortex
         string GetClintClassName();
         string GetOutputClassName();
         string GetBuildPath();
+        bool IsLocalization();
     }
 }

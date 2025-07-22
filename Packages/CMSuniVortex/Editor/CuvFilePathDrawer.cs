@@ -6,7 +6,7 @@ using UnityEditor;
 namespace CMSuniVortex.Editor
 {
     [CustomPropertyDrawer(typeof(CuvFilePathAttribute))]
-    sealed class CuvFilePathDrawer : PropertyDrawer
+    internal sealed class CuvFilePathDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

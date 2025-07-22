@@ -4,12 +4,12 @@ using System.IO;
 
 namespace CMSuniVortex.Editor.Cockpit
 {
-    sealed class CockpitScriptGenerator : ScriptGenerator
+    internal sealed class CockpitScriptGenerator : ScriptGenerator
     {
         public override string GetName() => "Cockpit";
         public override string GetLogoName() => "CockpitLogo";
 
-        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput)
+        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput, bool useAddressables, bool useLocalization)
         {
             var usings = string.Empty;
             if (!string.IsNullOrEmpty(namespaceName))
@@ -21,6 +21,8 @@ namespace CMSuniVortex.Editor.Cockpit
                 namespaceName = "CMSuniVortex";
             }
 
+            var localize = useLocalization ? "Localized" : string.Empty;
+            
             {
                 var classPath = Path.Combine(rootPath, className + ".cs");
                 if (!File.Exists(classPath))
@@ -82,8 +84,10 @@ namespace {namespaceName}
                 }
             }
             
+            if(!useAddressables)
             {
-                var classPath = Path.Combine(rootPath, className + "CockpitCuvClient.cs");
+                
+                var classPath = Path.Combine(rootPath, $"{className}CockpitCuv{localize}Client.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
@@ -97,7 +101,7 @@ namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
-    public sealed class {className}CockpitCuvClient : CockpitCuvClient<{className}, {className}CockpitCuvModelList>
+    public sealed class {className}CockpitCuv{localize}Client : CockpitCuv{localize}Client<{className}, {className}CockpitCuvModelList>
     {{
         protected override JsonConverter<{className}> CreateConverter()
             => new CuvModelConverter<{className}>();
@@ -106,7 +110,7 @@ namespace {namespaceName}
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && !useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvReference.cs");
                 if (!File.Exists(classPath))
@@ -122,7 +126,7 @@ namespace {namespaceName}
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && !useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvOutput.cs");
                 if (!File.Exists(classPath))
@@ -142,13 +146,13 @@ namespace {namespaceName}
                 }
             }
 
+            if(useAddressables)
             {
-                var classPath = Path.Combine(rootPath, className + "CockpitCuvAddressableClient.cs");
+                var classPath = Path.Combine(rootPath, $"{className}CockpitCuvAddressable{localize}Client.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
@@ -158,42 +162,38 @@ namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
-    public sealed class {className}CockpitCuvAddressableClient : CockpitCuvAddressableClient<{className}, {className}CockpitCuvModelList>
+    public sealed class {className}CockpitCuvAddressable{localize}Client : CockpitCuvAddressable{localize}Client<{className}, {className}CockpitCuvModelList>
     {{
         protected override JsonConverter<{className}> CreateConverter()
             => new CuvModelConverter<{className}>();
     }}
-}}
-#endif");
+}}");
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvAddressableReference.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using CMSuniVortex.Cockpit;
 
 namespace {namespaceName}
 {{
     public sealed class {className}CockpitCuvAddressableReference : CockpitCuvAddressableReference<{className}, {className}CockpitCuvModelList> {{}}
-}}
-#endif");
+}}");
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CockpitCuvAddressableOutput.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.Cockpit;
@@ -203,8 +203,7 @@ namespace {namespaceName}
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CockpitCuvAddressableOutput : CockpitCuvAddressableOutput<{className}, {className}CockpitCuvModelList, {className}CockpitCuvAddressableReference> {{}}
-}}
-#endif");
+}}");
                 }
             }
         }

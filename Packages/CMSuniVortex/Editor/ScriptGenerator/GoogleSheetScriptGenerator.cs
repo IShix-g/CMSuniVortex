@@ -4,18 +4,20 @@ using System.IO;
 
 namespace CMSuniVortex.Editor.GoogleSheet
 {
-    sealed class GoogleSheetScriptGenerator : ScriptGenerator
+    internal sealed class GoogleSheetScriptGenerator : ScriptGenerator
     {
         public override string GetName() => "Google Sheet";
         public override string GetLogoName() => "GoogleSheetLogo";
 
-        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput)
+        protected override IEnumerable<(string Path, string Text)> OnGenerate(string namespaceName, string className, string rootPath, bool isGenerateOutput, bool useAddressables, bool useLocalization)
         {
             if (string.IsNullOrEmpty(namespaceName))
             {
                 namespaceName = "CMSuniVortex";
             }
 
+            var localize = useLocalization ? "Localized" : string.Empty;
+            
             {
                 var classPath = Path.Combine(rootPath, className + ".cs");
                 if (!File.Exists(classPath))
@@ -70,10 +72,13 @@ namespace {namespaceName}
                 }
             }
 
+            if(!useAddressables)
             {
-                var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvClient.cs");
+                var classPath = Path.Combine(rootPath, $"{className}CustomGoogleSheetCuv{localize}Client.cs");
                 if (!File.Exists(classPath))
                 {
+                    
+                    
                     yield return (classPath,
                         $@"
 using System.ComponentModel;
@@ -84,12 +89,12 @@ namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
-    public sealed class {className}CustomGoogleSheetCuvClient : CustomGoogleSheetCuvClient<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
+    public sealed class {className}CustomGoogleSheetCuv{localize}Client : CustomGoogleSheetCuv{localize}Client<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
 }}");
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && !useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvReference.cs");
                 if (!File.Exists(classPath))
@@ -105,7 +110,7 @@ namespace {namespaceName}
                 }
             }
 
-            if(isGenerateOutput)
+            if(isGenerateOutput && !useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvOutput.cs");
                 if (!File.Exists(classPath))
@@ -125,13 +130,13 @@ namespace {namespaceName}
                 }
             }
             
+            if(useAddressables)
             {
-                var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvAddressableClient.cs");
+                var classPath = Path.Combine(rootPath, $"{className}CustomGoogleSheetCuvAddressable{localize}Client.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
@@ -140,38 +145,34 @@ namespace {namespaceName}
 {{
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
-    public sealed class {className}CustomGoogleSheetCuvAddressableClient : CustomGoogleSheetCuvAddressableClient<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
-}}
-#endif");
+    public sealed class {className}CustomGoogleSheetCuvAddressable{localize}Client : CustomGoogleSheetCuvAddressable{localize}Client<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
+}}");
                 }
             }
             
-            if(isGenerateOutput)
+            if(isGenerateOutput && useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvAddressableReference.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using CMSuniVortex.GoogleSheet;
 
 namespace {namespaceName}
 {{
     public sealed class {className}CustomGoogleSheetCuvAddressableReference : CustomGoogleSheetCuvAddressableReference<{className}, {className}CustomGoogleSheetCuvModelList> {{}}
-}}
-#endif");
+}}");
                 }
             }
             
-            if(isGenerateOutput)
+            if(isGenerateOutput && useAddressables)
             {
                 var classPath = Path.Combine(rootPath, className + "CustomGoogleSheetCuvAddressableOutput.cs");
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
                         $@"
-#if ENABLE_ADDRESSABLES
 using System.ComponentModel;
 using CMSuniVortex;
 using CMSuniVortex.GoogleSheet;
@@ -181,8 +182,7 @@ namespace {namespaceName}
     // [CuvIgnore] // Enabling this attribute will exclude it from the Client drop-down.
     // [DisplayName(""YourCustomName"")] // Enabling this attribute changes the name on the client drop-down.
     public sealed class {className}CustomGoogleSheetCuvAddressableOutput : CustomGoogleSheetCuvAddressableOutput<{className}, {className}CustomGoogleSheetCuvModelList, {className}CustomGoogleSheetCuvAddressableReference> {{}}
-}}
-#endif");
+}}");
                 }
             }
         }

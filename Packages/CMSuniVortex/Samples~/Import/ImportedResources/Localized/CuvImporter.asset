@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/Samples/Import/ImportedResources/Localized/
+  _client:
+    rid: 4810069160818900995
+  _output:
+    rid: 4810069160818900996
+  _modelListGuilds:
+  - ccf7432abc3c84090b239ee46fc07fa9
+  - 9cb9af8ebbcbe495ab0b2e081657516c
+  references:
+    version: 2
+    RefIds:
+    - rid: 4810069160818900995
+      type: {class: TestCockpitModelCockpitCuvLocalizedClient, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
+      data:
+        _baseUrl: https://devx.myonick.biz/cockpit/
+        _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
+        _modelName: Model
+        _keyName: key
+        _languages: 0a00000016000000
+    - rid: 4810069160818900996
+      type: {class: TestCockpitModelCockpitCuvOutput, ns: CMSuniVortex.Tests, asm: CMSUniVortex.Samples.ImportTest}
+      data:
+        _reference: {fileID: 11400000, guid: 74f0cc8a82cd4496c8879d01214577d3, type: 2}

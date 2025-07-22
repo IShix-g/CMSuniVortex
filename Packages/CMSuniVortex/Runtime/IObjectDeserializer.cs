@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace CMSuniVortex
 {
-    public interface IObjectDeserializer
+    public interface IObjectDeserializer : IDeserializationNotifier
     {
         void Deserialize(Dictionary<string, string> obj);
-        void Deserialized();
     }
 }

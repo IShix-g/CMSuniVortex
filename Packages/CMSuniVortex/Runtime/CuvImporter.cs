@@ -1,6 +1,5 @@
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -19,17 +18,14 @@ namespace CMSuniVortex
     public class CuvImporter : ScriptableObject, ICuvImporter, ICuvImporterStatus
     {
         [SerializeField] string _buildPath;
-        [SerializeField] SystemLanguage[] _languages;
         [SerializeReference] ICuvClient _client;
         [SerializeReference] ICuvOutput _output;
         [SerializeField] string[] _modelListGuilds;
-        ICuvImporterStatus _cuvImporterStatusImplementation;
 
         public bool IsBuildCompleted => _modelListGuilds.Length > 0
                                         && _output != default
                                         && _output.IsCompleted();
         public string BuildPath => _buildPath;
-        public SystemLanguage[] Languages => _languages;
         public ICuvClient Client
         {
             get => _client;
@@ -59,7 +55,7 @@ namespace CMSuniVortex
         
         protected void SetBuildPath(string buildPath) => _buildPath = buildPath;
 
-        protected virtual void OnStartImport(string buildPath, IReadOnlyList<SystemLanguage> languages){}
+        protected virtual void OnStartImport(string buildPath){}
         protected virtual void OnImported(string[] listGuids){}
         protected virtual void OnStartOutput(string buildPath, ICuvClient client, ICuvOutput output, string[] listGuids){}
         protected virtual void OnOutputted(ICuvOutput output, string[] listGuids){}
@@ -96,7 +92,6 @@ namespace CMSuniVortex
 
         string ICuvImporterStatus.GetClientName()
         {
-#if UNITY_EDITOR
             if (_client != default)
             {
                 var type = _client.GetType();
@@ -107,7 +102,6 @@ namespace CMSuniVortex
                     return attribute.ClientName;
                 }
             }
-#endif
             return string.Empty;
         }
         
@@ -116,6 +110,8 @@ namespace CMSuniVortex
         string ICuvImporterStatus.GetOutputClassName()=> _output != default ? _output.GetType().Name : string.Empty;
 
         string ICuvImporterStatus.GetBuildPath() => _buildPath;
+
+        bool ICuvImporterStatus.IsLocalization() => _client is ICuvLocalizedClient;
         
         bool ICuvImporter.CanIImport()
         {
@@ -127,12 +123,6 @@ namespace CMSuniVortex
             if (!IsFileOrDirectoryExists(_buildPath))
             {
                 Debug.LogError("BuildPath does not exist.");
-                return false;
-            }
-            if (_languages == default
-                || _languages.Length == 0)
-            {
-                Debug.LogError("Please set one or more items in Languages.");
                 return false;
             }
             if (_client == default)
@@ -156,8 +146,8 @@ namespace CMSuniVortex
             IsLoading = true;
             
             Debug.Log("Start importing.");
-            OnStartImport(_buildPath, _languages);
-            EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, _languages, listGuilds =>
+            OnStartImport(_buildPath);
+            EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, listGuilds =>
             {
                 OnImported(listGuilds);
                 EditorUtility.SetDirty(this);
@@ -231,23 +221,25 @@ namespace CMSuniVortex
         void ICuvImporter.StartOutput() => throw new NotImplementedException();
         void ICuvImporter.SelectOutput() => throw new NotImplementedException();
         void ICuvImporter.DeselectOutput() => throw new NotImplementedException();
+        string ICuvImporterStatus.GetName() => throw new NotImplementedException();
+        string ICuvImporterStatus.GetClientName() => throw new NotImplementedException();
+        string ICuvImporterStatus.GetClintClassName() => throw new NotImplementedException();
+        string ICuvImporterStatus.GetOutputClassName() => throw new NotImplementedException();
+        string ICuvImporterStatus.GetBuildPath() => throw new NotImplementedException();
+        bool ICuvImporterStatus.IsLocalization() => _client is ICuvLocalizedClient;
 #endif
         
         protected virtual void Reset()
         {
 #if UNITY_EDITOR
-            _languages = new[] { SystemLanguage.English };
-            if (Selection.activeObject != default)
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (!string.IsNullOrEmpty(path))
             {
-                var path = AssetDatabase.GetAssetPath(Selection.activeObject);
-                if (!string.IsNullOrEmpty(path))
+                _buildPath = Path.HasExtension(path) ? Path.GetDirectoryName(path) : path;
+                if (!string.IsNullOrEmpty(_buildPath)
+                    && !_buildPath.EndsWith('/'))
                 {
-                    _buildPath = Path.GetDirectoryName(path);
-                    if (!string.IsNullOrEmpty(_buildPath)
-                        && !_buildPath.EndsWith('/'))
-                    {
-                        _buildPath += "/";
-                    }
+                    _buildPath += "/";
                 }
             }
 #endif

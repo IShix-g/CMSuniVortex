@@ -1,14 +1,15 @@
 
 using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    sealed class ScriptGeneratorWindow : EditorWindow
+    internal sealed class ScriptGeneratorWindow : EditorWindow
     {
         [MenuItem("Window/CMSuniVortex/open Script Generator", false, 2)]
+        public static void ShowDialogInternal() => ShowDialog();
+
         public static ScriptGeneratorWindow ShowDialog()
         {
             var window = GetWindow<ScriptGeneratorWindow>("Script Generator");
@@ -32,13 +33,20 @@ namespace CMSuniVortex.Editor
         string _className;
         string _buildPath;
         bool _isGenerateAddressableClient;
+        bool _enableAddressables;
+        bool _useAddressables;
+        bool _useLocalization;
         bool _isGenerateOutput = true;
-
+        
         void OnEnable()
         {
             _logo = CuvImporterEditor.GetLogo();
+            
+            #if ENABLE_ADDRESSABLES
+            _enableAddressables = _useAddressables = true;
+            #endif
         }
-
+        
         void OnGUI()
         {
             {
@@ -97,8 +105,32 @@ namespace CMSuniVortex.Editor
                 }
                 GUILayout.EndHorizontal();
                 
+                GUILayout.Space(10);
+                
+                EditorGUI.BeginChangeCheck();
+                _useAddressables = EditorGUILayout.Toggle("Use addressables", _useAddressables);
+                if (EditorGUI.EndChangeCheck()
+                    && _useAddressables
+                    && !_enableAddressables)
+                {
+                    _useAddressables = false;
+                    var isOpen = EditorUtility.DisplayDialog(
+                        "Addressables Not Installed",
+                        "Please install Addressables from the Package Manager to use this feature.",
+                        "Open Package Manager",
+                        "Close"
+                    );
+                    if (isOpen)
+                    {
+                        PackageInstaller.OpenPackageManager();
+                    }
+                }
+                EditorGUI.EndDisabledGroup();
+                
                 GUILayout.Space(5);
-                _isGenerateOutput = EditorGUILayout.Toggle("Generate Output", _isGenerateOutput);
+                _useLocalization = EditorGUILayout.Toggle("Use localization", _useLocalization);
+                GUILayout.Space(5);
+                _isGenerateOutput = EditorGUILayout.Toggle("Generate output", _isGenerateOutput);
             }
             GUILayout.EndVertical();
             
@@ -131,7 +163,7 @@ namespace CMSuniVortex.Editor
 
                     if (isClicked)
                     {
-                        generator.Generate(_className, _buildPath, _isGenerateOutput);
+                        generator.Generate(_className, _buildPath, _isGenerateOutput, _useAddressables, _useLocalization);
                     }
                 }
 

@@ -41,7 +41,7 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var obj in objs)
             {
-                AddressableHelper.CreateGroupIfNotExists(GetGroupName(obj.Language), AddressableSettings, true);
+                AddressableHelper.CreateGroupIfNotExists(GetGroupName(obj.CuvId), AddressableSettings, true);
             }
             
             var current = AssetDatabase.FindAssets("t:" + typeof(GoogleSheetCuvAddressableReference), new[] {buildPath})
@@ -73,12 +73,12 @@ namespace CMSuniVortex.GoogleSheet
                 for (var i = 0; i < sheetObjects.Length; i++)
                 {
                     var obj = sheetObjects[i];
-                    var groupName = GetGroupName(obj.Language);
-                    var labels = AddressableSettings.GetLocalizedListLabels(obj.Language);
+                    var groupName = GetGroupName(obj.CuvId);
+                    var labels = AddressableSettings.GetLocalizedListLabels(obj.CuvId);
                     AddressableHelper.AddTo(groupName, obj, default, labels);
                     var model = new AddressableModel<GoogleSheetModel, GoogleSheetCuvModelList>
                     {
-                        Language = obj.Language,
+                        CuvId = obj.CuvId,
                         List = new AssetReferenceT<GoogleSheetCuvModelList>(listGuids[i])
                     };
                     models[i] = model;

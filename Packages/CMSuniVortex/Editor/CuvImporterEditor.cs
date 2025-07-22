@@ -14,20 +14,19 @@ using CMSuniVortex.Addressable;
 namespace CMSuniVortex.Editor
 {
     [CustomEditor(typeof(CuvImporter), true), CanEditMultipleObjects]
-    sealed class CuvImporterEditor : UnityEditor.Editor
+    internal sealed class CuvImporterEditor : UnityEditor.Editor
     {
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
         const string _packageName = "com.ishix.cmsunivortex";
         const string _gitUrl = "https://github.com/IShix-g/CMSuniVortex";
         const string _gitInstallUrl = _gitUrl + ".git?path=Packages/CMSuniVortex";
-        static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_languages", "_client", "_output", "_modelListGuilds"};
+        static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_client", "_output", "_modelListGuilds"};
         
         enum UpdateFlag { None, Update, Error, NowLoading }
         
         SerializedProperty _scriptProp;
         SerializedProperty _buildPathProp;
-        SerializedProperty _languagesProp;
         SerializedProperty _clientProp;
         SerializedProperty _outputProp;
         CuvTypePopup _clientTypePopup;
@@ -53,9 +52,8 @@ namespace CMSuniVortex.Editor
             _importerSetting = target.GetType().GetCustomAttribute<CuvImporterAttribute>() ?? new CuvImporterAttribute();
             _scriptProp = serializedObject.FindProperty(s_propertiesToExclude[0]);
             _buildPathProp = serializedObject.FindProperty(s_propertiesToExclude[1]);
-            _languagesProp = serializedObject.FindProperty(s_propertiesToExclude[2]);
-            _clientProp = serializedObject.FindProperty(s_propertiesToExclude[3]);
-            _outputProp = serializedObject.FindProperty(s_propertiesToExclude[4]);
+            _clientProp = serializedObject.FindProperty(s_propertiesToExclude[2]);
+            _outputProp = serializedObject.FindProperty(s_propertiesToExclude[3]);
             {
                 var types = TypeCache.GetTypesDerivedFrom<ICuvClient>()
                     .Where(type => typeof(ICuvClient).IsAssignableFrom(type)
@@ -165,13 +163,6 @@ namespace CMSuniVortex.Editor
             EditorGUI.EndDisabledGroup();
             
             GUILayout.Space(5);
-            
-            using (new EditorGUI.DisabledScope(!_importerSetting.IsEnabledLanguages))
-            {
-                EditorGUILayout.PropertyField(_languagesProp);
-            }
-
-            GUILayout.Space(10);
             
             var prop = serializedObject.GetIterator();
             if (prop.NextVisible(true))
@@ -431,15 +422,9 @@ namespace CMSuniVortex.Editor
         internal static Texture2D GetOutputIcon() => GetTexture("CuvOutputIcon");
         
         [CanBeNull]
-        static Texture2D GetTexture(string textureName)
+        public static Texture2D GetTexture(string textureName)
         {
-            var guids = AssetDatabase.FindAssets("t:Texture2D " + textureName);
-            foreach (var guid in guids)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            }
-            return default;
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(_packagePath + "Editor/Textures/" + textureName + ".png");
         }
         
         Type[] GetFilteredOutputTypes()

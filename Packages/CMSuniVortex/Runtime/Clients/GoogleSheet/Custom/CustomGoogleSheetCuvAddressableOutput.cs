@@ -10,7 +10,8 @@ using UnityEditor;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public abstract class CustomGoogleSheetCuvAddressableOutput<TModel, TModelList, TReference> : CuvAddressableOutput<TModel, TModelList, TReference>
+    public abstract class CustomGoogleSheetCuvAddressableOutput<TModel, TModelList, TReference>
+        : CuvAddressableOutput<TModel, TModelList, TReference>
         where TModel : CustomGoogleSheetModel
         where TModelList : CustomGoogleSheetCuvModelList<TModel>
         where TReference : CustomGoogleSheetCuvAddressableReference<TModel, TModelList>
@@ -33,7 +34,7 @@ namespace CMSuniVortex.GoogleSheet
             
             foreach (var obj in objs)
             {
-                var groupName = GetGroupName(obj.Language);
+                var groupName = GetGroupName(obj.CuvId);
                 AddressableHelper.CreateGroupIfNotExists(groupName, AddressableSettings, true);
             }
             
@@ -51,12 +52,12 @@ namespace CMSuniVortex.GoogleSheet
             for (var i = 0; i < objs.Length; i++)
             {
                 var obj = objs[i];
-                var groupName = GetGroupName(obj.Language);
-                var labels = AddressableSettings.GetLocalizedListLabels(obj.Language);
+                var groupName = GetGroupName(obj.CuvId);
+                var labels = AddressableSettings.GetLocalizedListLabels(obj.CuvId);
                 AddressableHelper.AddTo(groupName, obj, default, labels);
                 var model = new AddressableModel<TModel, TModelList>
                 {
-                    Language = obj.Language,
+                    CuvId = obj.CuvId,
                     List = new AssetReferenceT<TModelList>(listGuids[i])
                 };
                 models[i] = model;

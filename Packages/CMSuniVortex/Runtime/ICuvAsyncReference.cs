@@ -1,26 +1,13 @@
 
-using System;
-using System.Collections;
-using System.Threading.Tasks;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
+using Object = UnityEngine.Object;
 
 namespace CMSuniVortex
 {
-    public interface ICuvAsyncReference
+    public interface ICuvAsyncReference<T, TS> : ICuvIdReference, ICuvKeyReference
+        where T : ICuvModel 
+        where TS : Object, ICuvModelList<T>
     {
-        event Action<SystemLanguage> OnChangeLanguage;
-        int ContentsLength { get; }
-        bool IsLoading { get; }
-        bool IsInitialized { get; }
-        SystemLanguage Language { get; }
-        IEnumerator Initialize(Action onLoaded);
-        IEnumerator Initialize(SystemLanguage language, Action onLoaded);
-        IEnumerator ChangeLanguage(SystemLanguage language, Action onLoaded);
-        Task ChangeLanguageAsync(SystemLanguage language);
-        Task InitializeAsync();
-        Task InitializeAsync(SystemLanguage language);
-        bool HasContents();
-        string[] GetKeys();
-        void Release();
+        AssetReferenceT<TS> FindModelListById(string id);
     }
 }

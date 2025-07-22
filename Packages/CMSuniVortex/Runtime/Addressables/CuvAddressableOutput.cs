@@ -1,12 +1,13 @@
 #if ENABLE_ADDRESSABLES
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CMSuniVortex.Addressable
 {
     public abstract class CuvAddressableOutput<TModel, TModelList, TReference> : ICuvOutput, IAddressableSettingsProvider
         where TModel : ICuvModel, IAddressableModel
-        where TModelList : ICuvModelList<TModel>
-        where TReference : ICuvAsyncReference
+        where TModelList : Object, ICuvModelList<TModel>
+        where TReference : ICuvAsyncReference<TModel, TModelList>
     {
         [SerializeField] AddressableCuvSettings _addressableSettings = AddressableCuvSettings.Default;
         
@@ -22,7 +23,7 @@ namespace CMSuniVortex.Addressable
         public abstract void Release();
         public abstract void ReloadReference(string buildPath);
 
-        public string GetGroupName(SystemLanguage language) => _addressableSettings.GetGroupName(language, typeof(TModel).Name);
+        public string GetGroupName(string cuvId) => _addressableSettings.GetGroupName(cuvId, typeof(TModel).Name);
 
         AddressableCuvSettings IAddressableSettingsProvider.GetSetting() => _addressableSettings;
 

@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace CMSuniVortex
 {
@@ -12,8 +11,9 @@ namespace CMSuniVortex
     public interface ICuvClient
     {
         bool CanILoad();
-        IEnumerator Load(string buildPath, IReadOnlyList<SystemLanguage> languages, Action<string[]> onLoaded);
+        IEnumerator Load(string buildPath, Action<string[]> onLoaded);
         int GetRepeatCount();
+        IReadOnlyList<string> GetCuvIds();
         void Select(string assetPath);
         void Deselect();
     }
