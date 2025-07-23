@@ -156,6 +156,8 @@ public sealed class InitializeLocalizationTest : MonoBehaviour
 
 ### スプレッドシートの生成
 
+初めての場合は、分かりやすいようにサンプルのシートをコピーして使うと内容が理解しやすいです。
+
 - [スプレッドシートのサンプル](https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww)を開く
 - 「ファイル > コピーを作成」でコピーしてください
 - コピーしたファイルに[共有設定](InitialSetupOfGoogleSheet_jp.md#スプレッドシートの共有設定)をしてください
@@ -168,33 +170,60 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 生成したCuvImporterの「Script Generator」ボタンをクリック
 
-![](assets/open_generator.png)
+<img src="assets/open_generator.png" width="600"/>
 
 ### スクリプト生成
 
 必要情報を入力して生成してください。
 
+<img src="assets/googleSheet/generate.jpg" width="600"/>
+
 |                 | explanation                   | e.g.                |
 |-----------------|-------------------------------|---------------------|
-| Full Class Name | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
-| Build Path      | コードを生成するディレクトリのパスを指定          | Assets/Models/      |
+| Full Class Name  | クラス名を指定。namespaceを指定する事も可能です。 | namespace.ClassName |
+| Build Path       | コードを生成するディレクトリのパスを指定         | Assets/Scripts/     |
+| Use addressables | addressablesを利用をするコードを出力するか？ |                     |
+| Use localization | ローカライズで使用するコードを出力するか？        |                     |
+| Generate output  | outputに関するコードを出力するか？         |                     |
 
-<img src="assets/googleSheet/generate.png" width="600"/>
+#### 例) Test.Metaというクラス名で生成した場合
+
+下記のようなクラスが選択した内容によって生成されます。
+
+| Client                                                             | Type                  |
+|--------------------------------------------------------------------|-----------------------|
+| Test.MetaCustomGoogleSheetCuvClient                                | 通常                    |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableClient          | Addressables          |
+| Test.MetaCustomGoogleSheetCuvLocalizedClient                       | ローカライズ                |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableLocalizedClient | Addressables + ローカライズ |
+
+| Output                                                    | Type         |
+|-----------------------------------------------------------|--------------|
+| Test.MetaCustomGoogleSheetCuvOutput                       | 通常           |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableOutput | Addressables |
 
 ### CuvImporterに必要情報の入力
 
 生成したClientを選択します。
 
+- Addressablesを利用する場合は、Addressableという名称が含まれるClientを指定してください
+- ローカライズが必要な場合は、Localizedが名称に含まれるClientを指定してください
+
 <img src="assets/googleSheet/select_client.png" width="600"/>
 
-情報を入力します。
+必要情報を入力します。
 
-|            | explanation                     | e.g.                                             |
-|------------|---------------------------------|--------------------------------------------------|
-| Build Path | アセットを生成するパス                     | Assets/Generated/ |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。 | English |
-| Sheet Url   | スプレッドシートのURLを指定  | https://docs.google.com/spreadsheets/d/sheetID/|
-| Json Key Path   | サービスアカウントを保存したパス  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+<img src="assets/googleSheet/set_details.jpg" width="600"/>
+
+|                       | explanation                 | e.g.                                             |
+|-----------------------|-----------------------------|--------------------------------------------------|
+| Build Path            | アセットを生成するパス                 | Assets/Generated/                                |
+| Sheet Url             | スプレッドシートのURLを指定             | https://docs.google.com/spreadsheets/d/sheetID/  |
+| Json Key Path         | サービスアカウントを保存したパス            | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+| Key Name              | シートに必ず必要なユニークなキーの名称を変更できます。 | Key                                              |
+| Sheet Names           | シート名を指定、必ず1つ指定する必要があります。    | Sheet1                                           |
+| [ローカライズの場合] Languages | 言語を指定、必ず1つ指定する必要があります。      | English                                          |
+
 
 ![](assets/googleSheet/custom_sheet.png)
 
@@ -210,18 +239,16 @@ Project上を右クリックし「CMSuniVortex > create CuvImporter」から`Cuv
 
 <img src="assets/googleSheet/output_custom.png" width="600"/>
 
-### 取得と表示
-
-Simpleを参照してください。
-
 ### 必ずKeyを設定する
 シートは1番目の`Key`を必ず設定してください。またそのキーは重複しないように注意してください。
 
 ## カスタム方法
 
+生成したクラス、今回だと`Meta`クラスのデシリアライズ時(シートのデータを`ScriptableObject`化する時)にどのような処理をしているかを確認します。
+
 ![](assets/googleSheet/custom_sheet_get_text.png)
 
-シートの'Text'列はモデルの`Text = GetString("Text");`で取得できます。
+シートの'Text'列は`Text = GetString("Text");`で取得しています。
 
 ```csharp
 public sealed class Meta : CustomGoogleSheetModel
@@ -269,19 +296,10 @@ public sealed class MetaAddressable : CustomGoogleSheetModel
 }
 ```
 
-### 追加
+### 値の追加
 追加方法を説明します。まずEnglishのシートにFloatを追加してみたいと思います。
 
 ![](assets/googleSheet/custom_sheet_add_flort.png)
-
-`Japanese`は、翻訳が必要なところ以外は`English`のシートをインポートすると楽です。`English`のE〜Jのセルを`IMPORTRANGE`関数で表示しています。
-
-```javascript
-// Sheet url, Sheet name + cells
-=IMPORTRANGE("https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/", "English!E:J")
-```
-
-![](assets/googleSheet/custom_sheet_add_flort2.png)
 
 Floatを生成したモデルに追加し、デシリアライズ処理を追加します。
 
@@ -320,6 +338,22 @@ public sealed class Meta : CustomGoogleSheetModel
 この要領で削除したり追加したりして自分のオリジナルのシートを作ってみてください。
 
 ![](assets/googleSheet/custom_sheet_add_flort3.png)
+
+### GoogleSheetのインポート
+
+> [!TIP]
+> `Japanese`は、翻訳が必要なところ以外は`English`のシートをインポートすると楽です。下記は、`English`のE〜Jのセルを`IMPORTRANGE`関数で表示しています。
+
+```javascript
+// Sheet url, Sheet name + cells
+=IMPORTRANGE("https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/", "English!E:J")
+```
+
+![](assets/googleSheet/custom_sheet_add_flort2.png)
+
+### 取得と表示
+
+Simpleを参照してください。
 
 ## Google API ライブラリ
 

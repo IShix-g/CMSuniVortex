@@ -76,7 +76,7 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 - [Addressables](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)から参照
 
 ## 1.X → 2.Xへのアップグレード
-> [!IMPORTANT]
+> [!CAUTION]
 > **2.Xへのアップグレードには破壊的な変更が含まれます。必ずバックアップを取ってアップグレードしてください。**
 
 具体的には、1.Xで必ず必要だったLanguagesを使うクラスと使わないクラスに分離しました。それに伴い、今までのLanguagesの設定が未選択状態になっているので再設定後、再インポートしてください。

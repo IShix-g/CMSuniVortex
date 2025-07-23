@@ -1,7 +1,7 @@
 
 [日本語](Localization_jp.md)
 
-> [!IMPORTANT]
+> [!CAUTION]
 > **Version 2.X includes enhanced localization features but contains breaking changes. Be sure to backup before
 upgrading.**
 
