@@ -158,6 +158,8 @@ You can freely change anything other than the first Key of the spreadsheet. Scri
 
 ### Generating the Spreadsheet
 
+For first-time users, it's easier to understand by copying and using the sample sheet.
+
 - Open the [sample spreadsheet](https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww).
 - Make a copy by going to "File > Make a Copy"
 - Please set the [sharing settings](InitialSetupOfGoogleSheet.md#Sharing-settings-of-the-spreadsheet) on the copied file.
@@ -170,33 +172,59 @@ Right-click on the Project and select `CuvImporter` from "CMSuniVortex > create 
 
 Click on the "Script Generator" button of the generated CuvImporter
 
-![](assets/open_generator.png)
+<img src="assets/open_generator.png" width="600"/>
 
 ### Script Generation
 
 Please enter the necessary information and generate.
 
-|                 | explanation                   | e.g.                |
-|-----------------|-------------------------------|---------------------|
-| Full Class Name | Specify the class name. You can also specify the namespace. | namespace.ClassName |
-| Build Path      | Specify the directory path to generate the code          | Assets/Models/     
+<img src="assets/googleSheet/generate.jpg" width="600"/>
 
-<img src="assets/googleSheet/generate.png" width="600"/>
+|                  | explanation                                                 | e.g.                |
+|------------------|-------------------------------------------------------------|---------------------|
+| Full Class Name  | Specify the class name. You can also specify the namespace. | namespace.ClassName |
+| Build Path       | Specify the directory path to generate the code             | Assets/Models/      
+| Use addressables | Output code using addressables?                             |                     |
+| Use localization | Output code for localization?                               |                     |
+| Generate output  | Output code for output?                                     |                     |
+
+#### Example) When generating with class name Test.Meta
+
+The following classes will be generated based on your selections:
+
+| Client                                                             | Type                        |
+|--------------------------------------------------------------------|-----------------------------|
+| Test.MetaCustomGoogleSheetCuvClient                                | Normal                      |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableClient          | Addressables                |
+| Test.MetaCustomGoogleSheetCuvLocalizedClient                       | Localization                |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableLocalizedClient | Addressables + Localization |
+
+| Output                                                    | Type         |
+|-----------------------------------------------------------|--------------|
+| Test.MetaCustomGoogleSheetCuvOutput                       | Normal       |
+| Test.MetaAddressableCustomGoogleSheetCuvAddressableOutput | Addressables |
 
 ### Enter Required Information in CuvImporter
 
 Select the generated Client.
 
+- If you are using Addressables, please specify a Client that includes "Addressable" in its name
+- If localization is required, please specify a Client that includes "Localized" in its name
+
 <img src="assets/googleSheet/select_client.png" width="600"/>
 
 Enter the information.
 
-|            | explanation                     | e.g.                
-|------------|---------------------------------|-----------------------------------------------|
-| Build Path | Path to generate assets         | Assets/Generated/
-| Languages  | Specify the language, even if not in use, you must select at least one. | English
-| Sheet Url   | Specify the URL of the spreadsheet  | https://docs.google.com/spreadsheets/d/sheetID/
-| Json Key Path   | Path where the service account is saved  | Assets/GoogleSheetTest/light-operator-x-x-x.json 
+<img src="assets/googleSheet/set_details.jpg" width="600"/>
+
+|                              | explanation                                          | e.g.                                             |
+|------------------------------|------------------------------------------------------|--------------------------------------------------|
+| Build Path                   | Path to generate assets                              | Assets/Generated/                                |
+| Sheet Url                    | Specify the spreadsheet URL                          | https://docs.google.com/spreadsheets/d/sheetID/  |
+| Json Key Path                | Path where service account is saved                  | Assets/GoogleSheetTest/light-operator-x-x-x.json |
+| Key Name                     | You can change the required unique key name in sheet | Key                                              |
+| Sheet Names                  | Specify sheet name, at least one required            | Sheet1                                           |
+| [For localization] Languages | Specify language, at least one required              | English                                          |
 
 ![](assets/googleSheet/custom_sheet.png)
 
@@ -212,14 +240,13 @@ Specify how to reference. This time, we specified the 'CustomGoogleSheetCuvOutpu
 
 <img src="assets/googleSheet/output_custom.png" width="600"/>
 
-### Acquisition and Display
-
-Refer to Simple.
-
 ### Always Set Key
 Please be sure to set the first 'Key' of the sheet. Also, make sure that this key is not duplicated.
 
 ## Custom Method
+
+Let's check how the deserialization process works (when converting sheet data to ScriptableObject) for the generated
+class, in this case, the `Meta` class.
 
 ![](assets/googleSheet/custom_sheet_get_text.png)
 
@@ -276,14 +303,6 @@ We will explain how to add. First, we want to try adding a Float to the English 
 
 ![](assets/googleSheet/custom_sheet_add_flort.png)
 
-For `Japanese`, it's easier to import from the `English` sheet, except for areas that require translation. We're displaying cells E to J of `English` using the `IMPORTRANGE` function.
-
-```javascript
-// Sheet url, Sheet name + cells
-=IMPORTRANGE("https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/", "English!E:J")
-```
-
-![](assets/googleSheet/custom_sheet_add_flort2.png)
 
 We add Float to the generated model and add deserialization processing.
 
@@ -321,6 +340,23 @@ After adding, we import.
 If it's added without any errors, like shown below, then it's complete. By removing or adding in this manner, try creating your own original sheet.
 
 ![](assets/googleSheet/custom_sheet_add_flort3.png)
+
+### Importing Google Sheet
+
+> [!TIP]
+> For the `Japanese` sheet, it's easier to import from the `English` sheet except for parts that need translation. Below
+> shows the `English` sheet cells E to J displayed using the `IMPORTRANGE` function.
+
+```javascript
+// Sheet url, Sheet name + cells
+=IMPORTRANGE("https://docs.google.com/spreadsheets/d/13XEuxW89jT4ICb2guBcgcgPrCmY_oGxDQgiWNOth7ww/", "English!E:J")
+```
+
+![](assets/googleSheet/custom_sheet_add_flort2.png)
+
+### Acquisition and Display
+
+Refer to Simple.
 
 ## Google API Libraries
 

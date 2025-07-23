@@ -85,7 +85,7 @@ You can specify how to refer to the data you have output.
 
 ## Upgrading from 1.X to 2.X
 
-> [!IMPORTANT]
+> [!CAUTION]
 > **2.X upgrade contains breaking changes. Please make sure to backup before upgrading.**
 
 Specifically, we separated classes that use Languages (which was mandatory in 1.X) from those that don't. As a result,
