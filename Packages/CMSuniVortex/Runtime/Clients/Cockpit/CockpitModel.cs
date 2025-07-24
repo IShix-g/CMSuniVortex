@@ -278,6 +278,7 @@ namespace CMSuniVortex.Cockpit
                 File.WriteAllBytes(path, imageBytes);
                 Object.DestroyImmediate(texture);
                 AssetDatabase.ImportAsset(path);
+                SetTextureTypeToSprite(path);
                 onSuccess?.Invoke(path);
                 
                 var contentType = request.GetResponseHeader("Content-Type");
@@ -286,6 +287,16 @@ namespace CMSuniVortex.Cockpit
             else
             {
                 Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
+            }
+        }
+        
+        void SetTextureTypeToSprite(string assetPath)
+        {
+            var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+            if (importer != null)
+            {
+                importer.textureType = TextureImporterType.Sprite;
+                importer.SaveAndReimport();
             }
         }
 #endif
