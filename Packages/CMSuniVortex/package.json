@@ -1,6 +1,6 @@
 {
     "name": "com.ishix.cmsunivortex",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "displayName": "CMSuniVortex",
     "description": "Data can be retrieved from CMS and imported into ScriptableObject.",
     "unity": "2021.3",
