@@ -144,24 +144,32 @@ namespace CMSuniVortex
                 return;
             }
             IsLoading = true;
-            
-            Debug.Log("Start importing.");
-            OnStartImport(_buildPath);
-            EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, listGuilds =>
+
+            try
             {
-                OnImported(listGuilds);
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssetIfDirty(this);
-                Debug.Log("Completion of importing.");
-                
-                IsLoading = false;
-                _modelListGuilds = listGuilds;
-                if (CanIOutput())
+                Debug.Log("Start importing.");
+                OnStartImport(_buildPath);
+                EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, listGuilds =>
                 {
-                    StartOutput();
-                }
-                onLoaded?.Invoke();
-            }), this);
+                    OnImported(listGuilds);
+                    EditorUtility.SetDirty(this);
+                    AssetDatabase.SaveAssetIfDirty(this);
+                    Debug.Log("Completion of importing.");
+                
+                    IsLoading = false;
+                    _modelListGuilds = listGuilds;
+                    if (CanIOutput())
+                    {
+                        StartOutput();
+                    }
+                    onLoaded?.Invoke();
+                }), this);
+            }
+            catch
+            {
+                IsLoading = false;
+                throw;
+            }
         }
 
         bool ICuvImporter.CanIOutput() => CanIOutput();
@@ -178,6 +186,7 @@ namespace CMSuniVortex
             {
                 return;
             }
+            
             Debug.Log("Start Output.");
             OnStartOutput(_buildPath, _client, _output, _modelListGuilds);
             _output.Generate(_buildPath, _client, _modelListGuilds);
