@@ -15,13 +15,19 @@ namespace CMSuniVortex.Addressable
     public static class AddressableHelper
     {
         public static bool IsInstalled() => AddressableAssetSettingsDefaultObject.Settings != default;
-        
-        public static AddressableAssetSettings GetSettings()
+
+        public static bool ValidateSettings()
         {
             if (!IsInstalled())
             {
-                throw new InvalidOperationException("Addressables is not installed. Execute \"Create Addressables Settings\" in Window > Asset Management > Addressables > Group. For more Infomation : https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/AddressableAssetsGettingStarted.html#installation");
+                throw new InvalidOperationException("Addressables is not installed. Execute \"Create Addressables Settings\" in Window > Asset Management > Addressables > Group. \nFor more Infomation : https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/AddressableAssetsGettingStarted.html#installation");
             }
+            return true;
+        }
+        
+        public static AddressableAssetSettings GetSettings()
+        {
+            ValidateSettings();
             return AddressableAssetSettingsDefaultObject.Settings;
         }
         
