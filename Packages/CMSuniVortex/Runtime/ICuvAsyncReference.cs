@@ -1,4 +1,4 @@
-
+#if ENABLE_ADDRESSABLES
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
 
@@ -11,3 +11,4 @@ namespace CMSuniVortex
         AssetReferenceT<TS> FindModelListById(string id);
     }
 }
+#endif
