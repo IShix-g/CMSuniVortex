@@ -1,6 +1,7 @@
 
 using System;
 using System.IO;
+using CMSuniVortex.Addressable;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -147,6 +148,9 @@ namespace CMSuniVortex
 
             try
             {
+#if ENABLE_ADDRESSABLES
+                AddressableHelper.ValidateSettings();
+#endif
                 Debug.Log("Start importing.");
                 OnStartImport(_buildPath);
                 EditorCoroutineUtility.StartCoroutine(_client.Load(_buildPath, listGuilds =>
