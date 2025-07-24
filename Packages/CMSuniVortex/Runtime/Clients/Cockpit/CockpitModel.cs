@@ -253,7 +253,7 @@ namespace CMSuniVortex.Cockpit
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                imagePath = AppendImageExtension(imagePath, request);
+                imagePath = TextureSupport.AppendImageExtension(imagePath, request);
                 var texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
                 var imageBytes = default(byte[]);
                 
@@ -278,7 +278,7 @@ namespace CMSuniVortex.Cockpit
                 File.WriteAllBytes(path, imageBytes);
                 Object.DestroyImmediate(texture);
                 AssetDatabase.ImportAsset(path);
-                SetTextureTypeToSprite(path);
+                TextureSupport.SetTextureTypeToSprite(path);
                 onSuccess?.Invoke(path);
                 
                 var contentType = request.GetResponseHeader("Content-Type");
@@ -287,16 +287,6 @@ namespace CMSuniVortex.Cockpit
             else
             {
                 Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
-            }
-        }
-        
-        void SetTextureTypeToSprite(string assetPath)
-        {
-            var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-            if (importer != null)
-            {
-                importer.textureType = TextureImporterType.Sprite;
-                importer.SaveAndReimport();
             }
         }
 #endif
@@ -373,44 +363,6 @@ namespace CMSuniVortex.Cockpit
             }
 
             return default;
-        }
-        
-        static string AppendImageExtension(string imagePath, UnityWebRequest request)
-        {
-            imagePath = imagePath.TrimEnd('/');
-            var fileName = Path.GetFileName(imagePath);
-            fileName = Regex.Replace(fileName, "[?<>:*|]", "");
-            var directory = Path.GetDirectoryName(imagePath);
-            imagePath = Path.Combine(directory, fileName);
-            
-            if (Path.HasExtension(imagePath)
-                && !imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-                && !imagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
-                && !imagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
-            {
-                imagePath = imagePath.Replace(Path.GetExtension(imagePath), "");
-            }
-
-            if (Path.HasExtension(imagePath))
-            {
-                return imagePath;
-            }
-            
-            var contentType = request.GetResponseHeader("Content-Type");
-            if (contentType.Contains("image/png"))
-            {
-                imagePath += ".png";
-            }
-            else if (contentType.Contains("image/jpeg"))
-            {
-                imagePath += ".jpg";
-            }
-            else
-            {
-                Debug.LogWarning("Unknown image format from Content-Type header, encoding as PNG instead. path: " + imagePath);
-                imagePath += ".png";
-            }
-            return imagePath;
         }
     }
 }
