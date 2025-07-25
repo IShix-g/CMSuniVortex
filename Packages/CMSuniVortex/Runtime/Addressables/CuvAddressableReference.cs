@@ -274,23 +274,23 @@ namespace CMSuniVortex.Addressable
             }
         }
 
-        public IEnumerator InitializeLocalizeCo()
+        public IEnumerator InitializeLocalizeCo(Action onReady = default)
         {
             if (!IsLoading
                 && !IsInitializedLocalize)
             {
                 InitializeLocalize();
-                yield return WaitForLoadLocalizationCo();
+                yield return WaitForLoadLocalizationCo(onReady);
             }
         }
         
-        public async Task InitializeLocalizeAsync()
+        public async Task InitializeLocalizeAsync(CancellationToken token = default)
         {
             if (!IsLoading
                 && !IsInitializedLocalize)
             {
                 InitializeLocalize();
-                await WaitForLoadLocalizationAsync();
+                await WaitForLoadLocalizationAsync(token);
             }
         }
 
