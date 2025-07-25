@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49db73cfbebc44fea8ccc170e75a430, type: 3}
+  m_Name: CatDetailsCallInitializeCockpitCuvReference
+  m_EditorClassIdentifier: 
+  _modelLists:
+  - {fileID: 11400000, guid: 9531c65db61004210aa80c1e4902d90b, type: 2}
+  - {fileID: 11400000, guid: d683a7f3bf3f14680b4a65ba036b3075, type: 2}
