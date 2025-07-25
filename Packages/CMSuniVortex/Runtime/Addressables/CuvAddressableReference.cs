@@ -51,6 +51,7 @@ namespace CMSuniVortex.Addressable
         /// </summary>
         public TS ActiveLocalizedList { get; private set; }
         public bool IsLocalizedData => _modelLanguages is {Length: > 0};
+        public virtual bool EnableAutoLocalization => true;
         
         SystemLanguage[] _modelLanguages;
         SystemLanguage _defaultLanguage;
@@ -137,11 +138,10 @@ namespace CMSuniVortex.Addressable
                 switcher.SetDefaultLanguage(_defaultLanguage);
             }
             switcher.AddLanguages(this);
-            switcher.OnChangeLanguage += OnChangeLanguageInternal;
-            if (switcher.IsInitialized)
+            
+            if (EnableAutoLocalization)
             {
-                var language = switcher.ActiveLanguage;
-                OnChangeLanguageInternal(language);
+                InitializeLocalizeInternal();
             }
         }
         
@@ -261,6 +261,33 @@ namespace CMSuniVortex.Addressable
             }
         }
 
+        public void InitializeLocalize()
+        {
+            if (!EnableAutoLocalization)
+            {
+                Debug.LogWarning("Auto initialization is enabled, so manual initialization is not possible. If needed, override \"" + nameof(EnableAutoLocalization) + "\".");
+                return;
+            }
+            InitializeLocalizeInternal();
+        }
+
+        public async Task InitializeLocalizeAsync()
+        {
+            InitializeLocalize();
+            await WaitForLoadLocalizationAsync();
+        }
+
+        void InitializeLocalizeInternal()
+        {
+            var switcher = CuvLanguageSwitcher.Instance;
+            switcher.OnChangeLanguage += OnChangeLanguageInternal;
+            if (switcher.IsInitialized)
+            {
+                var language = switcher.ActiveLanguage;
+                OnChangeLanguageInternal(language);
+            }
+        }
+        
         public SystemLanguage FindLanguage() => FindLanguage(Application.systemLanguage);
 
         public SystemLanguage FindLanguage(SystemLanguage current)
