@@ -204,12 +204,6 @@ namespace CMSuniVortex.Addressable
             IsLoading = true;
             try
             {
-                if (IsLocalizedData
-                    && !IsInitializedLocalize)
-                {
-                    yield return WaitForLoadLocalizationCo();
-                }
-                
                 var handle = Addressables.LoadAssetAsync<TS>(model.List);
                 yield return handle;
 
@@ -246,12 +240,6 @@ namespace CMSuniVortex.Addressable
             IsLoading = true;
             try
             {
-                if (IsLocalizedData
-                    && !IsInitializedLocalize)
-                {
-                    await WaitForLoadLocalizationAsync(token);
-                }
-                
                 var handle = Addressables.LoadAssetAsync<TS>(model.List);
                 await handle.Task;
 
