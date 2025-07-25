@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a5c390b5f2e4ddf94a8c38d3f0770f, type: 3}
-  m_Name: CatAddressableDetailsCockpitCuvModelList_default
+  m_Script: {fileID: 11500000, guid: b2896d8c07a8e4d35a985fb4a2474616, type: 3}
+  m_Name: CatLocalizeAddressableCallInitializeCockpitCuvModelList_English
   m_EditorClassIdentifier: 
-  _cuvId: default
+  _cuvId: English
   _models:
   - Key: model_cat1
     CockpitID: 6666803aa27c48f2d70f4353
@@ -20,7 +20,7 @@ MonoBehaviour:
     Text: Cat1
     Number: 1111
     Image:
-      m_AssetGUID: 74734e7bba4ab42ed9968603651b3032
+      m_AssetGUID: c7b62a031ab704f57b9e0386b4718329
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     Text: Cat2
     Number: 2222
     Image:
-      m_AssetGUID: 98f087cf826fe428da9a139d7c981e08
+      m_AssetGUID: 580c3b8fd6897465aaaf7b2d6d5c2fd3
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
     Text: Cat3
     Number: 3333
     Image:
-      m_AssetGUID: e6fad51f7d43e47d88a9519efb50850e
+      m_AssetGUID: e33d34c3530804dc5b2b83a3bb73cb68
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

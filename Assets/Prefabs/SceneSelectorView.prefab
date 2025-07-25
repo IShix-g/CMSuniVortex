@@ -292,6 +292,8 @@ MonoBehaviour:
   - GoogleSheet_LocalizedCompornentTest
   - GoogleSheet_CompornentTest
   - GoogleSheet_InitializeLocalizationTest
+  - Cockpit_InitializeLocalizationCallTest2
+  - Cockpit_InitializeLocalizationCallTest
 --- !u!1 &6432062905334347875
 GameObject:
   m_ObjectHideFlags: 0

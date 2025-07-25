@@ -35,8 +35,9 @@ namespace CMSuniVortex
             _reference = AssetDatabase.FindAssets("t:" + typeof(ScriptableObject))
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>)
-                .FirstOrDefault(x => x is TS) as TS;
-
+                .OfType<TS>()
+                .FirstOrDefault();
+            
             if (_reference != default)
             {
                 var ids = _reference.GetIds();

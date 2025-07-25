@@ -34,7 +34,7 @@ namespace CMSuniVortex
             {
                 if(!_isLocalizationInitializeReady)
                 {
-                    InitializeLocalization();
+                    PrepareLocalization();
                 }
                 Assert.IsTrue(IsLocalizedData, name + " This reference is not translated data, so Language cannot be retrieved.");
                 return _modelLanguages[_currentLanguageIndex];
@@ -42,6 +42,7 @@ namespace CMSuniVortex
         }
         public TS ActiveLocalizedList => _modelLists[_currentLanguageIndex];
         public bool IsLocalizedData => _modelLanguages?.Length > 0;
+        public virtual bool EnableAutoLocalization => true;
         
         SystemLanguage[] _modelLanguages;
         SystemLanguage _defaultLanguage;
@@ -52,7 +53,7 @@ namespace CMSuniVortex
         {
             if(!_isLocalizationInitializeReady)
             {
-                InitializeLocalization();
+                PrepareLocalization();
             }
             
             if (IsRunTtime())
@@ -82,31 +83,10 @@ namespace CMSuniVortex
             var switcher = CuvLanguageSwitcher.Instance;
             switcher.SetDefaultLanguage(_defaultLanguage);
             switcher.AddLanguages(this);
-            switcher.OnChangeLanguage += OnChangeLanguageInternal;
-            if (switcher.IsInitialized)
+            
+            if (EnableAutoLocalization)
             {
-                var language = switcher.ActiveLanguage;
-                OnChangeLanguageInternal(language);
-            }
-        }
-        
-        void InitializeLocalization()
-        {
-            _isLocalizationInitializeReady = true;
-            if (_modelLists is not {Length: > 0}
-                || !Enum.IsDefined(typeof(SystemLanguage), _modelLists[0].CuvId))
-            {
-                return;
-            }
-            _modelLanguages = new SystemLanguage[_modelLists.Length];
-            for (var i = 0; i < _modelLanguages.Length; i++)
-            {
-                var language = Enum.Parse<SystemLanguage>(_modelLists[i].CuvId);
-                _modelLanguages[i] = language;
-                if (i == 0)
-                {
-                    _defaultLanguage = language;
-                }
+                InitializeLocalizeInternal();
             }
         }
         
@@ -156,11 +136,54 @@ namespace CMSuniVortex
         
         public bool TryGetByKey(string key, out T model) => ActiveLocalizedList.TryGetByKey(key, out model);
         
+        void PrepareLocalization()
+        {
+            _isLocalizationInitializeReady = true;
+            if (_modelLists is not {Length: > 0}
+                || !Enum.IsDefined(typeof(SystemLanguage), _modelLists[0].CuvId))
+            {
+                return;
+            }
+            _modelLanguages = new SystemLanguage[_modelLists.Length];
+            for (var i = 0; i < _modelLanguages.Length; i++)
+            {
+                var language = Enum.Parse<SystemLanguage>(_modelLists[i].CuvId);
+                _modelLanguages[i] = language;
+                if (i == 0)
+                {
+                    _defaultLanguage = language;
+                }
+            }
+        }
+        
+        public void InitializeLocalize()
+        {
+            if (EnableAutoLocalization)
+            {
+                Debug.LogWarning("Auto initialization is enabled, so manual initialization is not possible. If needed, override \"" + nameof(EnableAutoLocalization) + "\".");
+            }
+            else if (!IsInitializedLocalize)
+            {
+                InitializeLocalizeInternal();
+            }
+        }
+        
+        void InitializeLocalizeInternal()
+        {
+            var switcher = CuvLanguageSwitcher.Instance;
+            switcher.OnChangeLanguage += OnChangeLanguageInternal;
+            if (switcher.IsInitialized)
+            {
+                var language = switcher.ActiveLanguage;
+                OnChangeLanguageInternal(language);
+            }
+        }
+        
         public IReadOnlyList<SystemLanguage> GetLanguages()
         {
             if (!_isLocalizationInitializeReady)
             {
-                InitializeLocalization();
+                PrepareLocalization();
             }
             return _modelLanguages;
         }
@@ -169,7 +192,7 @@ namespace CMSuniVortex
         {
             if (!_isLocalizationInitializeReady)
             {
-                InitializeLocalization();
+                PrepareLocalization();
             }
             CuvLanguageSwitcher.Instance.ChangeLanguage(language);
         }
