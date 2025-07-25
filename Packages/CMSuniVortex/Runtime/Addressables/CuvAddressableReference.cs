@@ -263,18 +263,25 @@ namespace CMSuniVortex.Addressable
 
         public void InitializeLocalize()
         {
-            if (!EnableAutoLocalization)
+            if (EnableAutoLocalization)
             {
                 Debug.LogWarning("Auto initialization is enabled, so manual initialization is not possible. If needed, override \"" + nameof(EnableAutoLocalization) + "\".");
-                return;
             }
-            InitializeLocalizeInternal();
+            else if (!IsLoading
+                     && !IsInitializedLocalize)
+            {
+                InitializeLocalizeInternal();
+            }
         }
 
         public async Task InitializeLocalizeAsync()
         {
-            InitializeLocalize();
-            await WaitForLoadLocalizationAsync();
+            if (!IsLoading
+                && !IsInitializedLocalize)
+            {
+                InitializeLocalize();
+                await WaitForLoadLocalizationAsync();
+            }
         }
 
         void InitializeLocalizeInternal()
