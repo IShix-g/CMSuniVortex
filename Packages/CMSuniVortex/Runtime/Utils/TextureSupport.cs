@@ -17,11 +17,13 @@ namespace CMSuniVortex
         public static void SetTextureTypeToSprite(string assetPath)
         {
             var importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-            if (importer != null)
+            if (importer == null)
             {
-                importer.textureType = TextureImporterType.Sprite;
-                importer.SaveAndReimport();
+                return;
             }
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
+            importer.SaveAndReimport();
         }
 #endif
         
