@@ -246,14 +246,18 @@ namespace CMSuniVortex
         {
 #if UNITY_EDITOR
             var path = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (!string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
-                _buildPath = Path.HasExtension(path) ? Path.GetDirectoryName(path) : path;
-                if (!string.IsNullOrEmpty(_buildPath)
-                    && !_buildPath.EndsWith('/'))
-                {
-                    _buildPath += "/";
-                }
+                return;
+            }
+            
+            _buildPath = Path.HasExtension(path)
+                ? Path.GetDirectoryName(path)
+                : path;
+
+            if (!string.IsNullOrEmpty(_buildPath))
+            {
+                _buildPath = _buildPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
             }
 #endif
         }
