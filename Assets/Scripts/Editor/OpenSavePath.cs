@@ -1,4 +1,5 @@
 
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -36,6 +37,11 @@ namespace Editor
         public static void OpenCache()
         {
             var cachePath = Caching.defaultCache.path;
+            if (!Directory.Exists(cachePath))
+            {
+                Debug.LogWarning("cache path not found path: " + cachePath);
+                return;
+            }
             if (Application.platform == RuntimePlatform.OSXEditor)
             {
                 System.Diagnostics.Process.Start(cachePath);
