@@ -23,7 +23,7 @@ namespace CMSuniVortex
         [SerializeReference] ICuvOutput _output;
         [SerializeField] string[] _modelListGuilds;
 
-        public bool IsBuildCompleted => _modelListGuilds.Length > 0
+        public bool IsBuildCompleted => _modelListGuilds is {Length: > 0}
                                         && _output != default
                                         && _output.IsCompleted();
         public string BuildPath => _buildPath;
