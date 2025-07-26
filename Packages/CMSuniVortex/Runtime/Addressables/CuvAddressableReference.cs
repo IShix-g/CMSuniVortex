@@ -309,12 +309,11 @@ namespace CMSuniVortex.Addressable
 
         public SystemLanguage FindLanguage(SystemLanguage current)
         {
-            Assert.IsTrue(IsLocalizedData, "Localized data is not set." );
-            for (var i = 0; i < _modelLanguages.Length; i++)
+            foreach (var lang in _modelLanguages)
             {
-                if (_modelLanguages[i] == current)
+                if (lang == current)
                 {
-                    return _modelLanguages[i];
+                    return lang;
                 }
             }
             return _modelLanguages[0];
@@ -322,12 +321,11 @@ namespace CMSuniVortex.Addressable
 
         public bool TryFindLanguage(SystemLanguage current, out SystemLanguage language)
         {
-            Assert.IsTrue(IsLocalizedData, "Localized data is not set." );
-            for (var i = 0; i < _modelLanguages.Length; i++)
+            foreach (var lang in _modelLanguages)
             {
-                if (_modelLanguages[i] == current)
+                if (lang == current)
                 {
-                    language = _modelLanguages[i];
+                    language = lang;
                     return true;
                 }
             }
