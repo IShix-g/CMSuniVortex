@@ -89,23 +89,23 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 
 `Window > CMSuniVortex > open Script Generator`
 
-<img alt="start import" src="assets/2x_generator.jpg" width="500"/>
+<img alt="generator" src="assets/2x_generator.jpg" width="500"/>
 
 ### GoogleSheetではLanguagesをSheet Namesに変更しました
 今まで通りLanguageを使いたい場合は、Script GeneratorでUse localizationを選択してビルドしてください。  
 ※既に存在するクラスに影響を与えません。
 
-<img alt="start import" src="assets/2x_importer.jpg" width="500"/>
+<img alt="importer" src="assets/2x_importer.jpg" width="500"/>
 
 ### Keyの名称が変更できるようになりました
 
 データに必ず必要なKey名が変更可能になりました。
 
-<img alt="start import" src="assets/2x_importer2.jpg" width="500"/>
+<img alt="importer 2" src="assets/2x_importer2.jpg" width="500"/>
 
 例えば、今までGoogleSheetでユニークなIDのカラム名をKeyとする必要がありましたが、Keyだと分かりづらい場合があります。それをシートに合わせて変更できるようにしました。
 
-<img alt="start import" src="assets/google_sheet_key.jpg" width="700"/>
+<img alt="google sheet key" src="assets/google_sheet_key.jpg" width="700"/>
 
 ### 各種コンポーネントの変更と追加
 
@@ -222,17 +222,17 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 インポートしたデータをどのように参照するかを決定します。今回は直接参照の`CatDetailsCockpitCuvOutput`を選択します。
 
-<img alt="start import" src="assets/select_output.png" width="600"/>
+<img alt="select output" src="assets/select_output.png" width="600"/>
 
 選択後、Outputをクリックし生成します。
 
-<img alt="start import" src="assets/start_output.png" width="600"/>
+<img alt="start output" src="assets/start_output.png" width="600"/>
 
 ### データの取得とテキストの表示
 
 生成した`CatDetailsCockpitCuvReference`から`GetList()`を使用してデータを取得できます。用意している`CuvLocalized`を使用すると下記のように取得できます。
 
-<img alt="start import" src="assets/test_text.png" width="600"/>
+<img alt="test text" src="assets/test_text.png" width="600"/>
 
 Referenceのインスタンスと、インスペクタで設定したKeyが渡りますので`TryGetByKey`を使って取得します。
 ![cuvImporterList.jpg](../../../../../../Desktop/cuvImporterList.jpg)
@@ -291,12 +291,12 @@ Cockpit側の設定方法は[こちら](IntegrationWithCockpit_jp.md)をごら�
 
 作成したCuvImporterの一覧を確認できます。
 
-<img alt="start import" src="assets/cuvImporterList.jpg" width="700"/>
+<img alt="cuv importer list" src="assets/cuvImporterList.jpg" width="700"/>
 
 ### 表示方法
 `Window > CMSuniVortex > open CuvImporter list`
 
-<img alt="start import" src="assets/cuvImporterListMenu.jpg" width="700"/>
+<img alt="cuv importer list menu" src="assets/cuvImporterListMenu.jpg" width="700"/>
 
 ## ローカライズ
 

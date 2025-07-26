@@ -99,25 +99,25 @@ We made the previously mandatory Language selection optional.
 
 `Window > CMSuniVortex > open Script Generator`
 
-<img alt="start import" src="docs/assets/2x_generator.jpg" width="500"/>
+<img alt="generator." src="docs/assets/2x_generator.jpg" width="500"/>
 
 ### Changed Languages to Sheet Names in GoogleSheet
 
 If you want to continue using Language as before, please select Use localization in the Script Generator and build.
 ※This will not affect existing classes.
 
-<img alt="start import" src="docs/assets/2x_importer.jpg" width="500"/>
+<img alt="importer" src="docs/assets/2x_importer.jpg" width="500"/>
 
 ### Key names can now be changed
 
 The Key name required for data can now be modified.
 
-<img alt="start import" src="docs/assets/2x_importer2.jpg" width="500"/>
+<img alt="importer 2" src="docs/assets/2x_importer2.jpg" width="500"/>
 
 For example, in GoogleSheet, you previously had to use "Key" as the column name for unique IDs, but this could be
 unclear in some cases. Now you can change it to match your sheet.
 
-<img alt="start import" src="docs/assets/google_sheet_key.jpg" width="700"/>
+<img alt="google sheet key" src="docs/assets/google_sheet_key.jpg" width="700"/>
 
 ### Component Changes and Additions
 
@@ -234,17 +234,17 @@ After input, click Import, and the data is generated in the specified directory.
 
 Decide how to refer to the imported data. This time, we select `CatDetailsCockpitCuvOutput` for direct reference.
 
-<img alt="start import" src="docs/assets/select_output.png" width="600"/>
+<img alt="select output" src="docs/assets/select_output.png" width="600"/>
 
 After selection, click on Output to generate it.
 
-<img alt="start import" src="docs/assets/start_output.png" width="600"/>
+<img alt="start output" src="docs/assets/start_output.png" width="600"/>
 
 ### Retrieval and Display of Data
 
 Data can be retrieved using `GetList()` from the generated `CatDetailsCockpitCuvReference`. If you use the prepared `CuvLocalized`, you can retrieve it as follows.
 
-<img alt="start import" src="docs/assets/test_text.png" width="600"/>
+<img alt="test text" src="docs/assets/test_text.png" width="600"/>
 
 The instance of Reference and the Key set on the inspector are passed, so you use `TryGetByKey` to retrieve it.
 
@@ -308,7 +308,7 @@ You can check a list of created CuvImporters.
 ### Display Method
 Window > CMSuniVortex > open CuvImporter list
 
-<img alt="start import" src="docs/assets/cuvImporterListMenu.jpg" width="600"/>
+<img alt="importer list menu" src="docs/assets/cuvImporterListMenu.jpg" width="600"/>
 
 ## Localization
 
