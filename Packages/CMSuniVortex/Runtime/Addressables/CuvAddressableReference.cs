@@ -103,23 +103,25 @@ namespace CMSuniVortex.Addressable
         void PrepareLocalization()
         {
             _isLocalizationInitializeReady = true;
-            if (_modelLists is {Length: > 0}
-                && _modelLists[0] != default)
+            if (_modelLists is not {Length: > 0}
+                || _modelLists[0] == default)
             {
-                var firstKey = _modelLists[0].CuvId;
-                if (firstKey != null && 
-                    Enum.IsDefined(typeof(SystemLanguage), firstKey))
+                return;
+            }
+            var firstKey = _modelLists[0].CuvId;
+            if (firstKey == null ||
+                !Enum.IsDefined(typeof(SystemLanguage), firstKey))
+            {
+                return;
+            }
+            _modelLanguages = new SystemLanguage[_modelLists.Length];
+            for (var i = 0; i < _modelLanguages.Length; i++)
+            {
+                var language = Enum.Parse<SystemLanguage>(_modelLists[i].CuvId);
+                _modelLanguages[i] = language;
+                if (i == 0)
                 {
-                    _modelLanguages = new SystemLanguage[_modelLists.Length];
-                    for (var i = 0; i < _modelLanguages.Length; i++)
-                    {
-                        var language = Enum.Parse<SystemLanguage>(_modelLists[i].CuvId);
-                        _modelLanguages[i] = language;
-                        if (i == 0)
-                        {
-                            _defaultLanguage = language;
-                        }
-                    }
+                    _defaultLanguage = language;
                 }
             }
         }
@@ -309,6 +311,10 @@ namespace CMSuniVortex.Addressable
 
         public SystemLanguage FindLanguage(SystemLanguage current)
         {
+            if(!_isLocalizationInitializeReady)
+            {
+                PrepareLocalization();
+            }
             foreach (var lang in _modelLanguages)
             {
                 if (lang == current)
@@ -316,11 +322,15 @@ namespace CMSuniVortex.Addressable
                     return lang;
                 }
             }
-            return _modelLanguages[0];
+            return _defaultLanguage;
         }
 
         public bool TryFindLanguage(SystemLanguage current, out SystemLanguage language)
         {
+            if(!_isLocalizationInitializeReady)
+            {
+                PrepareLocalization();
+            }
             foreach (var lang in _modelLanguages)
             {
                 if (lang == current)
@@ -329,7 +339,7 @@ namespace CMSuniVortex.Addressable
                     return true;
                 }
             }
-            language = _modelLanguages[0];
+            language = _defaultLanguage;
             return false;
         }
 
