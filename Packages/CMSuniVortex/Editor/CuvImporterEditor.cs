@@ -49,6 +49,10 @@ namespace CMSuniVortex.Editor
         
         void OnEnable()
         {
+            if (target == default)
+            {
+                return;
+            }
             _importerSetting = target.GetType().GetCustomAttribute<CuvImporterAttribute>() ?? new CuvImporterAttribute();
             _scriptProp = serializedObject.FindProperty(s_propertiesToExclude[0]);
             _buildPathProp = serializedObject.FindProperty(s_propertiesToExclude[1]);
