@@ -1,0 +1,4 @@
+Cockpit Core
+MIT License
+Copyright (c) 2022 Agentejo, http://agentejo.com
+https://getcockpit.com/license
