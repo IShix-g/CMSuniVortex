@@ -294,6 +294,11 @@ MonoBehaviour:
   - GoogleSheet_InitializeLocalizationTest
   - Cockpit_InitializeLocalizationCallTest2
   - Cockpit_InitializeLocalizationCallTest
+  - Excel_CompornentTest
+  - Excel_InitializeLocalizationCallTest
+  - Excel_InitializeLocalizationCallTest2
+  - Excel_InitializeLocalizationTest
+  - Excel_LocalizedCompornentTest
 --- !u!1 &6432062905334347875
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,12 +63,13 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 
 しかしながら、これら2つは一見無関係なものに見えるかもしれません。しかしCMSと`ScriptableObject`を繋ぎ合わせてくれるのがCMSuniVortex(シーエムエス・ユニ・ボルテックス)です。 これは単なるプラグインではなく、効率性とパフォーマンスを追求した結果が生み出した解決策です。
 
-## 対応するCMS - Client
+## 対応するサービス — Client
 
 - [Cockpit](IntegrationWithCockpit_jp.md)
 - [Google Sheets](IntegrationWithGoogleSheet_jp.md)
+- [Excel](IntegrationWithExcel_jp.md)
 
-## 対応する参照方法 - Output
+## 対応する参照方法 — Output~~~~
 
 出力したデータの参照方法を指定できます。
 

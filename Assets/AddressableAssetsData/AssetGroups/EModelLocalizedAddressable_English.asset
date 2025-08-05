@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EModelLocalizedAddressable_English
+  m_EditorClassIdentifier: 
+  m_GroupName: EModelLocalizedAddressable_English
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 082926fe94b114a01b5ebe4d73c46726
+  m_SerializeEntries:
+  - m_GUID: c032a4f56497d4acab0d9b249aace318
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/EModelLocalizedAddressableExcelCuvModelList_English.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c3097edafa8fb40b3830a5a42bd3aa6d, type: 2}
+    - {fileID: 11400000, guid: 436e122e4768e459a80c69164a352e42, type: 2}

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/ExcelTest/Imported/
+  _client:
+    rid: 2769787544248778752
+  _output:
+    rid: 2769787544248778753
+  _modelListGuilds:
+  - 34daa411784294342bd45952fa951dc7
+  - 41e2c122e406b463fa64300b8808b6d1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2769787544248778752
+      type: {class: EModelExcelCuvClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _filePath: Assets/ExcelTest/GoogleSheetModels-Custom.xlsx
+        _keyName: Key
+        _sheetNames:
+        - English
+        - Japanese
+    - rid: 2769787544248778753
+      type: {class: EModelExcelCuvOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _reference: {fileID: 11400000, guid: 785fe3d1615d04b0e96f7b543dc86850, type: 2}

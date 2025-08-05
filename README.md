@@ -71,10 +71,11 @@ When it comes to input, we think of CMS. CMS is filled with knowledge on **how t
 
 However, these two may seem unrelated at first glance. But it is CMSuniVortex that connects CMS and `ScriptableObject`. This is not a mere plugin, but a solution born out of pursuing efficiency and performance.
 
-## Supported CMS – Client
+## Available Integrations – Client
 
 - [Cockpit](docs/IntegrationWithCockpit.md)
 - [Google Sheets](docs/IntegrationWithGoogleSheet.md)
+- [Excel](docs/IntegrationWithExcel.md)
 
 ## Methods of Reference Supported – Output
 

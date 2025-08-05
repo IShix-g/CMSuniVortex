@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5e338a4e55342d9b35a829179f8330, type: 3}
+  m_Name: EModelAddressableCallInitializeExcelCuvModelList_Japanese
+  m_EditorClassIdentifier: 
+  _cuvId: Japanese
+  _models:
+  - Key: story1_0
+    Element: 0
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30BF\u30A4\u30C8\u30EB"
+    Boolean: 1
+    Number: 111
+    Image:
+      m_AssetGUID: f22e65e354d48495991b7da140ad69ea
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-01T00:00:00.0000000+09:00
+  - Key: story1_1
+    Element: 1
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30CA\u30EC\u30FC\u30B7\u30E7\u30F3"
+    Boolean: 0
+    Number: 222
+    Image:
+      m_AssetGUID: c82258eb539d349ce91b57356c156682
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-02T00:00:00.0000000+09:00
+  - Key: story1_2
+    Element: 2
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E91_\u30BB\u30EA\u30D51"
+    Boolean: 1
+    Number: 333
+    Image:
+      m_AssetGUID: 112c4a9305ddb475db140b408c9ee34f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-03T00:00:00.0000000+09:00
+  - Key: story1_3
+    Element: 3
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E92_\u30BB\u30EA\u30D51"
+    Boolean: 1
+    Number: 444
+    Image:
+      m_AssetGUID: dd7006927f8df4540b128d502d72f83a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-04T00:00:00.0000000+09:00
+  - Key: story1_4
+    Element: 2
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30AD\u30E3\u30E91_\u30BB\u30EA\u30D52"
+    Boolean: 0
+    Number: 555
+    Image:
+      m_AssetGUID: 3466cfc1232444039954079762e2ae29
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-05T00:00:00.0000000+09:00
+  - Key: story1_5
+    Element: 5
+    Text: "\u30B9\u30C8\u30FC\u30EA\u30FC1_\u30C6\u30AD\u30B9\u30C8\u306E\u307F"
+    Boolean: 0
+    Number: 666
+    Image:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-06T00:00:00.0000000+09:00
+  ModifiedDate: 8/4/2025 6:21:43 AM +00:00
