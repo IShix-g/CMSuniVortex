@@ -13,12 +13,25 @@ namespace CMSuniVortex
     public sealed class CuvLanguageSettings : CuvScriptableSingleton<CuvLanguageSettings>
     {
         public const string AppLangName = "Application.systemLanguage";
-
-        [SerializeField, CuvAllLanguage] string _languageTest;
-        [SerializeField] List<CuvLanguageState> _languages;
-        [SerializeField, CuvAllLanguage] string _defaultLanguage;
-        [SerializeField, CuvAllLanguage(true)] string _startLanguage = AppLangName;
-        [SerializeField] bool _saveLanguage = true;
+        
+        [SerializeField,
+         CuvAllLanguage,
+         Tooltip("Test language in Editor. If specified, it takes highest priority.")]
+        string _languageTest;
+        [SerializeField,
+         Tooltip("Use checked languages")]
+        List<CuvLanguageState> _languages;
+        [SerializeField,
+         CuvAllLanguage,
+         Tooltip("When the specified language is not found in Languages, this language will be used")]
+        string _defaultLanguage;
+        [SerializeField,
+         CuvAllLanguage(true),
+         Tooltip("Language to load at startup. Specify \"" + AppLangName + "\" to prioritize device language")]
+        string _startLanguage = AppLangName;
+        [SerializeField,
+         Tooltip("[If true] After selecting a language, the saved language will be prioritized over StartLanguage from the next launch.")]
+        bool _saveLanguage = true;
 
         public IReadOnlyList<SystemLanguage> Languages
         {

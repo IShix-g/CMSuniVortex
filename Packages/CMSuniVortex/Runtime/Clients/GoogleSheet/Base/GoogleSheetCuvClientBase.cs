@@ -96,7 +96,7 @@ namespace CMSuniVortex.GoogleSheet
 #if UNITY_EDITOR
             _updateTokenSource = new CancellationTokenSource();
             var lists = LoadEditorCuvModelLists(buildPath);
-            var modifiedTime = GetModifiedTimeFromEditor(_sheetUrl, buildPath, lists);
+            var modifiedTime = GetModifiedTimeFromEditor(_sheetUrl, lists);
             GoogleSheetService.CheckForUpdate(_sheetUrl, _jsonKeyPath, modifiedTime, _updateTokenSource.Token)
                 .ContinueOnMainThread(
                     onSuccess: task =>
@@ -122,16 +122,12 @@ namespace CMSuniVortex.GoogleSheet
 #endif
         }
 
-        DateTime? GetModifiedTimeFromEditor(string sheetUrl, string buildPath, TS[] lists)
+        DateTime? GetModifiedTimeFromEditor(string sheetUrl, TS[] lists)
         {
 #if UNITY_EDITOR
             if (string.IsNullOrEmpty(sheetUrl))
             {
                 return default;
-            }
-            if (Path.HasExtension(buildPath))
-            {
-                buildPath = Path.GetDirectoryName(buildPath);
             }
             var latestAsset = lists.OrderByDescending(asset => asset.ModifiedDate).FirstOrDefault();
             if (latestAsset != default

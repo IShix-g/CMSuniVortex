@@ -8,21 +8,22 @@ namespace CMSuniVortex.GoogleSheet
         public static void FillContentsWithFilteredSheetData(this IList<IList<object>> sheet, Dictionary<string, string> contents, string keyId, int index)
         {
             contents.Clear();
-            for (var s = 0; s < sheet[index].Count; s++)
+            for (var i = 0; i < sheet[index].Count; i++)
             {
-                var id = sheet[0][s].ToString();
+                var id = SafeToString(sheet[0][i]);
                 if (string.IsNullOrEmpty(id))
                 {
                     continue;
                 }
-                var value = sheet[index][s].ToString();
-                if (id == keyId
-                    && string.IsNullOrEmpty(value))
+                var value = SafeToString(sheet[index][i]);
+                if (id == keyId && string.IsNullOrEmpty(value))
                 {
                     continue;
                 }
                 contents.Add(id, value);
             }
         }
+        
+        static string SafeToString(object cell) => cell?.ToString()?.Trim() ?? string.Empty;
     }
 }
