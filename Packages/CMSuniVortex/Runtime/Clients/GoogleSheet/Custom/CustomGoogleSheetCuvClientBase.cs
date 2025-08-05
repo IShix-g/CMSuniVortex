@@ -116,7 +116,7 @@ namespace CMSuniVortex.GoogleSheet
             
             if (keyIndex < 0)
             {
-                var error = "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithGoogleSheet.md";
+                var error = "Could not find the key field. Please be sure to set it. For more information, click here " + GetDocUrl();
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
