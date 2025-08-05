@@ -20,6 +20,15 @@ namespace CMSuniVortex.Editor.GoogleSheet
             
             {
                 var classPath = Path.Combine(rootPath, className + ".cs");
+                var addressableNameSpace = useAddressables
+                    ? "using UnityEngine.AddressableAssets;\n"
+                    : string.Empty;
+                var spriteField = useAddressables
+                    ? "public AssetReferenceSprite Image;"
+                    : "public Sprite Image;";
+                var loadSprite = useAddressables
+                    ? "LoadSpriteReference(\"Image\", sprite => Image = sprite);"
+                    : "LoadSprite(\"Image\", sprite => Image = sprite);";
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
@@ -27,7 +36,7 @@ namespace CMSuniVortex.Editor.GoogleSheet
 using System;
 using UnityEngine;
 using CMSuniVortex.GoogleSheet;
-
+{addressableNameSpace}
 namespace {namespaceName}
 {{
     [Serializable]
@@ -37,8 +46,8 @@ namespace {namespaceName}
         public string Text;
         public bool Boolean;
         public int Number;
-        public Sprite Image;
         public string Date;
+        {spriteField}
         
         public enum ElementType {{ Title, Narration, Character1, Character2, Character3, TextOnly }}
 
@@ -50,7 +59,7 @@ namespace {namespaceName}
             Number = GetInt(""Number"");
             Date = GetDate(""Date"");
             
-            LoadSprite(""Image"", sprite => Image = sprite);
+            {loadSprite}
         }}
     }}
 }}");

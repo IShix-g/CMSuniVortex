@@ -25,6 +25,15 @@ namespace CMSuniVortex.Editor.Cockpit
             
             {
                 var classPath = Path.Combine(rootPath, className + ".cs");
+                var addressableNameSpace = useAddressables
+                    ? "using UnityEngine.AddressableAssets;\n"
+                    : string.Empty;
+                var spriteField = useAddressables
+                    ? "public AssetReferenceSprite Image;"
+                    : "public Sprite Image;";
+                var loadSprite = useAddressables
+                    ? "LoadSpriteReference(\"Image\", sprite => Image = sprite);"
+                    : "LoadSprite(\"Image\", sprite => Image = sprite);";
                 if (!File.Exists(classPath))
                 {
                     yield return (classPath,
@@ -32,7 +41,7 @@ namespace CMSuniVortex.Editor.Cockpit
 using System;
 using UnityEngine;
 using CMSuniVortex.Cockpit;
-
+{addressableNameSpace}
 namespace {namespaceName}
 {{
     [Serializable]
@@ -40,13 +49,13 @@ namespace {namespaceName}
     {{
         public string Text;
         public long Number;
-        public Sprite Image;
         public bool Boolean;
         public Color Color;
         public string Date;
         public ItemType Select;
         public TagType[] Tags;
         public string Param;
+        {spriteField}
 
         public enum TagType {{ Tag1, Tag2, Tag3 }}
 
@@ -62,7 +71,8 @@ namespace {namespaceName}
             Select = GetSelect<ItemType>(""select"");
             Tags = GetTag<TagType>(""tags"");
             Param = GetString(""param"");
-            LoadSprite(""image"", asset => Image = asset);
+
+            {loadSprite}
         }}
     }}
 }}");
