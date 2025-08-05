@@ -1,0 +1,4 @@
+ExcelDataReader 3.7.0
+The MIT License (MIT)
+Copyright (c) 2014 ExcelDataReader
+https://github.com/ExcelDataReader/ExcelDataReader/blob/develop/LICENSE
