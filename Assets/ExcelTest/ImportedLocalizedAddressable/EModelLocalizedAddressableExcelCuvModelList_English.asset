@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd975453526f4d24b7f8a0f9355c73b, type: 3}
+  m_Name: EModelLocalizedAddressableExcelCuvModelList_English
+  m_EditorClassIdentifier: 
+  _cuvId: English
+  _models:
+  - Key: story1_0
+    Element: 0
+    Text: Story1_Title
+    Boolean: 1
+    Number: 111
+    Image:
+      m_AssetGUID: 94d7a3ad562e64885bacf8e437afdab1
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-01T00:00:00.0000000+09:00
+  - Key: story1_1
+    Element: 1
+    Text: Story1_Narration
+    Boolean: 0
+    Number: 222
+    Image:
+      m_AssetGUID: 8d69222ab9ff44e5ca1ac52063f1b28e
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-02T00:00:00.0000000+09:00
+  - Key: story1_2
+    Element: 2
+    Text: Story1_Character1_dialogue1
+    Boolean: 1
+    Number: 333
+    Image:
+      m_AssetGUID: 8141ff8d8cde640e2993275490846962
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-03T00:00:00.0000000+09:00
+  - Key: story1_3
+    Element: 3
+    Text: Story1_Character2_dialogue1
+    Boolean: 1
+    Number: 444
+    Image:
+      m_AssetGUID: 6ac9377f74cf44c1caf8bbae0114e810
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-04T00:00:00.0000000+09:00
+  - Key: story1_4
+    Element: 2
+    Text: Story1_Character1_dialogue2
+    Boolean: 0
+    Number: 555
+    Image:
+      m_AssetGUID: 347dd2aa0f5474af6a306b05e7554b5c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-05T00:00:00.0000000+09:00
+  - Key: story1_5
+    Element: 5
+    Text: Story1_TextOnly
+    Boolean: 0
+    Number: 666
+    Image:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    Date: 2024-06-06T00:00:00.0000000+09:00
+  ModifiedDate: 8/4/2025 6:21:43 AM +00:00

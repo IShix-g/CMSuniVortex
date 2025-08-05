@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4681f38f90240d98e6952b427dc928, type: 3}
+  m_Name: EModelAddressableCallInitializeExcelCuvAddressableReference
+  m_EditorClassIdentifier: 
+  _modelLists:
+  - CuvId: English
+    List:
+      m_AssetGUID: 508fb8c930fca4e058ffca3730f7df50
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - CuvId: Japanese
+    List:
+      m_AssetGUID: 81c36a6aed5c64f33b293872e32b9cfa
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

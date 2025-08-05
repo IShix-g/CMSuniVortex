@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9851f1f2c0374c4197782a68e788c64, type: 3}
+  m_Name: EModelExcelCuvModelList_English
+  m_EditorClassIdentifier: 
+  _cuvId: English
+  _models:
+  - Key: story1_0
+    Element: 0
+    Text: Story1_Title
+    Boolean: 1
+    Number: 111
+    Image: {fileID: 21300000, guid: f29273234e5154e718a7422d539d5129, type: 3}
+    Date: 2024-06-01T00:00:00.0000000+09:00
+  - Key: story1_1
+    Element: 1
+    Text: Story1_Narration
+    Boolean: 0
+    Number: 222
+    Image: {fileID: 21300000, guid: 74f89e5d0a865435aa02913688db5ea5, type: 3}
+    Date: 2024-06-02T00:00:00.0000000+09:00
+  - Key: story1_2
+    Element: 2
+    Text: Story1_Character1_dialogue1
+    Boolean: 1
+    Number: 333
+    Image: {fileID: 21300000, guid: 7d682190734514441bcaf042be1ad2ab, type: 3}
+    Date: 2024-06-03T00:00:00.0000000+09:00
+  - Key: story1_3
+    Element: 3
+    Text: Story1_Character2_dialogue1
+    Boolean: 1
+    Number: 444
+    Image: {fileID: 21300000, guid: 5e6161cca89194a95aadfc7e7a8e91dc, type: 3}
+    Date: 2024-06-04T00:00:00.0000000+09:00
+  - Key: story1_4
+    Element: 2
+    Text: Story1_Character1_dialogue2
+    Boolean: 0
+    Number: 555
+    Image: {fileID: 21300000, guid: 0bb535fa83c8942d8b72defd69729ade, type: 3}
+    Date: 2024-06-05T00:00:00.0000000+09:00
+  - Key: story1_5
+    Element: 5
+    Text: Story1_TextOnly
+    Boolean: 0
+    Number: 666
+    Image: {fileID: 0}
+    Date: 2024-06-06T00:00:00.0000000+09:00
+  ModifiedDate: 8/4/2025 6:21:43 AM +00:00

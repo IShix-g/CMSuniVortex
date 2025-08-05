@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7c0aff32924c2399d43b9cdf3e3123, type: 3}
+  m_Name: CuvImporter
+  m_EditorClassIdentifier: 
+  _buildPath: Assets/ExcelTest/ImportedLocalizedAddressable/
+  _client:
+    rid: 2769787544248778758
+  _output:
+    rid: 2769787544248778759
+  _modelListGuilds:
+  - c032a4f56497d4acab0d9b249aace318
+  - 083a10b6ba3ee47f794564fa21619b8c
+  references:
+    version: 2
+    RefIds:
+    - rid: 2769787544248778758
+      type: {class: EModelLocalizedAddressableExcelCuvAddressableLocalizedClient, ns: Test, asm: Assembly-CSharp}
+      data:
+        _filePath: Assets/ExcelTest/GoogleSheetModels-Custom.xlsx
+        _keyName: Key
+        _languages: 0a00000016000000
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+    - rid: 2769787544248778759
+      type: {class: EModelLocalizedAddressableExcelCuvAddressableOutput, ns: Test, asm: Assembly-CSharp}
+      data:
+        _addressableSettings:
+          AddressableType: 0
+          CustomGroupName: 
+          ListLabels: []
+          ContentsLabels: []
+          BuildCompressionMode: 1
+          BundlePackingMode: 0
+          UpdateRestriction: 0
+          RetryCount: 0
+        _reference: {fileID: 11400000, guid: 28d80803d3ca34568a44b11fe89daa26, type: 2}
