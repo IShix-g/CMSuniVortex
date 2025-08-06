@@ -12,4 +12,4 @@ Supported formats:~~~~
 ## Coming Soon
 
 This page is currently under construction. Please wait a while.  
-For reference, you can check the [Google Sheets](IntegrationWithGoogleSheet.md) page which has similar content.
+For reference, you can check the [Google Sheets](IntegrationWithGoogleSheet.md#custom) page which has similar content.
