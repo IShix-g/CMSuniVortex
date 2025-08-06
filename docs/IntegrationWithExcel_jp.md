@@ -8,4 +8,4 @@ Excelの読み込み処理に[ExcelDataReader](https://github.com/ExcelDataReade
 
 ## 準備中
 このページは準備中です。暫くお待ちください。  
-[Google Sheets](IntegrationWithGoogleSheet_jp.md)が近いので参考になると思います。
+[Google Sheets](IntegrationWithGoogleSheet_jp.md#custom)が近いので参考になると思います。
