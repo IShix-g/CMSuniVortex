@@ -39,7 +39,7 @@ namespace CMSuniVortex.Cockpit
                     var groupName = _addressableSettings.GetGroupName(cuvId, typeof(T).Name);
                     var labels = _addressableSettings.GetLocalizedContentsLabels(cuvId);
                     AddressableHelper.AddTo(groupName, addressableAction.Guid, default, labels);
-                    addressableAction.Completed(addressableAction.Guid);
+                    addressableAction.CompletedAction(addressableAction.Guid);
                 }
             }
 #endif

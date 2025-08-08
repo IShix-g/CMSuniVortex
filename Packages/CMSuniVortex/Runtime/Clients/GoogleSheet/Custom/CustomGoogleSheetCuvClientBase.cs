@@ -3,10 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
+using CMSuniVortex.Tasks;
 
 #if UNITY_EDITOR
-using System.Threading;
+
 using UnityEditor;
 using Google.Apis.Drive.v3;
 using Google.Apis.Sheets.v4;
@@ -14,7 +18,7 @@ using Google.Apis.Sheets.v4;
 
 namespace CMSuniVortex.GoogleSheet
 {
-    public abstract class CustomGoogleSheetCuvClientBase<T, TS> : GoogleSheetCuvClientBase<T, TS> where T : CustomGoogleSheetModel, new() where TS : CustomGoogleSheetCuvModelList<T>
+    public abstract class CustomGoogleSheetCuvClientBase<T, TS> : GoogleSheetCuvClientBase<T, TS> where T : CustomGoogleSheetModel, IObjectDeserializer, new() where TS : CustomGoogleSheetCuvModelList<T>
     {
 #if UNITY_EDITOR
         string _modifiedTime;
@@ -124,42 +128,53 @@ namespace CMSuniVortex.GoogleSheet
 
             var contents = new Dictionary<string, string>();
             var models = new List<T>();
-            for (var i = 1; i < sheet.Count; i++)
-            {
-                var length = sheet[i].Count;
-                if (length == 0 || keyIndex >= length)
-                {
-                    continue;
-                }
-                var key = sheet[i][keyIndex].ToString();
-                if (string.IsNullOrEmpty(key))
-                {
-                    continue;
-                }
-                sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
-                
-                var model = new T { Key = key };
-                ((IObjectDeserializer) model).Deserialize(contents);
-                model.SetData(buildPath);
-                if (model.ResourcesLoadCoroutines != default)
-                {
-                    foreach (var enumerator in model.ResourcesLoadCoroutines)
-                    {
-                        yield return enumerator;
-                    }
-                }
-                models.Add(model);
-            }
+            var tasks = ListPool<Task>.Get();
 
-            if (models.Count > 0)
+            try
             {
-                onSuccess?.Invoke(models.ToArray(), typeof(TS).Name + "_" + cuvId);
+                for (var i = 1; i < sheet.Count; i++)
+                {
+                    var length = sheet[i].Count;
+                    if (length == 0 || keyIndex >= length)
+                    {
+                        continue;
+                    }
+                    var key = sheet[i][keyIndex].ToString();
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        continue;
+                    }
+                    sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
+                
+                    var model = new T { Key = key };
+                    model.Deserialize(contents);
+                
+                    if (model.ResourceLoadActions != default)
+                    {
+                        foreach (var obj in model.ResourceLoadActions)
+                        {
+                            var task = LoadTextureAsync(string.Empty, buildPath, obj);
+                            tasks.Add(task);
+                        }
+                    }
+                    models.Add(model);
+                }
+
+                if (models.Count > 0)
+                {
+                    yield return Task.WhenAll(tasks).AsIEnumerator();
+                    onSuccess?.Invoke(models.ToArray(), typeof(TS).Name + "_" + cuvId);
+                }
+                else
+                {
+                    var error = "There was no content to display.";
+                    Debug.LogError(error);
+                    onError?.Invoke(error);
+                }
             }
-            else
+            finally
             {
-                var error = "There was no content to display.";
-                Debug.LogError(error);
-                onError?.Invoke(error);
+                ListPool<Task>.Release(tasks);
             }
 #else
             return default;

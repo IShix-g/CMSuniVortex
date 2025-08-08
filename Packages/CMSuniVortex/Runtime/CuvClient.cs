@@ -3,7 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using CMSuniVortex.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
+using Object = UnityEngine.Object;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -113,7 +117,56 @@ namespace CMSuniVortex
         return default;
 #endif
         }
+        
+        public async Task LoadTextureAsync(string rootUrl, string assetSavePath, ResourceLoadAction action)
+        {
+            rootUrl = rootUrl.TrimStart('/').Trim();
+            var imagePath = action.ImagePath.TrimStart('/').Trim();
+            var url = Path.Combine(rootUrl, imagePath);
+            using var request = UnityWebRequestTexture.GetTexture(url);
+            await request.SendWebRequest();
 
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                imagePath = TextureSupport.AppendImageExtension(imagePath, request);
+                var texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+                var imageBytes = default(byte[]);
+                
+                if (imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageBytes = texture.EncodeToPNG();
+                }
+                else if (imagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+                         || imagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageBytes = texture.EncodeToJPG();
+                }
+                else
+                {
+                    Debug.LogWarning("Image could not be saved. path: " + imagePath);
+                    action.SuccessAction?.Invoke(default);
+                    return;
+                }
+                
+                var fileName = Path.GetFileName(imagePath);
+                var path = Path.Combine(assetSavePath, fileName);
+                
+                var contentType = request.GetResponseHeader("Content-Type");
+                Debug.Log("Image saved. [" + contentType + "] from URL: " + url + " to Path: " + path);
+                
+                await File.WriteAllBytesAsync(path, imageBytes);
+                Object.DestroyImmediate(texture);
+                AssetDatabase.ImportAsset(path);
+                TextureSupport.SetTextureTypeToSprite(path);
+                
+                action.SuccessAction?.Invoke(path);
+            }
+            else
+            {
+                Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
+            }
+        }
+        
         public void Select(string assetPath) => OnSelect(assetPath);
 
         public void Deselect() => OnDeselect();

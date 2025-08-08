@@ -22,21 +22,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ContentsTestLabel
-  - m_GUID: 98f087cf826fe428da9a139d7c981e08
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat2_uid_66667fadcbe5b.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
-  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
   - m_GUID: 12501919fbbd34bdcbcdd5597b15e2dd
     m_Address: Assets/CockpitTest/ImportedAddressable/CatAddressableDetailsCockpitCuvModelList_default.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - ListTestLabel
+  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+  - m_GUID: 98f087cf826fe428da9a139d7c981e08
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat2_uid_66667fadcbe5b.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
