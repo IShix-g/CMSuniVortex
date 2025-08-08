@@ -17,28 +17,28 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: eceafd814023845e1bd4f4a9473e559e
   m_SerializeEntries:
-  - m_GUID: 94d7a3ad562e64885bacf8e437afdab1
-    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 8d69222ab9ff44e5ca1ac52063f1b28e
-    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/pet_cat_oddeye_black.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 8141ff8d8cde640e2993275490846962
-    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/cat_koubakozuwari_gray.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 6ac9377f74cf44c1caf8bbae0114e810
-    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/monogatari_alice_cheshire_neko.png
+  - m_GUID: 083a10b6ba3ee47f794564fa21619b8c
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/EModelLocalizedAddressableExcelCuvModelList_Japanese.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 347dd2aa0f5474af6a306b05e7554b5c
     m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/cat_kuroashineko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 083a10b6ba3ee47f794564fa21619b8c
-    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/EModelLocalizedAddressableExcelCuvModelList_Japanese.asset
+  - m_GUID: 6ac9377f74cf44c1caf8bbae0114e810
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/monogatari_alice_cheshire_neko.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8141ff8d8cde640e2993275490846962
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/cat_koubakozuwari_gray.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8d69222ab9ff44e5ca1ac52063f1b28e
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 94d7a3ad562e64885bacf8e437afdab1
+    m_Address: Assets/ExcelTest/ImportedLocalizedAddressable/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
