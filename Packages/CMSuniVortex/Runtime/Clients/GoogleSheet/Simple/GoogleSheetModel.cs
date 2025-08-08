@@ -21,10 +21,10 @@ namespace CMSuniVortex.GoogleSheet
 #if ENABLE_ADDRESSABLES
         HashSet<AddressableAction> IAddressableModel.AddressableActions { get; }
 
-        void IAddressableModel.LoadSpriteReference(string key, Action<AssetReferenceSprite> completed)
+        void IAddressableModel.LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction)
             => throw new NotImplementedException();
 
-        void IAddressableModel.LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed)
+        void IAddressableModel.LoadTextureReference(string key, Action<AssetReferenceTexture2D> completeAction)
             => throw new NotImplementedException();
 #endif
     }

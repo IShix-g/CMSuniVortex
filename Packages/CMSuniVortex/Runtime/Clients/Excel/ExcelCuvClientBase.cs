@@ -3,7 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
+using CMSuniVortex.Tasks;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,7 +17,7 @@ namespace CMSuniVortex.Excel
     [CuvClient("Excel")]
     public abstract class ExcelCuvClientBase<T, TS>
         : CuvClient<T, TS>, ICuvDoc, ICuvUpdateChecker 
-        where T : ExcelModel, new() 
+        where T : ExcelModel, IObjectDeserializer, new() 
         where TS : ExcelCuvModelList<T>
     {
         [SerializeField, CuvFilePath("xlsb,xlsx,xls")] string _filePath;
@@ -97,42 +100,52 @@ namespace CMSuniVortex.Excel
 
             var contents = new Dictionary<string, string>();
             var models = new List<T>();
-            for (var i = 1; i < table.Rows.Count; i++)
-            {
-                var obj = table.Rows[i][keyIndex];
-                if (obj == default)
-                {
-                    continue;
-                }
-                var key = obj.ToString().Trim().ToLower();
-                if (string.IsNullOrEmpty(key))
-                {
-                    continue;
-                }
-                table.FillContentsWithFilteredSheetData(contents, keyValue, i);
-                
-                var model = new T { Key = key };
-                ((IObjectDeserializer) model).Deserialize(contents);
-                model.SetData(buildPath);
-                if (model.ResourcesLoadCoroutines != default)
-                {
-                    foreach (var enumerator in model.ResourcesLoadCoroutines)
-                    {
-                        yield return enumerator;
-                    }
-                }
-                models.Add(model);
-            }
+            var tasks = ListPool<Task>.Get();
             
-            if (models.Count > 0)
+            try
             {
-                onSuccess?.Invoke(models.ToArray(), typeof(TS).Name + "_" + cuvId);
+                for (var i = 1; i < table.Rows.Count; i++)
+                {
+                    var obj = table.Rows[i][keyIndex];
+                    if (obj == default)
+                    {
+                        continue;
+                    }
+                    var key = obj.ToString().Trim().ToLower();
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        continue;
+                    }
+                    table.FillContentsWithFilteredSheetData(contents, keyValue, i);
+                
+                    var model = new T { Key = key };
+                    model.Deserialize(contents);
+                    if (model.ResourceLoadActions != default)
+                    {
+                        foreach (var action in model.ResourceLoadActions)
+                        {
+                            var task = LoadTextureAsync(string.Empty, buildPath, action);
+                            tasks.Add(task);
+                        }
+                    }
+                    models.Add(model);
+                }
+            
+                if (models.Count > 0)
+                {
+                    yield return Task.WhenAll(tasks).AsIEnumerator();
+                    onSuccess?.Invoke(models.ToArray(), typeof(TS).Name + "_" + cuvId);
+                }
+                else
+                {
+                    var error = "There was no content to display.";
+                    Debug.LogError(error);
+                    onError?.Invoke(error);
+                }
             }
-            else
+            finally
             {
-                var error = "There was no content to display.";
-                Debug.LogError(error);
-                onError?.Invoke(error);
+                ListPool<Task>.Release(tasks);
             }
 #else
             return default;

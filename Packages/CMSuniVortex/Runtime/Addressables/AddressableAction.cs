@@ -6,16 +6,16 @@ namespace CMSuniVortex.Addressable
     public readonly struct AddressableAction : IEquatable<AddressableAction>
     {
         public readonly string Guid;
-        public readonly Action<string> Completed;
-
-        public bool IsValid() => !string.IsNullOrEmpty(Guid) && Completed != default;
+        public readonly Action<string> CompletedAction;
         
-        public AddressableAction(string guid, Action<string> completed)
+        public AddressableAction(string guid, Action<string> completedAction)
         {
             Guid = guid;
-            Completed = completed;
+            CompletedAction = completedAction;
         }
 
+        public bool IsValid() => !string.IsNullOrEmpty(Guid) && CompletedAction != default;
+        
         public static bool operator ==(AddressableAction lhs, AddressableAction rhs) => lhs.Equals(rhs);
         public static bool operator !=(AddressableAction lhs, AddressableAction rhs) => !(lhs == rhs);
         public bool Equals(AddressableAction other) => Guid == other.Guid;

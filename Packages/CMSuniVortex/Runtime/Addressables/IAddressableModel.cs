@@ -8,8 +8,8 @@ namespace CMSuniVortex.Addressable
     public interface IAddressableModel
     {
         HashSet<AddressableAction> AddressableActions { get; }
-        void LoadSpriteReference(string key, Action<AssetReferenceSprite> completed);
-        void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed);
+        void LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction);
+        void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completeAction);
     }
 }
 #endif

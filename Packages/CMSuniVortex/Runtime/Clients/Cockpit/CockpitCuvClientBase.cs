@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
-using CMSuniVortex.Tasks;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
+using Newtonsoft.Json;
+using CMSuniVortex.Tasks;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,6 +26,8 @@ namespace CMSuniVortex.Cockpit
         where T : CockpitModel 
         where TS : CockpitCuvModelList<T>
     {
+        public const string ApiEndPoint = "storage/uploads";
+        
         [SerializeField, CuvOpenUrl] string _baseUrl;
         [SerializeField] string _apiKey;
         [SerializeField] string _modelName;
@@ -113,22 +116,42 @@ namespace CMSuniVortex.Cockpit
                 settings.Converters.Add(converter);
                 
                 var json = request.downloadHandler.text;
+                var baseUrl = Path.Combine(_baseUrl, ApiEndPoint);
                 var models = JsonConvert.DeserializeObject<T[]>(json, settings);
-                foreach (var model in models)
+                var tasks = ListPool<Task>.Get();
+                
+                try
                 {
-                    Assert.IsFalse(string.IsNullOrEmpty(model.Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithCockpit.md");
-                    
-                    model.SetData(_baseUrl, buildPath);
-                    if (model.ResourcesLoadCoroutines != default)
+                    foreach (var model in models)
                     {
-                        foreach (var enumerator in model.ResourcesLoadCoroutines)
+                        Assert.IsFalse(string.IsNullOrEmpty(model.Key), "Could not find the key field. Please be sure to set it. For more information, click here https://github.com/IShix-g/CMSuniVortex/blob/main/docs/IntegrationWithCockpit.md");
+                        
+                        if (model.ResourceLoadActions != default)
                         {
-                            yield return enumerator;
+                            foreach (var obj in model.ResourceLoadActions)
+                            {
+                                var task = LoadTextureAsync(baseUrl, buildPath, obj);
+                                tasks.Add(task);
+                            }
                         }
                     }
+                    
+                    if (models.Length > 0)
+                    {
+                        yield return Task.WhenAll(tasks).AsIEnumerator();
+                        onSuccess?.Invoke(models, typeof(TS).Name + "_" + cuvId);
+                    }
+                    else
+                    {
+                        var error = "There was no content to display.";
+                        Debug.LogError(error);
+                        onError?.Invoke(error);
+                    }
                 }
-                
-                onSuccess?.Invoke(models, typeof(TS).Name + "_" + cuvId);
+                finally
+                {
+                    ListPool<Task>.Release(tasks);
+                }
             }
             else
             {

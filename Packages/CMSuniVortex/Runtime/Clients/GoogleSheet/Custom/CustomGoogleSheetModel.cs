@@ -1,12 +1,8 @@
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
-using Object = UnityEngine.Object;
 
 #if ENABLE_ADDRESSABLES
 using CMSuniVortex.Addressable;
@@ -23,17 +19,14 @@ namespace CMSuniVortex.GoogleSheet
     {
         Dictionary<string, string> _contents;
         
-        public HashSet<IEnumerator> ResourcesLoadCoroutines { get; private set; }
+        public HashSet<ResourceLoadAction> ResourceLoadActions { get; private set; }
 #if ENABLE_ADDRESSABLES
         public HashSet<AddressableAction> AddressableActions { get; private set; }
 #endif
-        public string AssetSavePath { get; private set; }
         
         protected abstract void OnDeserialize();
         
 #if UNITY_EDITOR
-        public void SetData(string assetSavePath) => AssetSavePath = assetSavePath;
-
         void IObjectDeserializer.Deserialize(Dictionary<string, string> contents)
         {
             _contents = contents;
@@ -42,15 +35,14 @@ namespace CMSuniVortex.GoogleSheet
 
         void IDeserializationNotifier.OnDeserialized()
         {
-            ResourcesLoadCoroutines = default;
-            AssetSavePath = default;
+            ResourceLoadActions = default;
             _contents = default;
         }
         
-        public void AddCoroutine(IEnumerator enumerator)
+        public void AddAction(ResourceLoadAction action)
         {
-            ResourcesLoadCoroutines ??= new HashSet<IEnumerator>();
-            ResourcesLoadCoroutines.Add(enumerator);
+            ResourceLoadActions ??= new HashSet<ResourceLoadAction>();
+            ResourceLoadActions.Add(action);
         }
 #else
         void IObjectDeserializer.Deserialize(Dictionary<string, string> contents) {}
@@ -107,129 +99,89 @@ namespace CMSuniVortex.GoogleSheet
             return false;
         }
         
-        public void LoadSprite(string key, Action<Sprite> onSuccess = default)
+        public void LoadSprite(string key, Action<Sprite> successAction)
         {
 #if UNITY_EDITOR
-            if (_contents.TryGetValue(key, out var obj)
-                && !string.IsNullOrEmpty(obj))
+            if (_contents.TryGetValue(key, out var imagePath)
+                && !string.IsNullOrEmpty(imagePath))
             {
-                AddCoroutine(LoadTextureCo(obj, path =>
+                var task = new ResourceLoadAction(imagePath, path =>
                 {
                     var asset = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-                    onSuccess?.Invoke(asset);
-                }));
+                    successAction?.Invoke(asset);
+                });
+                AddAction(task);
             }
             else
             {
-                onSuccess?.Invoke(default);
+                successAction?.Invoke(default);
             }
 #endif
         }
 
-        public void LoadTexture(string key, Action<Texture2D> onSuccess = default)
+        public void LoadTexture(string key, Action<Texture2D> successAction)
         {
 #if UNITY_EDITOR
-            if (_contents.TryGetValue(key, out var obj)
-                && !string.IsNullOrEmpty(obj))
+            if (_contents.TryGetValue(key, out var imagePath)
+                && !string.IsNullOrEmpty(imagePath))
             {
-                AddCoroutine(LoadTextureCo(obj, path =>
+                var task = new ResourceLoadAction(imagePath, path =>
                 {
                     var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                    onSuccess?.Invoke(asset);
-                }));
+                    successAction?.Invoke(asset);
+                });
+                AddAction(task);
             }
             else
             {
-                onSuccess?.Invoke(default);
+                successAction?.Invoke(default);
             }
 #endif
         }
 
 #if ENABLE_ADDRESSABLES
-        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completed)
+        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction)
         {
 #if UNITY_EDITOR
-            if (_contents.TryGetValue(key, out var obj)
-                && !string.IsNullOrEmpty(obj))
+            if (_contents.TryGetValue(key, out var imagePath)
+                && !string.IsNullOrEmpty(imagePath))
             {
-                AddCoroutine(LoadTextureCo(obj, path =>
-                {
-                    AddressableActions ??= new HashSet<AddressableAction>();
-                    AddressableActions.Add(new AddressableAction(
-                        AssetDatabase.AssetPathToGUID(path),
-                        guid =>
-                        {
-                            completed?.Invoke(new AssetReferenceSprite(guid));
-                        }));
-                }));
-            }
-#endif
-        }
-        
-        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completed)
-        {
-#if UNITY_EDITOR
-            if (_contents.TryGetValue(key, out var obj)
-                && !string.IsNullOrEmpty(obj))
-            {
-                AddCoroutine(LoadTextureCo(obj, path =>
-                {
-                    AddressableActions ??= new HashSet<AddressableAction>();
-                    AddressableActions.Add(new AddressableAction(
-                        AssetDatabase.AssetPathToGUID(path),
-                        guid =>
-                        {
-                            completed?.Invoke(new AssetReferenceTexture2D(guid));
-                        }));
-                }));
-            }
-#endif
-        }
-#endif
-        
-#if UNITY_EDITOR
-        public IEnumerator LoadTextureCo(string url, Action<string> onSuccess = default)
-        {
-            using var request = UnityWebRequestTexture.GetTexture(url);
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                url = TextureSupport.AppendImageExtension(url, request);
-                var texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-                var imageBytes = default(byte[]);
+                AddressableActions ??= new HashSet<AddressableAction>();
                 
-                if (url.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                var task = new ResourceLoadAction(imagePath, path =>
                 {
-                    imageBytes = texture.EncodeToPNG();
-                }
-                else if (url.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
-                         || url.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
-                {
-                    imageBytes = texture.EncodeToJPG();
-                }
-                else
-                {
-                    Debug.LogWarning("Image could not be saved. path: " + url);
-                    onSuccess?.Invoke(default);
-                    yield break;
-                }
-
-                var fileName = Path.GetFileName(url);
-                var path = Path.Combine(AssetSavePath, fileName);
-                File.WriteAllBytes(path, imageBytes);
-                Object.DestroyImmediate(texture);
-                AssetDatabase.ImportAsset(path);
-                TextureSupport.SetTextureTypeToSprite(path);
-                onSuccess?.Invoke(path);
-
-                var contentType = request.GetResponseHeader("Content-Type");
-                Debug.Log("Image saved. [" + contentType + "] from URL: " + url + " to Path: " + path);
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                        {
+                            completeAction?.Invoke(new AssetReferenceSprite(guid));
+                        }));
+                });
+                AddAction(task);
             }
-            else
+#endif
+        }
+        
+        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completeAction)
+        {
+#if UNITY_EDITOR
+            if (_contents.TryGetValue(key, out var imagePath)
+                && !string.IsNullOrEmpty(imagePath))
             {
-                Debug.LogError("LoadSprite error " + " / message: " + request.error);
+                AddressableActions ??= new HashSet<AddressableAction>();
+                
+                var task = new ResourceLoadAction(imagePath, path =>
+                {
+                    AddressableActions.Add(new AddressableAction(
+                        AssetDatabase.AssetPathToGUID(path),
+                        guid =>
+                        {
+                            completeAction?.Invoke(new AssetReferenceTexture2D(guid));
+                        }));
+                });
+                AddAction(task);
             }
+#endif
         }
 #endif
     }
