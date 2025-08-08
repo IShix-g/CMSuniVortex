@@ -192,6 +192,12 @@ namespace CMSuniVortex.Cockpit
                 : Array.Empty<string>();
         }
 
+        public bool ImageExists(string key)
+        {
+            var imagePath = GetImagePath(key);
+            return !string.IsNullOrEmpty(imagePath);
+        }
+        
         public void LoadSprite(string key, Action<Sprite> successAction)
         {
 #if UNITY_EDITOR
