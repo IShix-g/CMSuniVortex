@@ -103,6 +103,10 @@ namespace CMSuniVortex.Excel
             return false;
         }
         
+        public bool ImageExists(string key)
+            => _contents.TryGetValue(key, out var imagePath)
+               && !string.IsNullOrEmpty(imagePath);
+        
         public void LoadSprite(string key, Action<Sprite> successAction)
         {
 #if UNITY_EDITOR
