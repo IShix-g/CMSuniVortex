@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -204,12 +205,7 @@ namespace CMSuniVortex.Cockpit
             var imagePath = GetImagePath(key);
             if (!string.IsNullOrEmpty(imagePath))
             {
-                var task = new ResourceLoadAction(imagePath, path =>
-                {
-                    var asset = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-                    successAction?.Invoke(asset);
-                });
-                AddAction(task);
+                LoadImage<Sprite>(imagePath, successAction);
             }
             else
             {
@@ -224,12 +220,7 @@ namespace CMSuniVortex.Cockpit
             var imagePath = GetImagePath(key);
             if (!string.IsNullOrEmpty(imagePath))
             {
-                var task = new ResourceLoadAction(imagePath, path =>
-                {
-                    var asset = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                    successAction?.Invoke(asset);
-                });
-                AddAction(task);
+                LoadImage<Texture2D>(imagePath, successAction);
             }
             else
             {
@@ -237,27 +228,41 @@ namespace CMSuniVortex.Cockpit
             }
 #endif
         }
-
+        
+        public void LoadImage<T>(string imagePath, Action<T> successAction) where T : Object
+        {
+#if UNITY_EDITOR
+            var task = new ResourceLoadAction(imagePath, path =>
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+                successAction?.Invoke(asset);
+            });
+            AddAction(task);
+#endif
+        }
+        
 #if ENABLE_ADDRESSABLES
         public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction)
         {
 #if UNITY_EDITOR
             var imagePath = GetImagePath(key);
-            if (!string.IsNullOrEmpty(imagePath))
+            if (string.IsNullOrEmpty(imagePath))
             {
-                AddressableActions ??= new HashSet<AddressableAction>();
-                
-                var task = new ResourceLoadAction(imagePath, path =>
-                {
-                    AddressableActions.Add(new AddressableAction(
-                        AssetDatabase.AssetPathToGUID(path),
-                        guid =>
-                        {
-                            completeAction?.Invoke(new AssetReferenceSprite(guid));
-                        }));
-                });
-                AddAction(task);
+                completeAction?.Invoke(default);
+                return;
             }
+            AddressableActions ??= new HashSet<AddressableAction>();
+                
+            var task = new ResourceLoadAction(imagePath, path =>
+            {
+                AddressableActions.Add(new AddressableAction(
+                    AssetDatabase.AssetPathToGUID(path),
+                    guid =>
+                    {
+                        completeAction?.Invoke(new AssetReferenceSprite(guid));
+                    }));
+            });
+            AddAction(task);
 #endif
         }
         
@@ -265,21 +270,23 @@ namespace CMSuniVortex.Cockpit
         {
 #if UNITY_EDITOR
             var imagePath = GetImagePath(key);
-            if (!string.IsNullOrEmpty(imagePath))
+            if (string.IsNullOrEmpty(imagePath))
             {
-                AddressableActions ??= new HashSet<AddressableAction>();
-                
-                var task = new ResourceLoadAction(imagePath, path =>
-                {
-                    AddressableActions.Add(new AddressableAction(
-                        AssetDatabase.AssetPathToGUID(path),
-                        guid =>
-                        {
-                            completeAction?.Invoke(new AssetReferenceTexture2D(guid));
-                        }));
-                });
-                AddAction(task);
+                completeAction?.Invoke(default);
+                return;
             }
+            AddressableActions ??= new HashSet<AddressableAction>();
+                
+            var task = new ResourceLoadAction(imagePath, path =>
+            {
+                AddressableActions.Add(new AddressableAction(
+                    AssetDatabase.AssetPathToGUID(path),
+                    guid =>
+                    {
+                        completeAction?.Invoke(new AssetReferenceTexture2D(guid));
+                    }));
+            });
+            AddAction(task);
 #endif
         }
 #endif
