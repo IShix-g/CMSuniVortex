@@ -21,16 +21,16 @@ MonoBehaviour:
     m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/CatAddressableDetailsLocalizeCockpitCuvModelList_Japanese.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: dea8f99c5c4de4ad5a7ed95a07c674a8
-    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat3_uid_66667faecd4ec.jpeg
+  - m_GUID: 82ec747ea107f4871a39cdad72f92fbc
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat_uid_66667faf01d02.jpeg
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: acde8092cdb4d489ebbfa6d51c2f3fea
     m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat2_uid_66667fadcbe5b.jpeg
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 82ec747ea107f4871a39cdad72f92fbc
-    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat_uid_66667faf01d02.jpeg
+  - m_GUID: dea8f99c5c4de4ad5a7ed95a07c674a8
+    m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/cat3_uid_66667faecd4ec.jpeg
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

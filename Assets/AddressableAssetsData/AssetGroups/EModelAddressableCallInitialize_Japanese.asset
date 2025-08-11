@@ -17,14 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 36be4b69bd6ee4ac5a52d9ada705f917
   m_SerializeEntries:
-  - m_GUID: dd7006927f8df4540b128d502d72f83a
-    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/monogatari_alice_cheshire_neko.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: c82258eb539d349ce91b57356c156682
-    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/pet_cat_oddeye_black.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 81c36a6aed5c64f33b293872e32b9cfa
     m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/EModelAddressableCallInitializeExcelCuvModelList_Japanese.asset
     m_ReadOnly: 0
@@ -33,12 +25,20 @@ MonoBehaviour:
     m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/cat_kuroashineko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: f22e65e354d48495991b7da140ad69ea
-    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
+  - m_GUID: dd7006927f8df4540b128d502d72f83a
+    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/monogatari_alice_cheshire_neko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 112c4a9305ddb475db140b408c9ee34f
     m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/cat_koubakozuwari_gray.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c82258eb539d349ce91b57356c156682
+    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f22e65e354d48495991b7da140ad69ea
+    m_Address: Assets/ExcelTest/ImportedLocalizeAddressableCallInitialize/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
