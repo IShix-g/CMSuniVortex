@@ -240,56 +240,6 @@ namespace CMSuniVortex.Cockpit
             AddAction(task);
 #endif
         }
-        
-#if ENABLE_ADDRESSABLES
-        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction)
-        {
-#if UNITY_EDITOR
-            var imagePath = GetImagePath(key);
-            if (string.IsNullOrEmpty(imagePath))
-            {
-                completeAction?.Invoke(default);
-                return;
-            }
-            AddressableActions ??= new HashSet<AddressableAction>();
-                
-            var task = new ResourceLoadAction(imagePath, path =>
-            {
-                AddressableActions.Add(new AddressableAction(
-                    AssetDatabase.AssetPathToGUID(path),
-                    guid =>
-                    {
-                        completeAction?.Invoke(new AssetReferenceSprite(guid));
-                    }));
-            });
-            AddAction(task);
-#endif
-        }
-        
-        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completeAction)
-        {
-#if UNITY_EDITOR
-            var imagePath = GetImagePath(key);
-            if (string.IsNullOrEmpty(imagePath))
-            {
-                completeAction?.Invoke(default);
-                return;
-            }
-            AddressableActions ??= new HashSet<AddressableAction>();
-                
-            var task = new ResourceLoadAction(imagePath, path =>
-            {
-                AddressableActions.Add(new AddressableAction(
-                    AssetDatabase.AssetPathToGUID(path),
-                    guid =>
-                    {
-                        completeAction?.Invoke(new AssetReferenceTexture2D(guid));
-                    }));
-            });
-            AddAction(task);
-#endif
-        }
-#endif
 
         T Get<T>(string key)
             => JObject.TryGetValue(key, out var value)
@@ -322,5 +272,52 @@ namespace CMSuniVortex.Cockpit
 
             return default;
         }
+        
+#if ENABLE_ADDRESSABLES
+        public void LoadSpriteReference(string key, Action<AssetReferenceSprite> completeAction)
+        {
+#if UNITY_EDITOR
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                LoadImageGuid(imagePath, guid => completeAction?.Invoke(new AssetReferenceSprite(guid)));
+            }
+            else
+            {
+                completeAction?.Invoke(default);
+            }
+#endif
+        }
+        
+        public void LoadTextureReference(string key, Action<AssetReferenceTexture2D> completeAction)
+        {
+#if UNITY_EDITOR
+            var imagePath = GetImagePath(key);
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                LoadImageGuid(imagePath, guid => completeAction?.Invoke(new AssetReferenceTexture2D(guid)));
+            }
+            else
+            {
+                completeAction?.Invoke(default);
+            }
+#endif
+        }
+        
+        public void LoadImageGuid(string imagePath, Action<string> completeAction)
+        {
+#if UNITY_EDITOR
+            AddressableActions ??= new HashSet<AddressableAction>();
+
+            var task = new ResourceLoadAction(imagePath, path =>
+            {
+                AddressableActions.Add(new AddressableAction(
+                    AssetDatabase.AssetPathToGUID(path),
+                    guid => completeAction?.Invoke(guid)));
+            });
+            AddAction(task);
+#endif
+        }
+#endif
     }
 }

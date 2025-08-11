@@ -163,23 +163,14 @@ namespace CMSuniVortex.GoogleSheet
         {
 #if UNITY_EDITOR
             var imagePath = GetImagePath(key);
-            if (string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                LoadImageGuid(imagePath, guid => completeAction?.Invoke(new AssetReferenceSprite(guid)));
+            }
+            else
             {
                 completeAction?.Invoke(default);
-                return;
             }
-            AddressableActions ??= new HashSet<AddressableAction>();
-                
-            var task = new ResourceLoadAction(imagePath, path =>
-            {
-                AddressableActions.Add(new AddressableAction(
-                    AssetDatabase.AssetPathToGUID(path),
-                    guid =>
-                    {
-                        completeAction?.Invoke(new AssetReferenceSprite(guid));
-                    }));
-            });
-            AddAction(task);
 #endif
         }
         
@@ -187,21 +178,27 @@ namespace CMSuniVortex.GoogleSheet
         {
 #if UNITY_EDITOR
             var imagePath = GetImagePath(key);
-            if (string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                LoadImageGuid(imagePath, guid => completeAction?.Invoke(new AssetReferenceTexture2D(guid)));
+            }
+            else
             {
                 completeAction?.Invoke(default);
-                return;
             }
+#endif
+        }
+        
+        public void LoadImageGuid(string imagePath, Action<string> completeAction)
+        {
+#if UNITY_EDITOR
             AddressableActions ??= new HashSet<AddressableAction>();
-                
+
             var task = new ResourceLoadAction(imagePath, path =>
             {
                 AddressableActions.Add(new AddressableAction(
                     AssetDatabase.AssetPathToGUID(path),
-                    guid =>
-                    {
-                        completeAction?.Invoke(new AssetReferenceTexture2D(guid));
-                    }));
+                    guid => completeAction?.Invoke(guid)));
             });
             AddAction(task);
 #endif

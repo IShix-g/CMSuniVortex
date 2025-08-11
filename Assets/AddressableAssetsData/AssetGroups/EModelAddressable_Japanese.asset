@@ -17,28 +17,28 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 2463d9f6e354c4c4cac180d7242d8075
   m_SerializeEntries:
-  - m_GUID: 26c9d8a3c4dd6443aa40f5fa1fb4506c
-    m_Address: Assets/ExcelTest/ImportedAddressables/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 8770e9d35ca9d4652b76cf2324ede38f
-    m_Address: Assets/ExcelTest/ImportedAddressables/pet_cat_oddeye_black.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: a96cd6329b8ce40b0bef9ba93ca2fcb2
-    m_Address: Assets/ExcelTest/ImportedAddressables/cat_koubakozuwari_gray.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 5e9b1b3dfd40d46d199e0c6cd8685923
-    m_Address: Assets/ExcelTest/ImportedAddressables/monogatari_alice_cheshire_neko.png
+  - m_GUID: 62f0fd206ca104e00a5094376b13dfe3
+    m_Address: Assets/ExcelTest/ImportedAddressables/EModelAddressableExcelCuvModelList_Japanese.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: b670544cdeba348eb87bb02e59a69c74
     m_Address: Assets/ExcelTest/ImportedAddressables/cat_kuroashineko.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 62f0fd206ca104e00a5094376b13dfe3
-    m_Address: Assets/ExcelTest/ImportedAddressables/EModelAddressableExcelCuvModelList_Japanese.asset
+  - m_GUID: 5e9b1b3dfd40d46d199e0c6cd8685923
+    m_Address: Assets/ExcelTest/ImportedAddressables/monogatari_alice_cheshire_neko.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a96cd6329b8ce40b0bef9ba93ca2fcb2
+    m_Address: Assets/ExcelTest/ImportedAddressables/cat_koubakozuwari_gray.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8770e9d35ca9d4652b76cf2324ede38f
+    m_Address: Assets/ExcelTest/ImportedAddressables/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 26c9d8a3c4dd6443aa40f5fa1fb4506c
+    m_Address: Assets/ExcelTest/ImportedAddressables/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
