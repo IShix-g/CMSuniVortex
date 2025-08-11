@@ -17,8 +17,21 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 41ae2f7b49ec24a8b9954317e6d50d2d
   m_SerializeEntries:
+  - m_GUID: ae82f4270fe684907abfb182d0fa10e7
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/MetaAddressableCustomGoogleSheetCuvModelList_Japanese.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ListTestLabel1_Japanese
+    - ListTestLabel2
   - m_GUID: 23d66324816304ca69907d5487ad26af
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/cat_kuroashineko.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel1_English
+    - ContentsTestLabel2
+    - ContentsTestLabel1_Japanese
+  - m_GUID: f96c84b6c8664450c9cff61da7f6b904
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/monogatari_alice_cheshire_neko.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - ContentsTestLabel1_English
@@ -31,28 +44,15 @@ MonoBehaviour:
     - ContentsTestLabel1_English
     - ContentsTestLabel2
     - ContentsTestLabel1_Japanese
-  - m_GUID: ad6c2f1654d6042a8835647d04debde1
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel1_English
-    - ContentsTestLabel2
-    - ContentsTestLabel1_Japanese
-  - m_GUID: ae82f4270fe684907abfb182d0fa10e7
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/MetaAddressableCustomGoogleSheetCuvModelList_Japanese.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ListTestLabel1_Japanese
-    - ListTestLabel2
-  - m_GUID: f96c84b6c8664450c9cff61da7f6b904
-    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/monogatari_alice_cheshire_neko.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel1_English
-    - ContentsTestLabel2
-    - ContentsTestLabel1_Japanese
   - m_GUID: 5140b01a03aad4cee8bdefa04fcf0385
     m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/pet_cat_oddeye_black.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel1_English
+    - ContentsTestLabel2
+    - ContentsTestLabel1_Japanese
+  - m_GUID: ad6c2f1654d6042a8835647d04debde1
+    m_Address: Assets/GoogleSheetTest/ImportedCustomAddressable/downloadid=1UChn5W6wjBEJK3x5Kho7lLS4rjOTYQRV.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - ContentsTestLabel1_English
