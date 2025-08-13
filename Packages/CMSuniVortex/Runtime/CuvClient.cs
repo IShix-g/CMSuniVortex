@@ -120,6 +120,7 @@ namespace CMSuniVortex
         
         public async Task LoadTextureAsync(string rootUrl, string assetSavePath, ResourceLoadAction action)
         {
+#if UNITY_EDITOR
             rootUrl = rootUrl.TrimStart('/').Trim();
             var imagePath = action.ImagePath.TrimStart('/').Trim();
             var url = Path.Combine(rootUrl, imagePath);
@@ -165,6 +166,7 @@ namespace CMSuniVortex
             {
                 Debug.LogError("LoadSprite error imagePath: " + url + "  message: " + request.error);
             }
+#endif
         }
         
         public void Select(string assetPath) => OnSelect(assetPath);

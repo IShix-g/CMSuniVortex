@@ -1,6 +1,7 @@
 #if UNITY_EDITOR && ENABLE_ADDRESSABLES
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
@@ -45,7 +46,11 @@ namespace CMSuniVortex.Addressable
 
             if (group == default)
             {
-                group = settings.CreateGroup(groupName, false, false, true, null, typeof(ContentUpdateGroupSchema), typeof(BundledAssetGroupSchema));
+                var template = settings.GroupTemplateObjects
+                    .OfType<AddressableAssetGroupTemplate>()
+                    .First(x => x.HasSchema(typeof(BundledAssetGroupSchema)));
+                group = settings.CreateGroup(groupName, false, false, false, null, template.GetTypes());
+                template.ApplyToAddressableAssetGroup(group);
             }
             
             {
