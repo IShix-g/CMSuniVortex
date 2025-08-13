@@ -6,7 +6,10 @@
         "UnityEditor.TestRunner",
         "Unity.Addressables",
         "Unity.Addressables.Editor",
-        "CMSUniVortex"
+        "CMSUniVortex",
+        "CMSUniVortex.Excel",
+        "CMSUniVortex.GoogleSheet",
+        "CMSUniVortex.Cockpit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -15,7 +18,7 @@
     "precompiledReferences": [
         "nunit.framework.dll"
     ],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],

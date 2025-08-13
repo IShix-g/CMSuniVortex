@@ -1,0 +1,40 @@
+<linker>
+  <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Test.CatAddressableDetailsLocalizeCockpitCuvModelList" preserve="all" />
+    <type fullname="Test.EModelAddressableCallInitializeExcelCuvModelList" preserve="all" />
+    <type fullname="Test.EModelAddressableExcelCuvModelList" preserve="all" />
+    <type fullname="Test.EModelLocalizedAddressableExcelCuvModelList" preserve="all" />
+    <type fullname="Test.MetaAddressableCustomGoogleSheetCuvModelList" preserve="all" />
+    <type fullname="Test.MetaLocalizeAddressableCustomGoogleSheetCuvModelList" preserve="all" />
+    <type fullname="Tests.CatAddressableDetailsCockpitCuvModelList" preserve="all" />
+    <type fullname="Tests.CatLocalizeAddressableCallInitializeCockpitCuvModelList" preserve="all" />
+    <type fullname="Test.MetaAddressable" preserve="nothing" serialized="true" />
+    <type fullname="Test.MetaLocalizeAddressable" preserve="nothing" serialized="true" />
+    <type fullname="Tests.CatAddressableDetails" preserve="nothing" serialized="true" />
+    <type fullname="Test.CatAddressableDetailsLocalize" preserve="nothing" serialized="true" />
+    <type fullname="Tests.CatLocalizeAddressableCallInitialize" preserve="nothing" serialized="true" />
+    <type fullname="Test.EModelAddressable" preserve="nothing" serialized="true" />
+    <type fullname="Test.EModelLocalizedAddressable" preserve="nothing" serialized="true" />
+    <type fullname="Test.EModelAddressableCallInitialize" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="CMSUniVortex.GoogleSheet, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="CMSuniVortex.GoogleSheet.GoogleSheetCuvModelList" preserve="all" />
+    <type fullname="CMSuniVortex.GoogleSheet.GoogleSheetModel" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />
+    <type fullname="UnityEngine.AddressableAssets.AssetReferenceSprite" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.InstanceProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.LegacyResourcesProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.SceneProvider" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Object" preserve="all" />
+    <type fullname="UnityEngine.Sprite" preserve="all" />
+    <type fullname="UnityEngine.Texture2D" preserve="all" />
+  </assembly>
+</linker>
