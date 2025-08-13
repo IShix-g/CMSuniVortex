@@ -15,20 +15,10 @@ MonoBehaviour:
   m_GroupName: CatAddressableDetails_default
   m_Data:
     m_SerializedData: []
-  m_GUID: e500a3d83685f46f5b19911eb55dca64
+  m_GUID: cb3a42bd405d447b6a49a9955b0e945b
   m_SerializeEntries:
   - m_GUID: 74734e7bba4ab42ed9968603651b3032
     m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
-  - m_GUID: 12501919fbbd34bdcbcdd5597b15e2dd
-    m_Address: Assets/CockpitTest/ImportedAddressable/CatAddressableDetailsCockpitCuvModelList_default.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ListTestLabel
-  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
     m_ReadOnly: 0
     m_SerializedLabels:
     - ContentsTestLabel
@@ -37,9 +27,19 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ContentsTestLabel
+  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+  - m_GUID: 12501919fbbd34bdcbcdd5597b15e2dd
+    m_Address: Assets/CockpitTest/ImportedAddressable/CatAddressableDetailsCockpitCuvModelList_default.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ListTestLabel
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 73ecc41d87c314c58b0d70f555850789, type: 2}
     - {fileID: 11400000, guid: 43fc434ca08ff451ebd20daf20b5156b, type: 2}
+    - {fileID: 11400000, guid: 73ecc41d87c314c58b0d70f555850789, type: 2}

@@ -15,15 +15,11 @@ MonoBehaviour:
   m_GroupName: EModelAddressable_English
   m_Data:
     m_SerializedData: []
-  m_GUID: 3fb90f2a891d34c16bd08e88b14058df
-  m_SerializeEntries:
-  - m_GUID: 1ce4cf79aab2e46e59d324173382a44e
-    m_Address: Assets/ExcelTest/ImportedAddressables/EModelAddressableExcelCuvModelList_English.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+  m_GUID: b7286ee5ff1d04b7695070d9281fcd47
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 1c150abea12004fe88629947d56fa4e8, type: 2}
     - {fileID: 11400000, guid: 0c9497f9905f8473d85895d0f2fb1448, type: 2}
+    - {fileID: 11400000, guid: 1c150abea12004fe88629947d56fa4e8, type: 2}
