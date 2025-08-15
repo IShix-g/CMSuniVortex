@@ -68,7 +68,7 @@ namespace CMSuniVortex.GoogleSheet
         }
         
         public T? GetEnumOrNull<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
-            => maps.TryGetValue(key, out var enumValue)
+            => maps.TryGetValue(GetString(key), out var enumValue)
                 ? (T?)enumValue
                 : null;
         
