@@ -102,6 +102,30 @@ namespace CMSuniVortex.Cockpit
 
         public string GetSelect(string key) => GetString(key);
 
+        public T GetSelect<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+        {
+            var result = GetSelectOrNull<T>(key, maps);
+            return result ?? default;
+        }
+        
+        public bool TryGetSelect<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
+        {
+            var result = GetSelectOrNull<T>(key, maps);
+            enumValue = result ?? default;
+            return result.HasValue;
+        }
+        
+        public T? GetSelectOrNull<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+        {
+            if (JObject.TryGetValue(key, out var value)
+                && value.Type != JTokenType.Null
+                && maps.TryGetValue(value.Value<string>(), out var enumValue))
+            {
+                return enumValue;
+            }
+            return null;
+        }
+        
         public T GetSelect<T>(string key) where T : struct, Enum
         {
             if (JObject.TryGetValue(key, out var value)
@@ -115,7 +139,27 @@ namespace CMSuniVortex.Cockpit
         }
 
         public string[] GetTag(string key) => GetStrings(key);
-
+        
+        public T[] GetTag<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+        {
+            var list = GetStrings(key);
+            if (list.Length == 0)
+            {
+                return Array.Empty<T>();
+            }
+            
+            var result = new List<T>();
+            foreach (var item in list)
+            {
+                if (maps.TryGetValue(item, out var enumValue))
+                {
+                    result.Add(enumValue);
+                }
+            }
+            
+            return result.ToArray();
+        }
+        
         public T[] GetTag<T>(string key) where T : struct, Enum
         {
             var list = GetStrings(key);
