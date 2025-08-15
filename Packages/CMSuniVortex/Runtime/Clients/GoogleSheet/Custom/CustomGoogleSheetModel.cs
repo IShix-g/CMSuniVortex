@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -52,6 +53,24 @@ namespace CMSuniVortex.GoogleSheet
         
         public string GetString(string key)
             => _contents.TryGetValue(key, out var obj) ? obj : string.Empty;
+        
+        public T GetEnum<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+        {
+            var result = GetEnumOrNull<T>(key, maps);
+            return result ?? default;
+        }
+        
+        public bool TryGetEnum<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
+        {
+            var result = GetEnumOrNull<T>(key, maps);
+            enumValue = result ?? default;
+            return result.HasValue;
+        }
+        
+        public T? GetEnumOrNull<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+            => maps.TryGetValue(key, out var enumValue)
+                ? (T?)enumValue
+                : null;
         
         public T GetEnum<T>(string key) where T : struct, Enum
             => TryGetValue(key, out var value)
