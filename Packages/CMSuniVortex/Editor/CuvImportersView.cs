@@ -34,6 +34,7 @@ namespace CMSuniVortex.Editor
 
         ICuvImporterStatus[] _importers;
         Action _repaintAction;
+        Action<ICuvImporterStatus> _clickAction;
         Func<float> _getWidthFunc;
 
         public sealed class IconState
@@ -48,11 +49,12 @@ namespace CMSuniVortex.Editor
             }
         }
         
-        public CuvImportersView(ICuvImporterStatus[] importers, IconState[] clientIcons, Action repaintAction, Func<float> getWidthFunc)
+        public CuvImportersView(ICuvImporterStatus[] importers, IconState[] clientIcons, Action repaintAction, Action<ICuvImporterStatus> clickAction, Func<float> getWidthFunc)
         {
             _importers = importers;
             _clientIcons = clientIcons;
             _repaintAction = repaintAction;
+            _clickAction = clickAction;
             _getWidthFunc = getWidthFunc;
             _openButtonIcon = EditorGUIUtility.IconContent("Folder Icon");
             _linkIcon = EditorGUIUtility.IconContent("d_Linked");
@@ -144,8 +146,7 @@ namespace CMSuniVortex.Editor
                     GUILayout.Height(EditorGUIUtility.singleLineHeight)
                 ))
             {
-                Selection.activeObject = (ScriptableObject) status;
-                EditorGUIUtility.PingObject((Object) status);
+                _clickAction?.Invoke(status);
             }
 
             var clientIcon = GetClientIcon(status.GetClientName());
@@ -171,6 +172,7 @@ namespace CMSuniVortex.Editor
             _linkIcon = default;
             _languageIcon = default;
             _clientIcons = default;
+            _clickAction = default;
         }
     }
 }

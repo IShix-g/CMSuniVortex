@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildPath: Assets/GoogleSheetTest/ImportedAddressable/
   _client:
-    rid: 5308239005742530564
+    rid: 2769787785623371778
   _output:
-    rid: 5308239191345725440
+    rid: 2769787785623371779
   _modelListGuilds:
   - df44704d0286344ab844f1374e24a6c5
   - 149a9aa07d7154314a0f623e01654e99
@@ -25,26 +25,24 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5308239005742530564
-      type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+    - rid: 2769787785623371778
+      type: {class: GoogleSheetCuvClient, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex.GoogleSheet}
       data:
-        _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw/edit?gid=0#gid=0
-        _jsonKeyPath: Assets/GoogleSheetTest/light-operator-426308-a9-a87f12062c59.json
+        _sheetUrl: https://docs.google.com/spreadsheets/d/19DrEi35I7H8f6bcUcORGIaUK8MmeLZ-ljkh7Fkbcxtw
+        _jsonKeyPath: Assets/googleSheetTest/light-operator-426308-a9-a87f12062c59.json
         _keyName: Key
         _languages: 0a00000016000000
         _sheetNames:
         - Animals
         - SeaCreatures
-    - rid: 5308239191345725440
-      type: {class: GoogleSheetAddressableOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex}
+    - rid: 2769787785623371779
+      type: {class: GoogleSheetAddressableOutput, ns: CMSuniVortex.GoogleSheet, asm: CMSUniVortex.GoogleSheet}
       data:
         _addressableSettings:
           AddressableType: 0
           CustomGroupName: 
-          ListLabels:
-          - ListTestSimpleLabel
-          ContentsLabels:
-          - ContentsTestSimpleLabel
+          ListLabels: []
+          ContentsLabels: []
           BuildCompressionMode: 1
           BundlePackingMode: 0
           UpdateRestriction: 0

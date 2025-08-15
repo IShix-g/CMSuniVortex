@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CMSuniVortex.Editor
 {
-    internal sealed class CuvImportersWidow: EditorWindow
+    internal sealed class CuvImportersWidow : EditorWindow
     {
         [MenuItem("Window/CMSuniVortex/open CuvImporter list")]
         public static void ShowWindow()
@@ -24,7 +24,7 @@ namespace CMSuniVortex.Editor
             _logo = CuvImporterEditor.GetLogo();
             s_importers ??= CuvImportersCache.FilterImporters<ICuvImporterStatus>();
             s_iconStates ??= CuvImportersCache.IconStates;
-            _importersView = new CuvImportersView(s_importers, s_iconStates, Repaint, () => position.width);
+            _importersView = new CuvImportersView(s_importers, s_iconStates, Repaint, ClickAction, () => position.width);
         }
 
         void OnDisable()
@@ -35,6 +35,9 @@ namespace CMSuniVortex.Editor
             s_iconStates = default;
         }
 
+        void ClickAction(ICuvImporterStatus status)
+            => CuvImporterInspectorWindow.Show(status);
+        
         void OnGUI()
         {
             EditorGUILayout.BeginVertical(GUI.skin.box);
