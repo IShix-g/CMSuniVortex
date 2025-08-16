@@ -101,45 +101,58 @@ namespace CMSuniVortex.Cockpit
         public bool[] GetBools(string key) => Gets<bool>(key);
 
         public string GetSelect(string key) => GetString(key);
-
-        public T GetSelect<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
-        {
-            var result = GetSelectOrNull<T>(key, maps);
-            return result ?? default;
-        }
-        
-        public bool TryGetSelect<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
-        {
-            var result = GetSelectOrNull<T>(key, maps);
-            enumValue = result ?? default;
-            return result.HasValue;
-        }
-        
-        public T? GetSelectOrNull<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
-        {
-            if (JObject.TryGetValue(key, out var value)
-                && value.Type != JTokenType.Null
-                && maps.TryGetValue(value.Value<string>(), out var enumValue))
-            {
-                return enumValue;
-            }
-            return null;
-        }
         
         public T GetSelect<T>(string key) where T : struct, Enum
+        {
+            var result = GetSelectOrNull<T>(key);
+            return result ?? default;
+        }
+
+        public T? GetSelectOrNull<T>(string key) where T : struct, Enum
         {
             if (JObject.TryGetValue(key, out var value)
                 && value.Type != JTokenType.Null
                 && Enum.TryParse(value.Value<string>(), out T e))
             {
-                return e;
+                return (T?)e;
             }
-
-            return default;
+            return null;
+        }
+        
+        public T GetSelect<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+        {
+            var value = GetString(key);
+            var result = GetSelectOrNullByValue<T>(value, maps);
+            return result ?? default;
         }
 
-        public string[] GetTag(string key) => GetStrings(key);
+        public CuvEnumResult TryGetSelect<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
+        {
+            var value = GetString(key);
+            switch (value)
+            {
+                case null:
+                    enumValue = default;
+                    return CuvEnumResult.NotHasKey;
+                case "":
+                    enumValue = default;
+                    return CuvEnumResult.EmptyValue;
+            }
+
+            var result = GetSelectOrNullByValue<T>(value, maps);
+            enumValue = result ?? default;
+            return result.HasValue
+                ? CuvEnumResult.Success
+                : CuvEnumResult.NotFoundInMap;
+        }
         
+        T? GetSelectOrNullByValue<T>(string value, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+            => maps.TryGetValue(value, out var enumValue)
+                ? (T?)enumValue
+                : null;
+
+        public string[] GetTag(string key) => GetStrings(key);
+
         public T[] GetTag<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
         {
             var list = GetStrings(key);
