@@ -56,30 +56,53 @@ namespace CMSuniVortex.Excel
         
         public string GetString(string key)
             => _contents.TryGetValue(key, out var obj) ? obj : string.Empty;
-        
-        public T GetEnum<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+
+        public T GetEnum<T>(string key) where T : struct, Enum
         {
-            var result = GetEnumOrNull<T>(key, maps);
+            var result = GetEnumOrNull<T>(key);
             return result ?? default;
         }
-        
-        public bool TryGetEnum<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
+
+        public T? GetEnumOrNull<T>(string key) where T : struct, Enum
+            => TryGetValue(key, out var value)
+                ? Enum.TryParse<T>(value, out var val) ? val : null
+                : null;
+  
+        public T GetEnum<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
         {
-            var result = GetEnumOrNull<T>(key, maps);
-            enumValue = result ?? default;
-            return result.HasValue;
+            var value = GetString(key);
+            var result = GetEnumOrNullByValue<T>(value, maps);
+            return result ?? default;
         }
-        
-        public T? GetEnumOrNull<T>(string key, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
-            => maps.TryGetValue(GetString(key), out var enumValue)
+
+        public CuvEnumResult TryGetEnum<T>(string key, IReadOnlyDictionary<string, T> maps, out T enumValue) where T : struct, Enum
+        {
+            if (_contents.TryGetValue(key, out var value))
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    enumValue = default;
+                    return CuvEnumResult.EmptyValue;
+                }
+            }
+            else
+            {
+                enumValue = default;
+                return CuvEnumResult.NotHasKey;
+            }
+
+            var result = GetEnumOrNullByValue<T>(value, maps);
+            enumValue = result ?? default;
+            return result.HasValue
+                ? CuvEnumResult.Success
+                : CuvEnumResult.NotFoundInMap;
+        }
+
+        T? GetEnumOrNullByValue<T>(string value, IReadOnlyDictionary<string, T> maps) where T : struct, Enum
+            => maps.TryGetValue(value, out var enumValue)
                 ? (T?)enumValue
                 : null;
-        
-        public T GetEnum<T>(string key) where T : struct, Enum
-            => TryGetValue(key, out var value)
-                ? Enum.TryParse<T>(value, out var val) ? val : default
-                : default;
-        
+ 
         public bool GetBool(string key)
             => TryGetValue(key, out var value)
                && string.Equals(value, "TRUE", StringComparison.OrdinalIgnoreCase);

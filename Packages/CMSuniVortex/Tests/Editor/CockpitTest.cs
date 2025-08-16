@@ -1,7 +1,9 @@
 
 using System;
+using System.Collections.Generic;
 using CMSuniVortex.Cockpit;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -65,6 +67,58 @@ namespace CMSuniVortex.Tests
                 Assert.AreEqual(TestModel.ItemType.Item2, model.Select);
                 Assert.AreEqual(new[] {TestModel.TagType.Tag2, TestModel.TagType.Tag3}, model.Tags);
             }
+        }
+        
+        class TestModel2 : CockpitModel
+        {
+            IReadOnlyDictionary<string, TestEnum> _maps;
+            
+            public enum TestEnum { Enum1, Enum2 }
+            
+            public void SetMap(IReadOnlyDictionary<string, TestEnum> maps) => _maps = maps;
+            
+            protected override void OnDeserialize()
+            {
+                {
+                    var result = TryGetSelect<TestEnum>("A", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.Success));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetSelect<TestEnum>("B", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.EmptyValue));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetSelect<TestEnum>("C", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.NotFoundInMap));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetSelect<TestEnum>("Z", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.NotHasKey));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+            }
+        }
+        
+        [Test]
+        public void EnumDeserializeTest()
+        {
+            var model = new TestModel2();
+            model.SetMap(new Dictionary<string, TestModel2.TestEnum>()
+            {
+                {"AA", TestModel2.TestEnum.Enum1},
+                {"BB", TestModel2.TestEnum.Enum2},
+            });
+            var dictionary = new Dictionary<string, string>()
+            {
+                {"A", "AA"},
+                {"B", ""},
+                {"C", "CC"},
+            };
+            var obj = JObject.FromObject(dictionary);
+            ((IJsonDeserializer) model).Deserialize(obj);
         }
     }
 }

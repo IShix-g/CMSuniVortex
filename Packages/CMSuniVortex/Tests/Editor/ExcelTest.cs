@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using CMSuniVortex.Excel;
 using NUnit.Framework;
 using Debug = UnityEngine.Debug;
@@ -66,6 +67,57 @@ namespace CMSuniVortex.Tests
                 : "You have the latest version.\n";
             text += result.Details;
             Debug.Log(text);
+        }
+        
+        class TestModel : ExcelModel
+        {
+            IReadOnlyDictionary<string, TestEnum> _maps;
+            
+            public enum TestEnum { Enum1, Enum2 }
+            
+            public void SetMap(IReadOnlyDictionary<string, TestEnum> maps) => _maps = maps;
+            
+            protected override void OnDeserialize()
+            {
+                {
+                    var result = TryGetEnum<TestEnum>("A", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.Success));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetEnum<TestEnum>("B", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.EmptyValue));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetEnum<TestEnum>("C", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.NotFoundInMap));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+                {
+                    var result = TryGetEnum<TestEnum>("Z", _maps, out var value);
+                    Assert.That(result, Is.EqualTo(CuvEnumResult.NotHasKey));
+                    Assert.That(value, Is.EqualTo(TestEnum.Enum1));
+                }
+            }
+        }
+        
+        [Test]
+        public void EnumDeserializeTest()
+        {
+            var model = new TestModel();
+            model.SetMap(new Dictionary<string, TestModel.TestEnum>()
+            {
+                {"AA", TestModel.TestEnum.Enum1},
+                {"BB", TestModel.TestEnum.Enum2},
+            });
+            
+            ((IObjectDeserializer) model).Deserialize(new Dictionary<string, string>()
+            {
+                {"A", "AA"},
+                {"B", ""},
+                {"C", "CC"},
+            });
         }
     }
 }
