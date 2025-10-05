@@ -1,4 +1,6 @@
 
+![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black)
+
 # CMSuniVortex
 CMSのデータを簡単に`ScriptableObject`にインポートできるプラグイン
 ![Logo](assets/top.png)
@@ -546,7 +548,7 @@ echo json_encode( $model );
 
 ### [テスト3] Json
 
-[UnityWebRequest](https://docs.unity3d.com/ja/2021.3/ScriptReference/Networking.UnityWebRequest.html)でサーバーから取得したJsonを変換して表示。
+[UnityWebRequest](https://docs.unity3d.com/ja/2022.3/ScriptReference/Networking.UnityWebRequest.html)でサーバーから取得したJsonを変換して表示。
 
 #### メリット
 - WEBとアプリで兼用できる
