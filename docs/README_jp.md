@@ -131,7 +131,7 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 「Window > Package Manager > Add package from git URL...」にUrlを追加してください。
 
 ```
-https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex
+https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex#v2
 ```
 
 ![Package Manager](assets/package_manager.png)
