@@ -238,7 +238,7 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 <img alt="test text" src="assets/test_text.png" width="600"/>
 
 Referenceのインスタンスと、インスペクタで設定したKeyが渡りますので`TryGetByKey`を使って取得します。
-![cuvImporterList.jpg](../../../../../../Desktop/cuvImporterList.jpg)
+![assets/cuvImporterList.jpg](assets/cuvImporterList.jpg)
 **CuvLocalizedTest.cs**
 ```csharp
 using CMSuniVortex;
