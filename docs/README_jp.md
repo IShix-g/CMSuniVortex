@@ -71,7 +71,7 @@ CMSのデータを簡単に`ScriptableObject`にインポートできるプラ�
 - [Google Sheets](IntegrationWithGoogleSheet_jp.md)
 - [Excel](IntegrationWithExcel_jp.md)
 
-## 対応する参照方法 — Output~~~~
+## 対応する参照方法 — Output
 
 出力したデータの参照方法を指定できます。
 
