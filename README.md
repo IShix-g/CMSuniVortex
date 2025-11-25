@@ -1,6 +1,6 @@
 [日本語のRead me](docs/README_jp.md)
 
-![Unity](https://img.shields.io/badge/Unity-2021.3%2B-black)
+![Unity](https://img.shields.io/badge/Unity-2022.3%2B-black)
 ![Cockpit](https://img.shields.io/badge/Cockpit-v2-black)
 ![Google Drive API](https://img.shields.io/badge/GoogleAPI-Drive%20v3.1.70.0.3856-blue)
 ![Google Sheet API](https://img.shields.io/badge/GoogleAPI-Sheet%20v4.1.70.0.3819-blue)
@@ -141,7 +141,7 @@ We renamed components used to get values from output data and added components f
 Please add the URL to "Window > Package Manager > Add package from git URL...".
 
 ```
-https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex
+https://github.com/IShix-g/CMSuniVortex.git?path=Packages/CMSuniVortex#v2
 ```
 
 ![Package Manager](docs/assets/package_manager.png)
@@ -563,7 +563,7 @@ echo json_encode( $model );
 
 ### 3. Json
 
-Display by converting JSON obtained from the server using [UnityWebRequest](https://docs.unity3d.com/ja/2021.3/ScriptReference/Networking.UnityWebRequest.html).
+Display by converting JSON obtained from the server using [UnityWebRequest](https://docs.unity3d.com/ja/2022.3/ScriptReference/Networking.UnityWebRequest.html).
 
 #### Merits
 - Can be used for WEB and apps.
