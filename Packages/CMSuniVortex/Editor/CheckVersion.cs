@@ -2,17 +2,26 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine.Networking;
 
 namespace CMSuniVortex.Editor
 {
     sealed class CheckVersion
     {
-        internal static IEnumerator GetVersionOnServer(string gitUrl, Action<string> onSuccess, Action onFailed = default)
+        
+        internal static IEnumerator GetVersionOnServer(string gitUrl, string packageName, string defaultBranch, Action<string> onSuccess, Action onFailed = default)
         {
+            var branchName = string.Empty;
+            yield return GetVersionOrBranchFromPackageID(packageName, branch => branchName = branch);
+            if (!string.IsNullOrEmpty(branchName))
+            {
+                gitUrl = gitUrl.Replace(defaultBranch, branchName);
+            }
             using var request = UnityWebRequest.Get(gitUrl);
             yield return request.SendWebRequest();
             
@@ -44,6 +53,32 @@ namespace CMSuniVortex.Editor
         {
             var obj = JObject.Parse(json);
             return obj.TryGetValue("version", out var value) && value.Type != JTokenType.Null ? value.Value<string>() : "--";
+        }
+        
+        static IEnumerator GetVersionOrBranchFromPackageID(string packageId, Action<string> onSuccess)
+        {
+            var request = Client.List();
+
+            while (!request.IsCompleted)
+            {
+                yield return null;
+            }
+            
+            foreach (var result in request.Result)
+            {
+                if (!result.packageId.Contains(packageId))
+                {
+                    continue;
+                }
+                var index = result.packageId.IndexOf('#');
+                if (index != -1)
+                {
+                    var version = result.packageId.Substring(index + 1);
+                    onSuccess.Invoke(version);
+                }
+                break;
+            }
+            onSuccess.Invoke(string.Empty);
         }
     }
 }
