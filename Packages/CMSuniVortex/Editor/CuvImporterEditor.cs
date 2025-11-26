@@ -19,6 +19,7 @@ namespace CMSuniVortex.Editor
         const string _packageUrl = "https://raw.githubusercontent.com/IShix-g/CMSuniVortex/main/Packages/CMSuniVortex/package.json";
         const string _packagePath = "Packages/com.ishix.cmsunivortex/";
         const string _packageName = "com.ishix.cmsunivortex";
+        const string _gitBranchName = "main";
         const string _gitUrl = "https://github.com/IShix-g/CMSuniVortex";
         const string _gitInstallUrl = _gitUrl + ".git?path=Packages/CMSuniVortex";
         static readonly string[] s_propertiesToExclude = {"m_Script", "_buildPath", "_client", "_output", "_modelListGuilds"};
@@ -354,6 +355,8 @@ namespace CMSuniVortex.Editor
                 EditorCoroutineUtility.StartCoroutine(
                     CheckVersion.GetVersionOnServer(
                         _packageUrl,
+                        _packageName,
+                        _gitBranchName,
                         version =>
                         {
                             var comparisonResult = 0;
