@@ -163,8 +163,8 @@ namespace CMSuniVortex.Cockpit
 #endif
         }
         
-        string ConvertToLoadAllItemsUrl(string language)
-            => Path.Combine(_baseUrl, "api/content/items/", $"{_modelName.Trim('/')}?locale={language}&sort=%7B_id%3A+1%7D");
+        protected virtual string ConvertToLoadAllItemsUrl(string cuvId)
+            => Path.Combine(_baseUrl, "api/content/items/", $"{_modelName.Trim('/')}?locale={cuvId}&sort=%7B_id%3A+1%7D");
         
         bool ICuvUpdateChecker.IsUpdateAvailable()
             => !string.IsNullOrEmpty(_baseUrl)

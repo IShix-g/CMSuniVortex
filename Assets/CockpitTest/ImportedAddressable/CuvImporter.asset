@@ -25,8 +25,8 @@ MonoBehaviour:
     - rid: 5308239187074351109
       type: {class: CatAddressableDetailsCockpitCuvAddressableClient, ns: Tests, asm: Assembly-CSharp}
       data:
-        _baseUrl: https://devx.myonick.biz/cockpit/
-        _apiKey: API-a92fac21986ac045e143f07c27c60e09f19ae856
+        _baseUrl: https://ishix.happy.nu/cockpit/
+        _apiKey: API-7fdae6291261ab7a958f4cf915ef0ce4dada8604
         _modelName: Model
         _keyName: key
         _addressableSettings:

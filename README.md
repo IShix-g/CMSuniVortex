@@ -180,14 +180,15 @@ After generating, return to CuvImporter and enter the necessary information. Spe
 
 **Naming rule for output Client:** "Full class name specified when generating code" + "CMS name" + "Output name" + "CuvClient"
 
-|            | explanation                                            | e.g.           |
-|------------|--------------------------------------------------------|----------------|
-| Build Path | Specify the directory where the data will be output.           | Assets/Models/ |
-| Languages  | Specify the language, even if not used, at least one needs to be selected.    | English|
-| Client     | Specify any client for direct reference or Addressables, etc.. | Test.ClassNameCockpitCuvClient|
-| Output     | Decide how to refer to the data output by the client. | Test.ClassNameCockpitCuvOutput|
+|             | explanation                                                                         | e.g.                           |
+|-------------|-------------------------------------------------------------------------------------|--------------------------------|
+| Build Path  | Specify the directory where the data will be output.                                | Assets/Models/                 |
+| Languages   | Specify the language, even if not used, at least one needs to be selected.          | English                        |
+| UseI18nCode | Check this if Cockpit language is configured with internationalization (i18n) codes |                                |
+| Client      | Specify any client for direct reference or Addressables, etc..                      | Test.ClassNameCockpitCuvClient |
+| Output      | Decide how to refer to the data output by the client.                               | Test.ClassNameCockpitCuvOutput |
 
-<img alt="select client" src="docs/assets/select_client.png" width="600"/>
+<img alt="select client" src="docs/assets/select_client.jpg" width="600"/>
 
 #### Cockpit Client
 
@@ -202,19 +203,19 @@ Actual tests using Cockpit CMS are possible. Please use the following.
 
 |            | value                                        |
 |------------|----------------------------------------------|
-| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/)|
-| Api Key    | API-a92fac21986ac045e143f07c27c60e09f19ae856 |
+| Base Url   | [https://ishix.happy.nu/cockpit/](https://ishix.happy.nu/cockpit/)|
+| Api Key    | API-7fdae6291261ab7a958f4cf915ef0ce4dada8604 |
 | Model Name | Model                                        |
 
 #### Login Information
 
 Although the permission is read-only, you can actually log in and view the admin page.
 
-|     | value                                                                  |
-|-----|------------------------------------------------------------------------|
-| URL | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/) |
-| ID  | guest                                                                  |
-| PW  | guest                                                                  |
+|     | value                                                              |
+|-----|--------------------------------------------------------------------|
+| URL | [https://ishix.happy.nu/cockpit/](https://ishix.happy.nu/cockpit/) |
+| ID  | Guest                                                              |
+| PW  | 5fsh2guYfMjM                                                       |
 
 #### Notes for Cockpit Test Server
 

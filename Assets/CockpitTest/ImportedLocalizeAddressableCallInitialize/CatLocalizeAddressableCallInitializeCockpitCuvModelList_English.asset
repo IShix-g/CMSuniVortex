@@ -15,50 +15,50 @@ MonoBehaviour:
   _cuvId: English
   _models:
   - Key: model_cat1
-    CockpitID: 6666803aa27c48f2d70f4353
-    ModifiedDate: 2025-07-18T15:18:23.0000000+09:00
+    CockpitID: 69329819cb1dcfa1de088260
+    ModifiedDate: 2025-12-05T22:13:34.0000000+09:00
     Text: Cat1
     Number: 1111
     Image:
-      m_AssetGUID: c7b62a031ab704f57b9e0386b4718329
+      m_AssetGUID: 1d5fa467144444cf2b3906bb6afd2ef6
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     Boolean: 0
     Color: {r: 0, g: 1, b: 0.6156863, a: 1}
-    Date: 2024-06-01T00:00:00.0000000+09:00
+    Date: 2025-12-05T00:00:00.0000000+09:00
     Select: 0
     Tags: 00000000
     Param: You got {number} coins.
   - Key: model_cat2
-    CockpitID: 6666806a8eb2e6b8770a3de1
-    ModifiedDate: 2025-07-18T15:18:54.0000000+09:00
+    CockpitID: 69329867394a4cc468084510
+    ModifiedDate: 2025-12-05T22:13:21.0000000+09:00
     Text: Cat2
     Number: 2222
     Image:
-      m_AssetGUID: 580c3b8fd6897465aaaf7b2d6d5c2fd3
+      m_AssetGUID: 433116ad705034eb0b23c15c633812d8
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     Boolean: 0
     Color: {r: 1, g: 0, b: 0, a: 1}
-    Date: 2024-06-02T00:00:00.0000000+09:00
+    Date: 2025-12-15T00:00:00.0000000+09:00
     Select: 1
     Tags: 0000000001000000
     Param: You got {number} coins.
   - Key: model_cat3
-    CockpitID: 666680c18eb2e6b8770a3de4
-    ModifiedDate: 2025-07-18T15:19:23.0000000+09:00
+    CockpitID: 693298fccb1dcfa1de088263
+    ModifiedDate: 2025-12-05T22:13:06.0000000+09:00
     Text: Cat3
     Number: 3333
     Image:
-      m_AssetGUID: e33d34c3530804dc5b2b83a3bb73cb68
+      m_AssetGUID: 016550ddca909461daf5cab0ae2cb4b8
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-    Boolean: 0
+    Boolean: 1
     Color: {r: 1, g: 0.8352941, b: 0, a: 1}
-    Date: 2024-06-03T00:00:00.0000000+09:00
+    Date: 2025-12-24T00:00:00.0000000+09:00
     Select: 2
     Tags: 0100000002000000
     Param: You got {number} coins.

@@ -15,50 +15,50 @@ MonoBehaviour:
   _cuvId: Japanese
   _models:
   - Key: model_cat1
-    CockpitID: 6666803aa27c48f2d70f4353
-    ModifiedDate: 2025-07-18T15:18:23.0000000+09:00
-    Text: "\u306C\u30531"
+    CockpitID: 69329819cb1dcfa1de088260
+    ModifiedDate: 2025-12-05T22:13:34.0000000+09:00
+    Text: "\u306D\u3053\uFF11"
     Number: 1111
     Image:
-      m_AssetGUID: 82ec747ea107f4871a39cdad72f92fbc
+      m_AssetGUID: f0d546a9928b4424b9bca9d9523e1241
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     Boolean: 0
     Color: {r: 0, g: 1, b: 0.6156863, a: 1}
-    Date: 2024-06-01T00:00:00.0000000+09:00
+    Date: 2025-12-05T00:00:00.0000000+09:00
     Select: 0
     Tags: 00000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
   - Key: model_cat2
-    CockpitID: 6666806a8eb2e6b8770a3de1
-    ModifiedDate: 2025-07-18T15:18:54.0000000+09:00
-    Text: "\u306C\u30532"
+    CockpitID: 69329867394a4cc468084510
+    ModifiedDate: 2025-12-05T22:13:21.0000000+09:00
+    Text: "\u306D\u3053\uFF12"
     Number: 2222
     Image:
-      m_AssetGUID: acde8092cdb4d489ebbfa6d51c2f3fea
+      m_AssetGUID: a1510e1c92ee44fa38ba560695ef859e
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     Boolean: 0
     Color: {r: 1, g: 0, b: 0, a: 1}
-    Date: 2024-06-02T00:00:00.0000000+09:00
+    Date: 2025-12-15T00:00:00.0000000+09:00
     Select: 1
     Tags: 0000000001000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
   - Key: model_cat3
-    CockpitID: 666680c18eb2e6b8770a3de4
-    ModifiedDate: 2025-07-18T15:19:23.0000000+09:00
-    Text: "\u306C\u30533"
+    CockpitID: 693298fccb1dcfa1de088263
+    ModifiedDate: 2025-12-05T22:13:06.0000000+09:00
+    Text: "\u306D\u30533"
     Number: 3333
     Image:
-      m_AssetGUID: dea8f99c5c4de4ad5a7ed95a07c674a8
+      m_AssetGUID: 2daae9f9283114b9ea1d7bceddb00dbb
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-    Boolean: 0
+    Boolean: 1
     Color: {r: 1, g: 0.8352941, b: 0, a: 1}
-    Date: 2024-06-03T00:00:00.0000000+09:00
+    Date: 2025-12-24T00:00:00.0000000+09:00
     Select: 2
     Tags: 0100000002000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
