@@ -13,6 +13,12 @@ namespace CMSuniVortex.Cockpit
     {
         [SerializeField] SystemLanguage[] _languages;
         [SerializeField, Tooltip("Check this if the Locale set in the control panel corresponds to internationalization (i18n) codes rather than SystemLanguage.")] bool _useI18nCode;
+
+        public bool UseI18nCode
+        {
+            get => _useI18nCode;
+            set => _useI18nCode = value;
+        }
         
         public override IReadOnlyList<string> GetCuvIds()
             => _languages.Select(language => language.ToString()).ToList();
@@ -33,7 +39,7 @@ namespace CMSuniVortex.Cockpit
             return base.ConvertToLoadAllItemsUrl(cuvId);
         }
         
-        public static string ToI18nCode(SystemLanguage language)
+        string ToI18nCode(SystemLanguage language)
         {
             return language switch
             {
