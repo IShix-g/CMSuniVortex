@@ -17,26 +17,48 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: cb3a42bd405d447b6a49a9955b0e945b
   m_SerializeEntries:
-  - m_GUID: 74734e7bba4ab42ed9968603651b3032
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
-  - m_GUID: 98f087cf826fe428da9a139d7c981e08
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat2_uid_66667fadcbe5b.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
-  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
-    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - ContentsTestLabel
   - m_GUID: 12501919fbbd34bdcbcdd5597b15e2dd
     m_Address: Assets/CockpitTest/ImportedAddressable/CatAddressableDetailsCockpitCuvModelList_default.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - ListTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 128b27e0a6d064cc1976b4d8360fcb2e
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat2_uid_66667fadcbe5b_uid_69329839b6e76.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a798de72476347d9a7a1ae17866d522
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec_uid_693298a4eb0ff.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ba702546688e4a7a993161b3004cd75
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02_uid_693296f281caf.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74734e7bba4ab42ed9968603651b3032
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat_uid_66667faf01d02.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98f087cf826fe428da9a139d7c981e08
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat2_uid_66667fadcbe5b.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6fad51f7d43e47d88a9519efb50850e
+    m_Address: Assets/CockpitTest/ImportedAddressable/cat3_uid_66667faecd4ec.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ContentsTestLabel
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:

@@ -21,9 +21,10 @@ MonoBehaviour:
     m_Address: Assets/CockpitTest/ImportedLocalizeAddressable/CatAddressableDetailsLocalizeCockpitCuvModelList_English.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3b84151b91b734c3ead6ca1a91d41f21, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 9c1107da5dec84716863e5210cfb87cf, type: 2}
     - {fileID: 11400000, guid: 0451e7ef174d545c7bc4d146db07f410, type: 2}
+    - {fileID: 11400000, guid: 9c1107da5dec84716863e5210cfb87cf, type: 2}
