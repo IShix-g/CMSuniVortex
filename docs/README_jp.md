@@ -170,14 +170,15 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 **出力されたClientの命名ルール :** 「コード生成時に指定したFull class name」 + 「CMS name」 + 「Output name」 + 「CuvClient」
 
-|            | explanation                        | e.g.           |
-|------------|------------------------------------|----------------|
-| Build Path | データの出力先ディレクトリを指定            | Assets/Models/ |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。    | English|
-| Clint      | 直接参照またはAddressablesなど任意のClientを指定します。 | Test.ClassNameCockpitCuvClient|
-| Output      | Clientで出力したデータをどのように参照するかを決定します。 | Test.ClassNameCockpitCuvOutput|
+|             | explanation                           | e.g.           |
+|-------------|---------------------------------------|----------------|
+| Build Path  | データの出力先ディレクトリを指定                      | Assets/Models/ |
+| Languages   | 言語を指定、利用していなくても必ず1つ選択する必要があります。       | English|
+| UseI18nCode | Cockpitの言語を国際化(i18n)で設定した場合、チェックを入れる  | |
+| Clint       | 直接参照またはAddressablesなど任意のClientを指定します。 | Test.ClassNameCockpitCuvClient|
+| Output      | Clientで出力したデータをどのように参照するかを決定します。      | Test.ClassNameCockpitCuvOutput|
 
-<img alt="select client" src="assets/select_client.png" width="600"/>
+<img alt="select client" src="assets/select_client.jpg" width="600"/>
 
 #### Cockpit Client
 
@@ -192,8 +193,8 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 |            | value                                        |
 |------------|----------------------------------------------|
-| Base Url   | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/)|
-| Api Key    | API-a92fac21986ac045e143f07c27c60e09f19ae856 |
+| Base Url   | [https://ishix.happy.nu/cockpit/](https://ishix.happy.nu/cockpit/)|
+| Api Key    | API-7fdae6291261ab7a958f4cf915ef0ce4dada8604 |
 | Model Name | Model                                        |
 
 #### ログイン情報
@@ -202,9 +203,9 @@ Project上を右クリックし「Create > CMSuniVortex > create CuvImporter」�
 
 |     | value                                                                  |
 |-----|------------------------------------------------------------------------|
-| URL | [https://devx.myonick.biz/cockpit/](https://devx.myonick.biz/cockpit/) |
-| ID  | guest                                                                  |
-| PW  | guest                                                                  |
+| URL | [https://ishix.happy.nu/cockpit/](https://ishix.happy.nu/cockpit/) |
+| ID  | Guest                                                                  |
+| PW  | 5fsh2guYfMjM                                                                  |
 
 #### Cockpit テストサーバーの注意点
 
