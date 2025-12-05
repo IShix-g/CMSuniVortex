@@ -177,12 +177,13 @@ Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンを�
 |            | explanation                                 | e.g.                          |
 |------------|---------------------------------------------|-------------------------------|
 | Build Path | アセットを生成するパス                                 | Assets/Generated/ |
-| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。             | English |
-| Base Url   | CockpitのURL                                 | https://devx.myonick.biz/cockpit/ |
-| Api Key   | [Roles](#Roles)に設定したApi Key                 | API-a92fac21986ac045e143f07c27c60e09f19ae‹ |
+| Base Url   | CockpitのURL                                 | https://ishix.happy.nu/cockpit/ |
+| Api Key   | [Roles](#Roles)に設定したApi Key                 | API-7fdae6291261ab7a958f4cf915ef0ce4dada8604 |
 | Model Name   | [cockpitのインストール](#cockpitのインストール) で設定したName | Model  |
+| Languages  | 言語を指定、利用していなくても必ず1つ選択する必要があります。             | English |
+| UseI18nCode | Cockpitの言語を国際化(i18n)で設定した場合、チェックを入れる  | |
 
-<img src="assets/cockpit/cuv_importer.png" width="600"/>
+<img src="assets/cockpit/cuv_importer.jpg" width="600"/>
 
 ## 言語の設定
 
@@ -190,7 +191,10 @@ Unity上に移動し`CuvImporter`の必要情報を入力しImportボタンを�
 
 ![](assets/cockpit/select_locales.png)
 
-言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。英語はDefaultにした方が良いのでそれ以外の言語を設定します。
+言語は[SystemLanguage](https://docs.unity3d.com/ja/2021.3/ScriptReference/SystemLanguage.html)の値を設定してください。英語はDefaultにし、英語以外の言語を設定します。
+
+> [!IMPORTANT] v2.2.0+ 
+> 言語に国際化(i18n)が使えるようになりました。設定する際は、2文字のコードを設定してください。([内部コード](https://github.com/IShix-g/CMSuniVortex/blob/0174ea73a397af467937c3c33ffa522eb25412ca/Packages/CMSuniVortex/Runtime/Clients/Cockpit/CockpitCuvLocalizedClient.cs#L36-L83))
 
 ![](assets/cockpit/create_locale.png)
 
