@@ -15,38 +15,38 @@ MonoBehaviour:
   _cuvId: default
   _models:
   - Key: model_cat1
-    CockpitID: 6666803aa27c48f2d70f4353
-    ModifiedDate: 2025-07-18T15:18:23.0000000+09:00
+    CockpitID: 69329819cb1dcfa1de088260
+    ModifiedDate: 2025-12-05T17:30:17.0000000+09:00
     Text: Cat1
     Number: 1111
-    Image: {fileID: 21300000, guid: 3899570a5d9a44b869dc2f9ac17b7aef, type: 3}
+    Image: {fileID: 21300000, guid: 49aced7eb24924021a6a5c9fa786835a, type: 3}
     Boolean: 0
     Color: {r: 0, g: 1, b: 0.6156863, a: 1}
-    Date: 2024-06-01T00:00:00.0000000+09:00
+    Date: 2025-12-05T00:00:00.0000000+09:00
     Select: 0
     Tags: 00000000
     Param: You got {number} coins.
   - Key: model_cat2
-    CockpitID: 6666806a8eb2e6b8770a3de1
-    ModifiedDate: 2025-07-18T15:18:54.0000000+09:00
+    CockpitID: 69329867394a4cc468084510
+    ModifiedDate: 2025-12-05T17:31:35.0000000+09:00
     Text: Cat2
     Number: 2222
-    Image: {fileID: 21300000, guid: 74f03371d0bbe43568df983a22826eb3, type: 3}
+    Image: {fileID: 21300000, guid: 7224e012f95754560ae19471486c8696, type: 3}
     Boolean: 0
     Color: {r: 1, g: 0, b: 0, a: 1}
-    Date: 2024-06-02T00:00:00.0000000+09:00
+    Date: 2025-12-15T00:00:00.0000000+09:00
     Select: 1
     Tags: 0000000001000000
     Param: You got {number} coins.
   - Key: model_cat3
-    CockpitID: 666680c18eb2e6b8770a3de4
-    ModifiedDate: 2025-07-18T15:19:23.0000000+09:00
+    CockpitID: 693298fccb1dcfa1de088263
+    ModifiedDate: 2025-12-05T17:34:11.0000000+09:00
     Text: Cat3
     Number: 3333
-    Image: {fileID: 21300000, guid: 2ee10b6c784b746f4ba8598e179bfbc4, type: 3}
-    Boolean: 0
+    Image: {fileID: 21300000, guid: b6ce2505f5bba40bc8c38b130dce79de, type: 3}
+    Boolean: 1
     Color: {r: 1, g: 0.8352941, b: 0, a: 1}
-    Date: 2024-06-03T00:00:00.0000000+09:00
+    Date: 2025-12-24T00:00:00.0000000+09:00
     Select: 2
     Tags: 0100000002000000
     Param: You got {number} coins.

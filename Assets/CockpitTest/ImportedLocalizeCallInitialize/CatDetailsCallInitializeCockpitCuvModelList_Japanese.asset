@@ -15,38 +15,38 @@ MonoBehaviour:
   _cuvId: Japanese
   _models:
   - Key: model_cat1
-    CockpitID: 6666803aa27c48f2d70f4353
-    ModifiedDate: 2025-07-18T15:18:23.0000000+09:00
-    Text: "\u306C\u30531"
+    CockpitID: 69329819cb1dcfa1de088260
+    ModifiedDate: 2025-12-05T22:13:34.0000000+09:00
+    Text: "\u306D\u3053\uFF11"
     Number: 1111
-    Image: {fileID: 21300000, guid: 3af4bb29029224c5bbb7559ea0fb9c93, type: 3}
+    Image: {fileID: 21300000, guid: f2dd8a34f051b435b910275469a758fc, type: 3}
     Boolean: 0
     Color: {r: 0, g: 1, b: 0.6156863, a: 1}
-    Date: 2024-06-01T00:00:00.0000000+09:00
+    Date: 2025-12-05T00:00:00.0000000+09:00
     Select: 0
     Tags: 00000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
   - Key: model_cat2
-    CockpitID: 6666806a8eb2e6b8770a3de1
-    ModifiedDate: 2025-07-18T15:18:54.0000000+09:00
-    Text: "\u306C\u30532"
+    CockpitID: 69329867394a4cc468084510
+    ModifiedDate: 2025-12-05T22:13:21.0000000+09:00
+    Text: "\u306D\u3053\uFF12"
     Number: 2222
-    Image: {fileID: 21300000, guid: 288f1cf6d29674e21a63484bde515c75, type: 3}
+    Image: {fileID: 21300000, guid: 2c790e38fa3744751a4d6be400d2da18, type: 3}
     Boolean: 0
     Color: {r: 1, g: 0, b: 0, a: 1}
-    Date: 2024-06-02T00:00:00.0000000+09:00
+    Date: 2025-12-15T00:00:00.0000000+09:00
     Select: 1
     Tags: 0000000001000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
   - Key: model_cat3
-    CockpitID: 666680c18eb2e6b8770a3de4
-    ModifiedDate: 2025-07-18T15:19:23.0000000+09:00
-    Text: "\u306C\u30533"
+    CockpitID: 693298fccb1dcfa1de088263
+    ModifiedDate: 2025-12-05T22:13:06.0000000+09:00
+    Text: "\u306D\u30533"
     Number: 3333
-    Image: {fileID: 21300000, guid: a794d3128f1f140729a6d15b77a2db66, type: 3}
-    Boolean: 0
+    Image: {fileID: 21300000, guid: 9327fe195579e49f09f6018c5aeba670, type: 3}
+    Boolean: 1
     Color: {r: 1, g: 0.8352941, b: 0, a: 1}
-    Date: 2024-06-03T00:00:00.0000000+09:00
+    Date: 2025-12-24T00:00:00.0000000+09:00
     Select: 2
     Tags: 0100000002000000
     Param: "{number} \u30B3\u30A4\u30F3\u7372\u5F97"
