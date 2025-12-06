@@ -31,8 +31,6 @@ namespace CMSuniVortex.Cockpit
         {
 #if UNITY_EDITOR
             base.OnLoad(currentRound, cuvId, obj);
-
-            Debug.Log("AddressableActions" + obj.AddressableActions.Count);
             
             if (obj.AddressableActions != default)
             {
