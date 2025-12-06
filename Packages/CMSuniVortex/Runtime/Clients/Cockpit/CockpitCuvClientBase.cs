@@ -48,6 +48,11 @@ namespace CMSuniVortex.Cockpit
             get => _modelName;
             set => _modelName = value;
         }
+        public string KeyName
+        {
+            get => _keyName;
+            set => _keyName = value;
+        }
         
         public override string GetKeyName() => _keyName;
         
