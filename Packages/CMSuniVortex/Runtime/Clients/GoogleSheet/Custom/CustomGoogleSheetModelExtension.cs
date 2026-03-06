@@ -1,16 +1,19 @@
 
+using System;
 using System.Collections.Generic;
 
 namespace CMSuniVortex.GoogleSheet
 {
     public static class CustomGoogleSheetModelExtension
     {
-        public static void FillContentsWithFilteredSheetData(this IList<IList<object>> sheet, Dictionary<string, string> contents, string keyId, int index)
+        public static void FillContentsWithFilteredSheetData(this IList<IList<object>> sheet, Dictionary<string, string> contents, int keyIndexY, string keyId, int index)
         {
             contents.Clear();
-            for (var i = 0; i < sheet[index].Count; i++)
+            var safeLimit = Math.Min(sheet[index].Count, sheet[keyIndexY].Count);
+
+            for (var i = 0; i < safeLimit; i++)
             {
-                var id = SafeToString(sheet[0][i]);
+                var id = SafeToString(sheet[keyIndexY][i]);
                 if (string.IsNullOrEmpty(id))
                 {
                     continue;

@@ -110,17 +110,28 @@ namespace CMSuniVortex.GoogleSheet
             }
             
             var keyValue = GetKeyName().Trim();
-            var keyIndex = sheet[0].IndexOf(keyValue);
-
-            if (keyIndex < 0)
-            {
-                keyValue = keyValue.ToLower();
-                keyIndex = sheet[0].IndexOf(keyValue);
-            }
+            var keyIndexX = -1;
+            var keyIndexY = -1;
             
-            if (keyIndex < 0)
+            for (var y = 0; y < sheet.Count; y++)
             {
-                var error = "Could not find the key field. Please be sure to set it. For more information, click here " + GetDocUrl();
+                var row = sheet[y];
+                for (var x = 0; x < row.Count; x++)
+                {
+                    var cellValue = SafeToString(row[x]);
+                    if (string.Equals(cellValue, keyValue, StringComparison.OrdinalIgnoreCase))
+                    {
+                        keyIndexX = x;
+                        keyIndexY = y;
+                        break;
+                    }
+                }
+                if (keyIndexX != -1) break;
+            }
+
+            if (keyIndexX < 0)
+            {
+                var error = $"Could not find the key field '{keyValue}'. Please be sure to set it. For more information, click here {GetDocUrl()}";
                 Debug.LogError(error);
                 onError?.Invoke(error);
                 yield break;
@@ -132,19 +143,19 @@ namespace CMSuniVortex.GoogleSheet
 
             try
             {
-                for (var i = 1; i < sheet.Count; i++)
+                for (var i = keyIndexY + 1; i < sheet.Count; i++)
                 {
                     var length = sheet[i].Count;
-                    if (length == 0 || keyIndex >= length)
+                    if (length == 0 || keyIndexX >= length)
                     {
                         continue;
                     }
-                    var key = sheet[i][keyIndex].ToString();
+                    var key = SafeToString(sheet[i][keyIndexX]);
                     if (string.IsNullOrEmpty(key))
                     {
                         continue;
                     }
-                    sheet.FillContentsWithFilteredSheetData(contents, keyValue, i);
+                    sheet.FillContentsWithFilteredSheetData(contents, keyIndexY, keyValue, i);
                 
                     var model = new T { Key = key };
                     model.Deserialize(contents);
@@ -192,5 +203,7 @@ namespace CMSuniVortex.GoogleSheet
             return default;
 #endif
         }
+        
+        static string SafeToString(object cell) => cell?.ToString()?.Trim() ?? string.Empty;
     }
 }
