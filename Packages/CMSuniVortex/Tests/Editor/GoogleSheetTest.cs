@@ -56,7 +56,7 @@ namespace CMSuniVortex.Tests
             
             var sheet = op.Result;
             var contents = new Dictionary<string, string>();
-            sheet.FillContentsWithFilteredSheetData(contents, "Key", 1);
+            sheet.FillContentsWithFilteredSheetData(contents, 0, "Key", 1);
             Debug.Log(contents.Select(x => "(" + x.Key + " | " + x.Value + ")").Aggregate((a, b) => a + "," + b));
         }
         
