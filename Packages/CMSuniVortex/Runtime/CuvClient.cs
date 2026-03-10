@@ -124,15 +124,16 @@ namespace CMSuniVortex
             rootUrl = rootUrl.TrimStart('/').Trim();
             var imagePath = action.ImagePath.TrimStart('/').Trim();
             var url = Path.Combine(rootUrl, imagePath);
-            using var request = UnityWebRequestTexture.GetTexture(url);
+            using var request = UnityWebRequestTexture.GetTexture(url, true);
             await request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 imagePath = TextureSupport.AppendImageExtension(imagePath, request);
-                var texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+                var downloadHandler = (DownloadHandlerTexture)request.downloadHandler;
+                var texture = downloadHandler.texture;
                 var imageBytes = default(byte[]);
-                
+
                 if (imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
                 {
                     imageBytes = texture.EncodeToPNG();
@@ -144,7 +145,7 @@ namespace CMSuniVortex
                 }
                 else
                 {
-                    Debug.LogWarning("Image could not be saved. path: " + imagePath);
+                    Debug.LogWarning("Unknown image extension or unsupported format. path: " + imagePath);
                     action.SuccessAction?.Invoke(default);
                     return;
                 }

@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using UnityEngine;
 using UnityEngine.Networking;
 
 #if UNITY_EDITOR
@@ -35,33 +34,46 @@ namespace CMSuniVortex
             var directory = Path.GetDirectoryName(imagePath);
             imagePath = Path.Combine(directory, fileName);
             
-            if (Path.HasExtension(imagePath)
-                && !imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-                && !imagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
-                && !imagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
-            {
-                imagePath = imagePath.Replace(Path.GetExtension(imagePath), "");
-            }
+            var extension = Path.GetExtension(imagePath);
+            var isPngOrJpg = !string.IsNullOrEmpty(extension) && (
+                extension.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
+                extension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+                extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase));
 
-            if (Path.HasExtension(imagePath))
+            if (isPngOrJpg)
             {
                 return imagePath;
             }
             
             var contentType = request.GetResponseHeader("Content-Type");
+            if (string.IsNullOrEmpty(contentType))
+            {
+                return imagePath + (string.IsNullOrEmpty(extension) ? ".png" : "");
+            }
+
+            string targetExt;
             if (contentType.Contains("image/png"))
             {
-                imagePath += ".png";
+                targetExt = ".png";
             }
             else if (contentType.Contains("image/jpeg"))
             {
-                imagePath += ".jpg";
+                targetExt = ".jpg";
             }
             else
             {
-                Debug.LogWarning("Unknown image format from Content-Type header, encoding as PNG instead. path: " + imagePath);
-                imagePath += ".png";
+                return imagePath + (string.IsNullOrEmpty(extension) ? ".png" : "");
             }
+
+            if (!string.IsNullOrEmpty(extension))
+            {
+                imagePath = Path.ChangeExtension(imagePath, targetExt);
+            }
+            else
+            {
+                imagePath += targetExt;
+            }
+            
             return imagePath;
         }
     }
