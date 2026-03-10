@@ -130,7 +130,7 @@ namespace CMSuniVortex
             if (request.result == UnityWebRequest.Result.Success)
             {
                 imagePath = TextureSupport.AppendImageExtension(imagePath, request);
-                var downloadHandler = (DownloadHandlerTexture)request.downloadHandler;
+                var downloadHandler = (DownloadHandlerTexture) request.downloadHandler;
                 var texture = downloadHandler.texture;
                 var imageBytes = default(byte[]);
 
